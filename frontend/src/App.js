@@ -4,7 +4,7 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <p className="App">admin board</p>
+      <p>{2+2}</p>
     );
   }
 }
