@@ -1,8 +1,8 @@
 // db config
-import mongoose from "mongoose";
-import config from "./config";
+import mongoose from 'mongoose';
+import config from './config';
 
-export default callback => {
+export default (callback) => {
   const db = mongoose.connect(config.mongoUrl);
   callback(db);
 };

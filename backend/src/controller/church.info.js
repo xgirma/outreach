@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
-import { Router } from "express";
-import Info from "../model/church.info";
+import mongoose from 'mongoose';
+import { Router } from 'express';
+import Info from '../model/church.info';
 
 export default ({ config, db }) => {
   const api = Router();
 
   // '/v1/info/:id' - Update
-  api.put("/:id", (req, res) => {
-    Info.findById(req.params.id, (err, info) => {
-      if (err) {
-        res.send(err);
+  api.put('/:id', (req, res) => {
+    Info.findById(req.params.id, (findErr, info) => {
+      if (findErr) {
+        res.send(findErr);
       }
 
       info.am.name = req.body.am.name;
@@ -34,11 +34,11 @@ export default ({ config, db }) => {
       info.en.bible.verse = req.body.en.bible.verse;
       info.en.bible.from = req.body.en.bible.from;
 
-      info.save(err => {
-        if (err) {
-          res.send(err);
+      info.save((saveErr) => {
+        if (saveErr) {
+          res.send(saveErr);
         }
-        res.send({ message: "Church information updated." });
+        res.send({ message: 'Church information updated.' });
       });
     });
   });
