@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm run -s build",
     "build": "babel src -s -D -d dist --preset es2015,stage-0",
-    "start:dev": "NODE_ENV=developement nodemone -w src --exec \"babel-node src --preset es2015,stage-0",
+    "start:dev": "NODE_ENV=developement nodemon -w src --exec \"babel-node src --preset es2015,stage-0\"",
     "start:prod": "NODE_ENV=production pm2 start dist",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"

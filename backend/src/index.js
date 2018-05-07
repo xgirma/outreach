@@ -7,7 +7,7 @@ import config from './config'
 import routes from './routes'
 
 let app = express();
-app.server = http.create(app);
+app.server = http.createServer(app);
 
 // middleware
 
@@ -17,6 +17,6 @@ app.server = http.create(app);
 app.use('/v1', routes);
 
 app.server.listen(config.port);
-console.log('Stared on', ${app.server.address().port});
+console.log('Stared on', `${app.server.address().port}`);
 
 export default app;
