@@ -1,6 +1,7 @@
 module.exports = {
   printWidth: 100,
-  parser: "babylon",
+  parser: 'babylon',
   useTabs: false,
-  tabWidth: 2
+  tabWidth: 2,
+  singleQuote: true,
 };
