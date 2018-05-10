@@ -77,16 +77,6 @@
                 }
               }
             }
-          },
-          "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnexpectedError"
-                }
-              }
-            }
           }
         }
       }
@@ -194,18 +184,6 @@
             }
           }
         ]
-      },
-      "UnexpectedError": {
-        "required": ["code", "message"],
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
       }
     }
   }

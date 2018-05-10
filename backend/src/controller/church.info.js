@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 import { Router } from 'express';
 import Info from '../model/church.info';
+import Boom from 'boom';
 
 export default ({ config, db }) => {
   const api = Router();
 
   // '/v1/info/:id' - Update
   api.put('/:id', (req, res) => {
-    console.log('abc', req.body);
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
         res.send(findErr);
@@ -37,7 +37,7 @@ export default ({ config, db }) => {
 
       info.save(saveErr => {
         if (saveErr) {
-          res.send(saveErr);
+          res.send(Boom.badRequest());
         }
         res.status(202).send({ message: 'Church information updated.' });
       });
