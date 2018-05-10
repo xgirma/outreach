@@ -7,7 +7,7 @@ import info from '../controller/church.info';
 const router = express();
 
 // connect to db
-initializeDB((db) => {
+initializeDB(db => {
   // initialize middleware
   router.use(middleware({ config, db }));
 

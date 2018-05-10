@@ -7,6 +7,7 @@ export default ({ config, db }) => {
 
   // '/v1/info/:id' - Update
   api.put('/:id', (req, res) => {
+    console.log('abc', req.body);
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
         res.send(findErr);
@@ -34,11 +35,11 @@ export default ({ config, db }) => {
       info.en.bible.verse = req.body.en.bible.verse;
       info.en.bible.from = req.body.en.bible.from;
 
-      info.save((saveErr) => {
+      info.save(saveErr => {
         if (saveErr) {
           res.send(saveErr);
         }
-        res.send({ message: 'Church information updated.' });
+        res.status(202).send({ message: 'Church information updated.' });
       });
     });
   });

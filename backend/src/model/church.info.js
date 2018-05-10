@@ -9,14 +9,14 @@ const infoSchema = new Schema({
     address: {
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },
-      state: { type: String, required: true, maxlength: 50 },
+      state: { type: String, maxlength: 50 },
       zip: { type: Number, required: true, max: 1000000 },
-      country: { type: String, required: true, maxlength: 50 },
+      country: { type: String, required: true, maxlength: 50 }
     },
     bible: {
       verse: { type: String, required: true, maxlength: 500 },
-      from: { type: String, required: true, maxlength: 50 },
-    },
+      from: { type: String, required: true, maxlength: 50 }
+    }
   },
   en: {
     name: { type: String, required: true, maxlength: 200 },
@@ -25,15 +25,15 @@ const infoSchema = new Schema({
     address: {
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },
-      state: { type: String, required: true, maxlength: 50 },
+      state: { type: String, maxlength: 50 },
       zip: { type: Number, required: true, max: 1000000 },
-      country: { type: String, required: true, maxlength: 50 },
+      country: { type: String, required: true, maxlength: 50 }
     },
     bible: {
       verse: { type: String, required: true, maxlength: 500 },
-      from: { type: String, required: true, maxlength: 50 },
-    },
-  },
+      from: { type: String, required: true, maxlength: 50 }
+    }
+  }
 });
 
 module.exports = mongoose.model('Info', infoSchema);

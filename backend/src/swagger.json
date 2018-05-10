@@ -27,11 +27,186 @@
   "paths": {
     "/info/{id}": {
       "put": {
-        "tag": "Info",
-        "description": "Updates a Church information based on ID.",
-        "summary": "Updates a Church information"
+        "tags": ["Info"],
+        "description": "Updates a Church information based on ID",
+        "summary": "Updates a Church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of church to fetch",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "requestBody": {
+          "description": "Church information to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Request for information update accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {g
+                    "type": "object",
+                    "message": {
+                      "type": "string",
+                      "example": "Church information updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedError"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
-  "components": {}
+  "components": {
+    "schemas": {
+      "Address": {
+        "required": ["street", "city", "country"],
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Street name",
+            "example": "1234 EastLake Ave East"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "City name",
+            "example": "Seattle"
+          },
+          "state": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "State name",
+            "example": "WA"
+          },
+          "zip": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 1000000,
+            "description": "Zip code",
+            "example": "98201"
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Country name",
+            "example": "United States"
+          }
+        }
+      },
+      "BasicInfo": {
+        "required": ["name", "denomination", "phone"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Church name",
+            "example": "St. George Ethiopian Orthodox Tewahedo Church"
+          },
+          "denomination": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Church denomination",
+            "example": "Ethiopian Orthodox Tewahedo Church"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Church main contact phone number",
+            "example": "(425) 329 - 9092"
+          }
+        }
+      },
+      "Bible": {
+        "required": ["verse", "from"],
+        "type": "object",
+        "properties": {
+          "verse": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Bible verses or quotes",
+            "example":
+              "And I tell you that you are Peter,and on this rock I will build my church, and the gates of Hadeswill not overcome it."
+          },
+          "from": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Bible verses or quotes reference",
+            "example": "Matthew 16:18"
+          }
+        }
+      },
+      "ChurchInfo": {
+        "type": "object",
+        "allOf": [
+          { "$ref": "#/components/schemas/BasicInfo" },
+          {
+            "properties": {
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              }
+            }
+          },
+          {
+            "properties": {
+              "bible": {
+                "$ref": "#/components/schemas/Bible"
+              }
+            }
+          }
+        ]
+      },
+      "UnexpectedError": {
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }

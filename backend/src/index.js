@@ -14,15 +14,17 @@ app.server = http.createServer(app);
 // middleware
 
 // parse application/json
-app.use(bodyParser.json({
-  limit: config.bodyLimit,
-}));
+app.use(
+  bodyParser.json({
+    limit: config.bodyLimit
+  })
+);
 
 // passport config
 
 // api routes v1
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
-app.use('/v1', routes);
+app.use('/api/v1', routes);
 
 app.server.listen(config.port);
 console.log('Stared on', `${app.server.address().port}`);

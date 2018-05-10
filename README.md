@@ -17,4 +17,6 @@ Services:
 
 Blog
 
-- note on how to open swagger.
+- doc on how to open swagger.
+
+- end of the stream or a document separator is expected: swagger search error for 'enum' types
