@@ -16,3 +16,5 @@ Services:
 ጸሎተ ፍትሐት
 
 Blog
+
+- note on how to open swagger.

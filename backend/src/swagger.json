@@ -1,0 +1,27 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Outreach Application API",
+    "description": "Outreach application administration platform API.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "{protocol}://localhost:{port}/api/{basePath}",
+      "description": "Sandbox server (uses test data)",
+      "variables": {
+        "protocol": {
+          "enum": ["http", "https"],
+          "default": "http"
+        },
+        "port": {
+          "enum": ["3005", "3000"],
+          "default": "3005"
+        },
+        "basePath": {
+          "default": "v1"
+        }
+      }
+    }
+  ]
+}

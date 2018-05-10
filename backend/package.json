@@ -42,6 +42,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^7.1.0",
     "nodemon": "^1.17.4",
-    "prettier": "1.12.1"
+    "prettier": "1.12.1",
+    "swagger-ui-express": "^3.0.8"
   }
 }
