@@ -23,5 +23,15 @@
         }
       }
     }
-  ]
+  ],
+  "paths": {
+    "/info/{id}": {
+      "put": {
+        "tag": "Info",
+        "description": "Updates a Church information based on ID.",
+        "summary": "Updates a Church information"
+      }
+    }
+  },
+  "components": {}
 }
