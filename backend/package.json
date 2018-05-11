@@ -25,11 +25,15 @@
     "body-parser": "^1.18.2",
     "boom": "^7.2.0",
     "express": "^4.16.3",
+    "express-winston": "^2.5.1",
     "mongoose": "^5.0.17",
-    "swagger-ui-express": "^3.0.8"
+    "swagger-ui-express": "^3.0.8",
+    "winston": "^2.4.2",
+    "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
     "*.{js}": [
+      "npm audit",
       "npm run lint",
       "npm run pretty",
       "npm run test"

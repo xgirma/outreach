@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import swaggerUi from 'swagger-ui-express';
+import Boom from 'boom';
 import swaggerDocument from './swagger.json';
 
 import config from './config';
@@ -25,6 +26,10 @@ app.use(
 // api routes v1
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 app.use('/api/v1', routes);
+
+app.use(function(err, req, res, next){
+  next(Boom.notFound());
+});
 
 app.server.listen(config.port);
 console.log('Stared on', `${app.server.address().port}`);

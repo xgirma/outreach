@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const infoSchema = new Schema({
-  _id: { type: Number, default: 1, maxlength: 2 },
+  _id: { type: Number, default: 1, max: [2, 'ID should be <= 2'], min: [0, 'ID should be >= 0'] },
   am: {
     name: { type: String, required: true, maxlength: 200 },
     denomination: { type: String, required: true, maxlength: 100 },

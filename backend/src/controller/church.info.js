@@ -10,7 +10,7 @@ export default ({ config, db }) => {
   api.put('/:id', (req, res) => {
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
-        res.send(findErr);
+        res.send(Boom.badRequest('Invalid ID'));
       }
 
       info.am.name = req.body.am.name;
