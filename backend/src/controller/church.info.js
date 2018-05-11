@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import winston from 'winston';
 import { Router } from 'express';
 import Info from '../model/church.info';
 import Boom from 'boom';
@@ -8,11 +9,19 @@ export default ({ config, db }) => {
 
   // '/v1/info/:id' - Update
   api.put('/:id', (req, res) => {
+    if (req.params.id <= 0 || req.params.id > 2) {
+      return setImmediate(() => {
+        res.status(400).send(Boom.badRequest('ID should be either 0 or 1'));
+      });
+    }
+    
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
-        res.send(Boom.badRequest('Invalid ID'));
+        return setImmediate(() => {
+          res.status(400).send(Boom.badRequest('Failed to fetch info'));
+        });
       }
-
+      
       info.am.name = req.body.am.name;
       info.am.denomination = req.body.am.denomination;
       info.am.phone = req.body.am.phone;
@@ -37,7 +46,9 @@ export default ({ config, db }) => {
 
       info.save(saveErr => {
         if (saveErr) {
-          res.send(Boom.badRequest());
+          return setImmediate(() => {
+            res.status(406).send(Boom.notAcceptable('Update can not be saved'));
+          });
         }
         res.status(202).send({ message: 'Church information updated.' });
       });

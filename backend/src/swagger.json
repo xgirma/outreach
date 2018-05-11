@@ -35,7 +35,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID of church to fetch",
+            "description": "ID, should be either 1 or 2",
             "schema": {
               "type": "string"
             },

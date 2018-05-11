@@ -27,8 +27,14 @@ app.use(
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 app.use('/api/v1', routes);
 
-app.use(function(err, req, res, next){
+app.use(function(err, req, res, next) {
   next(Boom.notFound());
+});
+
+app.use(function(err, req, res, next) {
+  res.locals.message = err.output.payload.message; // use this if boom is used
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500).json({ message: res.locals.message, error: res.locals.error });
 });
 
 app.server.listen(config.port);
