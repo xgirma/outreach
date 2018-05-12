@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-import winston from 'winston';
 import { Router } from 'express';
 import Info from '../model/church.info';
 import Boom from 'boom';
@@ -50,7 +48,7 @@ export default ({ config, db }) => {
             res.status(406).send(Boom.notAcceptable('Update can not be saved'));
           });
         }
-        res.status(202).send({ message: 'Church information updated.' });
+        res.status(202).send({ message: 'Church information updated.', data: info });
       });
     });
   });
