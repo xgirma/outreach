@@ -11,8 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./src/**/*.{js,json}\"",
-    "precommit": "lint-staged",
-    "postcommit": "git update-index --again"
+    "precommit": "lint-staged"
   },
   "keywords": [
     "church",
