@@ -20,13 +20,20 @@ const options = {
     }
   },
   database: {
+    level: 'info',
     db: config.mongoUrl,
     collection: 'log',
     storeHost: true,
     capped: true,
-    cappedMax: 1000000
+    cappedMax: 1000000,
+    tryReconnect: true,
+    decolorize: true,
   }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  options.console.level = 'info';
+}
 
 const logger = new winston.Logger({
   transports: [
@@ -38,9 +45,5 @@ const logger = new winston.Logger({
   msg:
     'HTTP: {{req.method}} {{req.url}} | STATUS: {{res.statusCode}} | TIME: {{res.responseTime}}ms'
 });
-
-if (process.env.NODE_ENV === 'production') {
-  options.console.level = 'info';
-}
 
 export { logger, config };
