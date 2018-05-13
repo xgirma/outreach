@@ -12,14 +12,14 @@ export default ({ config, db }) => {
         res.status(400).send(Boom.badRequest('ID should be either 0 or 1'));
       });
     }
-    
+
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
         return setImmediate(() => {
           res.status(400).send(Boom.badRequest('Failed to fetch info'));
         });
       }
-      
+
       info.am.name = req.body.am.name;
       info.am.denomination = req.body.am.denomination;
       info.am.phone = req.body.am.phone;

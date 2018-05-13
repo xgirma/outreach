@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import Boom from 'boom';
 import swaggerDocument from './swagger.json';
+import { logger } from './config';
 
-import config from './config';
+import { config } from './config';
 import routes from './routes';
 
 const app = express();
@@ -31,12 +32,13 @@ app.use(function(err, req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-  res.locals.message = err.output.payload.message; // use this if boom is used
+  res.locals.message = err.output.payload.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500).json({ message: res.locals.message, error: res.locals.error });
 });
 
 app.server.listen(config.port);
-console.log('Stared on', `${app.server.address().port}`);
+
+logger.info('Application started on port', `${app.server.address().port}`);
 
 export default app;
