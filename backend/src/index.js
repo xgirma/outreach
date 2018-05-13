@@ -4,9 +4,8 @@ import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import Boom from 'boom';
 import swaggerDocument from './swagger.json';
-import { logger } from './config';
 
-import { config } from './config';
+import { config, logger } from './config';
 import routes from './routes';
 
 const app = express();
@@ -34,6 +33,7 @@ app.use(function(err, req, res, next) {
 app.use(function(err, req, res, next) {
   res.locals.message = err.output.payload.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   res.status(err.status || 500).json({ message: res.locals.message, error: res.locals.error });
 });
 
