@@ -1,11 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
-const infoSchema = new Schema({
+const InfoSchema = new Schema({
   _id: {
     type: Number,
-    default: 1,
-    max: 2,
-    min: 1
+    default: 2,
+    enum : [1,2]
   },
   am: {
     name: { type: String, required: true, maxlength: 200 },
@@ -41,4 +40,6 @@ const infoSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Info', infoSchema);
+const Info = mongoose.model('Info', InfoSchema);
+
+export default Info;

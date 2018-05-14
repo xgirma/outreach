@@ -2,7 +2,7 @@ import express from 'express';
 import config from '../config';
 import middleware from '../middleware';
 import initializeDB from '../db';
-import info from '../controller/church.info';
+import info from '../controller/info';
 
 const router = express();
 

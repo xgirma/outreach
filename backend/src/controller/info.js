@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Info from '../model/church.info';
+import Info from '../model/info';
 import Boom from 'boom';
 import { logger } from '../config';
 
@@ -9,7 +9,7 @@ export default ({ config, db }) => {
   // '/v1/info/:id' - Update
   api.put('/:id', (req, res) => {
     if (req.params.id <= 0 || req.params.id > 2) {
-      logger.error(`ID should be either 1 or 2. Provided ${req.params.id}`);
+      logger.error(`ID should be either 1 or 2. Provided [${req.params.id}]`);
       return setImmediate(() => {
         res.status(400).send(Boom.badRequest('ID should be either 0 or 1'));
       });
@@ -17,7 +17,7 @@ export default ({ config, db }) => {
 
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
-        logger.error(`Find failed for ID ${req.params.id}`);
+        logger.error(`Cannot find church ID: [${req.params.id}]`);
         return setImmediate(() => {
           res.status(400).send(Boom.badRequest('Failed to fetch info'));
         });
@@ -52,7 +52,7 @@ export default ({ config, db }) => {
             res.status(406).send(Boom.notAcceptable('Update can not be saved'));
           });
         }
-        logger.info(`Church information updated`);
+        logger.info(`Church information updated for [${req.params.id}]`);
         res.status(202).send({ message: 'Church information updated.', data: info });
       });
     });

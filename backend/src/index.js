@@ -33,7 +33,9 @@ app.use(function(err, req, res, next) {
 app.use(function(err, req, res, next) {
   res.locals.message = err.output.payload.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  logger.error(`${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  logger.error(
+    `${err.status || 500} - ${err.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`
+  );
   res.status(err.status || 500).json({ message: res.locals.message, error: res.locals.error });
 });
 

@@ -12,7 +12,7 @@ const options = {
   console: {
     level: 'debug',
     handleExceptions: true,
-    json: false,
+    json: true,
     colorize: true,
     timestamp: () => {
       const today = moment();
@@ -27,7 +27,7 @@ const options = {
     capped: true,
     cappedMax: 1000000,
     tryReconnect: true,
-    decolorize: true,
+    decolorize: true
   }
 };
 
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
 const logger = new winston.Logger({
   transports: [
     new winston.transports.Console(options.console),
-    new winston.transports.MongoDB(options.database),
+    new winston.transports.MongoDB(options.database)
   ],
   exitOnError: false,
   meta: true,
