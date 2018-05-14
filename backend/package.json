@@ -8,7 +8,7 @@
     "build": "babel src -s -D -d dist --preset es2015,stage-0",
     "start:dev": "NODE_ENV=developement DEBUG=express* nodemon -w src --exec \"babel-node src --preset es2015,stage-0\"",
     "start:prod": "NODE_ENV=production pm2 start dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./src/**/*.{js,json}\"",
     "precommit": "lint-staged"
@@ -38,10 +38,14 @@
       "npm run test"
     ]
   },
+  "jest": {
+    "transform": {".*": "<rootDir>/node_modules/babel-jest"}
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
+    "babel-jest": "^22.4.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.19.1",
@@ -49,6 +53,7 @@
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-json": "^1.2.0",
     "husky": "^0.14.3",
+    "jest-cli": "^22.4.3",
     "lint-staged": "^7.1.0",
     "nodemon": "^1.17.4",
     "prettier": "1.12.1"
