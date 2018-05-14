@@ -4,7 +4,7 @@ const InfoSchema = new Schema({
   _id: {
     type: Number,
     default: 2,
-    enum : [1,2]
+    enum: [1, 2]
   },
   am: {
     name: { type: String, required: true, maxlength: 200 },
@@ -14,7 +14,7 @@ const InfoSchema = new Schema({
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },
       state: { type: String, maxlength: 50 },
-      zip: { type: Number, required: true, max: 1000000 },
+      zip: { type: String, maxlength: 50 },
       country: { type: String, required: true, maxlength: 50 }
     },
     bible: {
@@ -30,7 +30,7 @@ const InfoSchema = new Schema({
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },
       state: { type: String, maxlength: 50 },
-      zip: { type: Number, required: true, max: 1000000 },
+      zip: { type: String, maxlength: 50 },
       country: { type: String, required: true, maxlength: 50 }
     },
     bible: {

@@ -1,4 +1,6 @@
 module.exports = {
+  displayName: 'server',
+  testEnvironment: 'node',
   coverageDirectory: "./coverage",
   transform: {".*": "<rootDir>/node_modules/babel-jest"},
   collectCoverageFrom: [
