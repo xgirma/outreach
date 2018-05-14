@@ -9,6 +9,7 @@
     "start:dev": "NODE_ENV=developement DEBUG=express* nodemon -w src --exec \"babel-node src --preset es2015,stage-0\"",
     "start:prod": "NODE_ENV=production pm2 start dist",
     "test": "jest --verbose --coverage",
+    "test:watch": "jest --watch --coverage",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./src/**/*.{js,json}\"",
     "precommit": "lint-staged"
@@ -36,17 +37,6 @@
       "npm run lint",
       "npm run pretty",
       "npm run test"
-    ]
-  },
-  "jest": {
-    "transform": {".*": "<rootDir>/node_modules/babel-jest"},
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/coverage/**",
-      "!**/dist/**",
-      "!.eslintrc.js",
-      "!.prettierrc.js"
     ]
   },
   "devDependencies": {
