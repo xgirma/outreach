@@ -1,7 +1,6 @@
 import { Router } from 'express';
-require('winston-mongodb');
 
-export default ({ config, db }) => {
+export default ({ db }) => {
   const api = Router();
 
   // add middleware

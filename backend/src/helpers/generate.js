@@ -1,7 +1,7 @@
 import faker from 'faker';
 
-const churchInfo = () => {
-  return Object.assign({
+const churchInfo = () =>
+  Object.assign({
     _id: 2,
     am: {
       name: faker.lorem.words(),
@@ -36,6 +36,5 @@ const churchInfo = () => {
       }
     }
   });
-};
 
 export default churchInfo;

@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import Info from '../model/info';
 import Boom from 'boom';
-import { logger } from '../config';
+import Info from '../model/info';
+import logger from '../config/logger';
 
 export default ({ config, db }) => {
   const api = Router();
 
   // '/v1/info/:id' - Update
-  api.put('/:id', (req, res) => {
+  api.put('/:id', (req, res, next) => {
     if (req.params.id <= 0 || req.params.id > 2) {
       logger.error(`ID should be either 1 or 2. Provided [${req.params.id}]`);
       return setImmediate(() => {
@@ -17,7 +17,11 @@ export default ({ config, db }) => {
 
     Info.findById(req.params.id, (findErr, info) => {
       if (findErr) {
-        logger.error(`Cannot find church ID: [${req.params.id}]`);
+        logger.log({
+          level: 'error',
+          message: `Cannot find church ID: [${req.params.id}]`,
+          error: findErr
+        });
         return setImmediate(() => {
           res.status(400).send(Boom.badRequest('Failed to fetch info'));
         });

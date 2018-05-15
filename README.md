@@ -30,3 +30,7 @@ Blog
 - as per rising stack recommendation, keep winston log-level inside env file
 
 - add updated by to all api updates for accountability user -> update (https://alexanderzeitler.com/articles/mongoose-referencing-schema-in-properties-and-arrays/)
+
+- test localhost:3005/api/v1info/2
+
+- remove Boom
