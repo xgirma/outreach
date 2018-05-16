@@ -44,6 +44,8 @@ app.use('*', (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  const errorCode = err.status || 500;
+
   if (process.env.NODE_ENV !== 'production') {
     res.locals.error = err;
     res.locals.message = err.title;
@@ -53,10 +55,7 @@ app.use((err, req, res, next) => {
   }
 
   logger.error(`${res.locals.message}`, { err });
-
-  res
-    .status(err.status || 500)
-    .send({ message: res.locals.message, error: res.locals.error, data: {} });
+  res.status(errorCode).send({ errors: [{ code: errorCode, message: res.locals.message }] });
 });
 
 app.server.listen(process.env.PORT);

@@ -34,3 +34,25 @@ Blog
 - test localhost:3005/api/v1info/2
 
 - remove Boom
+
+- https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+
+- JSON API ERROR object
+
+- http://jsonapi.org/format/#error-objects
+    
+```javascript
+const error = {
+  id: '',
+  links: { about: '' },
+  status: '',
+  code: '',
+  title: '',
+  detail: '',
+  source: { pointer: '', parameter: '' },
+  meta: {}
+}
+```
+{"errors":[{"code":215,"message":"Bad Authentication data."}]}
+
+- need to write mongoose without callback :)
