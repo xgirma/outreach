@@ -11,8 +11,8 @@
     "test": "jest --verbose --coverage",
     "test:watch": "jest --watch --coverage",
     "lint": "eslint src --fix",
-    "pretty": "./node_modules/.bin/prettier --write \"./src/**/*.{js,json}\"",
-    "precommit": "lint-staged"
+    "pretty": "./node_modules/.bin/prettier --arrow-parens always --write \"./src/**/*.{js,json}\"",
+    "precommit": "lint-staged husky --dev"
   },
   "keywords": [
     "church",
@@ -27,6 +27,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-validator": "^5.2.0",
+    "faker": "^4.1.0",
     "moment": "^2.22.1",
     "mongoose": "^5.0.17",
     "swagger-ui-express": "^3.0.8",
@@ -56,7 +57,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-json": "^1.2.0",
-    "faker": "^4.1.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
     "jest-cli": "^22.4.3",
     "lint-staged": "^7.1.0",

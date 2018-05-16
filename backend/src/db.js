@@ -4,8 +4,8 @@ import logger from './config/logger';
 
 require('dotenv').config();
 
-export default callback => {
-  const db = mongoose.connect(process.env.MONGODB_URL).catch(err => {
+export default (callback) => {
+  const db = mongoose.connect(process.env.MONGODB_URL).catch((err) => {
     if (err) {
       const error = {
         id: 'ECONNREFUSED',
@@ -26,7 +26,7 @@ export default callback => {
     }
   });
 
-  db.then(mdb => {
+  db.then((mdb) => {
     if (mdb.connection.readyState === 1) {
       const connectionState = mdb.connections[0].states;
       const connectedTo = mdb.connections[0].client.s.url;

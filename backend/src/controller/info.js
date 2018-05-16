@@ -49,7 +49,7 @@ export default ({ config, db }) => {
       info.en.bible.verse = req.body.en.bible.verse;
       info.en.bible.from = req.body.en.bible.from;
 
-      info.save(saveErr => {
+      info.save((saveErr) => {
         if (saveErr) {
           logger.error(`Church information is not saved ${saveErr}`);
           return setImmediate(() => {

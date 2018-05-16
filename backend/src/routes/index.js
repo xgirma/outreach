@@ -6,7 +6,7 @@ import info from '../controller/info';
 const router = express();
 
 // connect to db
-initializeDB(db => {
+initializeDB((db) => {
   // initialize middleware
   router.use(middleware({ db }));
 
