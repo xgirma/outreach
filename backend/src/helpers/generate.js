@@ -12,12 +12,12 @@ const churchInfo = () =>
         city: faker.address.city(),
         state: faker.address.state(),
         zip: faker.address.zipCode(),
-        country: faker.address.country()
+        country: faker.address.country(),
       },
       bible: {
         verse: faker.lorem.sentence(),
-        from: faker.lorem.words()
-      }
+        from: faker.lorem.words(),
+      },
     },
     en: {
       name: faker.lorem.words(),
@@ -28,13 +28,13 @@ const churchInfo = () =>
         city: faker.address.city(),
         state: faker.address.state(),
         zip: faker.address.zipCode(),
-        country: faker.address.country()
+        country: faker.address.country(),
       },
       bible: {
         verse: faker.lorem.sentence(),
-        from: faker.lorem.words()
-      }
-    }
+        from: faker.lorem.words(),
+      },
+    },
   });
 
 export default churchInfo;

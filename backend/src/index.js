@@ -16,8 +16,8 @@ app.server = http.createServer(app);
 // parse application/json
 app.use(
   bodyParser.json({
-    limit: process.env.BODY_LIMIT
-  })
+    limit: process.env.BODY_LIMIT,
+  }),
 );
 
 // passport config
@@ -39,9 +39,9 @@ app.use('*', (req, res, next) => {
       method: req.method,
       headers: req.headers,
       body: req.body,
-      query: req.query
+      query: req.query,
     },
-    meta: {}
+    meta: {},
   };
 
   next(err);
@@ -69,7 +69,7 @@ logger.log('info', 'boot :: application started ::', {
   port: app.server.address().port,
   address: app.server.address().address,
   family: app.server.address().family,
-  environment: app.settings.env
+  environment: app.settings.env,
 });
 
 export default app;

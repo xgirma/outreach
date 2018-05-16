@@ -20,7 +20,7 @@ export default ({ config, db }) => {
         logger.log({
           level: 'error',
           message: `Cannot find church ID: [${req.params.id}]`,
-          error: findErr
+          error: findErr,
         });
         return setImmediate(() => {
           res.status(400).send(Boom.badRequest('Failed to fetch info'));

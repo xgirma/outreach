@@ -1,6 +1,5 @@
 import winston from 'winston';
 import moment from 'moment';
-
 const { MongoDB } = require('winston-mongodb');
 require('dotenv').config();
 
@@ -14,7 +13,7 @@ const winstonOptions = {
     },
     prettyPrint: true,
     handleExceptions: true,
-    humanReadableUnhandledException: true
+    humanReadableUnhandledException: true,
   },
   mongodb: {
     name: 'all',
@@ -23,26 +22,26 @@ const winstonOptions = {
     collection: process.env.MONGODB_COLLECTION_INFO,
     storeHost: true,
     tryReconnect: true,
-    decolorize: true
+    decolorize: true,
   },
-  error: {
+  errordb: {
     name: 'error-only',
     level: 'error',
     db: process.env.MONGODB_URL,
     collection: process.env.MONGODB_COLLECTION_ERROR,
     storeHost: true,
     tryReconnect: true,
-    decolorize: true
-  }
+    decolorize: true,
+  },
 };
 
 const logger = new winston.Logger({
   transports: [
     new winston.transports.Console(winstonOptions.console),
     new winston.transports.MongoDB(winstonOptions.mongodb),
-    new winston.transports.MongoDB(winstonOptions.error)
+    new winston.transports.MongoDB(winstonOptions.errordb),
   ],
-  exitOnError: false
+  exitOnError: false,
 });
 
 export default logger;
