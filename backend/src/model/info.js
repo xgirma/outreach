@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import { isEmail } from 'validator';
 
 const InfoSchema = new Schema({
   _id: {
@@ -10,6 +11,13 @@ const InfoSchema = new Schema({
     name: { type: String, required: true, maxlength: 200 },
     denomination: { type: String, required: true, maxlength: 100 },
     phone: { type: String, required: true },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: true,
+      validate: [isEmail, 'Invalid email'],
+    },
     address: {
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },
@@ -26,6 +34,13 @@ const InfoSchema = new Schema({
     name: { type: String, required: true, maxlength: 200 },
     denomination: { type: String, required: true, maxlength: 100 },
     phone: { type: String, required: true },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: true,
+      validate: [isEmail, 'Invalid email'],
+    },
     address: {
       street: { type: String, required: true, maxlength: 200 },
       city: { type: String, required: true, maxlength: 50 },

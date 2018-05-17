@@ -7,6 +7,7 @@ const churchInfo = () =>
       name: faker.lorem.words(),
       denomination: faker.lorem.words(),
       phone: faker.phone.phoneNumber(),
+      email: faker.internet.email().toLowerCase(),
       address: {
         street: faker.address.streetAddress(),
         city: faker.address.city(),
@@ -23,6 +24,7 @@ const churchInfo = () =>
       name: faker.lorem.words(),
       denomination: faker.lorem.words(),
       phone: faker.phone.phoneNumber(),
+      email: faker.internet.email().toLowerCase(),
       address: {
         street: faker.address.streetAddress(),
         city: faker.address.city(),

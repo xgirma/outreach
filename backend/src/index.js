@@ -60,7 +60,7 @@ app.use((err, req, res, next) => {
 
 app.server.listen(process.env.PORT);
 
-logger.log('info', 'boot :: application started ::', {
+logger.info('application started', {
   port: app.server.address().port,
   address: app.server.address().address,
   family: app.server.address().family,

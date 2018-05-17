@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import Boom from 'boom';
 import Info from '../model/info';
 import logger from '../config/logger';
+import { SERVERERR, DBSAVEERR, BADREQERR } from '../helpers/error.codes';
 
 export default ({ config, db }) => {
   const api = Router();
@@ -10,15 +10,19 @@ export default ({ config, db }) => {
   api.put('/:id', (req, res, next) => {
     Info.findById(req.params.id, (err, info) => {
       if (err) {
-        logger.error('Internal Server Error', { err });
+        const error = { ...SERVERERR, meta: err };
+        logger.error(SERVERERR.title, { error });
         return setImmediate(() => {
-          res.status(500).send({ errors: [{ code: 500, message: 'Internal Server Error' }] });
+          res
+            .status(SERVERERR.status)
+            .send({ errors: [{ code: SERVERERR.code, message: SERVERERR.title }] });
         });
       }
       if (info !== null) {
         info.am.name = req.body.am.name;
         info.am.denomination = req.body.am.denomination;
         info.am.phone = req.body.am.phone;
+        info.am.email = req.body.am.email;
         info.am.address.street = req.body.am.address.street;
         info.am.address.city = req.body.am.address.city;
         info.am.address.state = req.body.am.address.state;
@@ -30,6 +34,7 @@ export default ({ config, db }) => {
         info.en.name = req.body.en.name;
         info.en.denomination = req.body.en.denomination;
         info.en.phone = req.body.en.phone;
+        info.en.email = req.body.en.email;
         info.en.address.street = req.body.en.address.street;
         info.en.address.city = req.body.en.address.city;
         info.en.address.state = req.body.en.address.state;
@@ -40,31 +45,23 @@ export default ({ config, db }) => {
 
         info.save((saveErr) => {
           if (saveErr) {
-            logger.error(`Church information is not saved ${saveErr}`);
+            const error = { ...DBSAVEERR, meta: saveErr };
+            logger.error('Church information is not saved', { error });
             return setImmediate(() => {
-              res.status(406).send(Boom.notAcceptable('Update can not be saved'));
+              res
+                .status(DBSAVEERR.status)
+                .send({ errors: [{ code: DBSAVEERR.code, message: DBSAVEERR.title }] });
             });
           }
           logger.info(`Church information updated for [${req.params.id}]`);
           return res.status(202).send({ message: 'Church information updated.', data: info });
         });
       } else {
-        const error = {
-          id: 'BR400',
-          links: { about: '' },
-          status: '400',
-          code: '',
-          title: 'Bad Request',
-          detail: `ID should be either 1 or 2. Provided ${
-            req.params.id
-          }. Given you have document 1 and 2 by default and they are not deleted or updated`,
-          source: { pointer: '', parameter: '' },
-          meta: {},
-        };
-
-        logger.error('Bad Request', error);
+        logger.error(BADREQERR.title, BADREQERR);
         return setImmediate(() => {
-          res.status(400).send({ errors: [{ code: error.id, message: error.detail }] });
+          res
+            .status(BADREQERR.status)
+            .send({ errors: [{ code: BADREQERR.id, message: BADREQERR.title }] });
         });
       }
     });

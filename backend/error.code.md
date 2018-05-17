@@ -1,0 +1,8 @@
+# ErrorCode
+
+```javascript
+const errorCodes = {
+
+}
+
+```

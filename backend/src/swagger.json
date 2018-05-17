@@ -143,6 +143,12 @@
             "maxLength": 20,
             "description": "Church main contact phone number",
             "example": "(425) 329 - 9092"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Church main contact email",
+            "example": "info@gedam.org"
           }
         }
       },
