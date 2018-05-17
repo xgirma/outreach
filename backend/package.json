@@ -19,20 +19,20 @@
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.18.3",
     "boom": "^7.2.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-validator": "^5.2.0",
     "faker": "^4.1.0",
     "moment": "^2.22.1",
-    "mongoose": "^5.0.17",
-    "swagger-ui-express": "^3.0.8",
+    "mongoose": "^5.1.1",
+    "swagger-ui-express": "^3.0.9",
     "winston": "^2.4.2",
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": ["prettier --write", "npm run lint", "npm run pretty", "npm run test"]
+    "*": ["prettier --write", "npm run lint", "npm run pretty"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

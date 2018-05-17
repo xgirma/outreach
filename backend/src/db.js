@@ -9,29 +9,35 @@ export default (callback) => {
     if (err) {
       const error = {
         id: 'ECONNREFUSED',
-        links: {
-          about: 'http://mongoosejs.com/docs/connections.html',
-        },
+        links: { about: 'http://mongoosejs.com/docs/connections.html' },
         status: 503,
         code: 'Service Unavailable',
         title: err.name,
         detail: err.message,
-        source: {
-          pointer: '',
-          parameter: '',
-        },
+        source: { pointer: '', parameter: '' },
         meta: {},
       };
       logger.error('err.name', { error });
     }
   });
 
-  db.then((mdb) => {
-    if (mdb.connection.readyState === 1) {
-      const connectionState = mdb.connections[0].states;
-      const connectedTo = mdb.connections[0].client.s.url;
-      logger.info(`Mongoose connected to ${connectedTo}`, { connectedTo, connectionState });
-    }
+  mongoose.connection.on('connected', () => {
+    logger.info(`Mongoose default connection is open to ${process.env.MONGODB_URL}`);
+  });
+
+  mongoose.connection.on('error', (err) => {
+    logger.error('Mongoose connection error', { err });
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    logger.debug('Mongoose default connection is disconnected');
+  });
+
+  process.on('SIGINT', () => {
+    mongoose.connection.close(() => {
+      console.debug('Mongoose default connection is disconnected due to application termination');
+      process.exit(0);
+    });
   });
 
   callback(db);

@@ -8,7 +8,6 @@ export default ({ config, db }) => {
 
   // '/v1/info/:id' - Update
   api.put('/:id', (req, res, next) => {
-    /* eslint-disable no-alert, consistent-return */
     Info.findById(req.params.id, (err, info) => {
       if (err) {
         logger.error('Internal Server Error', { err });
@@ -69,7 +68,6 @@ export default ({ config, db }) => {
         });
       }
     });
-    /* eslint-enable no-alert, consistent-return */
   });
 
   return api;

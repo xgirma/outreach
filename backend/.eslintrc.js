@@ -13,6 +13,12 @@ module.exports = {
     'prettier/prettier': 'warn',
     'no-unused-vars': 1,
     'no-param-reassign': 0,
+    'consistent-return': [
+      'warn',
+      {
+        treatUndefinedAsUnspecified: true,
+      },
+    ],
   },
   plugins: ['json', 'prettier'],
 };
