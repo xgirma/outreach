@@ -37,7 +37,7 @@ describe('PUT /info/{id}', () => {
     expect(result.clientError).toEqual(true);
     expect(result.error.text).toMatch('Bad Request');
   });
-  
+
   test('it should only accept valid email addresses', async () => {
     const info = churchInfo();
     info.am.email = 'infoatgedam.org';
@@ -45,7 +45,7 @@ describe('PUT /info/{id}', () => {
       .request(url)
       .put('/info/2')
       .send(info);
-    
+
     expect(result.status).toEqual(422);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');

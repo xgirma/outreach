@@ -6,7 +6,8 @@
   "scripts": {
     "prestart": "npm run -s build",
     "build": "babel src -s -D -d dist --preset es2015,stage-0",
-    "start:dev": "NODE_ENV=developement DEBUG=express* nodemon -w src --exec \"babel-node src --preset es2015,stage-0\"",
+    "start:dev":
+      "NODE_ENV=developement DEBUG=express* nodemon -w src --exec \"babel-node src --preset es2015,stage-0\"",
     "start:prod": "NODE_ENV=production pm2 start dist",
     "test": "jest --verbose --coverage",
     "test:watch": "jest --watch --coverage",
@@ -14,11 +15,7 @@
     "pretty": "./node_modules/.bin/prettier --arrow-parens always --write \"./src/**/*.{js,json}\"",
     "precommit": "lint-staged husky --dev"
   },
-  "keywords": [
-    "church",
-    "Ethiopia",
-    "orthodox"
-  ],
+  "keywords": ["church", "Ethiopia", "orthodox"],
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -36,11 +33,7 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": [
-      "prettier --write",
-      "npm run lint",
-      "npm run pretty"
-    ]
+    "*": ["prettier --write", "npm run lint", "npm run pretty"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -57,6 +50,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-json": "^1.2.0",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
     "jest-cli": "^22.4.3",

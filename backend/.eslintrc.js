@@ -20,5 +20,5 @@ module.exports = {
       },
     ],
   },
-  plugins: ['json', 'prettier'],
+  plugins: ['json', 'prettier', 'markdown'],
 };

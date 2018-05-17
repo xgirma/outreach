@@ -1,8 +1,5 @@
 # ErrorCode
 
 ```javascript
-const errorCodes = {
-
-}
-
+const errorCodes = {};
 ```

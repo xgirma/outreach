@@ -41,18 +41,7 @@ Blog
 
 - http://jsonapi.org/format/#error-objects
     
-```javascript
-const error = {
-  id: '',
-  links: { about: '' },
-  status: '',
-  code: '',
-  title: '',
-  detail: '',
-  source: { pointer: '', parameter: '' },
-  meta: {}
-}
-```
+
 {"errors":[{"code":215,"message":"Bad Authentication data."}]}
 
 - need to write mongoose without callback :)
