@@ -19,6 +19,7 @@ module.exports = {
         treatUndefinedAsUnspecified: true,
       },
     ],
+    'import/no-extraneous-dependencies': ["warn", { devDependencies: true, }],
   },
   plugins: ['json', 'prettier', 'markdown'],
 };

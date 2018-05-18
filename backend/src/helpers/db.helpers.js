@@ -1,5 +1,5 @@
-import '../model/info';
 import mongoose from 'mongoose';
+import '../model/info';
 
 mongoose.Promise = global.Promise;
 
@@ -19,10 +19,9 @@ export const removeModel = (modelName) => {
   });
 };
 
-export const dropDb = () => {
-  return mongoose
+export const dropDb = () =>
+  mongoose
     .connect('process.env.MONGODB_URL', {
       useMongoClient: true,
     })
     .then(() => Promise.all(mongoose.modelNames().map(removeModel)));
-};
