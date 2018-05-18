@@ -1,4 +1,4 @@
-export const DBSAVEERR = {
+export const SAVERR = {
   id: 1000,
   links: { about: 'http://mongoosejs.com/docs/api.html#model_Model-save' },
   status: 422,
@@ -17,7 +17,7 @@ export const DBSAVEERR = {
   meta: {},
 };
 
-export const SERVERERR = {
+export const SERERR = {
   id: 1001,
   status: 500,
   title: 'Unknown server error',
@@ -27,7 +27,7 @@ export const SERVERERR = {
     '   encountered an unexpected condition that prevented it from fulfilling\n' +
     '   the request.',
 };
-export const BADREQERR = {
+export const BADREQ = {
   id: 1002,
   links: { about: '' },
   status: 400,

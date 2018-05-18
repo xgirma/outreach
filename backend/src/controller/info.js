@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Info from '../model/info';
 import logger from '../config/logger';
-import { SERVERERR, DBSAVEERR, BADREQERR } from '../helpers/error.codes';
+import { SERERR, SAVERR, BADREQ } from '../helpers/error.codes';
 
 export default ({ config, db }) => {
   const api = Router();
@@ -10,12 +10,12 @@ export default ({ config, db }) => {
   api.put('/:id', (req, res, next) => {
     Info.findById(req.params.id, (err, info) => {
       if (err) {
-        const error = { ...SERVERERR, meta: err };
-        logger.error(SERVERERR.title, { error });
+        const error = { ...SERERR, meta: err };
+        logger.error(SERERR.title, { error });
         return setImmediate(() => {
           res
-            .status(SERVERERR.status)
-            .send({ errors: [{ code: SERVERERR.code, message: SERVERERR.title }] });
+            .status(SERERR.status)
+            .send({ errors: [{ code: SERERR.code, message: SERERR.title }] });
         });
       }
       if (info !== null) {
@@ -45,23 +45,21 @@ export default ({ config, db }) => {
 
         info.save((saveErr) => {
           if (saveErr) {
-            const error = { ...DBSAVEERR, meta: saveErr };
-            logger.error('Church information is not saved', { error });
+            const error = { ...SAVERR, meta: saveErr };
+            logger.error('Church information is not saved.', { error });
             return setImmediate(() => {
               res
-                .status(DBSAVEERR.status)
-                .send({ errors: [{ code: DBSAVEERR.code, message: DBSAVEERR.title }] });
+                .status(SAVERR.status)
+                .send({ errors: [{ code: SAVERR.code, message: SAVERR.title }] });
             });
           }
-          logger.info(`Church information updated for [${req.params.id}]`);
+          logger.info(`Church information updated. ID: [${req.params.id}]`);
           return res.status(202).send({ message: 'Church information updated.', data: info });
         });
       } else {
-        logger.error(BADREQERR.title, BADREQERR);
+        logger.error(BADREQ.title, BADREQ);
         return setImmediate(() => {
-          res
-            .status(BADREQERR.status)
-            .send({ errors: [{ code: BADREQERR.id, message: BADREQERR.title }] });
+          res.status(BADREQ.status).send({ errors: [{ code: BADREQ.id, message: BADREQ.title }] });
         });
       }
     });
