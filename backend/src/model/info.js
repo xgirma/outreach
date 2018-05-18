@@ -63,6 +63,6 @@ const InfoSchema = new Schema({
   },
 });
 
-const Info = mongoose.model('Info', InfoSchema);
+const Info = mongoose.model.Info || mongoose.model('Info', InfoSchema);
 
 export default Info;

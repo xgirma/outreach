@@ -21,7 +21,5 @@ export const removeModel = (modelName) => {
 
 export const dropDb = () =>
   mongoose
-    .connect('process.env.MONGODB_URL', {
-      useMongoClient: true,
-    })
+    .connect(process.env.MONGODB_URL)
     .then(() => Promise.all(mongoose.modelNames().map(removeModel)));
