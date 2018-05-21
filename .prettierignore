@@ -1,1 +1,4 @@
-/dist/ ** /coverage/.eslintignore;
+backend/dist/**
+backend/coverage/
+backend/.eslintignore
+backend/.prettierignore
