@@ -1,4 +1,5 @@
 import merge from 'lodash.merge';
+import { NOTFUD } from '../docs/error.codes';
 
 export const controllers = {
   createOne(model, body) {
@@ -66,7 +67,7 @@ export const findByParam = (model) => (req, res, next, id) =>
     .findByParam(model, id)
     .then((doc) => {
       if (!doc) {
-        next(new Error('Not Found Error'));
+        next(NOTFUD);
       } else {
         req.docFromId = doc;
         next();

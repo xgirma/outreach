@@ -47,3 +47,5 @@ Blog
 - need to write mongoose without callback :)
 
 - watch webpack video
+
++ pkill mongod

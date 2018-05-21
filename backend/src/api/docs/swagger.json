@@ -62,16 +62,18 @@
           }
         },
         "responses": {
-          "202": {
-            "description": "Request for information update accepted",
+          "201": {
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "message": {
-                      "type": "string",
-                      "example": "Church information updated"
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
                     }
                   }
                 }
