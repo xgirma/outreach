@@ -35,7 +35,7 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": ["npm run pretty"]
+    "*": ["npm run pretty", "npm run lint"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
