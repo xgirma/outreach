@@ -11,6 +11,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'warn',
+    'import/prefer-default-export': 'warn',
+    'arrow-parens': 'warn',
     'no-unused-vars': 1,
     'no-param-reassign': 0,
     'consistent-return': ['warn', { treatUndefinedAsUnspecified: true }],
