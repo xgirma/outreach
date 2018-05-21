@@ -1,6 +1,5 @@
 import merge from 'lodash.merge';
 import { NOTFUD } from '../docs/error.codes';
-import isEmail from 'validator/lib/isEmail';
 
 export const controllers = {
   createOne(model, body) {
@@ -25,11 +24,10 @@ export const controllers = {
   },
 
   findByParam(model, id) {
-    if(Number.isInteger(Number(id))){
+    if (Number.isInteger(Number(id))) {
       return model.findById(id);
-    } else {
-      return Promise.resolve(null);
     }
+    return Promise.resolve(null);
   },
 };
 
