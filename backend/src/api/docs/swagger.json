@@ -25,6 +25,39 @@
     }
   ],
   "paths": {
+    "/info/": {
+      "get": {
+        "description": "Returns all church information",
+        "summary": "Returns all church information",
+        "responses": {
+          "200": {
+            "description": "A list of church information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "_id": {
+                        "$ref": "#/components/parameters/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info/{id}": {
       "put": {
         "tags": ["Info"],
@@ -74,6 +107,46 @@
                     },
                     "en": {
                       "$ref": "#/components/schemas/ChurchInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Info"],
+        "description": "Return a Church information based on ID",
+        "summary": "Returns a Church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID, should be either 1 or 2",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
                     }
                   }
                 }
@@ -192,6 +265,16 @@
             }
           }
         ]
+      }
+    },
+    "parameters": {
+      "_id": {
+        "type": "integer",
+        "format": "int32",
+        "minimum": 0,
+        "maximum": 1000000,
+        "description": "ID",
+        "example": "2"
       }
     }
   }
