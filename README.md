@@ -45,3 +45,5 @@ Blog
 {"errors":[{"code":215,"message":"Bad Authentication data."}]}
 
 - need to write mongoose without callback :)
+
+- watch webpack video
