@@ -1,4 +1,0 @@
-backend/dist/**
-backend/coverage/
-backend/.eslintignore
-backend/.prettierignore
