@@ -49,3 +49,5 @@ Blog
 - watch webpack video
 
 + pkill mongod
+
++ error handling fro query methods, now all return 500. Sad.
