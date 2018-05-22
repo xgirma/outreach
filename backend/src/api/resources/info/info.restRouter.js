@@ -14,4 +14,4 @@ infoRouter
   .route('/:id')
   .get(infoController.getOne)
   .put(infoController.updateOne)
-  .delete(infoController.createOne);
+  .delete(infoController.deleteOne);

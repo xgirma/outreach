@@ -57,19 +57,119 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": ["Info"],
+        "description": "Add a new church information",
+        "summary": "Add church information",
+        "requestBody": {
+          "description": "Church information to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0,
+                    "maximum": 1000000,
+                    "description": "ID",
+                    "example": "4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "_id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "maximum": 1000000,
+                      "description": "ID",
+                      "example": "4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/info/{id}": {
-      "put": {
+      "get": {
         "tags": ["Info"],
-        "description": "Updates a Church information based on ID",
-        "summary": "Updates a Church information",
+        "description": "Return a church information matches an ID",
+        "summary": "Returns a church information",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID, should be either 1 or 2",
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Info"],
+        "description": "Updates a church information matches an ID",
+        "summary": "Updates a church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
             "schema": {
               "type": "string"
             },
@@ -116,38 +216,47 @@
           }
         }
       },
-      "get": {
+      "delete": {
         "tags": ["Info"],
-        "description": "Return a Church information based on ID",
-        "summary": "Returns a Church information",
+        "description": "Deletes a church information matches an ID",
+        "summary": "Deletes a church information",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID, should be either 1 or 2",
+            "description": "Info ID",
             "schema": {
               "type": "string"
             },
-            "example": "2"
+            "example": "4"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "Deleted church information",
             "content": {
               "application/json": {
                 "schema": {
-                  "properties": {
+                  "type": "array",
+                  "items": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "_id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 1000000,
+                        "description": "ID",
+                        "example": "4"
+                      }
                     }
                   }
                 }
