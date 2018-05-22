@@ -13,7 +13,7 @@ describe('info', () => {
       .request(url)
       .post('/info')
       .send(churchInfo());
-    
+
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
@@ -21,7 +21,7 @@ describe('info', () => {
     expect(result.request.method).toEqual('post');
     expect(result.body.data).not.toEqual({});
   });
-  
+
   test('POST /info/{id}: invalid schema', async () => {
     const requestBody = churchInfo();
     requestBody.am.email = 'info@gedamorg';
@@ -30,19 +30,17 @@ describe('info', () => {
       .request(url)
       .post('/info')
       .send(requestBody);
-    
+
     expect(result.status).toEqual(500);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info`);
     expect(result.request.method).toEqual('post');
   });
-  
+
   test('GET /info', async () => {
-    const result = await chai
-      .request(url)
-      .get('/info');
-    
+    const result = await chai.request(url).get('/info');
+
     expect(result.status).toEqual(200);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
@@ -50,12 +48,10 @@ describe('info', () => {
     expect(result.request.method).toEqual('get');
     expect(result.body.data).not.toEqual({});
   });
-  
+
   test('GET /info/{id}', async () => {
-    const result = await chai
-      .request(url)
-      .get('/info/20');
-    
+    const result = await chai.request(url).get('/info/20');
+
     expect(result.status).toEqual(200);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
@@ -63,12 +59,10 @@ describe('info', () => {
     expect(result.request.method).toEqual('get');
     expect(result.body.data).not.toEqual({});
   });
-  
+
   test('GET /info/{id}: non existing', async () => {
-    const result = await chai
-      .request(url)
-      .get('/info/2002');
-    
+    const result = await chai.request(url).get('/info/2002');
+
     expect(result.status).toEqual(404);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
@@ -76,7 +70,7 @@ describe('info', () => {
     expect(result.request.method).toEqual('get');
     expect(result.body.data).toEqual(undefined);
   });
-  
+
   test('PUT /info/{id}', async () => {
     const result = await chai
       .request(url)
@@ -105,24 +99,20 @@ describe('info', () => {
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('put');
   });
-  
+
   test('DELETE /info/{id}', async () => {
-    const result = await chai
-      .request(url)
-      .delete('/info/20');
-    
+    const result = await chai.request(url).delete('/info/20');
+
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('delete');
   });
-  
+
   test('DELETE /info/{id}: non existing', async () => {
-    const result = await chai
-      .request(url)
-      .delete('/info/2020');
-    
+    const result = await chai.request(url).delete('/info/2020');
+
     expect(result.status).toEqual(404);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');

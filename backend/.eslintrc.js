@@ -14,6 +14,7 @@ module.exports = {
     'import/prefer-default-export': 'warn',
     'arrow-parens': 'warn',
     'no-unused-vars': 1,
+    'no-underscore-dangle': 'warn',
     'no-param-reassign': 0,
     'consistent-return': ['warn', { treatUndefinedAsUnspecified: true }],
     'import/no-extraneous-dependencies': ['warn', { devDependencies: true }],
