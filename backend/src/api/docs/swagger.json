@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Outreach Application API",
-    "description": "Outreach application administration platform API.",
+    "title": "Outreach API",
+    "description": "Outreach admin platform API.",
     "version": "1.0.0"
   },
   "servers": [
@@ -25,8 +25,9 @@
     }
   ],
   "paths": {
-    "/info/": {
+    "/info": {
       "get": {
+        "tags": ["Info"],
         "description": "Returns all church information",
         "summary": "Returns all church information",
         "responses": {

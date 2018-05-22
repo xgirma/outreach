@@ -5,7 +5,7 @@ export const apiErrorHandler = (err, req, res, next) => {
 
   if (process.env.NODE_ENV !== 'production') {
     res.locals.error = err;
-    res.locals.message = err.title;
+    res.locals.message = err.title ? err.title : err.message;
   } else {
     res.locals.error = {};
     res.locals.message = 'Something terrible happened';
