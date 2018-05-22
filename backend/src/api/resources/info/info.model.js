@@ -1,7 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 
-const InfoSchema = new Schema({
+export const schema = {
   _id: {
     type: Number,
     default: 2,
@@ -61,8 +61,8 @@ const InfoSchema = new Schema({
       from: { type: String, required: [true, 'Info must have a bible verse from'], maxlength: 50 },
     },
   },
-});
+};
 
-const Info = mongoose.model.Info || mongoose.model('Info', InfoSchema);
+const infoSchema = new mongoose.Schema(schema);
 
-export default Info;
+export const Info = mongoose.model('info', infoSchema);

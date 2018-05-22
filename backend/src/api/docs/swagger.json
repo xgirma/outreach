@@ -1,0 +1,391 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Outreach API",
+    "description": "Outreach admin platform API.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "{protocol}://localhost:{port}/api/{basePath}",
+      "description": "Sandbox server (uses test data)",
+      "variables": {
+        "protocol": {
+          "enum": ["http", "https"],
+          "default": "http"
+        },
+        "port": {
+          "enum": ["3005", "3000"],
+          "default": "3005"
+        },
+        "basePath": {
+          "default": "v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/info": {
+      "get": {
+        "tags": ["Info"],
+        "description": "Returns all church information",
+        "summary": "Returns all church information",
+        "responses": {
+          "200": {
+            "description": "A list of church information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "_id": {
+                        "$ref": "#/components/parameters/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Info"],
+        "description": "Add a new church information",
+        "summary": "Add church information",
+        "requestBody": {
+          "description": "Church information to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0,
+                    "maximum": 1000000,
+                    "description": "ID",
+                    "example": "4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "_id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "maximum": 1000000,
+                      "description": "ID",
+                      "example": "4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info/{id}": {
+      "get": {
+        "tags": ["Info"],
+        "description": "Return a church information matches an ID",
+        "summary": "Returns a church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Info"],
+        "description": "Updates a church information matches an ID",
+        "summary": "Updates a church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2"
+          }
+        ],
+        "requestBody": {
+          "description": "Church information to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/ChurchInfo"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/ChurchInfo"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Info"],
+        "description": "Deletes a church information matches an ID",
+        "summary": "Deletes a church information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted church information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "_id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 1000000,
+                        "description": "ID",
+                        "example": "4"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Address": {
+        "required": ["street", "city", "country"],
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Street name",
+            "example": "1234 EastLake Ave East"
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "City name",
+            "example": "Seattle"
+          },
+          "state": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "State name",
+            "example": "WA"
+          },
+          "zip": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 1000000,
+            "description": "Zip code",
+            "example": "98201"
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Country name",
+            "example": "United States"
+          }
+        }
+      },
+      "BasicInfo": {
+        "required": ["name", "denomination", "phone"],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Church name",
+            "example": "St. George Ethiopian Orthodox Tewahedo Church"
+          },
+          "denomination": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Church denomination",
+            "example": "Ethiopian Orthodox Tewahedo Church"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Church main contact phone number",
+            "example": "(425) 329 - 9092"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Church main contact email",
+            "example": "info@gedam.org"
+          }
+        }
+      },
+      "Bible": {
+        "required": ["verse", "from"],
+        "type": "object",
+        "properties": {
+          "verse": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Bible verses or quotes",
+            "example":
+              "And I tell you that you are Peter,and on this rock I will build my church, and the gates of Hadeswill not overcome it."
+          },
+          "from": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Bible verses or quotes reference",
+            "example": "Matthew 16:18"
+          }
+        }
+      },
+      "ChurchInfo": {
+        "type": "object",
+        "allOf": [
+          { "$ref": "#/components/schemas/BasicInfo" },
+          {
+            "properties": {
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              }
+            }
+          },
+          {
+            "properties": {
+              "bible": {
+                "$ref": "#/components/schemas/Bible"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "parameters": {
+      "_id": {
+        "type": "integer",
+        "format": "int32",
+        "minimum": 0,
+        "maximum": 1000000,
+        "description": "ID",
+        "example": "2"
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'development';
+
 module.exports = {
   displayName: 'server',
   testEnvironment: 'node',
@@ -10,6 +12,7 @@ module.exports = {
     '!**/dist/**',
     '!.eslintrc.js',
     '!.prettierrc.js',
+    '!**/resources/**/index.js',
   ],
   coverageThreshold: {
     global: {
