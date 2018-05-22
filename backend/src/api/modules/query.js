@@ -35,7 +35,7 @@ export const createOne = (model) => (req, res, next) => {
   controllers
     .createOne(model, req.body)
     .then((doc) => res.status(201).json(doc))
-    .catch((error) => next(error));
+    .catch((error) => setImmediate(() => next(error)));
 };
 
 export const updateOne = (model) => async (req, res, next) => {
@@ -45,26 +45,26 @@ export const updateOne = (model) => async (req, res, next) => {
   return controllers
     .updateOne(docToUpdate, update)
     .then((doc) => res.status(201).json(doc))
-    .catch((error) => next(error));
+    .catch((error) => setImmediate(() => next(error)));
 };
 
 export const deleteOne = (model) => (req, res, next) =>
   controllers
     .deleteOne(req.docFromId)
     .then((doc) => res.status(201).json(doc))
-    .catch((error) => next(error));
+    .catch((error) => setImmediate(() => next(error)));
 
 export const getOne = (model) => (req, res, next) =>
   controllers
     .getOne(req.docFromId)
     .then((doc) => res.status(200).json(doc))
-    .catch((error) => next(error));
+    .catch((error) => setImmediate(() => next(error)));
 
 export const getAll = (model) => (req, res, next) =>
   controllers
     .getAll(model)
     .then((docs) => res.json(docs))
-    .catch((error) => next(error));
+    .catch((error) => setImmediate(() => next(error)));
 
 export const findByParam = (model) => (req, res, next, id) =>
   controllers
@@ -77,9 +77,7 @@ export const findByParam = (model) => (req, res, next, id) =>
         next();
       }
     })
-    .catch((error) => {
-      next(error);
-    });
+    .catch((error) => setImmediate(() => next(error)));
 
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
