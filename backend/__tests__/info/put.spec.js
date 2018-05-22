@@ -1,57 +1,133 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import churchInfo from '../../test/generate';
+import churchInfo from '../../src/helpers/faker';
 
 require('dotenv').config();
 
 const url = `${process.env.HOST}:${process.env.PORT}/${process.env.BASE_PATH}`;
 chai.use(chaiHttp);
 
-describe('PUT /info/{id}', () => {
-  test('should update', async () => {
+describe('info', () => {
+  test('POST /info', async () => {
     const result = await chai
       .request(url)
-      .put('/info/2')
+      .post('/info')
+      .send(churchInfo());
+    
+    expect(result.status).toEqual(201);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info`);
+    expect(result.request.method).toEqual('post');
+    expect(result.body.data).not.toEqual({});
+  });
+  
+  test('POST /info/{id}: invalid schema', async () => {
+    const requestBody = churchInfo();
+    requestBody.am.email = 'info@gedamorg';
+    requestBody._id = 200;
+    const result = await chai
+      .request(url)
+      .post('/info')
+      .send(requestBody);
+    
+    expect(result.status).toEqual(500);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info`);
+    expect(result.request.method).toEqual('post');
+  });
+  
+  test('GET /info', async () => {
+    const result = await chai
+      .request(url)
+      .get('/info');
+    
+    expect(result.status).toEqual(200);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info`);
+    expect(result.request.method).toEqual('get');
+    expect(result.body.data).not.toEqual({});
+  });
+  
+  test('GET /info/{id}', async () => {
+    const result = await chai
+      .request(url)
+      .get('/info/20');
+    
+    expect(result.status).toEqual(200);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info/20`);
+    expect(result.request.method).toEqual('get');
+    expect(result.body.data).not.toEqual({});
+  });
+  
+  test('GET /info/{id}: non existing', async () => {
+    const result = await chai
+      .request(url)
+      .get('/info/2002');
+    
+    expect(result.status).toEqual(404);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info/2002`);
+    expect(result.request.method).toEqual('get');
+    expect(result.body.data).toEqual(undefined);
+  });
+  
+  test('PUT /info/{id}', async () => {
+    const result = await chai
+      .request(url)
+      .put('/info/20')
       .send(churchInfo());
 
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
-    expect(result.request.url).toEqual(`${url}/info/2`);
+    expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('put');
-    // expect(result.body.message).toEqual('Church information updated.');
     expect(result.body.data).not.toEqual({});
   });
 
-  test.skip('update should fail, if the given ID is different from 1 or 2', async () => {
+  test('PUT /info/{id}: invalid schema', async () => {
+    const requestBody = churchInfo();
+    requestBody.am.email = 'infoatgedam.org';
     const result = await chai
       .request(url)
-      .put('/info/0')
-      .send(churchInfo());
+      .put('/info/20')
+      .send(requestBody);
 
-    expect(result.status).toEqual(400);
+    expect(result.status).toEqual(500);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
-    expect(result.request.url).toEqual(`${url}/info/0`);
+    expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('put');
-    expect(result.clientError).toEqual(true);
-    expect(result.error.text).toMatch('Bad Request');
   });
-
-  test.skip('it should only accept valid email addresses', async () => {
-    const info = churchInfo();
-    info.am.email = 'infoatgedam.org';
+  
+  test('DELETE /info/{id}', async () => {
     const result = await chai
       .request(url)
-      .put('/info/2')
-      .send(info);
-
-    expect(result.status).toEqual(422);
+      .delete('/info/20');
+    
+    expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
     expect(result.charset).toEqual('utf-8');
-    expect(result.request.url).toEqual(`${url}/info/2`);
-    expect(result.request.method).toEqual('put');
-    expect(result.clientError).toEqual(true);
-    expect(result.error.text).toMatch('Mongoose save error');
+    expect(result.request.url).toEqual(`${url}/info/20`);
+    expect(result.request.method).toEqual('delete');
+  });
+  
+  test('DELETE /info/{id}: non existing', async () => {
+    const result = await chai
+      .request(url)
+      .delete('/info/2020');
+    
+    expect(result.status).toEqual(404);
+    expect(result.type).toEqual('application/json');
+    expect(result.charset).toEqual('utf-8');
+    expect(result.request.url).toEqual(`${url}/info/2020`);
+    expect(result.request.method).toEqual('delete');
+    expect(result.body.data).toEqual(undefined);
   });
 });

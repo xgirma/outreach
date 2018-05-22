@@ -2,7 +2,7 @@ import faker from 'faker';
 
 const churchInfo = () =>
   Object.assign({
-    _id: 2,
+    _id: 20,
     am: {
       name: faker.lorem.words(),
       denomination: faker.lorem.words(),
