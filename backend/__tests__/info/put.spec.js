@@ -16,7 +16,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info`);
     expect(result.request.method).toEqual('post');
     expect(result.body.data).not.toEqual({});
@@ -33,7 +32,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(500);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info`);
     expect(result.request.method).toEqual('post');
   });
@@ -43,7 +41,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(200);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info`);
     expect(result.request.method).toEqual('get');
     expect(result.body.data).not.toEqual({});
@@ -54,7 +51,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(200);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('get');
     expect(result.body.data).not.toEqual({});
@@ -65,7 +61,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(404);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/2002`);
     expect(result.request.method).toEqual('get');
     expect(result.body.data).toEqual(undefined);
@@ -79,7 +74,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('put');
     expect(result.body.data).not.toEqual({});
@@ -95,7 +89,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(500);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('put');
   });
@@ -105,7 +98,6 @@ describe('info', () => {
 
     expect(result.status).toEqual(201);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/20`);
     expect(result.request.method).toEqual('delete');
   });
@@ -115,9 +107,28 @@ describe('info', () => {
 
     expect(result.status).toEqual(404);
     expect(result.type).toEqual('application/json');
-    expect(result.charset).toEqual('utf-8');
     expect(result.request.url).toEqual(`${url}/info/2020`);
     expect(result.request.method).toEqual('delete');
+    expect(result.body.data).toEqual(undefined);
+  });
+
+  test('invalid route', async () => {
+    const result = await chai.request(url).get('/');
+
+    expect(result.status).toEqual(404);
+    expect(result.type).toEqual('application/json');
+    expect(result.request.url).toEqual(`${url}/`);
+    expect(result.request.method).toEqual('get');
+    expect(result.body.data).toEqual(undefined);
+  });
+
+  test('invalid route', async () => {
+    const result = await chai.request(url).get('/api/v1/girma');
+
+    expect(result.status).toEqual(404);
+    expect(result.type).toEqual('application/json');
+    expect(result.request.url).toEqual(`${url}/api/v1/girma`);
+    expect(result.request.method).toEqual('get');
     expect(result.body.data).toEqual(undefined);
   });
 });
