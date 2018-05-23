@@ -1,5 +1,7 @@
+import chai, { expect } from 'chai'
+
 describe('Info Model', () => {
-  test('should have username', () => {
-    expect(true).toBe(true);
+  it('should have username', () => {
+    expect(true).to.equal(true);
   });
 });

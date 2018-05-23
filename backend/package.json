@@ -4,16 +4,14 @@
   "description": "Backend app for outreach",
   "main": "dist",
   "scripts": {
-    "prestart": "npm run -s build",
-    "start:prod:old": "NODE_ENV=production pm2 start dist",
     "test": "jest --verbose --coverage",
     "test:watch": "jest --watch --coverage",
+    "test:unit":
+      "NODE_ENV=test rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.test.js --webpack-env test \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --arrow-parens always --write \"./**/*.{js,json}\"",
     "precommit": "lint-staged husky --dev",
-    "start:dev": "./node_modules/.bin/webpack --colors --progress",
-    "test:unit":
-      "NODE_ENV=development rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js --webpack-env development \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
+    "start:dev": "./node_modules/.bin/webpack --colors --progress"
   },
   "keywords": ["church", "Ethiopia", "orthodox"],
   "author": "Girma Nigusse <xgirma@gmail.com>",

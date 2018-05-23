@@ -1,9 +1,7 @@
 import merge from 'lodash.merge';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-
 const env = process.env.NODE_ENV;
-
 const baseConfig = {
   port: process.env.PORT,
   secrets: {},
@@ -11,7 +9,6 @@ const baseConfig = {
     url: process.env.MONGODB_URL,
   },
 };
-
 let envConfig = {};
 
 /* eslint-disable global-require */
