@@ -112,7 +112,7 @@ describe('info', () => {
     expect(result.body.data).toEqual(undefined);
   });
 
-  test('invalid route', async () => {
+  test('GET invalid route', async () => {
     const result = await chai.request(url).get('/');
 
     expect(result.status).toEqual(404);
@@ -122,7 +122,7 @@ describe('info', () => {
     expect(result.body.data).toEqual(undefined);
   });
 
-  test('invalid route', async () => {
+  test('GET invalid route', async () => {
     const result = await chai.request(url).get('/api/v1/girma');
 
     expect(result.status).toEqual(404);

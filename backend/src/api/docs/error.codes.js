@@ -7,6 +7,19 @@ export const SERERR = {
   detail:
     'The 500 (Internal Server Error) status code indicates that the server encountered an unexpected condition that prevented it from fulfilling the request.',
 };
+
+export const MCOERR = {
+  id: 5002,
+  links: { about: 'http://mongoosejs.com/docs/connections.html' },
+  status: 500,
+  code: 'MCOERR',
+  title: 'Mongo connection error',
+  detail:
+    'The database server encountered an unexpected condition that prevented it from fulfilling the request.',
+  source: { pointer: '', parameter: '' },
+  meta: {},
+};
+
 export const BADREQ = {
   id: 4001,
   links: { about: 'https://tools.ietf.org/html/rfc7231#section-6.5.1' },

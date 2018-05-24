@@ -24,7 +24,7 @@ app.use('*', (req, res, next) => {
 app.use(apiErrorHandler);
 
 mongoose.connection.on('connected', () => {
-  logger.info(`Mongoose default connection is open to ${process.env.MONGODB_URL}`);
+  logger.info(`Mongoose default connection is open to ${mongoose.connection.client.s.url}`);
 });
 
 mongoose.connection.on('error', (err) => {

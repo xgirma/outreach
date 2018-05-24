@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 export const config = {
   expireTime: process.env.EXPIRE_TIME,
   secrets: {
