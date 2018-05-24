@@ -8,6 +8,7 @@ module.exports = {
   env: {
     node: true,
     jest: true,
+    mocha: true,
   },
   rules: {
     'prettier/prettier': 'warn',
@@ -19,5 +20,5 @@ module.exports = {
     'consistent-return': ['warn', { treatUndefinedAsUnspecified: true }],
     'import/no-extraneous-dependencies': ['warn', { devDependencies: true }],
   },
-  plugins: ['json', 'prettier', 'markdown'],
+  plugins: ['json', 'prettier', 'markdown', 'mocha'],
 };

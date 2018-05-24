@@ -1,9 +1,11 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import mongoose from 'mongoose';
-import setGlobalMiddleware from './middleware';
 import { restRouter } from './api';
 import { connect } from './db';
+import { apiErrorHandler } from './api/modules/errorHandler';
+import { NOTFUD } from './api/docs/error.codes';
+import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import logger from './api/modules/logger';
 
@@ -16,28 +18,13 @@ app.use('/api/v1', restRouter);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 
 app.use('*', (req, res, next) => {
-  const err = {
-    id: 'NF404',
-    status: 404,
-    code: 'ResourceNotFound',
-    title: 'Not Found',
-    detail: 'The specified resource does not exist.',
-    source: {
-      ip: req.ip,
-      path: req.originalUrl,
-      method: req.method,
-      headers: req.headers,
-      body: req.body,
-      query: req.query,
-    },
-    meta: {},
-  };
-
-  next(err);
+  setImmediate(() => next(NOTFUD));
 });
 
+app.use(apiErrorHandler);
+
 mongoose.connection.on('connected', () => {
-  logger.info(`Mongoose default connection is open to ${process.env.MONGODB_URL}`);
+  logger.info(`Mongoose default connection is open to ${mongoose.connection.client.s.url}`);
 });
 
 mongoose.connection.on('error', (err) => {

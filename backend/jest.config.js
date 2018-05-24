@@ -22,4 +22,5 @@ module.exports = {
       lines: 1,
     },
   },
+  testPathIgnorePatterns: ['./src'],
 };

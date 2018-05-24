@@ -27,7 +27,7 @@ export const schema = {
       city: { type: String, required: [true, 'Info must have a city'], maxlength: 50 },
       state: { type: String, maxlength: 50 },
       zip: { type: String, maxlength: 50 },
-      country: { type: String, required: [true, 'Info must have a country'], maxlength: 50 },
+      country: { type: String, required: [true, 'Info must have a country'], maxlength: 100 },
     },
     bible: {
       verse: { type: String, required: [true, 'Info must have a bible verse'], maxlength: 500 },
@@ -54,7 +54,7 @@ export const schema = {
       city: { type: String, required: [true, 'Info must have a city'], maxlength: 50 },
       state: { type: String, maxlength: 50 },
       zip: { type: String, maxlength: 50 },
-      country: { type: String, required: [true, 'Info must have a country'], maxlength: 50 },
+      country: { type: String, required: [true, 'Info must have a country'], maxlength: 100 },
     },
     bible: {
       verse: { type: String, required: [true, 'Info must have a bible verse'], maxlength: 500 },

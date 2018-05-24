@@ -1,6 +1,7 @@
 import logger from './logger';
 
 export const apiErrorHandler = (err, req, res, next) => {
+  console.log(err);
   const errorCode = err.status || 500;
 
   if (process.env.NODE_ENV !== 'production') {
