@@ -265,10 +265,118 @@
           }
         }
       }
+    },
+    "/intro": {
+      "get": {
+        "tags": ["Intro"],
+        "description": "Home page main content",
+        "summary": "Returns home page content detail",
+        "responses": {
+          "200": {
+            "description": "Home page content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/Intro"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/Intro"
+                      },
+                      "_id": {
+                        "$ref": "#/components/parameters/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Intro"],
+        "description": "Add the main content of the home page",
+        "summary": "Adds home page main content",
+        "requestBody": {
+          "description": "Home page content to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/Intro"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/Intro"
+                  },
+                  "_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "minimum": 0,
+                    "maximum": 1000000,
+                    "description": "ID",
+                    "example": "4000"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Intro"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Intro"
+                    },
+                    "_id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "maximum": 1000000,
+                      "description": "ID",
+                      "example": "4000"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Intro": {
+        "required": ["title", "date", "intro"],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
+          },
+          "date": { "type": "string", "format": "date", "example": "11/20/2017 04:11" },
+          "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
+          "intro": { "type": "string", "example" : "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ። እንዲህ ተብሎ በነብዩ ዳዊት እንደተፃፈው፡- “ዐረገ እግዚአብሔር በይባቤ ወእግዚእነ በቃለ ቀርን ዘምሩ ለአምላክነ ዘምሩ” እግዚአብሔር በመለከት ድምጽ ዐረገ፣ ዘምሩ ለአምላካችን ዘምሩ፣ ዘምሩ ለንጉሣችን ዘምሩ (መዝ 46÷5) አምላካችን ወደ ሰማይ ከማረጉ በፊት ለደቀመዛሙርቱ የገባላቸው ቃልኪዳን፡ ምስክሮቼ ትሆናላችሁ፡፡ (ሉቃ 24÷48) ደቀመዛሙርቱ ያዩትንና የሰሙትን ሞትን አሸንፎ የተነሣውን ጌታ ለዓለም ሁሉ ምስክሮች ሆነዋል። በሕይወት ዘመናቸው ሁሉ የዓላውያንን ነገሥታት፣ የቄሳሮችን ዛቻና ማስፈራሪያ አንዳችም ሳይፈሩ ከምድር ዳርቻ እስከምድር ዳርቻ ድረስ ሁሉን እያጡና መከራ እየተቀበሉ፣ እየታሰሩና እየተገረፉ ምስክሮች ሆነዋል። ኢየሱስ ክርስቶስ ከዚህ በኋላ ስሙን አትጥሩና በስሙም አታስተምሩ እያሏቸው በሸንጐ ፊት ሲያቆሟቸው፣ ሲገርፏቸው ደስ እያላቸው ከሸንጐ ፊት ይወጡ ነበር፡፡ (የሐዋ 5÷40)። ስለ ስሙ ምስክር መሆን መነቀፍና መታሰር፣ መደብደብ እንዴት ደስ ይላል!። እኛም እንደ ደቀመዛሙርቱ ማንንም ሳንፈራ አፋችንን ሞልተን ስለ ስሙ እየመሰከርን ሁሉን ብናጣም ሞታችንን በሞቱ ድል የነሣልንን የሚቃወመንን ጠላታችንን በመስቀል ላይ ተሰቅሎ ያስወገደልንን፣ እረፍትና ሰላም የሰጠንን፣ ጨለማውን ገፎ ብርሐንን ያጐናፀፈንን፣ ያለፈውን ታሪካችንን በነበር ላስቀረልን ምስክሮች እንሁን።" }
+        }
+      },
       "Address": {
         "required": ["street", "city", "country"],
         "type": "object",

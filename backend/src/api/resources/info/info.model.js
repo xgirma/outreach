@@ -5,7 +5,6 @@ export const schema = {
   _id: {
     type: Number,
     default: 2,
-    enum: [1, 2],
   },
   am: {
     name: { type: String, required: [true, 'Info must have a church name'], maxlength: 200 },
