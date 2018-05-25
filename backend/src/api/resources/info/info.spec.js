@@ -10,4 +10,5 @@ const params = {
 const updateResource = churchInfo();
 updateResource._id = 1000;
 
+
 createApiSpec(Info, 'info', newResource, params, updateResource);

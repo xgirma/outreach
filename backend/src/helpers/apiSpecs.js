@@ -40,6 +40,8 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
     describe(`GET /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
         const find = await chai.request(app).get(`/api/v1/${resourceName}/${params.id}`);
+        
+        console.log('find: ', find);
 
         expect(find).to.have.status(200);
         expect(find).to.be.json;
@@ -52,6 +54,8 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
           .request(app)
           .put(`/api/v1/${resourceName}/${params.id}`)
           .send(updateResource);
+        
+        // console.log('change: ', change);
 
         expect(change).to.have.status(201);
         expect(change).to.be.json;
@@ -60,10 +64,12 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
 
     describe(`DELETE /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
-        const find = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
+        const remove = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
+        
+        // console.log('remove: ', remove);
 
-        expect(find).to.have.status(201);
-        expect(find).to.be.json;
+        expect(remove).to.have.status(201);
+        expect(remove).to.be.json;
       });
     });
   });
