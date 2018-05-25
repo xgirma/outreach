@@ -1,10 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import churchInfo from '../../src/helpers/faker';
+import churchInfo from '../../src/helpers/faker.info';
 
 require('dotenv').config();
 
 const url = `${process.env.HOST}:${process.env.PORT}/${process.env.BASE_PATH}`;
+
 chai.use(chaiHttp);
 
 describe('info', () => {

@@ -3,6 +3,7 @@ import merge from 'lodash.merge';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const env = process.env.NODE_ENV;
+console.log('env', env);
 const baseConfig = {
   port: process.env.PORT,
   secrets: {},

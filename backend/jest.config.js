@@ -12,15 +12,17 @@ module.exports = {
     '!**/dist/**',
     '!.eslintrc.js',
     '!.prettierrc.js',
+    '!webpack.config.js',
+    '!jest.config.js',
     '!**/resources/**/index.js',
+    '!**/src/config/**',
   ],
   coverageThreshold: {
     global: {
-      statements: 1,
-      branches: 0,
-      functions: 1,
-      lines: 1,
+      statements: 50,
+      branches: 50,
+      functions: 50,
+      lines: 50,
     },
   },
-  testPathIgnorePatterns: ['./src'],
 };

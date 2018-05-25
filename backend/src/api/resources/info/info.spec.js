@@ -1,5 +1,5 @@
 import createApiSpec from '../../../helpers/apiSpecs';
-import churchInfo from '../../../helpers/faker';
+import churchInfo from '../../../helpers/faker.info';
 import { Info } from './info.model';
 
 const newResource = churchInfo();
@@ -9,6 +9,5 @@ const params = {
 };
 const updateResource = churchInfo();
 updateResource._id = 1000;
-
 
 createApiSpec(Info, 'info', newResource, params, updateResource);

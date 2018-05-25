@@ -1,21 +1,12 @@
 /* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
-import { dropDb } from './db';
 import app from '../../src/server';
 
 chai.use(chaiHttp);
 
 const createApiSpec = (MongooseModel, resourceName, newResource, params, updateResource) => {
   describe(`/${resourceName}`, () => {
-    before(async () => {
-      await dropDb();
-    });
-
-    after(async () => {
-      await dropDb();
-    });
-
     describe(`POST /${resourceName}`, () => {
       it(`should post ${resourceName}`, async () => {
         const create = await chai
@@ -40,8 +31,6 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
     describe(`GET /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
         const find = await chai.request(app).get(`/api/v1/${resourceName}/${params.id}`);
-        
-        console.log('find: ', find);
 
         expect(find).to.have.status(200);
         expect(find).to.be.json;
@@ -54,8 +43,6 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
           .request(app)
           .put(`/api/v1/${resourceName}/${params.id}`)
           .send(updateResource);
-        
-        // console.log('change: ', change);
 
         expect(change).to.have.status(201);
         expect(change).to.be.json;
@@ -65,8 +52,6 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
     describe(`DELETE /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
         const remove = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
-        
-        // console.log('remove: ', remove);
 
         expect(remove).to.have.status(201);
         expect(remove).to.be.json;
