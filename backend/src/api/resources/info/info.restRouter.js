@@ -1,7 +1,7 @@
 import express from 'express';
 import infoController from './info.controller';
 
-export const infoRouter = express.Router();
+const infoRouter = express.Router();
 
 infoRouter.param('id', infoController.findByParam);
 
@@ -15,3 +15,5 @@ infoRouter
   .get(infoController.getOne)
   .put(infoController.updateOne)
   .delete(infoController.deleteOne);
+
+export default infoRouter;

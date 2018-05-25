@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import createApiSpec from '../../../helpers/apiSpecs';
 import churchIntro from '../../../helpers/faker.intro';
 import { Intro } from './intro.model';

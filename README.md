@@ -53,3 +53,5 @@ Blog
 + error handling fro query methods, now all return 500. Sad.
 
 - https://stmaryeotctoronto.com/am/fast-feasts/
+
+- check if you can transport morgan and stop using winston

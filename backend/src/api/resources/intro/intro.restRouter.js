@@ -1,7 +1,7 @@
 import express from 'express';
 import introController from './intro.controller';
 
-export const introRouter = express.Router();
+const introRouter = express.Router();
 
 introRouter.param('id', introController.findByParam);
 
@@ -15,3 +15,5 @@ introRouter
   .get(introController.getOne)
   .put(introController.updateOne)
   .delete(introController.deleteOne);
+
+export default introRouter;

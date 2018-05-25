@@ -2,8 +2,8 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import mongoose from 'mongoose';
 import { restRouter } from './api';
-import { connect } from './db';
-import { apiErrorHandler } from './api/modules/errorHandler';
+import connect from './db';
+import apiErrorHandler from './api/modules/errorHandler';
 import { NOTFUD } from './api/docs/error.codes';
 import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
@@ -37,7 +37,7 @@ mongoose.connection.on('disconnected', () => {
 
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
-    console.debug('Mongoose default connection is disconnected due to application termination');
+    logger.debug('Mongoose default connection is disconnected due to application termination');
     process.exit(0);
   });
 });

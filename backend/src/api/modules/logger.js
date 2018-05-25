@@ -1,6 +1,7 @@
 import winston from 'winston';
 import moment from 'moment';
 
+// eslint-disable-next-line
 const { MongoDB } = require('winston-mongodb');
 require('dotenv').config();
 

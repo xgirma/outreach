@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import merge from 'lodash.merge';
 import { NOTFUD } from '../docs/error.codes';
 
@@ -38,7 +39,7 @@ export const createOne = (model) => (req, res, next) => {
     .catch((error) => setImmediate(() => next(error)));
 };
 
-export const updateOne = (model) => async (req, res, next) => {
+export const updateOne = () => async (req, res, next) => {
   const docToUpdate = req.docFromId;
   const update = req.body;
 
@@ -48,13 +49,13 @@ export const updateOne = (model) => async (req, res, next) => {
     .catch((error) => setImmediate(() => next(error)));
 };
 
-export const deleteOne = (model) => (req, res, next) =>
+export const deleteOne = () => (req, res, next) =>
   controllers
     .deleteOne(req.docFromId)
     .then((doc) => res.status(201).json(doc))
     .catch((error) => setImmediate(() => next(error)));
 
-export const getOne = (model) => (req, res, next) =>
+export const getOne = () => (req, res, next) =>
   controllers
     .getOne(req.docFromId)
     .then((doc) => res.status(200).json(doc))

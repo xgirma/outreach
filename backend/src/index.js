@@ -1,11 +1,12 @@
-import { createServer } from 'http';
+import http from 'http';
 import app from './server';
+import logger from './api/modules/logger';
 
-const server = createServer(app);
+const server = http.createServer(app);
 let currentApp = app;
 
 server.listen(process.env.PORT, () => {
-  console.log(`Server listening on port ${process.env.PORT}`);
+  logger.info(`Server listening on port ${process.env.PORT}`);
 });
 
 if (module.hot) {
