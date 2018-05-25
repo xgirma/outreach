@@ -359,6 +359,153 @@
           }
         }
       }
+    },
+    "/intro/{id}": {
+      "get": {
+        "tags": ["Intro"],
+        "description": "Return a home page main content by ID",
+        "summary": "Returns a home page main content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Intro ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Intro"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Intro"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Intro"],
+        "description": "Updates a home page main content by ID",
+        "summary": "Updates a home page main content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4000"
+          }
+        ],
+        "requestBody": {
+          "description": "Home page content to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/Intro"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/Intro"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Intro"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Intro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Intro"],
+        "description": "Deletes a home page main content matches an ID",
+        "summary": "Deletes a home page main content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted a home page main content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/ChurchInfo"
+                      },
+                      "_id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 1000000,
+                        "description": "ID",
+                        "example": "4000"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

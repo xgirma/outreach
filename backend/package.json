@@ -6,14 +6,17 @@
   "scripts": {
     "test": "jest --verbose --coverage",
     "test:watch": "jest --watch --coverage",
-    "test:unit":
-      "NODE_ENV=test rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js --webpack-env test \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register",
+    "test:unit": "NODE_ENV=test rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.testing.js --webpack-env test \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --arrow-parens always --write \"./**/*.{js,json}\"",
     "precommit": "lint-staged husky --dev",
     "start:dev": "./node_modules/.bin/webpack --colors --progress"
   },
-  "keywords": ["church", "Ethiopia", "orthodox"],
+  "keywords": [
+    "church",
+    "Ethiopia",
+    "orthodox"
+  ],
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -33,7 +36,10 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": ["npm run pretty", "npm run lint"]
+    "*": [
+      "npm run pretty",
+      "npm run lint"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
