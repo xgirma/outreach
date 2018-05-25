@@ -55,3 +55,5 @@ Blog
 - https://stmaryeotctoronto.com/am/fast-feasts/
 
 - check if you can transport morgan and stop using winston
+
+- https://facebook.github.io/jest/docs/en/mongodb.html --detectOpenHandles
