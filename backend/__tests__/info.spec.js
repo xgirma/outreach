@@ -84,7 +84,7 @@ describe('info', () => {
 
   test('PUT /info/{id}: invalid schema', async () => {
     const requestBody = churchInfo();
-    requestBody.am.email = 'infoatgedam.org';
+    requestBody.email = 'infoatgedam.org';
     const result = await chai
       .request(url)
       .put(`/info/${data._id}`)
