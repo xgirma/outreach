@@ -47,6 +47,15 @@
                       "en": {
                         "$ref": "#/components/schemas/ChurchInfo"
                       },
+                      "phone": {
+                        "$ref": "#/components/parameters/phone"
+                      },
+                      "email": {
+                        "$ref": "#/components/parameters/email"
+                      },
+                      "address": {
+                        "$ref": "#/components/schemas/Address"
+                      },
                       "_id": {
                         "$ref": "#/components/parameters/_id"
                       }
@@ -76,13 +85,17 @@
                   "en": {
                     "$ref": "#/components/schemas/ChurchInfo"
                   },
+                  "phone": {
+                    "$ref": "#/components/parameters/phone"
+                  },
+                  "email": {
+                    "$ref": "#/components/parameters/email"
+                  },
+                  "address": {
+                    "$ref": "#/components/schemas/Address"
+                  },
                   "_id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "minimum": 0,
-                    "maximum": 1000000,
-                    "description": "ID",
-                    "example": "1234"
+                    "$ref": "#/components/parameters/_id"
                   }
                 }
               }
@@ -103,13 +116,17 @@
                     "en": {
                       "$ref": "#/components/schemas/ChurchInfo"
                     },
+                    "phone": {
+                      "$ref": "#/components/parameters/phone"
+                    },
+                    "email": {
+                      "$ref": "#/components/parameters/email"
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/Address"
+                    },
                     "_id": {
-                      "type": "integer",
-                      "format": "int32",
-                      "minimum": 0,
-                      "maximum": 1000000,
-                      "description": "ID",
-                      "example": "1234"
+                      "$ref": "#/components/parameters/_id"
                     }
                   }
                 }
@@ -150,6 +167,15 @@
                     "en": {
                       "$ref": "#/components/schemas/ChurchInfo"
                     },
+                    "phone": {
+                      "$ref": "#/components/parameters/phone"
+                    },
+                    "email": {
+                      "$ref": "#/components/parameters/email"
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/Address"
+                    },
                     "_id": {
                       "$ref": "#/components/parameters/_id"
                     }
@@ -173,7 +199,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "4"
+            "example": "1234"
           }
         ],
         "requestBody": {
@@ -189,6 +215,15 @@
                   },
                   "en": {
                     "$ref": "#/components/schemas/ChurchInfo"
+                  },
+                  "phone": {
+                    "$ref": "#/components/parameters/phone"
+                  },
+                  "email": {
+                    "$ref": "#/components/parameters/email"
+                  },
+                  "address": {
+                    "$ref": "#/components/schemas/Address"
                   }
                 }
               }
@@ -208,6 +243,18 @@
                     },
                     "en": {
                       "$ref": "#/components/schemas/ChurchInfo"
+                    },
+                    "phone": {
+                      "$ref": "#/components/parameters/phone"
+                    },
+                    "email": {
+                      "$ref": "#/components/parameters/email"
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/Address"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
                     }
                   }
                 }
@@ -249,13 +296,17 @@
                       "en": {
                         "$ref": "#/components/schemas/ChurchInfo"
                       },
+                      "phone": {
+                        "$ref": "#/components/parameters/phone"
+                      },
+                      "email": {
+                        "$ref": "#/components/parameters/email"
+                      },
+                      "address": {
+                        "$ref": "#/components/schemas/Address"
+                      },
                       "_id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "maximum": 1000000,
-                        "description": "ID",
-                        "example": "1234"
+                        "$ref": "#/components/parameters/_id"
                       }
                     }
                   }
@@ -804,10 +855,6 @@
             "maxLength": 100,
             "description": "Church denomination",
             "example": "Ethiopian Orthodox Tewahedo Church"
-          },
-          "phone": { "$ref": "#/components/parameters/phone" },
-          "email": {
-            "$ref": "#/components/parameters/email"
           }
         }
       },
@@ -834,13 +881,6 @@
         "type": "object",
         "allOf": [
           { "$ref": "#/components/schemas/BasicInfo" },
-          {
-            "properties": {
-              "address": {
-                "$ref": "#/components/schemas/Address"
-              }
-            }
-          },
           {
             "properties": {
               "bible": {

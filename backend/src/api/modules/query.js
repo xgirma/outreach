@@ -110,7 +110,7 @@ export const findByIdParam = (model) => (req, res, next, id) =>
 
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
-    findByParam: findByIdParam(model),
+    findByIdParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
     getPast: getPast(model),

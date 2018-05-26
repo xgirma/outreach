@@ -4,7 +4,6 @@ import eventController from './event.controller';
 const eventRouter = express.Router();
 
 eventRouter.param('id', eventController.findByIdParam);
-eventRouter.param('date', eventController.findByDateParam);
 
 eventRouter
   .route('/')
