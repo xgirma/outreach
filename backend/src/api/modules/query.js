@@ -27,7 +27,7 @@ export const controllers = {
   getPast(model) {
     return model.find({});
   },
-  
+
   getFuture(model) {
     return model.find({});
   },
@@ -82,7 +82,6 @@ export const getAll = (model) => (req, res, next) =>
     .catch((error) => setImmediate(() => next(error)));
 
 export const getPast = (model) => (req, res, next) => {
-  console.log('here @ past ....');
   controllers
     .getPast(model)
     .then((docs) => res.status(200).json(docs))
@@ -90,7 +89,6 @@ export const getPast = (model) => (req, res, next) => {
 };
 
 export const getFuture = (model) => (req, res, next) => {
-  console.log('here @ getFuture ....');
   controllers
     .getFuture(model)
     .then((docs) => res.status(200).json(docs))
