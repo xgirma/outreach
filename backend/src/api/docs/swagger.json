@@ -410,7 +410,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Info ID",
+            "description": "Intro ID",
             "schema": {
               "type": "string"
             },
@@ -466,7 +466,7 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Info ID",
+            "description": "Intro ID",
             "schema": {
               "type": "string"
             },
@@ -485,18 +485,241 @@
                     "properties": {
                       "type": "object",
                       "am": {
-                        "$ref": "#/components/schemas/ChurchInfo"
+                        "$ref": "#/components/schemas/Intro"
                       },
                       "en": {
-                        "$ref": "#/components/schemas/ChurchInfo"
+                        "$ref": "#/components/schemas/Intro"
                       },
                       "_id": {
-                        "type": "integer",
-                        "format": "int32",
-                        "minimum": 0,
-                        "maximum": 1000000,
-                        "description": "ID",
-                        "example": "1234"
+                        "$ref": "#/components/parameters/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event": {
+      "get": {
+        "tags": ["Event"],
+        "description": "Event details",
+        "summary": "Returns event details",
+        "responses": {
+          "200": {
+            "description": "Event detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/Event"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/Event"
+                      },
+                      "_id": {
+                        "$ref": "#/components/parameters/_id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Event"],
+        "description": "Add event",
+        "summary": "Add event",
+        "requestBody": {
+          "description": "Event to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/Event"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/Event"
+                  },
+                  "_id": {
+                    "$ref": "#/components/parameters/_id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/{id}": {
+      "get": {
+        "tags": ["Event"],
+        "description": "Return event by ID",
+        "summary": "Returns event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Event ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Event"],
+        "description": "Updates event by ID",
+        "summary": "Updates event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Event ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234"
+          }
+        ],
+        "requestBody": {
+          "description": "Event update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": {
+                    "$ref": "#/components/schemas/Event"
+                  },
+                  "en": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "en": {
+                      "$ref": "#/components/schemas/Event"
+                    },
+                    "_id": {
+                      "$ref": "#/components/parameters/_id"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Event"],
+        "description": "Deletes event by ID",
+        "summary": "Deletes event",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Event ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted event",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": {
+                        "$ref": "#/components/schemas/Event"
+                      },
+                      "en": {
+                        "$ref": "#/components/schemas/Event"
+                      },
+                      "_id": {
+                        "$ref": "#/components/schemas/_id"
                       }
                     }
                   }
@@ -519,7 +742,7 @@
             "maxLength": 200,
             "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
           },
-          "date": { "type": "string", "format": "date", "example": "11/20/2017 04:11" },
+          "date": { "$ref": "#/components/parameters/date" },
           "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
           "intro": {
             "type": "string",
@@ -582,17 +805,9 @@
             "description": "Church denomination",
             "example": "Ethiopian Orthodox Tewahedo Church"
           },
-          "phone": {
-            "type": "string",
-            "maxLength": 20,
-            "description": "Church main contact phone number",
-            "example": "(425) 329 - 9092"
-          },
+          "phone": { "$ref": "#/components/parameters/phone" },
           "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Church main contact email",
-            "example": "info@gedam.org"
+            "$ref": "#/components/parameters/phone"
           }
         }
       },
@@ -634,6 +849,29 @@
             }
           }
         ]
+      },
+      "Event": {
+        "required": ["title", "date", "phone"],
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "maxLength": 200, "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
+          "date": {
+            "properties": {
+              "from": { "$ref": "#/components/parameters/date" },
+              "to": { "$ref": "#/components/parameters/date" }
+            }
+          },
+          "description": {
+            "type": "string",
+            "example":
+              "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "email": { "$ref": "#/components/parameters/email" },
+          "phone": { "$ref": "#/components/parameters/phone" }
+        }
       }
     },
     "parameters": {
@@ -644,6 +882,23 @@
         "maximum": 1000000,
         "description": "ID",
         "example": "1234"
+      },
+      "date": {
+        "type": "string",
+        "format": "date",
+        "example": "11/20/2017 04:11"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "Church main contact email",
+        "example": "info@gedam.org"
+      },
+      "phone": {
+        "type": "string",
+        "maxLength": 20,
+        "description": "Church main contact phone number",
+        "example": "(425) 329 - 9092"
       }
     }
   }

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import createApiSpec from '../../../helpers/apiSpecs';
-import churchEvent from '../../../helpers/faker.intro';
+import churchEvent from '../../../helpers/faker.event';
 import { Event } from './event.model';
 
 const newResource = churchEvent();
@@ -11,4 +11,4 @@ const params = {
 const updateResource = churchEvent();
 updateResource._id = 1000;
 
-createApiSpec(Event, 'intro', newResource, params, updateResource);
+createApiSpec(Event, 'event', newResource, params, updateResource);

@@ -4,10 +4,10 @@ import { isEmail } from 'validator';
 export const schema = {
   _id: {
     type: Number,
-    default: 100,
+    default: 202020,
   },
   am: {
-    title: { type: String, maxlength: 200 },
+    title: { type: String, maxlength: 200, required: [true, 'Event must have a title'] },
     date: {
       from: { type: String },
       to: { type: String },
@@ -24,13 +24,12 @@ export const schema = {
       type: String,
       trim: true,
       lowercase: true,
-      required: [true, 'Event must have an email'],
       validate: [isEmail, 'Invalid email'],
     },
     phone: { type: String, required: [true, 'Event must have a phone'] },
   },
   en: {
-    title: { type: String, maxlength: 200 },
+    title: { type: String, maxlength: 200, required: [true, 'Event must have a title'] },
     date: {
       from: { type: String },
       to: { type: String },
@@ -47,7 +46,6 @@ export const schema = {
       type: String,
       trim: true,
       lowercase: true,
-      required: [true, 'Event must have an email'],
       validate: [isEmail, 'Invalid email'],
     },
     phone: { type: String, required: [true, 'Event must have a phone'] },
