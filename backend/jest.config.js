@@ -4,7 +4,7 @@ module.exports = {
   displayName: 'server',
   testEnvironment: 'node',
   coverageDirectory: './coverage',
-  transform: { '.*': '<rootDir>/node_modules/babel-jest' },
+  transform: { '^.+\\.jsx?$': 'babel-jest' },
   collectCoverageFrom: [
     '**/*.{js,jsx}',
     '!**/node_modules/**',
