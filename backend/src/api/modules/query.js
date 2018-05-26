@@ -24,6 +24,14 @@ export const controllers = {
     return model.find({});
   },
 
+  getPast(model) {
+    return model.find({});
+  },
+  
+  getFuture(model) {
+    return model.find({});
+  },
+
   findByParam(model, id) {
     if (Number.isInteger(Number(id))) {
       return model.findById(id);
@@ -70,10 +78,26 @@ export const getOne = () => (req, res, next) =>
 export const getAll = (model) => (req, res, next) =>
   controllers
     .getAll(model)
-    .then((docs) => res.json(docs))
+    .then((docs) => res.status(200).json(docs))
     .catch((error) => setImmediate(() => next(error)));
 
-export const findByParam = (model) => (req, res, next, id) =>
+export const getPast = (model) => (req, res, next) => {
+  console.log('here @ past ....');
+  controllers
+    .getPast(model)
+    .then((docs) => res.status(200).json(docs))
+    .catch((error) => setImmediate(() => next(error)));
+};
+
+export const getFuture = (model) => (req, res, next) => {
+  console.log('here @ getFuture ....');
+  controllers
+    .getFuture(model)
+    .then((docs) => res.status(200).json(docs))
+    .catch((error) => setImmediate(() => next(error)));
+};
+
+export const findByIdParam = (model) => (req, res, next, id) =>
   controllers
     .findByParam(model, id)
     .then((doc) => {
@@ -88,9 +112,11 @@ export const findByParam = (model) => (req, res, next, id) =>
 
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
-    findByParam: findByParam(model),
+    findByParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
+    getPast: getPast(model),
+    getFuture: getFuture(model),
     deleteOne: deleteOne(model),
     updateOne: updateOne(model),
     createOne: createOne(model),

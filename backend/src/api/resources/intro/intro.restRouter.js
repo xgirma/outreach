@@ -3,7 +3,7 @@ import introController from './intro.controller';
 
 const introRouter = express.Router();
 
-introRouter.param('id', introController.findByParam);
+introRouter.param('id', introController.findByIdParam);
 
 introRouter
   .route('/')

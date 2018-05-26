@@ -3,7 +3,7 @@ import infoController from './info.controller';
 
 const infoRouter = express.Router();
 
-infoRouter.param('id', infoController.findByParam);
+infoRouter.param('id', infoController.findByIdParam);
 
 infoRouter
   .route('/')
