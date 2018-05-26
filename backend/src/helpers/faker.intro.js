@@ -5,13 +5,13 @@ const churchIntro = () =>
     _id: 400,
     am: {
       title: faker.lorem.words(),
-      date: Date.now(),
+      date: faker.date.recent(),
       author: faker.name.firstName(),
       intro: faker.lorem.paragraphs(),
     },
     en: {
       title: faker.lorem.words(),
-      date: Date.now(),
+      date: faker.date.recent(),
       author: faker.name.firstName(),
       intro: faker.lorem.paragraphs(),
     },
