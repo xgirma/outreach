@@ -1,6 +1,6 @@
 /* eslint-disable arrow-parens */
 import merge from 'lodash.merge';
-import { NOTFUD } from '../docs/error.codes';
+import { NOTFUD, MDUERR } from '../docs/error.codes';
 
 export const controllers = {
   createOne(model, body) {
@@ -36,7 +36,13 @@ export const createOne = (model) => (req, res, next) => {
   controllers
     .createOne(model, req.body)
     .then((doc) => res.status(201).json(doc))
-    .catch((error) => setImmediate(() => next(error)));
+    .catch((error) => {
+      if (error.code === 11000) {
+        setImmediate(() => next(MDUERR));
+      } else {
+        setImmediate(() => next(error));
+      }
+    });
 };
 
 export const updateOne = () => async (req, res, next) => {

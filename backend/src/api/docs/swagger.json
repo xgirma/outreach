@@ -807,7 +807,7 @@
           },
           "phone": { "$ref": "#/components/parameters/phone" },
           "email": {
-            "$ref": "#/components/parameters/phone"
+            "$ref": "#/components/parameters/email"
           }
         }
       },
@@ -886,7 +886,7 @@
       "date": {
         "type": "string",
         "format": "date",
-        "example": "11/20/2017 04:11"
+        "example": "2018-09-07T10:40:52Z"
       },
       "email": {
         "type": "string",
