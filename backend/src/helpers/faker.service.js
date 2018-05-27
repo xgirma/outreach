@@ -5,16 +5,16 @@ const churchService = () =>
     _id: 400,
     am: {
       title: faker.lorem.words(),
-      date: faker.date.recent(),
+      description: faker.lorem.paragraphs(),
       author: faker.name.firstName(),
-      intro: faker.lorem.paragraphs(),
     },
     en: {
       title: faker.lorem.words(),
-      date: faker.date.recent(),
+      description: faker.lorem.paragraphs(),
       author: faker.name.firstName(),
-      intro: faker.lorem.paragraphs(),
     },
+    phone: faker.phone.phoneNumber(),
+    email: faker.internet.email().toLowerCase(),
   });
 
 export default churchService;
