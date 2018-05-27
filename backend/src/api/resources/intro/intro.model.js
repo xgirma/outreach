@@ -21,7 +21,7 @@ export const schema = {
       required: [true, 'Introduction/main matter is missing'],
     },
   },
-  date: { type: Date, default: Date.now },
+  date_start: { type: Date, default: Date.now, index: true },
 };
 
 const introSchema = new mongoose.Schema(schema);

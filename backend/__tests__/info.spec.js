@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai';
+import chai from 'chai';
 import chaiHttp from 'chai-http';
 import churchInfo from '../src/helpers/faker.info';
 import { internalServerError, notFound, ok, created, badRequest } from '../src/helpers/assertions';

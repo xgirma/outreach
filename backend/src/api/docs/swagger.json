@@ -501,6 +501,64 @@
         }
       }
     },
+    "/event/past": {
+      "get": {
+        "tags": ["Event"],
+        "description": "Return past event",
+        "summary": "Returns past event",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Event" },
+                    "en": { "$ref": "#/components/schemas/Event" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event/future": {
+      "get": {
+        "tags": ["Event"],
+        "description": "Return future event",
+        "summary": "Returns past event",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Event" },
+                    "en": { "$ref": "#/components/schemas/Event" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/event/{id}": {
       "get": {
         "tags": ["Event"],
