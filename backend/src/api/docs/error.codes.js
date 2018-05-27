@@ -20,20 +20,6 @@ export const MCOERR = {
   meta: {},
 };
 
-export const MDUERR = {
-  id: 5003,
-  links: {
-    about: 'https://docs.mongodb.com/manual/core/index-unique/#unique-index-and-missing-field',
-  },
-  status: 500,
-  code: 'MDUERR',
-  title: 'Mongo duplicate key error',
-  message:
-    'The operation fails to insert the document because of the violation of the unique constraint on the value of the field.',
-  source: { pointer: '', parameter: '' },
-  meta: {},
-};
-
 export const BADREQ = {
   id: 4001,
   links: { about: 'https://tools.ietf.org/html/rfc7231#section-6.5.1' },
@@ -54,6 +40,20 @@ export const NOTFUD = {
   title: 'Resource not found.',
   message:
     'The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.',
+  source: { pointer: '', parameter: '' },
+  meta: {},
+};
+
+export const MDUERR = {
+  id: 4003,
+  links: {
+    about: 'https://docs.mongodb.com/manual/core/index-unique/#unique-index-and-missing-field',
+  },
+  status: 400,
+  code: 'MDUERR',
+  title: 'Mongo duplicate key error',
+  message:
+    'The operation fails to insert the document because of the violation of the unique constraint on the value of the field.',
   source: { pointer: '', parameter: '' },
   meta: {},
 };

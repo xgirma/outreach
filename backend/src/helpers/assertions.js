@@ -9,6 +9,12 @@ export const internalServerError = (result) => {
   jsonContent(result);
 };
 
+export const badRequest = (result) => {
+  expect(result).to.have.status(400);
+  expect(result.body.data).to.equal(undefined);
+  jsonContent(result);
+};
+
 export const notFound = (result) => {
   expect(result).to.have.status(404);
   expect(result.body.data).to.equal(undefined);

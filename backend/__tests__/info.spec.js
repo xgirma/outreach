@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import churchInfo from '../src/helpers/faker.info';
-import { internalServerError, notFound, ok, created } from '../src/helpers/assertions';
+import { internalServerError, notFound, ok, created, badRequest } from '../src/helpers/assertions';
 
 require('dotenv').config();
 
@@ -29,8 +29,8 @@ describe('info', () => {
       .request(url)
       .post('/info')
       .send(requestBody);
-
-    internalServerError(result);
+  
+    badRequest(result);
   });
 
   test('GET /info', async () => {
