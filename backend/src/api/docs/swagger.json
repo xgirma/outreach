@@ -111,9 +111,7 @@
             "in": "path",
             "required": true,
             "description": "Info ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -148,9 +146,7 @@
             "in": "path",
             "required": true,
             "description": "Info ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -203,9 +199,7 @@
             "in": "path",
             "required": true,
             "description": "Info ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -315,9 +309,7 @@
             "in": "path",
             "required": true,
             "description": "Intro ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -401,9 +393,7 @@
             "in": "path",
             "required": true,
             "description": "Intro ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -447,15 +437,14 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/Event"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/Event"
-                      },
-                      "_id": {
-                        "$ref": "#/components/parameters/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/Event" },
+                      "en": { "$ref": "#/components/schemas/Event" },
+                      "address": { "$ref": "#/components/schemas/Address" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "date_end": { "$ref": "#/components/parameters/date" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -475,15 +464,14 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/Event"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/Event"
-                  },
-                  "_id": {
-                    "$ref": "#/components/parameters/_id"
-                  }
+                  "am": { "$ref": "#/components/schemas/Event" },
+                  "en": { "$ref": "#/components/schemas/Event" },
+                  "address": { "$ref": "#/components/schemas/Address" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "date_end": { "$ref": "#/components/parameters/date" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
                 }
               }
             }
@@ -497,15 +485,14 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/Event" },
+                    "en": { "$ref": "#/components/schemas/Event" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -525,9 +512,7 @@
             "in": "path",
             "required": true,
             "description": "Event ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -541,6 +526,11 @@
                     "type": "object",
                     "am": { "$ref": "#/components/schemas/Event" },
                     "en": { "$ref": "#/components/schemas/Event" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "date_end": { "$ref": "#/components/parameters/date" },
                     "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
@@ -559,9 +549,7 @@
             "in": "path",
             "required": true,
             "description": "Event ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -574,7 +562,12 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Event" },
-                  "en": { "$ref": "#/components/schemas/Event" }
+                  "en": { "$ref": "#/components/schemas/Event" },
+                  "address": { "$ref": "#/components/schemas/Address" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "date_end": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -590,6 +583,11 @@
                     "type": "object",
                     "am": { "$ref": "#/components/schemas/Event" },
                     "en": { "$ref": "#/components/schemas/Event" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "date_end": { "$ref": "#/components/parameters/date" },
                     "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
@@ -608,9 +606,7 @@
             "in": "path",
             "required": true,
             "description": "Event ID",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "example": "1234"
           }
         ],
@@ -627,6 +623,11 @@
                       "type": "object",
                       "am": { "$ref": "#/components/schemas/Event" },
                       "en": { "$ref": "#/components/schemas/Event" },
+                      "address": { "$ref": "#/components/schemas/Address" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "date_end": { "$ref": "#/components/parameters/date" },
                       "_id": { "$ref": "#/components/schemas/_id" }
                     }
                   }
@@ -736,36 +737,19 @@
         "type": "object",
         "allOf": [
           { "$ref": "#/components/schemas/BasicInfo" },
-          {
-            "properties": {
-              "bible": {
-                "$ref": "#/components/schemas/Bible"
-              }
-            }
-          }
+          { "properties": { "bible": { "$ref": "#/components/schemas/Bible" } } }
         ]
       },
       "Event": {
-        "required": ["title", "date", "phone"],
+        "required": ["title", "description"],
         "type": "object",
         "properties": {
           "title": { "type": "string", "maxLength": 200, "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
-          "date": {
-            "properties": {
-              "from": { "$ref": "#/components/parameters/date" },
-              "to": { "$ref": "#/components/parameters/date" }
-            }
-          },
           "description": {
             "type": "string",
             "example":
               "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
-          },
-          "address": {
-            "$ref": "#/components/schemas/Address"
-          },
-          "email": { "$ref": "#/components/parameters/email" },
-          "phone": { "$ref": "#/components/parameters/phone" }
+          }
         }
       }
     },
@@ -778,11 +762,7 @@
         "description": "ID",
         "example": "1234"
       },
-      "date": {
-        "type": "string",
-        "format": "date",
-        "example": "2018-09-07T10:40:52Z"
-      },
+      "date": { "type": "string", "format": "date-time" },
       "email": {
         "type": "string",
         "format": "email",

@@ -10,15 +10,6 @@ const churchEvent = () =>
         to: faker.date.future(),
       },
       description: faker.lorem.paragraphs(),
-      address: {
-        street: faker.address.streetAddress(),
-        city: faker.address.city(),
-        state: faker.address.state(),
-        zip: faker.address.zipCode(),
-        country: faker.address.country(),
-      },
-      phone: faker.phone.phoneNumber(),
-      email: faker.internet.email().toLowerCase(),
     },
     en: {
       title: faker.lorem.words(),
@@ -27,16 +18,16 @@ const churchEvent = () =>
         to: faker.date.future(),
       },
       description: faker.lorem.paragraphs(),
-      address: {
-        street: faker.address.streetAddress(),
-        city: faker.address.city(),
-        state: faker.address.state(),
-        zip: faker.address.zipCode(),
-        country: faker.address.country(),
-      },
-      phone: faker.phone.phoneNumber(),
-      email: faker.internet.email().toLowerCase(),
     },
+    address: {
+      street: faker.address.streetAddress(),
+      city: faker.address.city(),
+      state: faker.address.state(),
+      zip: faker.address.zipCode(),
+      country: faker.address.country(),
+    },
+    phone: faker.phone.phoneNumber(),
+    email: faker.internet.email().toLowerCase(),
   });
 
 export default churchEvent;
