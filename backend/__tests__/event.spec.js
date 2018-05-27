@@ -17,46 +17,46 @@ describe('event', () => {
       .request(url)
       .post('/event')
       .send(data);
-    
+
     created(result);
   });
-  
+
   test('GET /event', async () => {
     const result = await chai.request(url).get('/event');
-    
+
     ok(result);
   });
-  
+
   test('GET /event/{id}', async () => {
     const result = await chai.request(url).get(`/event/${data._id}`);
-    
+
     ok(result);
   });
-  
+
   test('GET /event/{id}: non existing', async () => {
     const result = await chai.request(url).get(`/event/${badId}`);
-    
+
     notFound(result);
   });
-  
+
   test('PUT /event/{id}', async () => {
     const result = await chai
       .request(url)
       .put(`/event/${data._id}`)
       .send(churchEvent());
-    
+
     created(result);
   });
-  
+
   test('DELETE /event/{id}', async () => {
     const result = await chai.request(url).delete(`/event/${data._id}`);
-    
+
     created(result);
   });
-  
+
   test('DELETE /event/{id}: non existing', async () => {
     const result = await chai.request(url).delete(`/event/${badId}`);
-    
+
     notFound(result);
   });
 });
