@@ -29,7 +29,7 @@ describe('info', () => {
       .request(url)
       .post('/info')
       .send(requestBody);
-  
+
     badRequest(result);
   });
 

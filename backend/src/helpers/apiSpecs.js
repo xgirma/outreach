@@ -13,7 +13,7 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
           .request(app)
           .post(`/api/v1/${resourceName}`)
           .send(newResource);
-  
+
         created(result);
       });
     });
@@ -29,7 +29,7 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
     describe(`GET /${resourceName}/${params.id}`, () => {
       test(`should get ${resourceName} by ${params.id}`, async () => {
         const result = await chai.request(app).get(`/api/v1/${resourceName}/${params.id}`);
-  
+
         ok(result);
       });
     });
@@ -40,7 +40,7 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
           .request(app)
           .put(`/api/v1/${resourceName}/${params.id}`)
           .send(updateResource);
-  
+
         created(result);
       });
     });
@@ -48,7 +48,7 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
     describe(`DELETE /${resourceName}/${params.id}`, () => {
       test(`should get ${resourceName} by ${params.id}`, async () => {
         const result = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
-  
+
         created(result);
       });
     });

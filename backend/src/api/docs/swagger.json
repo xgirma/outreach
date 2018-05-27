@@ -41,24 +41,12 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/ChurchInfo"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/ChurchInfo"
-                      },
-                      "phone": {
-                        "$ref": "#/components/parameters/phone"
-                      },
-                      "email": {
-                        "$ref": "#/components/parameters/email"
-                      },
-                      "address": {
-                        "$ref": "#/components/schemas/Address"
-                      },
-                      "_id": {
-                        "$ref": "#/components/parameters/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "address": { "$ref": "#/components/schemas/Address" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -79,24 +67,12 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/ChurchInfo"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/ChurchInfo"
-                  },
-                  "phone": {
-                    "$ref": "#/components/parameters/phone"
-                  },
-                  "email": {
-                    "$ref": "#/components/parameters/email"
-                  },
-                  "address": {
-                    "$ref": "#/components/schemas/Address"
-                  },
-                  "_id": {
-                    "$ref": "#/components/parameters/_id"
-                  }
+                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "address": { "$ref": "#/components/schemas/Address" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
                 }
               }
             }
@@ -110,24 +86,12 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "phone": {
-                      "$ref": "#/components/parameters/phone"
-                    },
-                    "email": {
-                      "$ref": "#/components/parameters/email"
-                    },
-                    "address": {
-                      "$ref": "#/components/schemas/Address"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -161,24 +125,12 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "phone": {
-                      "$ref": "#/components/parameters/phone"
-                    },
-                    "email": {
-                      "$ref": "#/components/parameters/email"
-                    },
-                    "address": {
-                      "$ref": "#/components/schemas/Address"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -210,21 +162,11 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/ChurchInfo"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/ChurchInfo"
-                  },
-                  "phone": {
-                    "$ref": "#/components/parameters/phone"
-                  },
-                  "email": {
-                    "$ref": "#/components/parameters/email"
-                  },
-                  "address": {
-                    "$ref": "#/components/schemas/Address"
-                  }
+                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "address": { "$ref": "#/components/schemas/Address" }
                 }
               }
             }
@@ -238,24 +180,12 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/ChurchInfo"
-                    },
-                    "phone": {
-                      "$ref": "#/components/parameters/phone"
-                    },
-                    "email": {
-                      "$ref": "#/components/parameters/email"
-                    },
-                    "address": {
-                      "$ref": "#/components/schemas/Address"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "address": { "$ref": "#/components/schemas/Address" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -290,24 +220,12 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/ChurchInfo"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/ChurchInfo"
-                      },
-                      "phone": {
-                        "$ref": "#/components/parameters/phone"
-                      },
-                      "email": {
-                        "$ref": "#/components/parameters/email"
-                      },
-                      "address": {
-                        "$ref": "#/components/schemas/Address"
-                      },
-                      "_id": {
-                        "$ref": "#/components/parameters/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "address": { "$ref": "#/components/schemas/Address" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -333,15 +251,10 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/Intro"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/Intro"
-                      },
-                      "_id": {
-                        "$ref": "#/components/parameters/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/Intro" },
+                      "en": { "$ref": "#/components/schemas/Intro" },
+                      "date": { "$ref": "#/components/parameters/date" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -362,20 +275,10 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/Intro"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/Intro"
-                  },
-                  "_id": {
-                    "type": "integer",
-                    "format": "int32",
-                    "minimum": 0,
-                    "maximum": 1000000,
-                    "description": "ID",
-                    "example": "1234"
-                  }
+                  "am": { "$ref": "#/components/schemas/Intro" },
+                  "en": { "$ref": "#/components/schemas/Intro" },
+                  "date": { "$ref": "#/components/parameters/date" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
                 }
               }
             }
@@ -389,20 +292,10 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Intro"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Intro"
-                    },
-                    "_id": {
-                      "type": "integer",
-                      "format": "int32",
-                      "minimum": 0,
-                      "maximum": 1000000,
-                      "description": "ID",
-                      "example": "1234"
-                    }
+                    "am": { "$ref": "#/components/schemas/Intro" },
+                    "en": { "$ref": "#/components/schemas/Intro" },
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -436,15 +329,10 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Intro"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Intro"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/Intro" },
+                    "en": { "$ref": "#/components/schemas/Intro" },
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -476,12 +364,9 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/Intro"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/Intro"
-                  }
+                  "am": { "$ref": "#/components/schemas/Intro" },
+                  "en": { "$ref": "#/components/schemas/Intro" },
+                  "date": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -495,12 +380,10 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Intro"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Intro"
-                    }
+                    "am": { "$ref": "#/components/schemas/Intro" },
+                    "en": { "$ref": "#/components/schemas/Intro" },
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -535,15 +418,10 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/Intro"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/Intro"
-                      },
-                      "_id": {
-                        "$ref": "#/components/parameters/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/Intro" },
+                      "en": { "$ref": "#/components/schemas/Intro" },
+                      "date": { "$ref": "#/components/parameters/date" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -661,15 +539,9 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/Event" },
+                    "en": { "$ref": "#/components/schemas/Event" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -701,12 +573,8 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": {
-                    "$ref": "#/components/schemas/Event"
-                  },
-                  "en": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "am": { "$ref": "#/components/schemas/Event" },
+                  "en": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -720,15 +588,9 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "en": {
-                      "$ref": "#/components/schemas/Event"
-                    },
-                    "_id": {
-                      "$ref": "#/components/parameters/_id"
-                    }
+                    "am": { "$ref": "#/components/schemas/Event" },
+                    "en": { "$ref": "#/components/schemas/Event" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -763,15 +625,9 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": {
-                        "$ref": "#/components/schemas/Event"
-                      },
-                      "en": {
-                        "$ref": "#/components/schemas/Event"
-                      },
-                      "_id": {
-                        "$ref": "#/components/schemas/_id"
-                      }
+                      "am": { "$ref": "#/components/schemas/Event" },
+                      "en": { "$ref": "#/components/schemas/Event" },
+                      "_id": { "$ref": "#/components/schemas/_id" }
                     }
                   }
                 }
@@ -793,7 +649,6 @@
             "maxLength": 200,
             "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
           },
-          "date": { "$ref": "#/components/parameters/date" },
           "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
           "intro": {
             "type": "string",

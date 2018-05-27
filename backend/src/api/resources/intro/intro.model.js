@@ -7,7 +7,6 @@ export const schema = {
   },
   am: {
     title: { type: String, maxlength: 200 },
-    date: { type: Date, default: Date.now },
     author: { type: String, maxlength: 100 },
     intro: {
       type: String,
@@ -16,13 +15,13 @@ export const schema = {
   },
   en: {
     title: { type: String, maxlength: 200 },
-    date: { type: Date, default: Date.now },
     author: { type: String, maxlength: 100 },
     intro: {
       type: String,
       required: [true, 'Introduction/main matter is missing'],
     },
   },
+  date: { type: Date, default: Date.now },
 };
 
 const introSchema = new mongoose.Schema(schema);
