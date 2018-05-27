@@ -1,6 +1,7 @@
-import chai from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import churchInfo from '../src/helpers/faker.info';
+import { internalServerError, notFound, ok, created } from '../src/helpers/assertions';
 
 require('dotenv').config();
 
@@ -17,11 +18,7 @@ describe('info', () => {
       .post('/info')
       .send(data);
 
-    expect(result.status).toEqual(201);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info`);
-    expect(result.request.method).toEqual('post');
-    expect(result.body.data).not.toEqual({});
+    created(result);
   });
 
   test('POST /info/{id}: invalid schema', async () => {
@@ -33,40 +30,25 @@ describe('info', () => {
       .post('/info')
       .send(requestBody);
 
-    expect(result.status).toEqual(500);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info`);
-    expect(result.request.method).toEqual('post');
+    internalServerError(result);
   });
 
   test('GET /info', async () => {
     const result = await chai.request(url).get('/info');
 
-    expect(result.status).toEqual(200);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info`);
-    expect(result.request.method).toEqual('get');
-    expect(result.body.data).not.toEqual({});
+    ok(result);
   });
 
   test('GET /info/{id}', async () => {
     const result = await chai.request(url).get(`/info/${data._id}`);
 
-    expect(result.status).toEqual(200);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${data._id}`);
-    expect(result.request.method).toEqual('get');
-    expect(result.body.data).not.toEqual({});
+    ok(result);
   });
 
   test('GET /info/{id}: non existing', async () => {
     const result = await chai.request(url).get(`/info/${badId}`);
 
-    expect(result.status).toEqual(404);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${badId}`);
-    expect(result.request.method).toEqual('get');
-    expect(result.body.data).toEqual(undefined);
+    notFound(result);
   });
 
   test('PUT /info/{id}', async () => {
@@ -75,11 +57,7 @@ describe('info', () => {
       .put(`/info/${data._id}`)
       .send(churchInfo());
 
-    expect(result.status).toEqual(201);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${data._id}`);
-    expect(result.request.method).toEqual('put');
-    expect(result.body.data).not.toEqual({});
+    created(result);
   });
 
   test('PUT /info/{id}: invalid schema', async () => {
@@ -90,28 +68,18 @@ describe('info', () => {
       .put(`/info/${data._id}`)
       .send(requestBody);
 
-    expect(result.status).toEqual(500);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${data._id}`);
-    expect(result.request.method).toEqual('put');
+    internalServerError(result);
   });
 
   test('DELETE /info/{id}', async () => {
     const result = await chai.request(url).delete(`/info/${data._id}`);
 
-    expect(result.status).toEqual(201);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${data._id}`);
-    expect(result.request.method).toEqual('delete');
+    created(result);
   });
 
   test('DELETE /info/{id}: non existing', async () => {
     const result = await chai.request(url).delete(`/info/${badId}`);
 
-    expect(result.status).toEqual(404);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/info/${badId}`);
-    expect(result.request.method).toEqual('delete');
-    expect(result.body.data).toEqual(undefined);
+    notFound(result);
   });
 });

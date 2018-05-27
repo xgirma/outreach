@@ -1,5 +1,6 @@
-import chai from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import { notFound } from '../src/helpers/assertions';
 
 require('dotenv').config();
 
@@ -11,20 +12,12 @@ describe('invalid routes', () => {
   test('GET invalid route', async () => {
     const result = await chai.request(url).get('/');
 
-    expect(result.status).toEqual(404);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/`);
-    expect(result.request.method).toEqual('get');
-    expect(result.body.data).toEqual(undefined);
+    notFound(result);
   });
 
   test('GET invalid route', async () => {
     const result = await chai.request(url).get('/api/v1/girma');
 
-    expect(result.status).toEqual(404);
-    expect(result.type).toEqual('application/json');
-    expect(result.request.url).toEqual(`${url}/api/v1/girma`);
-    expect(result.request.method).toEqual('get');
-    expect(result.body.data).toEqual(undefined);
+    notFound(result);
   });
 });

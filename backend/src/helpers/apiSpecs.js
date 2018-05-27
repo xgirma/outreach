@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../src/server';
@@ -9,52 +8,52 @@ const createApiSpec = (MongooseModel, resourceName, newResource, params, updateR
   describe(`/${resourceName}`, () => {
     describe(`POST /${resourceName}`, () => {
       it(`should post ${resourceName}`, async () => {
-        const create = await chai
+        const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName}`)
           .send(newResource);
 
-        expect(create).to.have.status(201);
-        expect(create).to.be.json;
+        expect(result).to.have.status(201);
+        expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
       });
     });
 
     describe(`GET /${resourceName}`, () => {
       it(`should get all ${resourceName}`, async () => {
-        const find = await chai.request(app).get(`/api/v1/${resourceName}`);
+        const result = await chai.request(app).get(`/api/v1/${resourceName}`);
 
-        expect(find).to.have.status(200);
-        expect(find).to.be.json;
+        expect(result).to.have.status(200);
+        expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
       });
     });
 
     describe(`GET /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
-        const find = await chai.request(app).get(`/api/v1/${resourceName}/${params.id}`);
+        const result = await chai.request(app).get(`/api/v1/${resourceName}/${params.id}`);
 
-        expect(find).to.have.status(200);
-        expect(find).to.be.json;
+        expect(result).to.have.status(200);
+        expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
       });
     });
 
     describe(`PUT /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
-        const change = await chai
+        const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName}/${params.id}`)
           .send(updateResource);
 
-        expect(change).to.have.status(201);
-        expect(change).to.be.json;
+        expect(result).to.have.status(201);
+        expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
       });
     });
 
     describe(`DELETE /${resourceName}/${params.id}`, () => {
       it(`should get ${resourceName} by ${params.id}`, async () => {
-        const remove = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
+        const result = await chai.request(app).delete(`/api/v1/${resourceName}/${params.id}`);
 
-        expect(remove).to.have.status(201);
-        expect(remove).to.be.json;
+        expect(result).to.have.status(201);
+        expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
       });
     });
   });
