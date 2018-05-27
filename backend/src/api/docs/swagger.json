@@ -695,6 +695,205 @@
           }
         }
       }
+    },
+    "/service": {
+      "get": {
+        "tags": ["Service"],
+        "description": "Church service",
+        "summary": "Returns services",
+        "responses": {
+          "200": {
+            "description": "Church service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": { "$ref": "#/components/schemas/Service" },
+                      "en": { "$ref": "#/components/schemas/Service" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Service"],
+        "description": "Add service",
+        "summary": "Adds service",
+        "requestBody": {
+          "description": "Service to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Service" },
+                  "en": { "$ref": "#/components/schemas/Service" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Service" },
+                    "en": { "$ref": "#/components/schemas/Service" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/service/{id}": {
+      "get": {
+        "tags": ["Service"],
+        "description": "Return service by ID",
+        "summary": "Returns service",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Service ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Service" },
+                    "en": { "$ref": "#/components/schemas/Service" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Service"],
+        "description": "Updates service by ID",
+        "summary": "Updates a service",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Service ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234"
+          }
+        ],
+        "requestBody": {
+          "description": "Service to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Service" },
+                  "en": { "$ref": "#/components/schemas/Service" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "email": { "$ref": "#/components/parameters/email" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Service" },
+                    "en": { "$ref": "#/components/schemas/Service" },
+                    "phone": { "$ref": "#/components/parameters/phone" },
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Service"],
+        "description": "Deletes a service by ID",
+        "summary": "Deletes a home page main content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Service ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted a service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": { "$ref": "#/components/schemas/Service" },
+                      "en": { "$ref": "#/components/schemas/Service" },
+                      "phone": { "$ref": "#/components/parameters/phone" },
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -714,6 +913,23 @@
             "example":
               "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ። እንዲህ ተብሎ በነብዩ ዳዊት እንደተፃፈው፡- “ዐረገ እግዚአብሔር በይባቤ ወእግዚእነ በቃለ ቀርን ዘምሩ ለአምላክነ ዘምሩ” እግዚአብሔር በመለከት ድምጽ ዐረገ፣ ዘምሩ ለአምላካችን ዘምሩ፣ ዘምሩ ለንጉሣችን ዘምሩ (መዝ 46÷5) አምላካችን ወደ ሰማይ ከማረጉ በፊት ለደቀመዛሙርቱ የገባላቸው ቃልኪዳን፡ ምስክሮቼ ትሆናላችሁ፡፡ (ሉቃ 24÷48) ደቀመዛሙርቱ ያዩትንና የሰሙትን ሞትን አሸንፎ የተነሣውን ጌታ ለዓለም ሁሉ ምስክሮች ሆነዋል። በሕይወት ዘመናቸው ሁሉ የዓላውያንን ነገሥታት፣ የቄሳሮችን ዛቻና ማስፈራሪያ አንዳችም ሳይፈሩ ከምድር ዳርቻ እስከምድር ዳርቻ ድረስ ሁሉን እያጡና መከራ እየተቀበሉ፣ እየታሰሩና እየተገረፉ ምስክሮች ሆነዋል። ኢየሱስ ክርስቶስ ከዚህ በኋላ ስሙን አትጥሩና በስሙም አታስተምሩ እያሏቸው በሸንጐ ፊት ሲያቆሟቸው፣ ሲገርፏቸው ደስ እያላቸው ከሸንጐ ፊት ይወጡ ነበር፡፡ (የሐዋ 5÷40)። ስለ ስሙ ምስክር መሆን መነቀፍና መታሰር፣ መደብደብ እንዴት ደስ ይላል!። እኛም እንደ ደቀመዛሙርቱ ማንንም ሳንፈራ አፋችንን ሞልተን ስለ ስሙ እየመሰከርን ሁሉን ብናጣም ሞታችንን በሞቱ ድል የነሣልንን የሚቃወመንን ጠላታችንን በመስቀል ላይ ተሰቅሎ ያስወገደልንን፣ እረፍትና ሰላም የሰጠንን፣ ጨለማውን ገፎ ብርሐንን ያጐናፀፈንን፣ ያለፈውን ታሪካችንን በነበር ላስቀረልን ምስክሮች እንሁን።"
           }
+        }
+      },
+      "Service": {
+        "required": ["title", "description"],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "example": "The Divine Liturgy"
+          },
+          "description": {
+            "type": "string",
+            "example":
+              "The Ethiopian Orthodox Church has retained the ancient service of the Early Church and still uses the Mass of the would attend the Mass until the reading of the Gospel and the sermon. Then the deacon would dismiss the Catechumens and they would leave the church. The mass is still retained in the Ethiopian Church, though there are no longer Catechumens under preparation for baptism."
+          },
+          "contact": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" }
         }
       },
       "Address": {
