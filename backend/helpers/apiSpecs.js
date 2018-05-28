@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../src/server';
+import app from '../src/server';
 import { ok, created } from './assertions';
 
 chai.use(chaiHttp);

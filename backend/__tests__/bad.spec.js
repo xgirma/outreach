@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { notFound } from '../src/helpers/assertions';
+import { notFound } from '../helpers/assertions';
 
 require('dotenv').config();
 
@@ -16,7 +16,7 @@ describe('invalid routes', () => {
   });
 
   test('GET invalid route', async () => {
-    const result = await chai.request(url).get('/api/v1/girma');
+    const result = await chai.request(url).get('/api/v1/xysze');
 
     notFound(result);
   });

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import createApiSpec from '../../../helpers/apiSpecs';
-import churchEvent from '../../../helpers/faker.event';
+import createApiSpec from '../../../../helpers/apiSpecs';
+import churchEvent from '../../../../helpers/faker.event';
 import { Event } from './event.model';
 
 const newResource = churchEvent();

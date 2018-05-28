@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import createApiSpec from '../../../helpers/apiSpecs';
-import churchService from '../../../helpers/faker.service';
+import createApiSpec from '../../../../helpers/apiSpecs';
+import churchService from '../../../../helpers/faker.service';
 import { Service } from './service.model';
 
 const newResource = churchService();
