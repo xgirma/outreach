@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import createApiSpec from '../../../../helpers/apiSpecs';
-import churchBlog from '../../../../helpers/faker.blog';
+import churchBlog from '../../../../helpers/faker/blog';
 import { Blog } from './blog.model';
 
 const newResource = churchBlog();

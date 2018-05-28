@@ -204,7 +204,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted church information",
             "content": {
               "application/json": {
@@ -398,7 +398,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted a home page main content",
             "content": {
               "application/json": {
@@ -669,7 +669,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted event",
             "content": {
               "application/json": {
@@ -871,7 +871,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted a service",
             "content": {
               "application/json": {
@@ -1074,7 +1074,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted blog",
             "content": {
               "application/json": {
@@ -1089,6 +1089,245 @@
                       "author": { "$ref": "#/components/parameters/name" },
                       "date_start": { "$ref": "#/components/parameters/date" },
                       "tag": { "$ref": "#/components/parameters/tag" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media": {
+      "get": {
+        "tags": ["Media"],
+        "description": "Returns all audio/video",
+        "summary": "Returns audio/video",
+        "responses": {
+          "200": {
+            "description": "A list of audio/video",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "am": { "$ref": "#/components/schemas/Media" },
+                      "en": { "$ref": "#/components/schemas/Media" },
+                      "title": {
+                        "type": "string",
+                        "description": "Church audio/video",
+                        "example":
+                          "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                      },
+                      "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                      "media_type": { "type": "string", "example": "video" },
+                      "tag": { "type": "string", "example": "Mezmur" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Media"],
+        "description": "Add a new video/audio",
+        "summary": "Add video/audio",
+        "requestBody": {
+          "description": "Video/audio to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Media" },
+                  "en": { "$ref": "#/components/schemas/Media" },
+                  "title": {
+                    "type": "string",
+                    "description": "Church audio/video",
+                    "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                  },
+                  "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                  "media_type": { "type": "string", "example": "video" },
+                  "tag": { "type": "string", "example": "Mezmur" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Media" },
+                    "en": { "$ref": "#/components/schemas/Media" },
+                    "title": {
+                      "type": "string",
+                      "description": "Church audio/video",
+                      "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                    },
+                    "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                    "media_type": { "type": "string", "example": "video" },
+                    "tag": { "type": "string", "example": "Mezmur" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/{id}": {
+      "get": {
+        "tags": ["Media"],
+        "description": "Return a video/audio by ID",
+        "summary": "Returns a video/audio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Video/audio ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Media" },
+                    "en": { "$ref": "#/components/schemas/Media" },
+                    "title": {
+                      "type": "string",
+                      "description": "Church audio/video",
+                      "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                    },
+                    "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                    "media_type": { "type": "string", "example": "video" },
+                    "tag": { "type": "string", "example": "Mezmur" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Media"],
+        "description": "Updates a video/audio by an ID",
+        "summary": "Updates a video/audio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Video/audio ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "requestBody": {
+          "description": "Blog to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Media" },
+                  "en": { "$ref": "#/components/schemas/Media" },
+                  "title": {
+                    "type": "string",
+                    "description": "Church audio/video",
+                    "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                  },
+                  "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                  "media_type": { "type": "string", "example": "video" },
+                  "tag": { "type": "string", "example": "Mezmur" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Media" },
+                    "en": { "$ref": "#/components/schemas/Media" },
+                    "title": {
+                      "type": "string",
+                      "description": "Church audio/video",
+                      "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                    },
+                    "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                    "media_type": { "type": "string", "example": "video" },
+                    "tag": { "type": "string", "example": "Mezmur" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Media"],
+        "description": "Deletes a video/audio matches an ID",
+        "summary": "Deletes a video/audio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Video/audio ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Deleted blog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": { "$ref": "#/components/schemas/Media" },
+                      "en": { "$ref": "#/components/schemas/Media" },
+                      "title": {
+                        "type": "string",
+                        "description": "Church audio/video",
+                        "example":
+                          "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                      },
+                      "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
+                      "media_type": { "type": "string", "example": "video" },
+                      "tag": { "type": "string", "example": "Mezmur" },
                       "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
@@ -1115,8 +1354,7 @@
           "body": {
             "type": "string",
             "description": "The main content of the blog",
-            "example":
-              "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ። እንዲህ ተብሎ በነብዩ ዳዊት እንደተፃፈው፡- “ዐረገ እግዚአብሔር በይባቤ ወእግዚእነ በቃለ ቀርን ዘምሩ ለአምላክነ ዘምሩ” እግዚአብሔር በመለከት ድምጽ ዐረገ፣ ዘምሩ ለአምላካችን ዘምሩ፣ ዘምሩ ለንጉሣችን ዘምሩ (መዝ 46÷5) አምላካችን ወደ ሰማይ ከማረጉ በፊት ለደቀመዛሙርቱ የገባላቸው ቃልኪዳን፡ ምስክሮቼ ትሆናላችሁ፡፡ (ሉቃ 24÷48) ደቀመዛሙርቱ ያዩትንና የሰሙትን ሞትን አሸንፎ የተነሣውን ጌታ ለዓለም ሁሉ ምስክሮች ሆነዋል። በሕይወት ዘመናቸው ሁሉ የዓላውያንን ነገሥታት፣ የቄሳሮችን ዛቻና ማስፈራሪያ አንዳችም ሳይፈሩ ከምድር ዳርቻ እስከምድር ዳርቻ ድረስ ሁሉን እያጡና መከራ እየተቀበሉ፣ እየታሰሩና እየተገረፉ ምስክሮች ሆነዋል። ኢየሱስ ክርስቶስ ከዚህ በኋላ ስሙን አትጥሩና በስሙም አታስተምሩ እያሏቸው በሸንጐ ፊት ሲያቆሟቸው፣ ሲገርፏቸው ደስ እያላቸው ከሸንጐ ፊት ይወጡ ነበር፡፡ (የሐዋ 5÷40)።"
+            "example": { "$ref": "#/components/parameters/long_text" }
           }
         }
       },
@@ -1132,8 +1370,7 @@
           "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
           "intro": {
             "type": "string",
-            "example":
-              "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ። እንዲህ ተብሎ በነብዩ ዳዊት እንደተፃፈው፡- “ዐረገ እግዚአብሔር በይባቤ ወእግዚእነ በቃለ ቀርን ዘምሩ ለአምላክነ ዘምሩ” እግዚአብሔር በመለከት ድምጽ ዐረገ፣ ዘምሩ ለአምላካችን ዘምሩ፣ ዘምሩ ለንጉሣችን ዘምሩ (መዝ 46÷5) አምላካችን ወደ ሰማይ ከማረጉ በፊት ለደቀመዛሙርቱ የገባላቸው ቃልኪዳን፡ ምስክሮቼ ትሆናላችሁ፡፡ (ሉቃ 24÷48) ደቀመዛሙርቱ ያዩትንና የሰሙትን ሞትን አሸንፎ የተነሣውን ጌታ ለዓለም ሁሉ ምስክሮች ሆነዋል። በሕይወት ዘመናቸው ሁሉ የዓላውያንን ነገሥታት፣ የቄሳሮችን ዛቻና ማስፈራሪያ አንዳችም ሳይፈሩ ከምድር ዳርቻ እስከምድር ዳርቻ ድረስ ሁሉን እያጡና መከራ እየተቀበሉ፣ እየታሰሩና እየተገረፉ ምስክሮች ሆነዋል። ኢየሱስ ክርስቶስ ከዚህ በኋላ ስሙን አትጥሩና በስሙም አታስተምሩ እያሏቸው በሸንጐ ፊት ሲያቆሟቸው፣ ሲገርፏቸው ደስ እያላቸው ከሸንጐ ፊት ይወጡ ነበር፡፡ (የሐዋ 5÷40)። ስለ ስሙ ምስክር መሆን መነቀፍና መታሰር፣ መደብደብ እንዴት ደስ ይላል!። እኛም እንደ ደቀመዛሙርቱ ማንንም ሳንፈራ አፋችንን ሞልተን ስለ ስሙ እየመሰከርን ሁሉን ብናጣም ሞታችንን በሞቱ ድል የነሣልንን የሚቃወመንን ጠላታችንን በመስቀል ላይ ተሰቅሎ ያስወገደልንን፣ እረፍትና ሰላም የሰጠንን፣ ጨለማውን ገፎ ብርሐንን ያጐናፀፈንን፣ ያለፈውን ታሪካችንን በነበር ላስቀረልን ምስክሮች እንሁን።"
+            "example": { "$ref": "#/components/parameters/long_text" }
           }
         }
       },
@@ -1148,8 +1385,7 @@
           },
           "description": {
             "type": "string",
-            "example":
-              "The Ethiopian Orthodox Church has retained the ancient service of the Early Church and still uses the Mass of the would attend the Mass until the reading of the Gospel and the sermon. Then the deacon would dismiss the Catechumens and they would leave the church. The mass is still retained in the Ethiopian Church, though there are no longer Catechumens under preparation for baptism."
+            "example": { "$ref": "#/components/parameters/long_text" }
           },
           "contact": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" }
         }
@@ -1243,10 +1479,13 @@
           "title": { "type": "string", "maxLength": 200, "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
           "description": {
             "type": "string",
-            "example":
-              "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
+            "example": { "$ref": "#/components/parameters/long_text" }
           }
         }
+      },
+      "Media": {
+        "type": "object",
+        "properties": { "body": { "$ref": "#/components/parameters/long_text" } }
       }
     },
     "parameters": {
@@ -1271,15 +1510,12 @@
         "description": "Church main contact phone number",
         "example": "(425) 329 - 9092"
       },
-      "name": {
+      "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
+      "tag": { "type": "string", "length": 1000, "example": "History" },
+      "long_text": {
         "type": "string",
-        "length": 1000,
-        "example": "Melkamu Abate"
-      },
-      "tag": {
-        "type": "string",
-        "length": 1000,
-        "example": "History"
+        "example":
+          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
       }
     }
   }
