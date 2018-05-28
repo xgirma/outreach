@@ -894,10 +894,232 @@
           }
         }
       }
+    },
+    "/blog": {
+      "get": {
+        "tags": ["Blog"],
+        "description": "Returns all blog",
+        "summary": "Returns blog",
+        "responses": {
+          "200": {
+            "description": "A list of blog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": { "$ref": "#/components/schemas/Blog" },
+                      "en": { "$ref": "#/components/schemas/Blog" },
+                      "author": { "$ref": "#/components/parameters/name" },
+                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "tag": { "$ref": "#/components/parameters/tag" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Blog"],
+        "description": "Add a new blog",
+        "summary": "Add blog",
+        "requestBody": {
+          "description": "Blog to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Blog" },
+                  "en": { "$ref": "#/components/schemas/Blog" },
+                  "author": { "$ref": "#/components/parameters/name" },
+                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "tag": { "$ref": "#/components/parameters/tag" },
+                  "_id": { "$ref": "#/components/parameters/_id" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Blog" },
+                    "en": { "$ref": "#/components/schemas/Blog" },
+                    "author": { "$ref": "#/components/parameters/name" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "tag": { "$ref": "#/components/parameters/tag" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blog/{id}": {
+      "get": {
+        "tags": ["Blog"],
+        "description": "Return a blog by ID",
+        "summary": "Returns a blog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Blog ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Blog" },
+                    "en": { "$ref": "#/components/schemas/Blog" },
+                    "author": { "$ref": "#/components/parameters/name" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "tag": { "$ref": "#/components/parameters/tag" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Blog"],
+        "description": "Updates a blog by an ID",
+        "summary": "Updates a blog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Blog ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "requestBody": {
+          "description": "Blog to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/Blog" },
+                  "en": { "$ref": "#/components/schemas/Blog" },
+                  "author": { "$ref": "#/components/parameters/name" },
+                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "tag": { "$ref": "#/components/parameters/tag" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "am": { "$ref": "#/components/schemas/Blog" },
+                    "en": { "$ref": "#/components/schemas/Blog" },
+                    "author": { "$ref": "#/components/parameters/name" },
+                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "tag": { "$ref": "#/components/parameters/tag" },
+                    "_id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Blog"],
+        "description": "Deletes a blog matches an ID",
+        "summary": "Deletes a blog",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Blog ID",
+            "schema": { "type": "string" },
+            "example": "1234"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted blog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "am": { "$ref": "#/components/schemas/Blog" },
+                      "en": { "$ref": "#/components/schemas/Blog" },
+                      "author": { "$ref": "#/components/parameters/name" },
+                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "tag": { "$ref": "#/components/parameters/tag" },
+                      "_id": { "$ref": "#/components/parameters/_id" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Blog": {
+        "required": ["title", "body"],
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Blog title",
+            "example": "“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)"
+          },
+          "body": {
+            "type": "string",
+            "description": "The main content of the blog",
+            "example":
+              "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ። እንዲህ ተብሎ በነብዩ ዳዊት እንደተፃፈው፡- “ዐረገ እግዚአብሔር በይባቤ ወእግዚእነ በቃለ ቀርን ዘምሩ ለአምላክነ ዘምሩ” እግዚአብሔር በመለከት ድምጽ ዐረገ፣ ዘምሩ ለአምላካችን ዘምሩ፣ ዘምሩ ለንጉሣችን ዘምሩ (መዝ 46÷5) አምላካችን ወደ ሰማይ ከማረጉ በፊት ለደቀመዛሙርቱ የገባላቸው ቃልኪዳን፡ ምስክሮቼ ትሆናላችሁ፡፡ (ሉቃ 24÷48) ደቀመዛሙርቱ ያዩትንና የሰሙትን ሞትን አሸንፎ የተነሣውን ጌታ ለዓለም ሁሉ ምስክሮች ሆነዋል። በሕይወት ዘመናቸው ሁሉ የዓላውያንን ነገሥታት፣ የቄሳሮችን ዛቻና ማስፈራሪያ አንዳችም ሳይፈሩ ከምድር ዳርቻ እስከምድር ዳርቻ ድረስ ሁሉን እያጡና መከራ እየተቀበሉ፣ እየታሰሩና እየተገረፉ ምስክሮች ሆነዋል። ኢየሱስ ክርስቶስ ከዚህ በኋላ ስሙን አትጥሩና በስሙም አታስተምሩ እያሏቸው በሸንጐ ፊት ሲያቆሟቸው፣ ሲገርፏቸው ደስ እያላቸው ከሸንጐ ፊት ይወጡ ነበር፡፡ (የሐዋ 5÷40)።"
+          }
+        }
+      },
       "Intro": {
         "required": ["title", "date", "intro"],
         "type": "object",
@@ -1048,6 +1270,16 @@
         "maxLength": 20,
         "description": "Church main contact phone number",
         "example": "(425) 329 - 9092"
+      },
+      "name": {
+        "type": "string",
+        "length": 1000,
+        "example": "Melkamu Abate"
+      },
+      "tag": {
+        "type": "string",
+        "length": 1000,
+        "example": "History"
       }
     }
   }
