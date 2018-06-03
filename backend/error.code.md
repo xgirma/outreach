@@ -1,5 +1,0 @@
-# ErrorCode
-
-```javascript
-const errorCodes = {};
-```

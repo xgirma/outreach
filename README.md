@@ -57,3 +57,39 @@ Blog
 - check if you can transport morgan and stop using winston
 
 - https://facebook.github.io/jest/docs/en/mongodb.html --detectOpenHandles
+
+- user either error or err, not both.
+
+0 https://stmaryeotctoronto.com/en/serve-with-us/ add this page
+
+- http://msmedhanealem.org/service.html
+
+        The Divine Liturgy
+        Christening
+        Holy Matrimony
+        Requiem
+        Preaching
+        Se’atat, the Horologium
+        Mahelet
+        
+-  http://www.ethiopianorthodox.org/english/ethiopian/worship.html
+
+- add abstraction to integration test as well
+
+- https://www.npmjs.com/package/react-player#standalone-player
+
+- https://docs.videojs.com/tutorial-react.html
+
+- https://github.com/videojs/video.js
+
+- https://www.npmjs.com/package/react-player *** only 3 issues
+
+- media: url, type, tag
+
+- submit blog-post (for a registered user) 
+
+ inside env file
+
+- app.use(cors());
+
+- https://github.com/cocur/slugify
