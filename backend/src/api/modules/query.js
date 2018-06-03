@@ -33,10 +33,7 @@ export const controllers = {
   },
 
   findByParam(model, id) {
-    if (Number.isInteger(Number(id))) {
-      return model.findById(id);
-    }
-    return Promise.resolve(null);
+    return model.findById(id);
   },
 };
 

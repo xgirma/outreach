@@ -15,7 +15,7 @@ setGlobalMiddleware(app);
 connect();
 
 app.use('/api/v1', restRouter);
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 
 app.use('*', (req, res, next) => {
   setImmediate(() => next(NOTFUD));
