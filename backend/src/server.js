@@ -15,7 +15,7 @@ const app = express();
 setGlobalMiddleware(app);
 connect();
 
-app.use('/signin', verifyUser(), signin);
+app.use('/signin', verifyUser, signin);
 app.use('/api/v1', restRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 

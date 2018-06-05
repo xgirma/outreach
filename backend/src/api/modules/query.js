@@ -1,10 +1,19 @@
-/* eslint-disable arrow-parens */
+/* eslint-disable arrow-parens, no-unused-vars */
 import merge from 'lodash.merge';
+import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR } from '../docs/error.codes';
+import { User } from '../resources/user/user.model';
+import { signToken } from './auth';
 
 export const controllers = {
   createOne(model, body) {
     return model.create(body);
+  },
+
+  createUser(model, body) {
+    const newUser = new User(body);
+    newUser.passwordHash = newUser.hashPassword(body.password);
+    return model.create(newUser);
   },
 
   updateOne(docToUpdate, update) {
@@ -37,7 +46,7 @@ export const controllers = {
   },
 };
 
-export const createOne = (model) => (req, res, next) => {
+export const createOne = (model) => (req, res, next) =>
   controllers
     .createOne(model, req.body)
     .then((doc) => res.status(201).json(doc))
@@ -48,9 +57,25 @@ export const createOne = (model) => (req, res, next) => {
         setImmediate(() => next(error));
       }
     });
+
+export const newUser = (model) => (req, res, next) => {
+  controllers
+    .createUser(model, req.body)
+    .then((createdUser) => {
+      /* eslint-disable-next-line */
+      const token = signToken(createdUser._id);
+      res.status(201).json({ token });
+    })
+    .catch((error) => {
+      if (error.code === 11000) {
+        setImmediate(() => next(MDUERR));
+      } else {
+        setImmediate(() => next(error));
+      }
+    });
 };
 
-export const updateOne = () => async (req, res, next) => {
+export const updateOne = () => (req, res, next) => {
   const docToUpdate = req.docFromId;
   const update = req.body;
 
@@ -92,18 +117,27 @@ export const getFuture = (model) => (req, res, next) => {
     .catch((error) => setImmediate(() => next(error)));
 };
 
-export const findByIdParam = (model) => (req, res, next, id) =>
-  controllers
-    .findByParam(model, id)
-    .then((doc) => {
-      if (!doc) {
-        next(NOTFUD);
-      } else {
-        req.docFromId = doc;
-        next();
-      }
-    })
-    .catch((error) => setImmediate(() => next(error)));
+export const findByIdParam = (model) => (req, res, next, id) => {
+  if (isMongoId(id)) {
+    controllers
+      .findByParam(model, id)
+      .then((doc) => {
+        if (!doc) {
+          next(NOTFUD);
+        } else {
+          req.docFromId = doc;
+          next();
+        }
+      })
+      .catch((error) => setImmediate(() => next(error)));
+  } else {
+    setImmediate(() => next());
+  }
+};
+
+export const me = (model) => (req, res) => {
+  res.json(req.user);
+};
 
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
@@ -115,6 +149,8 @@ export const generateControllers = (model, overrides = {}) => {
     deleteOne: deleteOne(model),
     updateOne: updateOne(model),
     createOne: createOne(model),
+    me: me(model),
+    newUser: newUser(model),
   };
 
   return { ...defaults, ...overrides };

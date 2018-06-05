@@ -57,3 +57,17 @@ export const MDUERR = {
   source: { pointer: '', parameter: '' },
   meta: {},
 };
+
+export const AUTERR = {
+  id: 4004,
+  links: {
+    about: 'https://tools.ietf.org/html/rfc7235#section-3.1',
+  },
+  status: 401,
+  code: 'AUTERR',
+  title: 'Unauthorized',
+  message:
+    'The request has not been applied because it lacks valid authentication credentials for the target resource.',
+  source: { pointer: '', parameter: '' },
+  meta: {},
+};

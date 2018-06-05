@@ -7,7 +7,7 @@
     "test": "NODE_ENV=test jest --forceExit --verbose --coverage",
     "test:watch": "jest --watch --coverage",
     "lint": "eslint src --fix",
-    "pretty": "./node_modules/.bin/prettier --arrow-parens always --write \"./**/*.{js,json}\"",
+    "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
     "precommit": "lint-staged husky --dev",
     "start:dev": "./node_modules/.bin/webpack --colors --progress"
   },
