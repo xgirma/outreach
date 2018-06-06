@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import logger from '../../modules/logger';
 
 export const schema = {
   username: {
@@ -21,6 +22,7 @@ userSchema.methods = {
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
+      logger.error('Can not create a new user', {user: this.username});
       throw new Error('Could not save user');
     }
 

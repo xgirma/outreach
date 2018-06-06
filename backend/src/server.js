@@ -8,7 +8,7 @@ import { NOTFUD } from './api/docs/error.codes';
 import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import logger from './api/modules/logger';
-import { verifyUser, signin } from './api/modules/auth';
+import { verifyUser, signin, protect } from './api/modules/auth';
 
 const app = express();
 
@@ -16,7 +16,7 @@ setGlobalMiddleware(app);
 connect();
 
 app.use('/signin', verifyUser, signin);
-app.use('/api/v1', restRouter);
+app.use('/api/v1', protect, restRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
 
 app.use('*', (req, res, next) => {
