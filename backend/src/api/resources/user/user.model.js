@@ -22,7 +22,7 @@ userSchema.methods = {
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
-      logger.error('Can not create a new user', {user: this.username});
+      logger.error('Can not create a new user', { user: this.username });
       throw new Error('Could not save user');
     }
 
