@@ -33,9 +33,9 @@ export const verifyUser = (req, res, next) => {
     });
 };
 
-export const signToken = (id) => {
+/* eslint-disable-next-line */
+export const signToken = (id) =>
   jwt.sign({ id }, secret, { expiresIn: process.env.EXPIRATION_TIME });
-};
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
