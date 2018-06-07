@@ -40,8 +40,9 @@ const winstonOptions = {
 const logger = new winston.Logger({
   transports: [
     new winston.transports.Console(winstonOptions.console),
-    new winston.transports.MongoDB(winstonOptions.mongodb),
-    new winston.transports.MongoDB(winstonOptions.errordb),
+    // TODO resolve the conflict with Jest and put-back
+    // new winston.transports.MongoDB(winstonOptions.mongodb),
+    // new winston.transports.MongoDB(winstonOptions.errordb),
   ],
   exitOnError: false,
 });
