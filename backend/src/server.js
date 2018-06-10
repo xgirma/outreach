@@ -4,20 +4,19 @@ import mongoose from 'mongoose';
 import { restRouter } from './api';
 import { NOTFUD } from './api/docs/error.codes';
 import { verifyUser, signin, protect } from './api/modules/auth';
-import { registerUser } from './api/modules/query';
-import { User } from './api/resources/user/user.model';
 import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import logger from './api/modules/logger';
 import connect from './db';
 import apiErrorHandler from './api/modules/errorHandler';
+import { newUserRouter } from './api/resources/user/user.restRouter';
 
 const app = express();
 
 setGlobalMiddleware(app);
 connect();
 
-app.use('/register', registerUser(User));
+app.use('/register', newUserRouter);
 app.use('/signin', verifyUser, signin);
 app.use('/api/v1', protect, restRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
