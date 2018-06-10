@@ -10,7 +10,7 @@ export const controllers = {
     return model.create(body);
   },
 
-  createUser(model, body) {
+  addNewUser(model, body) {
     const newUser = new User(body);
     newUser.passwordHash = newUser.hashPassword(body.password);
     return model.create(newUser);
@@ -58,13 +58,13 @@ export const createOne = (model) => (req, res, next) =>
       }
     });
 
-export const newUser = (model) => (req, res, next) => {
+export const registerUser = (model) => (req, res, next) => {
   controllers
-    .createUser(model, req.body)
-    .then((createdUser) => {
+    .addNewUser(model, req.body)
+    .then((newUser) => {
       /* eslint-disable-next-line */
-      const token = signToken(createdUser._id);
-      res.status(201).json({ token });
+      const token = signToken(newUser._id);
+      res.status(201).json({ token, id: newUser.id });
     })
     .catch((error) => {
       if (error.code === 11000) {
@@ -150,7 +150,7 @@ export const generateControllers = (model, overrides = {}) => {
     updateOne: updateOne(model),
     createOne: createOne(model),
     me: me(model),
-    newUser: newUser(model),
+    registerUser: registerUser(model),
   };
 
   return { ...defaults, ...overrides };

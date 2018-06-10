@@ -7,10 +7,7 @@ const userRouter = express.Router();
 userRouter.param('id', userController.findByIdParam);
 userRouter.get('/me', protect, userController.me);
 
-userRouter
-  .route('/')
-  .get(userController.getAll)
-  .post(userController.newUser);
+userRouter.route('/').get(userController.getAll);
 
 userRouter
   .route('/:id')
