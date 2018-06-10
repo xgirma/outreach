@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
-import { User } from '../resources/user/user.model';
+import { Admin } from '../resources/admin/admin.model';
 import logger from './logger';
 import { AUTERR } from '../docs/error.codes';
 
@@ -15,7 +15,7 @@ export const verifyUser = (req, res, next) => {
     return setImmediate(() => next(AUTERR));
   }
 
-  return User.findOne({ username })
+  return Admin.findOne({ username })
     .then((user) => {
       if (!user) {
         logger.info('signin: no user with the given username', { un: username, pw: password });
@@ -52,7 +52,7 @@ export const decodeToken = () => (req, res, next) => {
 };
 
 export const getFreshUser = () => (req, res, next) =>
-  User.findById(req.user.id)
+  Admin.findById(req.user.id)
     .then((user) => {
       if (!user) {
         logger.info('signin: unauthorized', { user });

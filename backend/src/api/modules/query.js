@@ -2,16 +2,17 @@
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR } from '../docs/error.codes';
-import { User } from '../resources/user/user.model';
+import { Admin } from '../resources/admin/admin.model';
 import { signToken } from './auth';
+import logger from './logger';
 
 export const controllers = {
   createOne(model, body) {
     return model.create(body);
   },
 
-  addNewUser(model, body) {
-    const newUser = new User(body);
+  addNewAdmin(model, body) {
+    const newUser = new Admin(body);
     newUser.passwordHash = newUser.hashPassword(body.password);
     return model.create(newUser);
   },
@@ -58,12 +59,11 @@ export const createOne = (model) => (req, res, next) =>
       }
     });
 
-export const registerUser = (model) => (req, res, next) => {
+export const registerAdmin = (model) => (req, res, next) => {
   controllers
-    .addNewUser(model, req.body)
+    .addNewAdmin(model, req.body)
     .then((newUser) => {
-      /* eslint-disable-next-line */
-      const token = signToken(newUser._id);
+      const token = signToken(newUser.id);
       res.status(201).json({ token, id: newUser.id });
     })
     .catch((error) => {
@@ -136,6 +136,7 @@ export const findByIdParam = (model) => (req, res, next, id) => {
 };
 
 export const me = (model) => (req, res) => {
+  logger.silly('me in the sand', req.user);
   res.json(req.user);
 };
 
@@ -150,7 +151,7 @@ export const generateControllers = (model, overrides = {}) => {
     updateOne: updateOne(model),
     createOne: createOne(model),
     me: me(model),
-    registerUser: registerUser(model),
+    registerAdmin: registerAdmin(model),
   };
 
   return { ...defaults, ...overrides };

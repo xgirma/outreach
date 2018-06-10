@@ -14,16 +14,16 @@ export const schema = {
   },
 };
 
-const userSchema = new mongoose.Schema(schema, { timestamps: true });
+const adminSchema = new mongoose.Schema(schema, { timestamps: true });
 
-userSchema.methods = {
+adminSchema.methods = {
   authenticate(plaintTextPassword) {
     return bcrypt.compareSync(plaintTextPassword, this.passwordHash);
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
-      logger.error('Can not create a new user', { user: this.username });
-      throw new Error('Could not save user');
+      logger.error('Can not create a new Admin user', { admin: this.username });
+      throw new Error('Could not save admin user');
     }
 
     const salt = bcrypt.genSaltSync(10);
@@ -31,4 +31,4 @@ userSchema.methods = {
   },
 };
 
-export const User = mongoose.model('user', userSchema);
+export const Admin = mongoose.model('admin', adminSchema);

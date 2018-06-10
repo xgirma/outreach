@@ -9,14 +9,14 @@ import swaggerDocument from './api/docs/swagger.json';
 import logger from './api/modules/logger';
 import connect from './db';
 import apiErrorHandler from './api/modules/errorHandler';
-import { newUserRouter } from './api/resources/user/user.restRouter';
+import { newAdminRouter } from './api/resources/admin/admin.restRouter';
 
 const app = express();
 
 setGlobalMiddleware(app);
 connect();
 
-app.use('/register', newUserRouter);
+app.use('/register', newAdminRouter);
 app.use('/signin', verifyUser, signin);
 app.use('/api/v1', protect, restRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));
