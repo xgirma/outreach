@@ -38,7 +38,7 @@ adminSchema.methods = {
   hashRole(role) {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(role, salt);
-  }
+  },
 };
 
 export const Admin = mongoose.model('admin', adminSchema);
