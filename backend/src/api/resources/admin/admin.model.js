@@ -13,9 +13,8 @@ export const schema = {
     type: String,
     required: true,
   },
-  role: {
-    type: Number,
-    enum: [0, 1],
+  roleHash: {
+    type: String,
     required: true,
   },
 };
@@ -36,6 +35,10 @@ adminSchema.methods = {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(plaintTextPassword, salt);
   },
+  hashRole(role) {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(role, salt);
+  }
 };
 
 export const Admin = mongoose.model('admin', adminSchema);

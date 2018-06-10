@@ -20,10 +20,10 @@ export const controllers = {
       .then((doc) => {
         newUser.passwordHash = newUser.hashPassword(body.password);
         if (Array.isArray(doc) && doc.length === 0) {
-          newUser.role = 0; // super admin
+          newUser.roleHash = newUser.hashRole('0');
           return model.create(newUser);
         }
-        newUser.role = 1; // admin
+        newUser.roleHash = newUser.hashRole('1');
         return model.create(newUser);
       })
       .catch((error) => {
