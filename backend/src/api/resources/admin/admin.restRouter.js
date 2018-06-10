@@ -6,19 +6,22 @@ import { protect } from '../../modules/auth';
 const adminRouter = express.Router();
 const newAdminRouter = express.Router();
 
-/* new user registration */
+/* new admin user registration */
 newAdminRouter.route('/').post(newAdminController);
 
-/* existing user */
+/* existing admin user */
 adminRouter.param('id', existingAdminController.findByIdParam);
-adminRouter.get('/me', protect, existingAdminController.me);
 
-adminRouter.route('/').get(existingAdminController.getAll);
+adminRouter
+  .route('/')
+  .get(protect, existingAdminController.getAllAdmin)
+  .put(protect, existingAdminController.updateAdmin)
+  .delete(protect, existingAdminController.deleteAdmin);
 
 adminRouter
   .route('/:id')
-  .get(existingAdminController.getOne)
-  .put(existingAdminController.updateOne)
-  .delete(existingAdminController.deleteOne);
+  .get(protect, existingAdminController.getAdmin)
+  .put(protect, existingAdminController.updateAdmin)
+  .delete(protect, existingAdminController.deleteAdmin);
 
 export { adminRouter, newAdminRouter };

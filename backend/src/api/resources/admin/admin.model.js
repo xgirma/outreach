@@ -13,8 +13,9 @@ export const schema = {
     type: String,
     required: true,
   },
-  roleHash: {
-    type: String,
+  role: {
+    type: Number,
+    enum: [0, 1],
     required: true,
   },
 };
@@ -25,6 +26,9 @@ adminSchema.plugin(uniqueValidator);
 adminSchema.methods = {
   authenticate(plaintTextPassword) {
     return bcrypt.compareSync(plaintTextPassword, this.passwordHash);
+  },
+  isSuperAdmin() {
+    return bcrypt.compareSync('super-admin', this.roleHash);
   },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
