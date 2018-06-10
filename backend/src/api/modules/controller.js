@@ -1,19 +1,37 @@
 /* eslint-disable arrow-parens, no-unused-vars */
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
-import { NOTFUD, MDUERR } from '../docs/error.codes';
-import { User } from '../resources/user/user.model';
+import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
+import { Admin } from '../resources/admin/admin.model';
 import { signToken } from './auth';
+import logger from './logger';
 
 export const controllers = {
   createOne(model, body) {
     return model.create(body);
   },
 
-  createUser(model, body) {
-    const newUser = new User(body);
-    newUser.passwordHash = newUser.hashPassword(body.password);
-    return model.create(newUser);
+  addNewAdmin(model, body) {
+    const newUser = new Admin(body);
+
+    return model
+      .find({ role: 0 })
+      .exec()
+      .then((doc) => {
+        newUser.passwordHash = newUser.hashPassword(body.password);
+        if (Array.isArray(doc) && doc.length === 0) {
+          newUser.role = 0;
+          logger.info('supper admin is created', { name: newUser.username });
+          return model.create(newUser);
+        }
+        newUser.role = 1;
+        logger.info('admin is created', { name: newUser.username });
+        return model.create(newUser);
+      })
+      .catch((error) => {
+        logger.error('can not register admin', { error });
+        throw new Error(error);
+      });
   },
 
   updateOne(docToUpdate, update) {
@@ -58,20 +76,15 @@ export const createOne = (model) => (req, res, next) =>
       }
     });
 
-export const newUser = (model) => (req, res, next) => {
+export const registerAdmin = (model) => (req, res, next) => {
   controllers
-    .createUser(model, req.body)
-    .then((createdUser) => {
-      /* eslint-disable-next-line */
-      const token = signToken(createdUser._id);
-      res.status(201).json({ token });
+    .addNewAdmin(model, req.body)
+    .then((newUser) => {
+      const token = signToken(newUser.id);
+      res.status(201).json({ token, id: newUser.id });
     })
     .catch((error) => {
-      if (error.code === 11000) {
-        setImmediate(() => next(MDUERR));
-      } else {
-        setImmediate(() => next(error));
-      }
+      setImmediate(() => next(error));
     });
 };
 
@@ -135,8 +148,61 @@ export const findByIdParam = (model) => (req, res, next, id) => {
   }
 };
 
-export const me = (model) => (req, res) => {
-  res.json(req.user);
+export const getAllAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .getAll(model)
+      .then((docs) => res.status(200).json(docs))
+      .catch((error) => setImmediate(() => next(error)));
+  } else {
+    res.status(200).json(user);
+  }
+};
+
+export const getAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .getOne(req.docFromId)
+      .then((doc) => res.status(200).json(doc))
+      .catch((error) => setImmediate(() => next(error)));
+  } else {
+    res.status(200).json(user);
+  }
+};
+
+export const updateAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    const docToUpdate = req.docFromId;
+    const update = req.body;
+
+    return controllers
+      .updateOne(docToUpdate, update)
+      .then((doc) => res.status(201).json(doc))
+      .catch((error) => setImmediate(() => next(error)));
+  }
+  const update = req.body;
+  return controllers
+    .updateOne(user, update)
+    .then((doc) => res.status(201).json(doc))
+    .catch((error) => setImmediate(() => next(error)));
+};
+
+export const deleteAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .deleteOne(req.docFromId)
+      .then((doc) => res.status(201).json(doc))
+      .catch((error) => setImmediate(() => next(error)));
+  } else {
+    controllers
+      .deleteOne(user)
+      .then((doc) => res.status(201).json(doc))
+      .catch((error) => setImmediate(() => next(error)));
+  }
 };
 
 export const generateControllers = (model, overrides = {}) => {
@@ -149,8 +215,11 @@ export const generateControllers = (model, overrides = {}) => {
     deleteOne: deleteOne(model),
     updateOne: updateOne(model),
     createOne: createOne(model),
-    me: me(model),
-    newUser: newUser(model),
+    getAllAdmin: getAllAdmin(model),
+    getAdmin: getAdmin(model),
+    updateAdmin: updateAdmin(model),
+    deleteAdmin: deleteAdmin(model),
+    registerAdmin: registerAdmin(model),
   };
 
   return { ...defaults, ...overrides };

@@ -2,19 +2,21 @@ import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import mongoose from 'mongoose';
 import { restRouter } from './api';
-import connect from './db';
-import apiErrorHandler from './api/modules/errorHandler';
 import { NOTFUD } from './api/docs/error.codes';
+import { verifyUser, signin, protect } from './api/modules/auth';
 import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import logger from './api/modules/logger';
-import { verifyUser, signin, protect } from './api/modules/auth';
+import connect from './db';
+import apiErrorHandler from './api/modules/errorHandler';
+import { newAdminRouter } from './api/resources/admin/admin.restRouter';
 
 const app = express();
 
 setGlobalMiddleware(app);
 connect();
 
+app.use('/register', newAdminRouter);
 app.use('/signin', verifyUser, signin);
 app.use('/api/v1', protect, restRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, { explorer: true }));

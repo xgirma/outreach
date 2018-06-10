@@ -12,7 +12,7 @@ const apiErrorHandler = (err, req, res, next) => {
     res.locals.message = 'Something terrible happened';
   }
 
-  logger.error(`${res.locals.message}`, { err });
+  logger.error('Error handler', { error: res.locals });
   res.status(errorCode).send({ errors: [{ code: errorCode, message: res.locals.message }] });
 };
 
