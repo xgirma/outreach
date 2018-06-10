@@ -13,8 +13,23 @@ export const controllers = {
 
   addNewAdmin(model, body) {
     const newUser = new Admin(body);
-    newUser.passwordHash = newUser.hashPassword(body.password);
-    return model.create(newUser);
+
+    return model
+      .find({ role: 0 })
+      .exec()
+      .then((doc) => {
+        newUser.passwordHash = newUser.hashPassword(body.password);
+        if (Array.isArray(doc) && doc.length === 0) {
+          newUser.role = 0; // super admin
+          return model.create(newUser);
+        }
+        newUser.role = 1; // admin
+        return model.create(newUser);
+      })
+      .catch((error) => {
+        logger.error('can not register admin', { error });
+        throw new Error(error);
+      });
   },
 
   updateOne(docToUpdate, update) {
@@ -67,11 +82,7 @@ export const registerAdmin = (model) => (req, res, next) => {
       res.status(201).json({ token, id: newUser.id });
     })
     .catch((error) => {
-      if (error.code === 11000) {
-        setImmediate(() => next(MDUERR));
-      } else {
-        setImmediate(() => next(error));
-      }
+      setImmediate(() => next(error));
     });
 };
 

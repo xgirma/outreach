@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 import logger from '../../modules/logger';
 
@@ -12,9 +13,15 @@ export const schema = {
     type: String,
     required: true,
   },
+  role: {
+    type: Number,
+    enum: [0, 1],
+    required: true,
+  },
 };
 
 const adminSchema = new mongoose.Schema(schema, { timestamps: true });
+adminSchema.plugin(uniqueValidator);
 
 adminSchema.methods = {
   authenticate(plaintTextPassword) {
