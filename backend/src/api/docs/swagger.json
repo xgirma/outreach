@@ -25,7 +25,7 @@
     }
   ],
   "paths": {
-    "{protocol}://localhost:{port}/register":{
+    "{protocol}://localhost:{port}/register": {
       "post": {
         "tags": ["Register"],
         "description": "Register new admin",
@@ -1562,9 +1562,13 @@
         "example":
           "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
       },
-      "username": {"type": "string", "length": 10, "example": "John.Doe"},
-      "password": {"type": "string", "length": 10, "example": "pass"},
-      "token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"}
+      "username": { "type": "string", "length": 10, "example": "John.Doe" },
+      "password": { "type": "string", "length": 10, "example": "pass" },
+      "token": {
+        "type": "string",
+        "example":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
+      }
     }
   }
 }

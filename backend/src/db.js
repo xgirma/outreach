@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import logger from "./api/modules/logger";
+import logger from './api/modules/logger';
 
 mongoose.Promise = global.Promise;
 require('dotenv').config();
