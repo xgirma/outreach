@@ -11,7 +11,11 @@
     "precommit": "lint-staged husky --dev",
     "start:dev": "./node_modules/.bin/webpack --colors --progress"
   },
-  "keywords": ["church", "Ethiopia", "orthodox"],
+  "keywords": [
+    "church",
+    "Ethiopia",
+    "orthodox"
+  ],
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -33,7 +37,10 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": ["npm run pretty", "npm run lint"]
+    "*": [
+      "npm run pretty",
+      "npm run lint"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

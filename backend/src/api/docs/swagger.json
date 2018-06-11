@@ -25,6 +25,44 @@
     }
   ],
   "paths": {
+    "{protocol}://localhost:{port}/register":{
+      "post": {
+        "tags": ["Register"],
+        "description": "Register new admin",
+        "summary": "Register Admin",
+        "requestBody": {
+          "description": "Church information to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "username": { "$ref": "#/components/parameters/username" },
+                  "password": { "$ref": "#/components/parameters/password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "token": { "$ref": "#/components/parameters/token" },
+                    "id": { "$ref": "#/components/parameters/_id" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info": {
       "get": {
         "tags": ["Info"],
@@ -1340,6 +1378,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "Blog": {
         "required": ["title", "body"],
@@ -1493,9 +1538,9 @@
         "type": "integer",
         "format": "int32",
         "minimum": 0,
-        "maximum": 1000000,
+        "maximum": 200,
         "description": "ID",
-        "example": "1234"
+        "example": "5b1de7ac698c71055ef657f3"
       },
       "date": { "type": "string", "format": "date-time" },
       "email": {
@@ -1516,7 +1561,10 @@
         "type": "string",
         "example":
           "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
-      }
+      },
+      "username": {"type": "string", "length": 10, "example": "John.Doe"},
+      "password": {"type": "string", "length": 10, "example": "pass"},
+      "token": {"type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"}
     }
   }
 }

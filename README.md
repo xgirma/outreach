@@ -93,3 +93,15 @@ Blog
 - app.use(cors());
 
 - https://github.com/cocur/slugify
+
+- update winston transport acc to the error template
+
+- add test for user
+
+- double check error handling for user
+
+- add .github (https://github.com/xgirma/latex-javaScript)
+
+- authorisation in ExpressJS
+
+- add timestamp fpr all models
