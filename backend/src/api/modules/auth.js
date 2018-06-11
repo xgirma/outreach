@@ -11,21 +11,21 @@ export const verifyUser = (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    logger.info('signin: you need a username and password', { un: username, pw: password });
+    logger.info('signin: you need a username and password', { un: username });
     return setImmediate(() => next(AUTERR));
   }
 
   return Admin.findOne({ username })
     .then((user) => {
       if (!user) {
-        logger.info('signin: no user with the given username', { un: username, pw: password });
+        logger.info('signin: no user with the given username', { un: username });
         return setImmediate(() => next(AUTERR));
       } else if (!user.authenticate(password)) {
-        logger.info('signin: wrong password', { un: username, pw: password });
+        logger.info('signin: wrong password', { un: username });
         return setImmediate(() => next(AUTERR));
       }
       req.user = user;
-      logger.info('signin: user found', { un: username, pw: password });
+      logger.info('signin: user found', { un: username });
       return next();
     })
     .catch((error) => {
