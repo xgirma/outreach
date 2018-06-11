@@ -95,7 +95,7 @@
                   "properties": {
                     "type": "object",
                     "token": { "$ref": "#/components/parameters/token" },
-                    "id": {"$ref": "#/components/parameters/_id" }
+                    "id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
