@@ -105,3 +105,7 @@ Blog
 - authorisation in ExpressJS
 
 - add timestamp fpr all models
+
+- https://swagger.io/docs/specification/using-ref/ to split swagger doc
+
+

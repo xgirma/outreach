@@ -1,6 +1,6 @@
 import logger from './logger';
 
-// eslint-disable-next-line
+/* eslint-disable-next-line */
 const apiErrorHandler = (err, req, res, next) => {
   const errorCode = err.status || 500;
 
@@ -13,7 +13,8 @@ const apiErrorHandler = (err, req, res, next) => {
   }
 
   logger.error('Error handler', { error: res.locals });
-  res.status(errorCode).send({ errors: [{ code: errorCode, message: res.locals.message }] });
+  const { error, message } = res.locals;
+  res.status(errorCode).send({ status: 'fail', data: { error, message } });
 };
 
 export default apiErrorHandler;

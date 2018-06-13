@@ -1,7 +1,7 @@
 /* eslint-disable arrow-parens, no-unused-vars */
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
-import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
+import { NOTFUD, MDUERR } from '../docs/error.codes';
 import { Admin } from '../resources/admin/admin.model';
 import { signToken } from './auth';
 import logger from './logger';
@@ -81,7 +81,7 @@ export const registerAdmin = (model) => (req, res, next) => {
     .addNewAdmin(model, req.body)
     .then((newUser) => {
       const token = signToken(newUser.id);
-      res.status(201).json({ token, id: newUser.id });
+      res.status(201).json({ status: 'success', data: { token } });
     })
     .catch((error) => {
       setImmediate(() => next(error));
