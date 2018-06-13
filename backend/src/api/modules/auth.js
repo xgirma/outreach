@@ -11,21 +11,21 @@ export const verifyUser = (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    logger.info('signin: you need a username and password', { un: username });
+    logger.warn('signin with no username and password');
     return setImmediate(() => next(AUTERR));
   }
 
   return Admin.findOne({ username })
     .then((user) => {
       if (!user) {
-        logger.info('signin: no user with the given username', { un: username });
+        logger.warn('signin: with bad username', { un: username });
         return setImmediate(() => next(AUTERR));
       } else if (!user.authenticate(password)) {
-        logger.info('signin: wrong password', { un: username });
+        logger.warn('signin: with wrong password', { un: username });
         return setImmediate(() => next(AUTERR));
       }
       req.user = user;
-      logger.info('signin: user found', { un: username });
+      logger.info('signin: ', { un: username });
       return next();
     })
     .catch((error) => {
@@ -33,17 +33,13 @@ export const verifyUser = (req, res, next) => {
     });
 };
 
-/* eslint-disable-next-line */
-export const signToken = (id) => {
-  if (id) {
-    return jwt.sign({ id }, secret, { expiresIn: process.env.EXPIRATION_TIME });
-  }
-};
+export const signToken = (id, role) =>
+  jwt.sign({ id, role }, secret, { expiresIn: process.env.EXPIRATION_TIME });
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
-  const token = signToken(req.user.id);
-  res.status(200).json({ token, id: req.user.id });
+  const token = signToken(req.user.id, req.user.role);
+  res.status(200).json({ status: 'success', data: { token } });
 };
 
 export const decodeToken = () => (req, res, next) => {
