@@ -108,4 +108,8 @@ Blog
 
 - https://swagger.io/docs/specification/using-ref/ to split swagger doc
 
+- Role based Access Control
+    1. only an supper-admin can create admin
+    2. ...
+
 

@@ -33,6 +33,7 @@
         "tags": ["Register"],
         "description": "Register new admin",
         "summary": "Register Admin user",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "New Admin to add",
           "required": true,
@@ -50,14 +51,19 @@
         },
         "responses": {
           "201": {
-            "description": "Token",
+            "description": "Return token",
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "token": { "$ref": "#/components/parameters/token" },
-                    "id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties" : {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
                   }
                 }
               }
@@ -87,15 +93,63 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Token",
+          "200": {
+            "description": "Return token",
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "token": { "$ref": "#/components/parameters/token" },
-                    "id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties" : {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Creates a new admin user",
+        "summary": "Add new admin user",
+        "requestBody": {
+          "description": "New Admin username and password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "username": { "$ref": "#/components/parameters/username" },
+                  "password": { "$ref": "#/components/parameters/password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties" : {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
                   }
                 }
               }
@@ -1641,7 +1695,8 @@
         "type": "string",
         "example":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
-      }
+      },
+      "success": {"type": "String", "example": "success"}
     }
   }
 }
