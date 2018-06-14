@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import logger from './api/modules/logger';
 
 mongoose.Promise = global.Promise;
 require('dotenv').config();
@@ -8,5 +9,24 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const connect = () => mongoose.connect(process.env.MONGODB_URL);
+
+mongoose.connection.on('connected', () => {
+  logger.info(`Mongoose default connection is open to ${mongoose.connection.client.s.url}`);
+});
+
+mongoose.connection.on('error', (err) => {
+  logger.error('Mongoose connection error', { err });
+});
+
+mongoose.connection.on('disconnected', () => {
+  logger.debug('Mongoose default connection is disconnected');
+});
+
+process.on('SIGINT', () => {
+  mongoose.connection.close(() => {
+    logger.debug('Mongoose default connection is disconnected due to application termination');
+    process.exit(0);
+  });
+});
 
 export default connect;

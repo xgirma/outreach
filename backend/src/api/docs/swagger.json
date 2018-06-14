@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Outreach API",
-    "description": "Outreach admin platform API.",
+    "title": "Outreach",
+    "description": "Church outreach admin platform. API documentation.",
     "version": "1.0.0"
   },
   "servers": [
@@ -24,12 +24,146 @@
       }
     }
   ],
+  "consumes": "application/json",
+  "produces": "application/json",
+  "basePath": "v1",
   "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Register new super-admin",
+        "summary": "Register super-admin user",
+        "requestBody": {
+          "description": "New super-admin to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "username": { "$ref": "#/components/parameters/username" },
+                  "password": { "$ref": "#/components/parameters/password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return super-admin token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "tags": ["Signin"],
+        "description": "Signin admin",
+        "summary": "Signin Admin user",
+        "requestBody": {
+          "description": "Existing Admin username and password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "username": { "$ref": "#/components/parameters/username" },
+                  "password": { "$ref": "#/components/parameters/password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Return token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin": {
+      "post": {
+        "tags": ["Admin"],
+        "description": "Creates a new admin user",
+        "summary": "Add new admin user",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "description": "New Admin username and password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "username": { "type": "string", "length": 10, "example": "Jane.Joe" },
+                  "password": { "$ref": "#/components/parameters/password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object",
+                        "token": { "$ref": "#/components/parameters/token" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info": {
       "get": {
         "tags": ["Info"],
         "description": "Returns all church information",
         "summary": "Returns all church information",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "A list of church information",
@@ -59,6 +193,7 @@
         "tags": ["Info"],
         "description": "Add a new church information",
         "summary": "Add church information",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Church information to add",
           "required": true,
@@ -105,6 +240,7 @@
         "tags": ["Info"],
         "description": "Return a church information matches an ID",
         "summary": "Returns a church information",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -140,6 +276,7 @@
         "tags": ["Info"],
         "description": "Updates a church information matches an ID",
         "summary": "Updates a church information",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -193,6 +330,7 @@
         "tags": ["Info"],
         "description": "Deletes a church information matches an ID",
         "summary": "Deletes a church information",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -234,6 +372,7 @@
         "tags": ["Intro"],
         "description": "Home page main content",
         "summary": "Returns home page content detail",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Home page content",
@@ -261,6 +400,7 @@
         "tags": ["Intro"],
         "description": "Add the main content of the home page",
         "summary": "Adds home page main content",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Home page content to add",
           "required": true,
@@ -303,6 +443,7 @@
         "tags": ["Intro"],
         "description": "Return a home page main content by ID",
         "summary": "Returns a home page main content",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -336,6 +477,7 @@
         "tags": ["Intro"],
         "description": "Updates a home page main content by ID",
         "summary": "Updates a home page main content",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -387,6 +529,7 @@
         "tags": ["Intro"],
         "description": "Deletes a home page main content matches an ID",
         "summary": "Deletes a home page main content",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -426,6 +569,7 @@
         "tags": ["Event"],
         "description": "Event details",
         "summary": "Returns event details",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Event detail",
@@ -457,6 +601,7 @@
         "tags": ["Event"],
         "description": "Add event",
         "summary": "Add event",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Event to add",
           "content": {
@@ -506,6 +651,7 @@
         "tags": ["Event"],
         "description": "Return past event",
         "summary": "Returns past event",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Ok",
@@ -535,6 +681,7 @@
         "tags": ["Event"],
         "description": "Return future event",
         "summary": "Returns past event",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Ok",
@@ -564,6 +711,7 @@
         "tags": ["Event"],
         "description": "Return event by ID",
         "summary": "Returns event",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -601,6 +749,7 @@
         "tags": ["Event"],
         "description": "Updates event by ID",
         "summary": "Updates event",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -658,6 +807,7 @@
         "tags": ["Event"],
         "description": "Deletes event by ID",
         "summary": "Deletes event",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -701,6 +851,7 @@
         "tags": ["Service"],
         "description": "Church service",
         "summary": "Returns services",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "Church service",
@@ -729,6 +880,7 @@
         "tags": ["Service"],
         "description": "Add service",
         "summary": "Adds service",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Service to add",
           "required": true,
@@ -773,6 +925,7 @@
         "tags": ["Service"],
         "description": "Return service by ID",
         "summary": "Returns service",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -807,6 +960,7 @@
         "tags": ["Service"],
         "description": "Updates service by ID",
         "summary": "Updates a service",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -860,6 +1014,7 @@
         "tags": ["Service"],
         "description": "Deletes a service by ID",
         "summary": "Deletes a home page main content",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -900,6 +1055,7 @@
         "tags": ["Blog"],
         "description": "Returns all blog",
         "summary": "Returns blog",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "A list of blog",
@@ -929,6 +1085,7 @@
         "tags": ["Blog"],
         "description": "Add a new blog",
         "summary": "Add blog",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Blog to add",
           "required": true,
@@ -975,6 +1132,7 @@
         "tags": ["Blog"],
         "description": "Return a blog by ID",
         "summary": "Returns a blog",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1010,6 +1168,7 @@
         "tags": ["Blog"],
         "description": "Updates a blog by an ID",
         "summary": "Updates a blog",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1063,6 +1222,7 @@
         "tags": ["Blog"],
         "description": "Deletes a blog matches an ID",
         "summary": "Deletes a blog",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1104,6 +1264,7 @@
         "tags": ["Media"],
         "description": "Returns all audio/video",
         "summary": "Returns audio/video",
+        "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
             "description": "A list of audio/video",
@@ -1138,6 +1299,7 @@
         "tags": ["Media"],
         "description": "Add a new video/audio",
         "summary": "Add video/audio",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Video/audio to add",
           "required": true,
@@ -1194,6 +1356,7 @@
         "tags": ["Media"],
         "description": "Return a video/audio by ID",
         "summary": "Returns a video/audio",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1233,6 +1396,7 @@
         "tags": ["Media"],
         "description": "Updates a video/audio by an ID",
         "summary": "Updates a video/audio",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1296,6 +1460,7 @@
         "tags": ["Media"],
         "description": "Deletes a video/audio matches an ID",
         "summary": "Deletes a video/audio",
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -1340,6 +1505,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "Blog": {
         "required": ["title", "body"],
@@ -1493,9 +1665,9 @@
         "type": "integer",
         "format": "int32",
         "minimum": 0,
-        "maximum": 1000000,
+        "maximum": 200,
         "description": "ID",
-        "example": "1234"
+        "example": "5b1de7ac698c71055ef657f3"
       },
       "date": { "type": "string", "format": "date-time" },
       "email": {
@@ -1516,7 +1688,15 @@
         "type": "string",
         "example":
           "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
-      }
+      },
+      "username": { "type": "string", "length": 10, "example": "John.Doe" },
+      "password": { "type": "string", "length": 10, "example": "pass" },
+      "token": {
+        "type": "string",
+        "example":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
+      },
+      "success": { "type": "String", "example": "success" }
     }
   }
 }

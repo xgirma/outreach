@@ -5,16 +5,20 @@ import infoRouter from './resources/info/info.restRouter';
 import introRouter from './resources/intro/intro.restRouter';
 import mediaRouter from './resources/media/media.restRouter';
 import serviceRouter from './resources/service/service.restRouter';
-import { adminRouter } from './resources/admin/admin.restRouter';
+import { adminRouter, superAdminRouter } from './resources/admin/admin.restRouter';
+import { verifyUser, signin, protect } from './modules/auth';
 
 const restRouter = express.Router();
 
-restRouter.use('/admin', adminRouter);
-restRouter.use('/blog', blogRouter);
-restRouter.use('/event', eventRouter);
-restRouter.use('/info', infoRouter);
-restRouter.use('/intro', introRouter);
-restRouter.use('/media', mediaRouter);
-restRouter.use('/service', serviceRouter);
+restRouter.use('/register', superAdminRouter);
+restRouter.use('/signin', verifyUser, signin);
+
+restRouter.use('/admin', protect, adminRouter);
+restRouter.use('/blog', protect, blogRouter);
+restRouter.use('/event', protect, eventRouter);
+restRouter.use('/info', protect, infoRouter);
+restRouter.use('/intro', protect, introRouter);
+restRouter.use('/media', protect, mediaRouter);
+restRouter.use('/service', protect, serviceRouter);
 
 export default restRouter;

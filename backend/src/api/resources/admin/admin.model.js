@@ -27,9 +27,6 @@ adminSchema.methods = {
   authenticate(plaintTextPassword) {
     return bcrypt.compareSync(plaintTextPassword, this.passwordHash);
   },
-  isSuperAdmin() {
-    return bcrypt.compareSync('super-admin', this.roleHash);
-  },
   hashPassword(plaintTextPassword) {
     if (!plaintTextPassword) {
       logger.error('Can not create a new Admin user', { admin: this.username });
@@ -38,10 +35,6 @@ adminSchema.methods = {
 
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(plaintTextPassword, salt);
-  },
-  hashRole(role) {
-    const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(role, salt);
   },
 };
 
