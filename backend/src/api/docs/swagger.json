@@ -30,12 +30,11 @@
   "paths": {
     "/register": {
       "post": {
-        "tags": ["Register"],
-        "description": "Register new admin",
-        "summary": "Register Admin user",
-        "security": [{ "bearerAuth": [] }],
+        "tags": ["Admin"],
+        "description": "Register new super-admin",
+        "summary": "Register super-admin user",
         "requestBody": {
-          "description": "New Admin to add",
+          "description": "New super-admin to add",
           "required": true,
           "content": {
             "application/json": {
@@ -51,7 +50,7 @@
         },
         "responses": {
           "201": {
-            "description": "Return token",
+            "description": "Return super-admin token",
             "content": {
               "application/json": {
                 "schema": {
@@ -59,7 +58,7 @@
                     "type": "object",
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
-                      "properties" : {
+                      "properties": {
                         "type": "object",
                         "token": { "$ref": "#/components/parameters/token" }
                       }
@@ -102,7 +101,7 @@
                     "type": "object",
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
-                      "properties" : {
+                      "properties": {
                         "type": "object",
                         "token": { "$ref": "#/components/parameters/token" }
                       }
@@ -120,6 +119,7 @@
         "tags": ["Admin"],
         "description": "Creates a new admin user",
         "summary": "Add new admin user",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "New Admin username and password",
           "required": true,
@@ -128,7 +128,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "username": { "$ref": "#/components/parameters/username" },
+                  "username": { "type": "string", "length": 10, "example": "Jane.Joe" },
                   "password": { "$ref": "#/components/parameters/password" }
                 }
               }
@@ -145,7 +145,7 @@
                     "type": "object",
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
-                      "properties" : {
+                      "properties": {
                         "type": "object",
                         "token": { "$ref": "#/components/parameters/token" }
                       }
@@ -1696,7 +1696,7 @@
         "example":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
       },
-      "success": {"type": "String", "example": "success"}
+      "success": { "type": "String", "example": "success" }
     }
   }
 }

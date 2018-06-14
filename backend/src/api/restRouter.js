@@ -5,12 +5,12 @@ import infoRouter from './resources/info/info.restRouter';
 import introRouter from './resources/intro/intro.restRouter';
 import mediaRouter from './resources/media/media.restRouter';
 import serviceRouter from './resources/service/service.restRouter';
-import { adminRouter, newAdminRouter } from './resources/admin/admin.restRouter';
+import { adminRouter, superAdminRouter } from './resources/admin/admin.restRouter';
 import { verifyUser, signin, protect } from './modules/auth';
 
 const restRouter = express.Router();
 
-restRouter.use('/register', newAdminRouter);
+restRouter.use('/register', superAdminRouter);
 restRouter.use('/signin', verifyUser, signin);
 
 restRouter.use('/admin', protect, adminRouter);

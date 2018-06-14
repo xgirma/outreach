@@ -1,37 +1,58 @@
-/* eslint-disable arrow-parens, no-unused-vars */
+/* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle */
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
-import { NOTFUD, MDUERR } from '../docs/error.codes';
+import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
 import { Admin } from '../resources/admin/admin.model';
-import { signToken } from './auth';
+import { signToken, decodeToken } from './auth';
 import logger from './logger';
 
 export const controllers = {
-  createOne(model, body) {
-    return model.create(body);
-  },
-
-  addNewAdmin(model, body) {
-    const newUser = new Admin(body);
+  addSuperAdmin(model, body) {
+    const superAdmin = new Admin(body);
 
     return model
       .find({ role: 0 })
       .exec()
       .then((doc) => {
-        newUser.passwordHash = newUser.hashPassword(body.password);
+        superAdmin.passwordHash = superAdmin.hashPassword(body.password);
         if (Array.isArray(doc) && doc.length === 0) {
-          newUser.role = 0;
-          logger.info('supper admin is created', { name: newUser.username });
-          return model.create(newUser);
+          superAdmin.role = 0;
+          return model.create(superAdmin);
         }
-        newUser.role = 1;
-        logger.info('admin is created', { name: newUser.username });
-        return model.create(newUser);
+        logger.warn('super-admin already exist');
+        return null;
+      })
+      .catch((error) => {
+        logger.error('can not register super-admin', { error });
+        throw new Error(error);
+      });
+  },
+
+  addAdmin(model, body, user) {
+    return model
+      .find({ role: 0 })
+      .exec()
+      .then((doc) => {
+        if (Array.isArray(doc) && doc.length === 0) {
+          return null;
+        }
+        const adminUser = JSON.parse(JSON.stringify(doc));
+        if (adminUser[0]._id === user.id && adminUser[0].role === user.role) {
+          const newAdmin = new Admin(body);
+          newAdmin.passwordHash = newAdmin.hashPassword(body.password);
+          newAdmin.role = 1;
+          return model.create(newAdmin);
+        }
+        return null;
       })
       .catch((error) => {
         logger.error('can not register admin', { error });
         throw new Error(error);
       });
+  },
+
+  createOne(model, body) {
+    return model.create(body);
   },
 
   updateOne(docToUpdate, update) {
@@ -64,6 +85,53 @@ export const controllers = {
   },
 };
 
+export const registerSuperAdmin = (model) => (req, res, next) => {
+  controllers
+    .addSuperAdmin(model, req.body)
+    .then((superAdmin) => {
+      if (superAdmin) {
+        const token = signToken(superAdmin.id);
+        logger.info('supper-admin is registered', { name: superAdmin.username });
+        res.status(201).json({
+          status: 'success',
+          data: { token },
+        });
+      } else {
+        res.status(403).json({
+          status: 'fail',
+          data: { ...AUTERR },
+        });
+      }
+    })
+    .catch((error) => {
+      setImmediate(() => next(error));
+    });
+};
+
+export const registerAdmin = (model) => (req, res, next) => {
+  decodeToken();
+  controllers
+    .addAdmin(model, req.body, req.user)
+    .then((newAdmin) => {
+      if (newAdmin) {
+        const token = signToken(newAdmin.id);
+        logger.info('admin is registered', { name: newAdmin.username });
+        res.status(201).json({
+          status: 'success',
+          data: { token },
+        });
+      } else {
+        res.status(403).json({
+          status: 'fail',
+          data: { ...AUTERR },
+        });
+      }
+    })
+    .catch((error) => {
+      setImmediate(() => next(error));
+    });
+};
+
 export const createOne = (model) => (req, res, next) =>
   controllers
     .createOne(model, req.body)
@@ -75,18 +143,6 @@ export const createOne = (model) => (req, res, next) =>
         setImmediate(() => next(error));
       }
     });
-
-export const registerAdmin = (model) => (req, res, next) => {
-  controllers
-    .addNewAdmin(model, req.body)
-    .then((newUser) => {
-      const token = signToken(newUser.id);
-      res.status(201).json({ status: 'success', data: { token } });
-    })
-    .catch((error) => {
-      setImmediate(() => next(error));
-    });
-};
 
 export const updateOne = () => (req, res, next) => {
   const docToUpdate = req.docFromId;
@@ -207,6 +263,8 @@ export const deleteAdmin = (model) => (req, res, next) => {
 
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
+    registerSuperAdmin: registerSuperAdmin(model),
+    registerAdmin: registerAdmin(model),
     findByIdParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
@@ -219,7 +277,6 @@ export const generateControllers = (model, overrides = {}) => {
     getAdmin: getAdmin(model),
     updateAdmin: updateAdmin(model),
     deleteAdmin: deleteAdmin(model),
-    registerAdmin: registerAdmin(model),
   };
 
   return { ...defaults, ...overrides };
