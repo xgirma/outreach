@@ -156,6 +156,46 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": ["Admin"],
+        "description": "If super-admin gets admins list, else gets an admin",
+        "summary": "Return admin(s)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Admin(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "status": { "$ref": "#/components/parameters/success" },
+                      "data": {
+                        "properties": {
+                          "admins": {
+                            "properties": {
+                              "type": "object",
+                              "_id": { "$ref": "#/components/parameters/_id" },
+                              "username": { "$ref": "#/components/parameters/username" },
+                              "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
+                              "role": { "$ref": "#/components/parameters/passwordHash" },
+                              "createdAt": { "$ref": "#/components/parameters/createdAt" },
+                              "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/info": {
@@ -1690,13 +1730,28 @@
           "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
       },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
-      "password": { "type": "string", "length": 10, "example": "pass" },
+      "password": { "type": "string", "length": 10, "example": "pass", "format": "password" },
+      "role": { "type": "number", "enum": [0, 1], "example": "0" },
+      "passwordHash": {
+        "type": "string",
+        "example": "$2b$10$AmyUb3W1CWMao3cVbmiYDOsWAkD3vGLefYm09LhNpRbH9Q37A2LHi"
+      },
       "token": {
         "type": "string",
         "example":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
       },
-      "success": { "type": "String", "example": "success" }
+      "success": { "type": "String", "example": "success" },
+      "createdAt": {
+        "type": "String",
+        "format": "date-time",
+        "example": "2018-06-16T03:39:52.111Z"
+      },
+      "updatedAt": {
+        "type": "String",
+        "format": "date-time",
+        "example": "2018-06-16T03:39:52.111Z"
+      }
     }
   }
 }

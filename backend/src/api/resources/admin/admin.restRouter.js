@@ -13,9 +13,7 @@ adminRouter.param('id', registerAdmin.findByIdParam);
 adminRouter
   .route('/')
   .post(protect, registerAdmin.registerAdmin)
-  .get(protect, registerAdmin.getAllAdmin)
-  .put(protect, registerAdmin.updateAdmin)
-  .delete(protect, registerAdmin.deleteAdmin);
+  .get(protect, registerAdmin.getAdmins);
 
 adminRouter
   .route('/:id')
