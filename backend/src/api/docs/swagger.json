@@ -198,6 +198,58 @@
         }
       }
     },
+    "/admin/{id}": {
+      "get": {
+        "tags": ["Admin"],
+        "description": "If super-admin gets admins list, else gets an admin",
+        "summary": "Return admin(s)",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Admin ID",
+            "schema": { "type": "string" },
+            "example": "5b1de7ac698c71055ef657f3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Admin(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "status": { "$ref": "#/components/parameters/success" },
+                      "data": {
+                        "properties": {
+                          "admins": {
+                            "properties": {
+                              "type": "object",
+                              "_id": { "$ref": "#/components/parameters/_id" },
+                              "username": { "$ref": "#/components/parameters/username" },
+                              "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
+                              "role": { "$ref": "#/components/parameters/passwordHash" },
+                              "createdAt": { "$ref": "#/components/parameters/createdAt" },
+                              "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/info": {
       "get": {
         "tags": ["Info"],
