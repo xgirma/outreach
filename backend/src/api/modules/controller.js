@@ -1,4 +1,4 @@
-/* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle */
+/* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle, function-paren-newline */
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
@@ -85,6 +85,11 @@ export const controllers = {
   },
 };
 
+/**
+ * Register super-admin
+ * @param model - admin
+ * @returns {Function}
+ */
 export const registerSuperAdmin = (model) => (req, res, next) => {
   controllers
     .addSuperAdmin(model, req.body)
@@ -108,6 +113,11 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
     });
 };
 
+/**
+ * Super-admin register admin
+ * @param model - admin
+ * @returns {Function}
+ */
 export const registerAdmin = (model) => (req, res, next) => {
   decodeToken();
   controllers
@@ -130,6 +140,51 @@ export const registerAdmin = (model) => (req, res, next) => {
     .catch((error) => {
       setImmediate(() => next(error));
     });
+};
+
+/**
+ * Get all admins if super-admin, else gets aa admin
+ * @param model - admin
+ * @returns {Function}
+ */
+export const getAdmins = (model) => (req, res, next) => {
+  logger.silly('i was here');
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .getAll(model)
+      .then((admin) =>
+        res.status(200).json({
+          status: 'success',
+          data: { admin },
+        }),
+      )
+      .catch((error) => {
+        setImmediate(() => {
+          next({
+            status: 'fail',
+            data: { ...error },
+          });
+        });
+      });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: { admin: user },
+    });
+  }
+};
+
+export const getAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .getOne(req.docFromId)
+      .then((doc) => res.status(200).json(doc))
+      .catch((error) => setImmediate(() => next(error)));
+  } else {
+    res.status(200).json(user);
+  }
 };
 
 export const createOne = (model) => (req, res, next) =>
@@ -204,30 +259,6 @@ export const findByIdParam = (model) => (req, res, next, id) => {
   }
 };
 
-export const getAllAdmin = (model) => (req, res, next) => {
-  const { user } = req;
-  if (user.role === 0) {
-    controllers
-      .getAll(model)
-      .then((docs) => res.status(200).json(docs))
-      .catch((error) => setImmediate(() => next(error)));
-  } else {
-    res.status(200).json(user);
-  }
-};
-
-export const getAdmin = (model) => (req, res, next) => {
-  const { user } = req;
-  if (user.role === 0) {
-    controllers
-      .getOne(req.docFromId)
-      .then((doc) => res.status(200).json(doc))
-      .catch((error) => setImmediate(() => next(error)));
-  } else {
-    res.status(200).json(user);
-  }
-};
-
 export const updateAdmin = (model) => (req, res, next) => {
   const { user } = req;
   if (user.role === 0) {
@@ -265,6 +296,8 @@ export const generateControllers = (model, overrides = {}) => {
   const defaults = {
     registerSuperAdmin: registerSuperAdmin(model),
     registerAdmin: registerAdmin(model),
+    getAdmins: getAdmins(model),
+    getAdmin: getAdmin(model),
     findByIdParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
@@ -273,8 +306,6 @@ export const generateControllers = (model, overrides = {}) => {
     deleteOne: deleteOne(model),
     updateOne: updateOne(model),
     createOne: createOne(model),
-    getAllAdmin: getAllAdmin(model),
-    getAdmin: getAdmin(model),
     updateAdmin: updateAdmin(model),
     deleteAdmin: deleteAdmin(model),
   };
