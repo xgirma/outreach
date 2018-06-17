@@ -2,6 +2,7 @@
 import merge from 'lodash.merge';
 import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
+import * as err from './error';
 import { Admin } from '../resources/admin/admin.model';
 import { signToken, decodeToken } from './auth';
 import logger from './logger';
@@ -33,7 +34,7 @@ export const controllers = {
         throw new Error(error);
       });
   },
-  
+
   /**
    * Create admin
    * @param model - admin
@@ -173,12 +174,7 @@ export const getAdmins = (model) => (req, res, next) => {
         }),
       )
       .catch((error) => {
-        setImmediate(() => {
-          next({
-            status: 'fail',
-            data: { ...error },
-          });
-        });
+        setImmediate(() => next(error));
       });
   } else {
     res.status(200).json({
@@ -198,20 +194,16 @@ export const getAdmin = (model) => (req, res, next) => {
   if (user.role === 0) {
     controllers
       .getOne(req.docFromId)
-      .then((admin) =>
+      .then((admin) => {
+        if (!admin) throw err.resourceNotFound;
         res.status(200).json({
           status: 'success',
           data: { admin },
-        }),
-      )
-      .catch((error) =>
-        setImmediate(() =>
-          next({
-            status: 'fail',
-            data: { ...error },
-          }),
-        ),
-      );
+        });
+      })
+      .catch((error) => {
+        setImmediate(() => next(error));
+      });
   } else {
     res.status(200).json({
       status: 'success',
