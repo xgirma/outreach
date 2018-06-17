@@ -195,7 +195,7 @@ export const getAdmin = (model) => (req, res, next) => {
     controllers
       .getOne(req.docFromId)
       .then((admin) => {
-        if (!admin) throw err.resourceNotFound;
+        if (!admin) throw err.ResourceNotFound();
         res.status(200).json({
           status: 'success',
           data: { admin },
@@ -209,6 +209,43 @@ export const getAdmin = (model) => (req, res, next) => {
       status: 'success',
       data: { admin: user },
     });
+  }
+};
+
+/**
+ * Super admin can delete all, admin only itself
+ * @param model
+ * @returns {Function}
+ */
+export const deleteAdmin = (model) => (req, res, next) => {
+  const { user } = req;
+  if (user.role === 0) {
+    controllers
+      .deleteOne(req.docFromId)
+      .then((admin) => {
+        logger.info('admin deleted', { name: req.docFromId.username });
+        res.status(201).json({
+          status: 'success',
+          data: { admin },
+        });
+      })
+      .catch((error) => setImmediate(() => next(error)));
+  } else if (user.id !== req.docFromId.id) {
+    logger.warn(`unauthorized attempted to delete admin ${req.docFromId.username}`, {
+      name: user.username,
+    });
+    setImmediate(() => next(err.Unauthorized('can not delete other admin')));
+  } else {
+    controllers
+      .deleteOne(user)
+      .then((self) => {
+        logger.info('admin deleted', { name: user.username });
+        res.status(201).json({
+          status: 'success',
+          data: { self },
+        });
+      })
+      .catch((error) => setImmediate(() => next(error)));
   }
 };
 
@@ -271,16 +308,13 @@ export const findByIdParam = (model) => (req, res, next, id) => {
     controllers
       .findByParam(model, id)
       .then((doc) => {
-        if (!doc) {
-          next(NOTFUD);
-        } else {
-          req.docFromId = doc;
-          next();
-        }
+        if (!doc) throw err.ResourceNotFound('No resource found with this Id');
+        req.docFromId = doc;
+        next();
       })
       .catch((error) => setImmediate(() => next(error)));
   } else {
-    setImmediate(() => next());
+    setImmediate(() => next(err.ResourceNotFound('Not a MongoId')));
   }
 };
 
@@ -302,27 +336,13 @@ export const updateAdmin = (model) => (req, res, next) => {
     .catch((error) => setImmediate(() => next(error)));
 };
 
-export const deleteAdmin = (model) => (req, res, next) => {
-  const { user } = req;
-  if (user.role === 0) {
-    controllers
-      .deleteOne(req.docFromId)
-      .then((doc) => res.status(201).json(doc))
-      .catch((error) => setImmediate(() => next(error)));
-  } else {
-    controllers
-      .deleteOne(user)
-      .then((doc) => res.status(201).json(doc))
-      .catch((error) => setImmediate(() => next(error)));
-  }
-};
-
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
     registerSuperAdmin: registerSuperAdmin(model),
     registerAdmin: registerAdmin(model),
     getAdmins: getAdmins(model),
     getAdmin: getAdmin(model),
+    deleteAdmin: deleteAdmin(model),
     findByIdParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
@@ -332,7 +352,6 @@ export const generateControllers = (model, overrides = {}) => {
     updateOne: updateOne(model),
     createOne: createOne(model),
     updateAdmin: updateAdmin(model),
-    deleteAdmin: deleteAdmin(model),
   };
 
   return { ...defaults, ...overrides };

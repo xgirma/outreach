@@ -3,6 +3,7 @@ import expressJwt from 'express-jwt';
 import { Admin } from '../resources/admin/admin.model';
 import logger from './logger';
 import { AUTERR } from '../docs/error.codes';
+import * as err from './error';
 
 const secret = process.env.JWT_SECRET;
 const checkToken = expressJwt({ secret });
@@ -54,8 +55,8 @@ export const getFreshUser = () => (req, res, next) =>
   Admin.findById(req.user.id)
     .then((user) => {
       if (!user) {
-        logger.info('signin: unauthorized', { user });
-        return setImmediate(() => next(AUTERR));
+        logger.info('unauthorized login attempt: ', { user });
+        return setImmediate(() => next(err.Unauthorized()));
       }
       req.user = user;
       return setImmediate(() => next());
