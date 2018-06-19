@@ -1900,7 +1900,12 @@
       },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
       "password": { "type": "string", "length": 10, "example": "pass", "format": "password" },
-      "newPassword": { "type": "string", "length": 10, "example": "password", "format": "password" },
+      "newPassword": {
+        "type": "string",
+        "length": 10,
+        "example": "password",
+        "format": "password"
+      },
       "role": { "type": "number", "enum": [0, 1], "example": "0" },
       "passwordHash": {
         "type": "string",

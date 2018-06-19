@@ -264,26 +264,29 @@ export const updateAdmin = (model) => (req, res, next) => {
     if (user._id.equals(userToUpdate._id)) {
       // **** use-case 1 -super-admin changing its own password (old-pwd, new-pw, new-pwd)
       const { newPassword1, newPassword2, oldPassword } = req.body;
-      if(newPassword1 !== newPassword2){
+      if (newPassword1 !== newPassword2) {
         logger.info('new password one and new password two do not match');
-        return setImmediate(() => next(err.BadRequest('the two new passwords do not match, try again')));
-      } else {
-        logger.info('new password one and new password two match');
-        // password matches with existing password in db?
-        if((!userToUpdate.authenticate(oldPassword))) {
-          logger.info('entered wrong old password');
-          return setImmediate(() => next(err.Unauthorized('wrong old password')));
-        } else {
-          logger.info('entered correct old password');
-          const update = new Admin(userToUpdate);
-          update.passwordHash = update.hashPassword(newPassword1);
-          logger.info('before and after hash', { old: userToUpdate.passwordHash, new: update.passwordHash,});
-          return controllers
-            .updateOne(userToUpdate, update)
-            .then((admin) => res.status(201).json({ admin, newPassword1}))
-            .catch((error) => setImmediate(() => next(error)));
-        }
+        return setImmediate(() =>
+          next(err.BadRequest('the two new passwords do not match, try again')),
+        );
       }
+      logger.info('new password one and new password two match');
+      // password matches with existing password in db?
+      if (!userToUpdate.authenticate(oldPassword)) {
+        logger.info('entered wrong old password');
+        return setImmediate(() => next(err.Unauthorized('wrong old password')));
+      }
+      logger.info('entered correct old password');
+      const update = new Admin(userToUpdate);
+      update.passwordHash = update.hashPassword(newPassword1);
+      logger.info('before and after hash', {
+        old: userToUpdate.passwordHash,
+        new: update.passwordHash,
+      });
+      return controllers
+        .updateOne(userToUpdate, update)
+        .then((admin) => res.status(201).json({ admin, newPassword1 }))
+        .catch((error) => setImmediate(() => next(error)));
     }
     // **** use-case 2 -super-admin changing its another admin password (temp-pwd) DONE
     const tempPassword = generate({
@@ -308,26 +311,29 @@ export const updateAdmin = (model) => (req, res, next) => {
     // **** use-case 3 - admin changing his own password (old-pwd, new-pwd, new-pwd) DONE
     // check if new password matches
     const { newPassword1, newPassword2, oldPassword } = req.body;
-    if(newPassword1 !== newPassword2){
+    if (newPassword1 !== newPassword2) {
       logger.info('new password one and new password two do not match');
-      return setImmediate(() => next(err.BadRequest('the two new passwords do not match, try again')));
-    } else {
-      logger.info('new password one and new password two match');
-      // password matches with existing password in db?
-      if((!userToUpdate.authenticate(oldPassword))) {
-        logger.info('entered wrong old password');
-        return setImmediate(() => next(err.Unauthorized('wrong old password')));
-      } else {
-        logger.info('entered correct old password');
-        const update = new Admin(userToUpdate);
-        update.passwordHash = update.hashPassword(newPassword1);
-        logger.info('before and after hash', { old: userToUpdate.passwordHash, new: update.passwordHash,});
-        return controllers
-          .updateOne(userToUpdate, update)
-          .then((admin) => res.status(201).json({ admin, newPassword1}))
-          .catch((error) => setImmediate(() => next(error)));
-      }
+      return setImmediate(() =>
+        next(err.BadRequest('the two new passwords do not match, try again')),
+      );
     }
+    logger.info('new password one and new password two match');
+    // password matches with existing password in db?
+    if (!userToUpdate.authenticate(oldPassword)) {
+      logger.info('entered wrong old password');
+      return setImmediate(() => next(err.Unauthorized('wrong old password')));
+    }
+    logger.info('entered correct old password');
+    const update = new Admin(userToUpdate);
+    update.passwordHash = update.hashPassword(newPassword1);
+    logger.info('before and after hash', {
+      old: userToUpdate.passwordHash,
+      new: update.passwordHash,
+    });
+    return controllers
+      .updateOne(userToUpdate, update)
+      .then((admin) => res.status(201).json({ admin, newPassword1 }))
+      .catch((error) => setImmediate(() => next(error)));
   }
   // **** use-case 4 - admin attempting to change others password DONE
   return setImmediate(() => next(err.Unauthorized('not authorised to update other admin')));
