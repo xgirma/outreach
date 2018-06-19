@@ -249,6 +249,73 @@
           }
         }
       },
+      "put": {
+        "tags": ["Admin"],
+        "description": "Update password",
+        "summary": "Return admin temporary password",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Admin ID",
+            "schema": { "type": "string" },
+            "example": "5b1de7ac698c71055ef657f3"
+          }
+        ],
+        "requestBody": {
+          "description": "Old password and new password to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "oldPassword": { "$ref": "#/components/parameters/password" },
+                  "newPassword1": { "$ref": "#/components/parameters/newPassword" },
+                  "newPassword2": { "$ref": "#/components/parameters/newPassword" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": "object",
+                      "status": { "$ref": "#/components/parameters/success" },
+                      "data": {
+                        "properties": {
+                          "admins": {
+                            "properties": {
+                              "type": "object",
+                              "_id": { "$ref": "#/components/parameters/_id" },
+                              "username": { "$ref": "#/components/parameters/username" },
+                              "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
+                              "role": { "$ref": "#/components/parameters/passwordHash" },
+                              "createdAt": { "$ref": "#/components/parameters/createdAt" },
+                              "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
+                            }
+                          },
+                          "newPassword": { "$ref": "#/components/parameters/newPassword" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": ["Admin"],
         "description": "If super-admin can delete all, else delete self",
@@ -1833,6 +1900,7 @@
       },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
       "password": { "type": "string", "length": 10, "example": "pass", "format": "password" },
+      "newPassword": { "type": "string", "length": 10, "example": "password", "format": "password" },
       "role": { "type": "number", "enum": [0, 1], "example": "0" },
       "passwordHash": {
         "type": "string",

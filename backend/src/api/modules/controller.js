@@ -1,5 +1,7 @@
 /* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle, function-paren-newline */
 import merge from 'lodash.merge';
+import { generate } from 'generate-password';
+import * as owasp from 'owasp-password-strength-test';
 import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
 import * as err from './error';
@@ -51,6 +53,7 @@ export const controllers = {
           return null;
         }
         const adminUser = JSON.parse(JSON.stringify(doc));
+        // TODO use _id.equals(id)
         if (adminUser[0]._id === user.id && adminUser[0].role === user.role) {
           const newAdmin = new Admin(body);
           newAdmin.passwordHash = newAdmin.hashPassword(body.password);
@@ -142,7 +145,7 @@ export const registerAdmin = (model) => (req, res, next) => {
         logger.info('admin is registered', { name: newAdmin.username });
         res.status(201).json({
           status: 'success',
-          data: { token },
+          data: { newAdmin },
         });
       } else {
         res.status(403).json({
@@ -157,12 +160,12 @@ export const registerAdmin = (model) => (req, res, next) => {
 };
 
 /**
- * Get all admins if super-admin, else gets aa admin
+ * Get all admins if super-admin, else gets an admin
  * @param model - admin
  * @returns {Function}
  */
 export const getAdmins = (model) => (req, res, next) => {
-  logger.silly('i was here');
+  // logger.silly('i was here');
   const { user } = req;
   if (user.role === 0) {
     controllers
@@ -249,6 +252,87 @@ export const deleteAdmin = (model) => (req, res, next) => {
   }
 };
 
+export const updateAdmin = (model) => (req, res, next) => {
+  const { user } = req; // the user who is updating
+  const userToUpdate = req.docFromId; // the user that is going to be updated
+
+  // logger.silly('need update', { admin: userToUpdate });
+  // logger.silly('updtter', { user });
+
+  if (user.role === 0) {
+    // if(user._id === userToUpdate._id){
+    if (user._id.equals(userToUpdate._id)) {
+      // **** use-case 1 -super-admin changing its own password (old-pwd, new-pw, new-pwd)
+      const { newPassword1, newPassword2, oldPassword } = req.body;
+      if(newPassword1 !== newPassword2){
+        logger.info('new password one and new password two do not match');
+        return setImmediate(() => next(err.BadRequest('the two new passwords do not match, try again')));
+      } else {
+        logger.info('new password one and new password two match');
+        // password matches with existing password in db?
+        if((!userToUpdate.authenticate(oldPassword))) {
+          logger.info('entered wrong old password');
+          return setImmediate(() => next(err.Unauthorized('wrong old password')));
+        } else {
+          logger.info('entered correct old password');
+          const update = new Admin(userToUpdate);
+          update.passwordHash = update.hashPassword(newPassword1);
+          logger.info('before and after hash', { old: userToUpdate.passwordHash, new: update.passwordHash,});
+          return controllers
+            .updateOne(userToUpdate, update)
+            .then((admin) => res.status(201).json({ admin, newPassword1}))
+            .catch((error) => setImmediate(() => next(error)));
+        }
+      }
+    }
+    // **** use-case 2 -super-admin changing its another admin password (temp-pwd) DONE
+    const tempPassword = generate({
+      numbers: true,
+      symbols: true,
+      strict: true,
+      excludeSimilarCharacters: true,
+      exclude: '"',
+    });
+
+    const update = {
+      passwordHash: userToUpdate.hashPassword(tempPassword),
+    };
+
+    return controllers
+      .updateOne(userToUpdate, update)
+      .then((admin) => res.status(201).json({ admin, tempPassword }))
+      .catch((error) => setImmediate(() => next(error)));
+  }
+
+  if (user._id.equals(userToUpdate._id)) {
+    // **** use-case 3 - admin changing his own password (old-pwd, new-pwd, new-pwd) DONE
+    // check if new password matches
+    const { newPassword1, newPassword2, oldPassword } = req.body;
+    if(newPassword1 !== newPassword2){
+      logger.info('new password one and new password two do not match');
+      return setImmediate(() => next(err.BadRequest('the two new passwords do not match, try again')));
+    } else {
+      logger.info('new password one and new password two match');
+      // password matches with existing password in db?
+      if((!userToUpdate.authenticate(oldPassword))) {
+        logger.info('entered wrong old password');
+        return setImmediate(() => next(err.Unauthorized('wrong old password')));
+      } else {
+        logger.info('entered correct old password');
+        const update = new Admin(userToUpdate);
+        update.passwordHash = update.hashPassword(newPassword1);
+        logger.info('before and after hash', { old: userToUpdate.passwordHash, new: update.passwordHash,});
+        return controllers
+          .updateOne(userToUpdate, update)
+          .then((admin) => res.status(201).json({ admin, newPassword1}))
+          .catch((error) => setImmediate(() => next(error)));
+      }
+    }
+  }
+  // **** use-case 4 - admin attempting to change others password DONE
+  return setImmediate(() => next(err.Unauthorized('not authorised to update other admin')));
+};
+
 export const createOne = (model) => (req, res, next) =>
   controllers
     .createOne(model, req.body)
@@ -318,24 +402,6 @@ export const findByIdParam = (model) => (req, res, next, id) => {
   }
 };
 
-export const updateAdmin = (model) => (req, res, next) => {
-  const { user } = req;
-  if (user.role === 0) {
-    const docToUpdate = req.docFromId;
-    const update = req.body;
-
-    return controllers
-      .updateOne(docToUpdate, update)
-      .then((doc) => res.status(201).json(doc))
-      .catch((error) => setImmediate(() => next(error)));
-  }
-  const update = req.body;
-  return controllers
-    .updateOne(user, update)
-    .then((doc) => res.status(201).json(doc))
-    .catch((error) => setImmediate(() => next(error)));
-};
-
 export const generateControllers = (model, overrides = {}) => {
   const defaults = {
     registerSuperAdmin: registerSuperAdmin(model),
@@ -343,6 +409,7 @@ export const generateControllers = (model, overrides = {}) => {
     getAdmins: getAdmins(model),
     getAdmin: getAdmin(model),
     deleteAdmin: deleteAdmin(model),
+    updateAdmin: updateAdmin(model),
     findByIdParam: findByIdParam(model),
     getAll: getAll(model),
     getOne: getOne(model),
@@ -351,7 +418,6 @@ export const generateControllers = (model, overrides = {}) => {
     deleteOne: deleteOne(model),
     updateOne: updateOne(model),
     createOne: createOne(model),
-    updateAdmin: updateAdmin(model),
   };
 
   return { ...defaults, ...overrides };
