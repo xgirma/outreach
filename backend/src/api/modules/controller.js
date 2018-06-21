@@ -5,7 +5,7 @@ import * as owasp from 'owasp-password-strength-test';
 import { isMongoId } from 'validator';
 import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
 import * as err from './error';
-import { Admin } from '../resources/admin/admin.model';
+import { Admins } from '../resources/admins/admins.model';
 import { signToken, decodeToken } from './auth';
 import logger from './logger';
 
@@ -17,7 +17,7 @@ export const controllers = {
    * @returns {*}
    */
   addSuperAdmin(model, body) {
-    const superAdmin = new Admin(body);
+    const superAdmin = new Admins(body);
 
     return model
       .find({ role: 0 })
@@ -61,7 +61,7 @@ export const controllers = {
         const adminUser = JSON.parse(JSON.stringify(doc));
         // TODO use _id.equals(id)
         if (adminUser[0]._id === user.id && adminUser[0].role === user.role) {
-          const newAdmin = new Admin(body);
+          const newAdmin = new Admins(body);
           newAdmin.passwordHash = newAdmin.hashPassword(body.password);
           newAdmin.role = 1;
           return model.create(newAdmin);
@@ -176,10 +176,10 @@ export const getAdmins = (model) => (req, res, next) => {
   if (user.role === 0) {
     controllers
       .getAll(model)
-      .then((admin) =>
+      .then((admins) =>
         res.status(200).json({
           status: 'success',
-          data: { admin },
+          data: { admins },
         }),
       )
       .catch((error) => {
@@ -302,7 +302,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       }
 
       logger.info('entered correct old password');
-      const update = new Admin(userToUpdate);
+      const update = new Admins(userToUpdate);
       update.passwordHash = update.hashPassword(newPassword1);
       logger.info('before and after hash', {
         old: userToUpdate.passwordHash,

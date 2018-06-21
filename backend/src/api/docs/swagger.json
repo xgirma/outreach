@@ -30,7 +30,7 @@
   "paths": {
     "/register": {
       "post": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "Register new super-admin",
         "summary": "Register super-admin user",
         "requestBody": {
@@ -114,9 +114,9 @@
         }
       }
     },
-    "/admin": {
+    "/admins": {
       "post": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "Creates a new admin user",
         "summary": "Add new admin user",
         "security": [{ "bearerAuth": [] }],
@@ -158,7 +158,7 @@
         }
       },
       "get": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "If super-admin gets admins list, else gets an admin",
         "summary": "Return admin(s)",
         "security": [{ "bearerAuth": [] }],
@@ -198,9 +198,9 @@
         }
       }
     },
-    "/admin/{id}": {
+    "/admins/{id}": {
       "get": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "If super-admin gets admins list, else gets an admin",
         "summary": "Return admin(s)",
         "security": [{ "bearerAuth": [] }],
@@ -250,7 +250,7 @@
         }
       },
       "put": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "Update password",
         "summary": "Return admin temporary password",
         "security": [{ "bearerAuth": [] }],
@@ -317,7 +317,7 @@
         }
       },
       "delete": {
-        "tags": ["Admin"],
+        "tags": ["Admins"],
         "description": "If super-admin can delete all, else delete self",
         "summary": "Delete admin",
         "security": [{ "bearerAuth": [] }],

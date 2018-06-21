@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
-import { Admin } from '../resources/admin/admin.model';
+import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import { AUTERR } from '../docs/error.codes';
 import * as err from './error';
@@ -16,7 +16,7 @@ export const verifyUser = (req, res, next) => {
     return setImmediate(() => next(AUTERR));
   }
 
-  return Admin.findOne({ username })
+  return Admins.findOne({ username })
     .then((user) => {
       if (!user) {
         logger.warn('signin: with bad username', { un: username });
@@ -52,7 +52,7 @@ export const decodeToken = () => (req, res, next) => {
 };
 
 export const getFreshUser = () => (req, res, next) =>
-  Admin.findById(req.user.id)
+  Admins.findById(req.user.id)
     .then((user) => {
       if (!user) {
         logger.info('unauthorized login attempt: ', { user });

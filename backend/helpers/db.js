@@ -5,7 +5,7 @@ import '../src/api/resources/info/info.model';
 import '../src/api/resources/intro/intro.model';
 import '../src/api/resources/media/media.model';
 import '../src/api/resources/service/service.model';
-import '../src/api/resources/admin/admin.model';
+import '../src/api/resources/admins/admins.model';
 
 mongoose.Promise = global.Promise;
 

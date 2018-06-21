@@ -20,10 +20,10 @@ export const schema = {
   },
 };
 
-const adminSchema = new mongoose.Schema(schema, { timestamps: true });
-adminSchema.plugin(uniqueValidator);
+const adminsSchema = new mongoose.Schema(schema, { timestamps: true });
+adminsSchema.plugin(uniqueValidator);
 
-adminSchema.methods = {
+adminsSchema.methods = {
   authenticate(plaintTextPassword) {
     return bcrypt.compareSync(plaintTextPassword, this.passwordHash);
   },
@@ -38,4 +38,4 @@ adminSchema.methods = {
   },
 };
 
-export const Admin = mongoose.model('admin', adminSchema);
+export const Admins = mongoose.model('admins', adminsSchema);
