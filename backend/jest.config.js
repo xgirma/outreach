@@ -25,4 +25,5 @@ module.exports = {
       lines: 50,
     },
   },
+  testPathIgnorePatterns: ['<rootDir>/src', '<rootDir>/__tests__'],
 };

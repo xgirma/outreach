@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { notFound, ok, created } from './assertions';
+import { notFound, ok, created } from './http.status.assertion';
 
 require('dotenv').config();
 

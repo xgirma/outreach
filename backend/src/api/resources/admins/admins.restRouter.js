@@ -1,5 +1,5 @@
 import express from 'express';
-import registerSuperAdmins from './admins.super.controller';
+import registerSuperAdmins from './admins.controller.super';
 import registerAdmins from './admins.controller';
 import { protect } from '../../modules/auth';
 

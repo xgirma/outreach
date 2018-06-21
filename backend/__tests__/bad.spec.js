@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { notFound } from '../helpers/assertions';
+import { notFound } from '../helpers/http.status.assertion';
 
 require('dotenv').config();
 
