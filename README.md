@@ -114,3 +114,26 @@ Blog
 
 "createdAt": "",
             "updatedAt": "",
+            
+When you boil it down, there are really only 3 outcomes in the interaction between an app and an API:
+
+Everything worked
+The application did something wrong
+The API did something wrong
+Start by using the following 3 codes. If you need more, add them. But you shouldn't go beyond 8.
+
+200 - OK
+404 - Not Found
+500 - Internal Server Error
+If you're not comfortable reducing all your error conditions to these 3, try picking among these additional 5:
+
+201 - Created
+304 - Not Modified
+400 - Bad Request
+401 - Unauthorized
+403 - Forbidden
+https://apigee.com/about/blog/technology/restful-api-design-what-about-errors
+
+REST Best Practices: 
+
+1. Use nouns but no verbs
