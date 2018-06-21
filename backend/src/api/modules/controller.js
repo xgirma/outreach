@@ -24,11 +24,11 @@ export const controllers = {
       .exec()
       .then((doc) => {
         const passwordTest = owasp.test(body.password);
-        if(!passwordTest.strong){
+        if (!passwordTest.strong) {
           console.log(passwordTest.errors);
           throw new Error(passwordTest.errors);
         }
-        
+
         superAdmin.passwordHash = superAdmin.hashPassword(body.password);
         if (Array.isArray(doc) && doc.length === 0) {
           superAdmin.role = 0;
@@ -273,7 +273,7 @@ export const updateAdmin = (model) => (req, res, next) => {
     if (user._id.equals(userToUpdate._id)) {
       // use-case 1 -super-admin changing its own password
       const { newPassword1, newPassword2, oldPassword } = req.body;
-      
+
       if (newPassword1 !== newPassword2) {
         logger.info('new password one and new password two do not match');
         return setImmediate(() =>
@@ -281,30 +281,26 @@ export const updateAdmin = (model) => (req, res, next) => {
         );
       }
       logger.info('new password one and new password two match');
-  
-      if(newPassword1 === oldPassword){
-        return setImmediate(() =>
-          next(err.BadRequest('new and old password are same')),
-        );
+
+      if (newPassword1 === oldPassword) {
+        return setImmediate(() => next(err.BadRequest('new and old password are same')));
       }
-      
+
       const passwordTest = owasp.test(newPassword1);
-      
-      if(!passwordTest.strong){
+
+      if (!passwordTest.strong) {
         console.log('errors: ', passwordTest.errors);
         logger.info('week password selected');
         // TODO return passwordTest.errors
-        return setImmediate(() =>
-          next(err.BadRequest('weak password entered')),
-        );
+        return setImmediate(() => next(err.BadRequest('weak password entered')));
       }
-      
+
       // password matches with existing password in db?
       if (!userToUpdate.authenticate(oldPassword)) {
         logger.info('entered wrong old password');
         return setImmediate(() => next(err.Unauthorized('wrong old password')));
       }
-      
+
       logger.info('entered correct old password');
       const update = new Admin(userToUpdate);
       update.passwordHash = update.hashPassword(newPassword1);
@@ -347,23 +343,19 @@ export const updateAdmin = (model) => (req, res, next) => {
       );
     }
     logger.info('new password one and new password two match');
-    if(newPassword1 === oldPassword){
-      return setImmediate(() =>
-        next(err.BadRequest('new and old password are same')),
-      );
+    if (newPassword1 === oldPassword) {
+      return setImmediate(() => next(err.BadRequest('new and old password are same')));
     }
-  
+
     const passwordTest = owasp.test(newPassword1);
-  
-    if(!passwordTest.strong){
+
+    if (!passwordTest.strong) {
       console.log('errors: ', passwordTest.errors);
       logger.info('week password selected');
       // TODO return passwordTest.errors
-      return setImmediate(() =>
-        next(err.BadRequest('weak password entered')),
-      );
+      return setImmediate(() => next(err.BadRequest('weak password entered')));
     }
-    
+
     // password matches with existing password in db?
     if (!userToUpdate.authenticate(oldPassword)) {
       logger.info('entered wrong old password');
