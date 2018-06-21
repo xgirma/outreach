@@ -25,7 +25,6 @@ export const controllers = {
       .then((doc) => {
         const passwordTest = owasp.test(body.password);
         if (!passwordTest.strong) {
-          console.log(passwordTest.errors);
           throw new Error(passwordTest.errors);
         }
 
@@ -289,7 +288,6 @@ export const updateAdmin = (model) => (req, res, next) => {
       const passwordTest = owasp.test(newPassword1);
 
       if (!passwordTest.strong) {
-        console.log('errors: ', passwordTest.errors);
         logger.info('week password selected');
         // TODO return passwordTest.errors
         return setImmediate(() => next(err.BadRequest('weak password entered')));
@@ -350,7 +348,6 @@ export const updateAdmin = (model) => (req, res, next) => {
     const passwordTest = owasp.test(newPassword1);
 
     if (!passwordTest.strong) {
-      console.log('errors: ', passwordTest.errors);
       logger.info('week password selected');
       // TODO return passwordTest.errors
       return setImmediate(() => next(err.BadRequest('weak password entered')));
@@ -362,7 +359,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       return setImmediate(() => next(err.Unauthorized('wrong old password')));
     }
     logger.info('entered correct old password');
-    const update = new Admin(userToUpdate);
+    const update = new Admins(userToUpdate);
     update.passwordHash = update.hashPassword(newPassword1);
     logger.info('before and after hash', {
       old: userToUpdate.passwordHash,
