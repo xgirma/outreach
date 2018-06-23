@@ -4,7 +4,7 @@
   "description": "Backend app for outreach",
   "main": "dist",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --coverage",
+    "test": "jest --forceExit",
     "test:watch": "jest --watch --coverage",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",

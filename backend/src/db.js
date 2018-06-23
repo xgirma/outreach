@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import logger from './api/modules/logger';
 
 mongoose.Promise = global.Promise;
-require('dotenv').config();
+dotenv.config();
 
 if (process.env.NODE_ENV !== 'production') {
   mongoose.set('debug', true);

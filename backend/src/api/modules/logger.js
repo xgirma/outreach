@@ -1,9 +1,10 @@
 import winston from 'winston';
 import moment from 'moment';
+import dotenv from 'dotenv';
 
 // eslint-disable-next-line
 const { MongoDB } = require('winston-mongodb');
-require('dotenv').config();
+dotenv.config();
 
 const winstonOptions = {
   console: {
@@ -17,24 +18,24 @@ const winstonOptions = {
     handleExceptions: true,
     humanReadableUnhandledException: true,
   },
-  mongodb: {
-    name: 'all',
-    level: process.env.MONGODB_LOG_LEVEL,
-    db: process.env.MONGODB_URL,
-    collection: process.env.MONGODB_COLLECTION_INFO,
-    storeHost: true,
-    tryReconnect: true,
-    decolorize: true,
-  },
-  errordb: {
-    name: 'error-only',
-    level: 'error',
-    db: process.env.MONGODB_URL,
-    collection: process.env.MONGODB_COLLECTION_ERROR,
-    storeHost: true,
-    tryReconnect: true,
-    decolorize: true,
-  },
+  // mongodb: {
+  //   name: 'all',
+  //   level: process.env.MONGODB_LOG_LEVEL,
+  //   db: process.env.MONGODB_URL,
+  //   collection: process.env.MONGODB_COLLECTION_INFO,
+  //   storeHost: true,
+  //   tryReconnect: true,
+  //   decolorize: true,
+  // },
+  // errordb: {
+  //   name: 'error-only',
+  //   level: 'error',
+  //   db: process.env.MONGODB_URL,
+  //   collection: process.env.MONGODB_COLLECTION_ERROR,
+  //   storeHost: true,
+  //   tryReconnect: true,
+  //   decolorize: true,
+  // },
 };
 
 const logger = new winston.Logger({

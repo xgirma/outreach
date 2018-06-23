@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import dotenv from 'dotenv';
 import { notFound, ok, created } from './http.status.assertion';
 
-require('dotenv').config();
+dotenv.config();
 
 const url = `${process.env.HOST}:${process.env.PORT}/${process.env.BASE_PATH}`;
 const badId = 200220202;

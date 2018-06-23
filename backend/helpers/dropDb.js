@@ -1,13 +1,8 @@
 import mongoose from 'mongoose';
-import '../src/api/resources/blog/blog.model';
-import '../src/api/resources/event/event.model';
-import '../src/api/resources/info/info.model';
-import '../src/api/resources/intro/intro.model';
-import '../src/api/resources/media/media.model';
-import '../src/api/resources/service/service.model';
-import '../src/api/resources/admins/admins.model';
+import dotenv from 'dotenv';
 
 mongoose.Promise = global.Promise;
+dotenv.config();
 
 export const removeModel = (modelName) => {
   const model = mongoose.model(modelName);

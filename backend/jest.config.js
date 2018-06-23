@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'test';
 
 module.exports = {
   displayName: 'server',
@@ -25,5 +25,13 @@ module.exports = {
       lines: 50,
     },
   },
-  testPathIgnorePatterns: ['<rootDir>/src', '<rootDir>/__tests__'],
+  testPathIgnorePatterns: [
+    '<rootDir>/src/api/resources/blog',
+    '<rootDir>/src/api/resources/event',
+    '<rootDir>/src/api/resources/info',
+    '<rootDir>/src/api/resources/intro',
+    '<rootDir>/src/api/resources/media',
+    '<rootDir>/src/api/resources/service',
+    '<rootDir>/__tests__',
+  ],
 };
