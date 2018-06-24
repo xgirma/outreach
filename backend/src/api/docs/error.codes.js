@@ -1,3 +1,4 @@
+// TODO delete
 export const SERERR = {
   title: 'Unknown server error',
   message:

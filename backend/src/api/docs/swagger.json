@@ -31,10 +31,11 @@
     "/register": {
       "post": {
         "tags": ["Admins"],
-        "description": "Register new super-admin",
+        "description":
+          "Register new super-admin if it does not exist already. Use strong password. The password must be at least 8 characters long. The password must contain at least one uppercase letter. The password must contain at least one number. The password must contain at least one special character. Password also can just be a pass-phrase as explained here https://xkcd.com/936/. Example pass-phrase: 'correct horse battery staple'",
         "summary": "Register super-admin user",
         "requestBody": {
-          "description": "New super-admin to add",
+          "description": "The username and password of the new super-admin",
           "required": true,
           "content": {
             "application/json": {
@@ -272,9 +273,9 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "oldPassword": { "$ref": "#/components/parameters/password" },
-                  "newPassword1": { "$ref": "#/components/parameters/newPassword" },
-                  "newPassword2": { "$ref": "#/components/parameters/newPassword" }
+                  "currentPassword": { "$ref": "#/components/parameters/password" },
+                  "newPassword": { "$ref": "#/components/parameters/newPassword" },
+                  "newPasswordAgain": { "$ref": "#/components/parameters/newPassword" }
                 }
               }
             }
