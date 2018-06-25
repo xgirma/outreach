@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as err from '../../modules/error';
+import * as faker from '../../../../helpers/faker';
 
 /*
  * authorisation without-token should be prevented
@@ -45,3 +46,10 @@ export const withInvalidReqBody = (result) => {
   expect(name).to.equal(err.BadRequest.name);
   expect(message).to.equal('Proper username and password is required');
 };
+
+// request body for POST /admin
+export const withShortPassword = { username: faker.username, password: faker.shortPassword };
+export const withLongPassword = { username: faker.username, password: faker.longPassword };
+export const withWeakPassword = { username: faker.username, password: faker.weakPassword };
+export const withWeakPassPhrase = { username: faker.username, password: faker.weakPassPhrase };
+export const with8CharacterPassword = { username: faker.username, password: faker.minPassword8 };

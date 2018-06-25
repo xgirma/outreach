@@ -155,29 +155,19 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       });
 
       test('should not register if password length is < 8 characters', async () => {
-        const badReqBody = {
-          username: faker.username,
-          password: faker.shortPassword,
-        };
-
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(badReqBody);
+          .send(assert.withShortPassword);
 
         assert.withInvalidReqBody(result);
       });
 
       test('should not register if password length is > 128 characters', async () => {
-        const badReqBody = {
-          username: faker.username,
-          password: faker.longPassword,
-        };
-
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(badReqBody);
+          .send(assert.withLongPassword);
 
         assert.withInvalidReqBody(result);
       });
@@ -199,15 +189,10 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       ];
 
       test('should not register with weak-password', async () => {
-        const adminUserWithWeakPassword = {
-          username: faker.username,
-          password: faker.weakPassword,
-        };
-
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(adminUserWithWeakPassword);
+          .send(assert.withWeakPassword);
 
         const { status, data } = result.body;
         const { name, message } = data;
@@ -219,15 +204,10 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       });
 
       test('should not register with weak-pass-phrase', async () => {
-        const adminUserWithWeakPassword = {
-          username: faker.username,
-          password: faker.weakPassPhrase,
-        };
-
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(adminUserWithWeakPassword);
+          .send(assert.withWeakPassPhrase);
 
         const { status, data } = result.body;
         const { name, message } = data;
@@ -245,16 +225,11 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
    * - using 8 character long password
    */
   describe(`POST /${resourceName[1]}: with good-body`, () => {
-    const superAdminUser = {
-      username: faker.username,
-      password: faker.minPassword8,
-    };
-
     test('should register super-admin', async () => {
       const result = await chai
         .request(app)
         .post(`/api/v1/${resourceName[0]}`)
-        .send(superAdminUser);
+        .send(assert.with8CharacterPassword);
 
       const { status, data } = result.body;
       const { token } = data;
@@ -268,7 +243,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       const result = await chai
         .request(app)
         .post(`/api/v1/${resourceName[0]}`)
-        .send(superAdminUser);
+        .send(assert.with8CharacterPassword);
 
       const { status, data } = result.body;
       const { name, message } = data;
