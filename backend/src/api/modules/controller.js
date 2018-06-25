@@ -15,16 +15,16 @@ const validator = new Validator();
 
 export const controllers = {
   /*
-   *  Creates a supper admin in database if it dose not exist.
+   *  Writes a supper admin to database if it dose not exist
    *
-   *  @param model: admin user mongoose model
+   *  @param model: admin user model
    *  @param body: object containing username and password
    *    {
    *      "username": "John.Doe",
    *      "password": "p-U:QaA/3G"
    *    }
    *
-   *  @return should return a JWT token / error
+   *  @return should return a new admin / error
    *
    *  This function may fail for several reasons
    *  - invalid request body
@@ -32,13 +32,10 @@ export const controllers = {
    */
   addSuperAdmin(model, body) {
     const testBody = validator.validate(body, schema.createAdmin);
-    logger.info('testBody', { testBody });
+
     if (testBody.errors.length > 0) {
       const { errors } = testBody;
-      logger.info('bbc');
-      logger.info('length: ', { length: errors.length });
-      logger.info('abcd');
-      logger.error('Request body validation error', { errors: testBody.errors });
+      logger.error('Request body validation error', { errors });
       throw err.BadRequest('Proper username and password is required');
     }
 
@@ -59,7 +56,7 @@ export const controllers = {
           superAdmin.role = 0;
           return model.create(superAdmin);
         }
-        throw err.BadRequest('Super-admin already exist');
+        return null;
       })
       .catch((error) => {
         throw error;
@@ -131,27 +128,32 @@ export const controllers = {
   },
 };
 
-/**
- * Register super-admin
- * @param model - admin
- * @returns {Function}
+/*
+ *  Creates supper admin if it dose not exist and sign a token
+ *
+ *  @param model: admin user model
+ *
+ *  @return should return a token / error
+ *
+ *  This function may fail for several reasons
+ *  - if super admin already exist
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
   controllers
     .addSuperAdmin(model, req.body)
     .then((superAdmin) => {
       if (superAdmin) {
-        const token = signToken(superAdmin.id);
-        logger.info('supper-admin is registered', { name: superAdmin.username });
+        const { id, username } = superAdmin;
+        const token = signToken(id);
+        logger.info('supper-admin is registered', { username });
         res.status(201).json({
           status: 'success',
           data: { token },
         });
       } else {
-        res.status(403).json({
-          status: 'fail',
-          data: { ...AUTERR },
-        });
+        const { username } = req.body;
+        logger.info('failed supper-admin is registration', { username });
+        throw err.Forbidden('Admin already exist');
       }
     })
     .catch((error) => {

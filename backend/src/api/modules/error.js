@@ -6,6 +6,9 @@ const BAD_REQUEST =
   'the server cannot or will not process the request due to something that is perceived to be a client error';
 const WEAK_PASSWORD = 'Weak password based on the OWASP password strength test';
 
+const FORBIDDEN =
+  'The request has not been applied because it lacks valid authentication credentials for the target resource.';
+
 const WeakPassword = (msg) => {
   const message = msg || WEAK_PASSWORD;
   const err = new Error(message);
@@ -30,6 +33,14 @@ const Unauthorized = (msg) => {
   return err;
 };
 
+const Forbidden = (msg) => {
+  const message = msg || FORBIDDEN;
+  const err = new Error(message);
+  err.name = Forbidden.name;
+  err.status = 403;
+  return err;
+};
+
 const ResourceNotFound = (msg) => {
   const message = msg || RESOURCE_NOT_FOUND;
   const err = new Error(message);
@@ -38,4 +49,4 @@ const ResourceNotFound = (msg) => {
   return err;
 };
 
-export { ResourceNotFound, Unauthorized, BadRequest, WeakPassword };
+export { ResourceNotFound, Unauthorized, BadRequest, WeakPassword, Forbidden };

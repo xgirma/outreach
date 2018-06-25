@@ -10,6 +10,7 @@ import * as assert from './test.helper';
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
 const adminUser = faker.model.admin;
+let jwt;
 
 describe(`Route: ${resourceName.join(', ')}`, () => {
   beforeAll(async () => {
@@ -127,7 +128,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
     });
   });
   /*
-   * Should not create a super-admin, if req.body is
+   * Should not register a super-admin, if req.body is
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -184,9 +185,9 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
   });
 
   /*
-   * Should not create a super-admin, if password is between
-   * 8 and 128 characters, but
-   * - weak
+   * Should not register a super-/admin, if password is between 8
+   * and 128 characters,
+   * - weak by OWASP Password Strength Test
    * - minimum pass-phrase length < 20 characters
    */
   describe(`${resourceName[0]}: with-weak-password`, () => {
@@ -239,11 +240,50 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
     });
   });
 
+  /*
+   * Should register super-admin if it does not exist
+   * - using 8 character long password
+   */
+  describe(`POST /${resourceName[1]}: with good-body`, () => {
+    const superAdminUser = {
+      username: faker.username,
+      password: faker.minPassword8,
+    };
+
+    test('should register super-admin', async () => {
+      const result = await chai
+        .request(app)
+        .post(`/api/v1/${resourceName[0]}`)
+        .send(superAdminUser);
+
+      const { status, data } = result.body;
+      const { token } = data;
+      jwt = token;
+
+      expect(result).to.have.status(201);
+      expect(status).to.equal('success');
+    });
+
+    test('should not register super-admin if exist', async () => {
+      const result = await chai
+        .request(app)
+        .post(`/api/v1/${resourceName[0]}`)
+        .send(superAdminUser);
+
+      const { status, data } = result.body;
+      const { name, message } = data;
+
+      expect(result).to.have.status(403);
+      expect(status).to.equal('fail');
+      expect(name).to.equal(err.Forbidden.name);
+      expect(message).to.equal('Admin already exist');
+    });
+  });
+
   describe(`POST/DELETE /${resourceName[1]}`, () => {
     test.skip('should create if not exist', () => {});
     test.skip('should create with password = 128 and delete', () => {});
     test.skip('should try to create with the same user name, error', () => {});
-    test.skip('should delete', () => {});
     test.skip('should create with password = 8 and delete', () => {});
     test.skip('should delete', () => {});
     test.skip('should create with password between 8 and 128 chars and delete', () => {});
