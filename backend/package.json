@@ -25,6 +25,7 @@
     "generate-password": "^1.4.0",
     "jsonschema": "^1.2.4",
     "jsonwebtoken": "^8.2.1",
+    "lodash.isempty": "^4.4.0",
     "lodash.merge": "^4.6.1",
     "method-override": "^2.3.10",
     "moment": "^2.22.1",

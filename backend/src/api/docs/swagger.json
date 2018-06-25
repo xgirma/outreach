@@ -32,8 +32,8 @@
       "post": {
         "tags": ["Admins"],
         "description":
-          "Register new super-admin if it does not exist already. Use strong password. The password must be at least 8 characters long. The password must contain at least one uppercase letter. The password must contain at least one number. The password must contain at least one special character. Password also can just be a pass-phrase as explained here https://xkcd.com/936/. Example pass-phrase: 'correct horse battery staple'",
-        "summary": "Register super-admin user",
+          "Registers new super-admin if it does not exist already. Use strong password. The password must be at least 8 characters long. The password must contain at least one uppercase letter. The password must contain at least one number. The password must contain at least one special character. Password also can just be a pass-phrase as explained here https://xkcd.com/936/. Example pass-phrase: 'correct horse battery staple'",
+        "summary": "Registers super-admin user",
         "requestBody": {
           "description": "The username and password of the new super-admin",
           "required": true,
@@ -118,8 +118,9 @@
     "/admins": {
       "post": {
         "tags": ["Admins"],
-        "description": "Creates a new admin user",
-        "summary": "Add new admin user",
+        "description":
+          "Super-admin register a new admin user. Creating a new admin requires a super-admin token. Admin cannot create another admin. If an admin with the same username exists, the new admin cannot be created.",
+        "summary": "Registers a new admin user",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "New Admin username and password",

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import isEmpty from 'lodash.isempty';
 import * as err from '../../modules/error';
 import * as faker from '../../../../helpers/faker';
 
@@ -47,9 +48,39 @@ export const withInvalidReqBody = (result) => {
   expect(message).to.equal('Proper username and password is required');
 };
 
+/*
+ * creating new admin with valid req.body should be allowed
+ *
+ * @param result: http response
+ */
+export const withValidReqBody = (result) => {
+  const { status, data } = result.body;
+
+  expect(result).to.have.status(201);
+  expect(status).to.equal('success');
+  expect(isEmpty(data)).to.equal(true);
+  expect(isEmpty([])).to.equal(true);
+};
+
+/*
+ * creating new admin with valid req.body should be allowed
+ *
+ * @param result: http response
+ */
+export const adminAlreadyExists = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(400);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.BadRequest.name);
+  expect(message).to.equal('Username already exists');
+};
+
 // request body for POST /admin
 export const withShortPassword = { username: faker.username, password: faker.shortPassword };
 export const withLongPassword = { username: faker.username, password: faker.longPassword };
 export const withWeakPassword = { username: faker.username, password: faker.weakPassword };
 export const withWeakPassPhrase = { username: faker.username, password: faker.weakPassPhrase };
 export const with8CharacterPassword = { username: faker.username, password: faker.minPassword8 };
+export const withGoodPassword = { username: faker.adminUsername, password: faker.maxPassword128 };

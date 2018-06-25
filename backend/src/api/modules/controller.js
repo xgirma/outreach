@@ -1,5 +1,6 @@
 /* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle, function-paren-newline */
 import merge from 'lodash.merge';
+import isEmpty from 'lodash.isempty';
 import { generate } from 'generate-password';
 import { Validator } from 'jsonschema';
 import { isMongoId } from 'validator';
@@ -20,39 +21,24 @@ export const controllers = {
    *  @param model: admin user model
    *  @param body: object containing username and password
    *    {
-   *      "username": "John.Doe",
-   *      "password": "p-U:QaA/3G"
+   *      username: "John.Doe",
+   *      password: "p-U:QaA/3G"
    *    }
    *
-   *  @return should return a new admin / error
+   *  @return: a new admin (role = 0) / error
    *
    *  This function may fail for several reasons
    *  - invalid request body
    *  - password: OWASP Password Strength Test
    */
   addSuperAdmin(model, body) {
-    const testBody = validator.validate(body, schema.createAdmin);
-
-    if (testBody.errors.length > 0) {
-      const { errors } = testBody;
-      logger.error('Request body validation error', { errors });
-      throw err.BadRequest('Proper username and password is required');
-    }
-
     return model
       .find({ role: 0 })
       .exec()
       .then((doc) => {
-        const passwordTest = owasp.test(body.password);
-        if (!passwordTest.strong) {
-          const { errors } = passwordTest;
-          const message = errors.join(' ');
-          throw err.WeakPassword(message);
-        }
-
         const superAdmin = new Admins(body);
         superAdmin.passwordHash = superAdmin.hashPassword(body.password);
-        if (Array.isArray(doc) && doc.length === 0) {
+        if (isEmpty(doc)) {
           superAdmin.role = 0;
           return model.create(superAdmin);
         }
@@ -63,34 +49,64 @@ export const controllers = {
       });
   },
 
-  /**
-   * Create admin
-   * @param model - admin
-   * @param body - username and password
-   * @param user - super admin only
-   * @returns {*}
+  /*
+   * Super-admin writes an admin to database
+   *
+   * @param model: admin user model
+   * @param body - object containing username and password
+   *    {
+   *      username: "John.Doe",
+   *      password: "p-U:QaA/3G"
+   *    }
+   * @param user - super-admin user object
+   *    {
+   *      _id: "5b306f3331c68b024299ee26",
+   *      username: "John.Doe",
+   *      passwordHash: "$2b$10$5pbNcCAsqoR247LPcFnhB.tv8uD66ZJTmdYoOW4WbZaJ3PhZlgM/m",
+   *      role: 0,
+   *      createdAt: 2018-06-25T04:19:45.080Z,
+   *      updatedAt: 2018-06-25T04:19:45.080Z,
+   *      __v: 0
+   *    },
+   *
+   *  @return: new admin (role = 1) / error
+   *
+   *  This function may fail for several reasons
+   *  - invalid request body
+   *  - password: OWASP Password Strength Test
    */
-  addAdmin(model, body, user) {
+  addAdmin(model, body, superAdmin) {
     return model
       .find({ role: 0 })
       .exec()
       .then((doc) => {
-        if (Array.isArray(doc) && doc.length === 0) {
+        if (isEmpty(doc)) {
+          logger.warning('super-admin user is not found in database');
           return null;
         }
+
         const adminUser = JSON.parse(JSON.stringify(doc));
-        // TODO use _id.equals(id)
-        if (adminUser[0]._id === user.id && adminUser[0].role === user.role) {
-          const newAdmin = new Admins(body);
-          newAdmin.passwordHash = newAdmin.hashPassword(body.password);
-          newAdmin.role = 1;
-          return model.create(newAdmin);
+        // check if superAdmin is super-admin
+        if (superAdmin._id.equals(adminUser[0]._id)) {
+          if (adminUser[0].role === superAdmin.role) {
+            if (adminUser[0].username === superAdmin.username) {
+              const newAdmin = new Admins(body);
+              newAdmin.passwordHash = newAdmin.hashPassword(body.password);
+              newAdmin.role = 1;
+              return model.create(newAdmin);
+            }
+          }
         }
+
+        logger.warning('a non super-admin user attempted to create admin');
         return null;
       })
       .catch((error) => {
-        logger.error('can not register admin', { error });
-        throw new Error(error);
+        if (error.name === 'ValidationError') {
+          logger.warn('Duplicate', { error });
+          throw err.BadRequest('Username already exists');
+        }
+        throw error;
       });
   },
 
@@ -129,16 +145,46 @@ export const controllers = {
 };
 
 /*
+ * Test and throw error if the create-new-admin request-body is
+ * invalid based on the schema validation
+ */
+const testNewAdminReqBody = (body) => {
+  const testBody = validator.validate(body, schema.createAdmin);
+
+  if (testBody.errors.length > 0) {
+    const { errors } = testBody;
+    logger.warn('Request body validation error', { errors });
+    throw err.BadRequest('Proper username and password is required');
+  }
+};
+
+/*
+ * Test and throw if a password is weak.
+ * Should come after req body test (testNewAdminReqBody)
+ */
+const testPasswordStrength = ({ password }) => {
+  const passwordTest = owasp.test(password);
+  if (!passwordTest.strong) {
+    const { errors } = passwordTest;
+    const message = errors.join(' ');
+    throw err.WeakPassword(message);
+  }
+};
+
+/*
  *  Creates supper admin if it dose not exist and sign a token
  *
  *  @param model: admin user model
  *
- *  @return should return a token / error
+ *  @return: a token / error
  *
  *  This function may fail for several reasons
  *  - if super admin already exist
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
+  testNewAdminReqBody(req.body);
+  testPasswordStrength(req.body);
+
   controllers
     .addSuperAdmin(model, req.body)
     .then((superAdmin) => {
@@ -152,8 +198,8 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
         });
       } else {
         const { username } = req.body;
-        logger.info('failed supper-admin is registration', { username });
-        throw err.Forbidden('Admin already exist');
+        logger.warn('failed supper-admin registration', { username });
+        throw err.Forbidden('Admin already exists');
       }
     })
     .catch((error) => {
@@ -161,28 +207,31 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
     });
 };
 
-/**
- * Super-admin register admin
- * @param model - admin
- * @returns {Function}
+/*
+ *  Creates admin
+ *
+ *  @param model: admin user model
+ *
+ *  @return: success with no data / error
+ *
+ *  This function may fail for several reasons
+ *  - if admin with the same name already exists
  */
 export const registerAdmin = (model) => (req, res, next) => {
+  testNewAdminReqBody(req.body);
+  testPasswordStrength(req.body);
   decodeToken();
+
   controllers
     .addAdmin(model, req.body, req.user)
     .then((newAdmin) => {
       if (newAdmin) {
-        const token = signToken(newAdmin.id);
         logger.info('admin is registered', { name: newAdmin.username });
-        res.status(201).json({
-          status: 'success',
-          data: { newAdmin },
-        });
+        res.status(201).json({ status: 'success', data: {} });
       } else {
-        res.status(403).json({
-          status: 'fail',
-          data: { ...AUTERR },
-        });
+        const { username } = req.body;
+        logger.warn('failed admin registration', { username });
+        throw err.Forbidden('Admin already exist');
       }
     })
     .catch((error) => {
