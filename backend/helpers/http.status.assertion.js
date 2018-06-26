@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as err from '../src/api/modules/error';
 
 const jsonContent = (result) => {
   expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
@@ -15,9 +16,14 @@ export const badRequest = (result) => {
   jsonContent(result);
 };
 
-export const notFound = (result) => {
+export const notFound = (result, msg) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
   expect(result).to.have.status(404);
-  expect(result.body.data).to.equal(undefined);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.ResourceNotFound.name);
+  expect(message).to.equal(msg || err.ResourceNotFound.message);
   jsonContent(result);
 };
 

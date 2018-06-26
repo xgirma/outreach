@@ -16,20 +16,20 @@ const validator = new Validator();
 
 export const controllers = {
   /*
-   *  Writes a supper admin to database if it dose not exist
+   * Writes a supper admin to database if it dose not exist
    *
-   *  @param model: admin user model
-   *  @param body: object containing username and password
+   * @param model: admin user model
+   * @param body: object containing username and password
    *    {
    *      username: "John.Doe",
    *      password: "p-U:QaA/3G"
    *    }
    *
-   *  @return: a new admin (role = 0) / error
+   * @return: a new admin (role = 0) / error
    *
-   *  This function may fail for several reasons
-   *  - invalid request body
-   *  - password: OWASP Password Strength Test
+   * This function may fail for several reasons
+   * - invalid request body
+   * - password: OWASP Password Strength Test
    */
   addSuperAdmin(model, body) {
     return model
@@ -159,7 +159,7 @@ const testNewAdminReqBody = (body) => {
 };
 
 /*
- * Test and throw if a password is weak.
+ * Test and throw error if a password is weak.
  * Should come after req body test (testNewAdminReqBody)
  */
 const testPasswordStrength = ({ password }) => {
@@ -172,14 +172,14 @@ const testPasswordStrength = ({ password }) => {
 };
 
 /*
- *  Creates supper admin if it dose not exist and sign a token
+ * Creates supper admin if it dose not exist and sign a token
  *
- *  @param model: admin user model
+ * @param model: admin user model
  *
- *  @return: a token / error
+ * @return: a token / error
  *
- *  This function may fail for several reasons
- *  - if super admin already exist
+ * This function may fail for several reasons
+ * - if super admin already exist
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
   testNewAdminReqBody(req.body);
@@ -208,14 +208,14 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
 };
 
 /*
- *  Creates admin
+ * Creates admin
  *
- *  @param model: admin user model
+ * @param model: admin user model
  *
- *  @return: success with no data / error
+ * @return: success with no data / error
  *
- *  This function may fail for several reasons
- *  - if admin with the same name already exists
+ * This function may fail for several reasons
+ * - if admin with the same name already exists
  */
 export const registerAdmin = (model) => (req, res, next) => {
   testNewAdminReqBody(req.body);
@@ -239,13 +239,17 @@ export const registerAdmin = (model) => (req, res, next) => {
     });
 };
 
-/**
- * Get all admins if super-admin, else gets an admin
+/*
+ * If the requesting user is admin return only the requesting admin user data.
+ * When super-admin, return all admins data. That will be used when the super-admin
+ * manages other admin accounts, such as deleting or updating other admins
+ *
  * @param model - admin
  * @returns {Function}
  */
 export const getAdmins = (model) => (req, res, next) => {
-  // logger.silly('i was here');
+  decodeToken();
+
   const { user } = req;
   if (user.role === 0) {
     controllers
@@ -260,6 +264,7 @@ export const getAdmins = (model) => (req, res, next) => {
         setImmediate(() => next(error));
       });
   } else {
+    // TODO this could be extracted from the token
     res.status(200).json({
       status: 'success',
       data: { admin: user },
@@ -267,8 +272,11 @@ export const getAdmins = (model) => (req, res, next) => {
   }
 };
 
-/**
- * Get (super)admin by ID
+/*
+ * If the requesting user is admin return only the requesting admin user data.
+ * A super-admin, can get any admin data by id. That will be used when the super-admin
+ * manages other admin accounts, such as deleting or updating other admins
+ *
  * @param model - admin
  * @returns {Function}
  */
@@ -277,17 +285,18 @@ export const getAdmin = (model) => (req, res, next) => {
   if (user.role === 0) {
     controllers
       .getOne(req.docFromId)
-      .then((admin) => {
-        if (!admin) throw err.ResourceNotFound();
+      .then((admins) => {
+        if (!admins) throw err.ResourceNotFound();
         res.status(200).json({
           status: 'success',
-          data: { admin },
+          data: { admins },
         });
       })
       .catch((error) => {
         setImmediate(() => next(error));
       });
   } else {
+    // TODO this could be extracted from the token
     res.status(200).json({
       status: 'success',
       data: { admin: user },

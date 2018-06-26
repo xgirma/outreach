@@ -77,6 +77,24 @@ export const adminAlreadyExists = (result) => {
   expect(message).to.equal('Username already exists');
 };
 
+/*
+ * gets all admin for supper-admin or gets the requesting admin
+ * @type {{username: string, password: string}}
+ */
+export const getAllAdmins = (result, all = true) => {
+  const { status, data } = result.body;
+  const { admins } = data;
+
+  expect(result).to.have.status(200);
+  expect(status).to.equal('success');
+
+  if (all) {
+    expect(admins.length).to.be.greaterThan(1);
+  } else {
+    expect(isEmpty(admins)).to.equal(false);
+  }
+};
+
 // request body for POST /admin
 export const withShortPassword = { username: faker.username, password: faker.shortPassword };
 export const withLongPassword = { username: faker.username, password: faker.longPassword };

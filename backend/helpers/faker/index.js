@@ -18,6 +18,7 @@ export const model = {
   service,
 };
 export const mongoId = '5b1de7ac698c71055ef657f3';
+export const invalidMongoId = '5b1de7ac698c71055ef657f33333';
 export const username = 'John.Doe'; // super-admin-username
 export const adminUsername = 'Joan.Joe';
 export const strongPassword = 'p-U:QaA/3G';

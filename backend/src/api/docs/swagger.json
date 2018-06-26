@@ -161,7 +161,8 @@
       },
       "get": {
         "tags": ["Admins"],
-        "description": "If super-admin gets admins list, else gets an admin",
+        "description":
+          "If the requesting user is admin return only the requesting admin user data. When super-admin, return all admins data. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
         "summary": "Return admin(s)",
         "security": [{ "bearerAuth": [] }],
         "responses": {
@@ -203,15 +204,16 @@
     "/admins/{id}": {
       "get": {
         "tags": ["Admins"],
-        "description": "If super-admin gets admins list, else gets an admin",
-        "summary": "Return admin(s)",
+        "description":
+          "If the requesting user is admin return only the requesting admin user data. A super-admin, can get any admin data by id. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
+        "summary": "Return admin by id",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Admin ID",
+            "description": "Admin id",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }

@@ -1,16 +1,18 @@
+/* eslint-disable no-underscore-dangle */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
-import { created } from '../../../../helpers/http.status.assertion';
+import * as assert from '../../../../helpers/http.status.assertion';
 import { dropDb } from '../../../../helpers/dropDb';
 import * as faker from '../../../../helpers/faker';
 import * as err from '../../modules/error';
-import * as assert from './test.helper';
+import * as assertAdmin from './test.helper';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
 const adminUser = faker.model.admin;
 let jwt;
+const ids = [];
 
 describe(`Route: ${resourceName.join(', ')}`, () => {
   beforeAll(async () => {
@@ -33,7 +35,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .post(`/api/v1/${resourceName[1]}`)
           .send({ ...adminUser });
 
-        assert.withoutToken(result);
+        assertAdmin.withoutToken(result);
       });
 
       test(`should not create ${resourceName[1]} with-invalid-token`, async () => {
@@ -43,7 +45,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .set('Authorization', `Bearer ${faker.token}`)
           .send({ ...adminUser });
 
-        assert.withInvalidToken(result);
+        assertAdmin.withInvalidToken(result);
       });
     });
 
@@ -51,7 +53,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       test(`should not get ${resourceName[1]} without-token`, async () => {
         const result = await chai.request(app).get(`/api/v1/${resourceName[1]}`);
 
-        assert.withoutToken(result);
+        assertAdmin.withoutToken(result);
       });
 
       test(`should not get ${resourceName[1]} with-invalid-token`, async () => {
@@ -60,7 +62,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .get(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${faker.token}`);
 
-        assert.withInvalidToken(result);
+        assertAdmin.withInvalidToken(result);
       });
     });
 
@@ -68,7 +70,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
       test(`should not get ${resourceName[1]}/${faker.mongoId} without-token`, async () => {
         const result = await chai.request(app).get(`/api/v1/${resourceName[1]}/${faker.mongoId}`);
 
-        assert.withoutToken(result);
+        assertAdmin.withoutToken(result);
       });
 
       test(`should not get ${resourceName[1]}/${faker.mongoId} with-invalid-token`, async () => {
@@ -77,7 +79,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .get(`/api/v1/${resourceName[1]}/${faker.mongoId}`)
           .set('Authorization', `Bearer ${faker.token}`);
 
-        assert.withInvalidToken(result);
+        assertAdmin.withInvalidToken(result);
       });
     });
 
@@ -94,7 +96,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .put(`/api/v1/${resourceName[1]}/${faker.mongoId}`)
           .send(updatePassword);
 
-        assert.withoutToken(result);
+        assertAdmin.withoutToken(result);
       });
 
       test(`should not update ${resourceName[1]}/${faker.mongoId} with-invalid-token`, async () => {
@@ -104,7 +106,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .set('Authorization', `Bearer ${faker.token}`)
           .send(updatePassword);
 
-        assert.withInvalidToken(result);
+        assertAdmin.withInvalidToken(result);
       });
     });
 
@@ -114,7 +116,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${faker.mongoId}`);
 
-        assert.withoutToken(result);
+        assertAdmin.withoutToken(result);
       });
 
       test(`should not delete ${resourceName[1]}/${faker.mongoId} with-invalid-token`, async () => {
@@ -123,7 +125,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .delete(`/api/v1/${resourceName[1]}/${faker.mongoId}`)
           .set('Authorization', `Bearer ${faker.token}`);
 
-        assert.withInvalidToken(result);
+        assertAdmin.withInvalidToken(result);
       });
     });
   });
@@ -142,7 +144,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send({});
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
 
       test('should not register if req.body is invalid', async () => {
@@ -151,25 +153,25 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send({ name: '' });
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
 
       test('should not register if password length is < 8 characters', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.withShortPassword);
+          .send(assertAdmin.withShortPassword);
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
 
       test('should not register if password length is > 128 characters', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.withLongPassword);
+          .send(assertAdmin.withLongPassword);
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
     });
   });
@@ -192,7 +194,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.withWeakPassword);
+          .send(assertAdmin.withWeakPassword);
 
         const { status, data } = result.body;
         const { name, message } = data;
@@ -207,7 +209,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.withWeakPassPhrase);
+          .send(assertAdmin.withWeakPassPhrase);
 
         const { status, data } = result.body;
         const { name, message } = data;
@@ -230,7 +232,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.with8CharacterPassword);
+          .send(assertAdmin.with8CharacterPassword);
 
         const { status, data } = result.body;
         const { token } = data;
@@ -244,7 +246,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assert.with8CharacterPassword);
+          .send(assertAdmin.with8CharacterPassword);
 
         const { status, data } = result.body;
         const { name, message } = data;
@@ -271,7 +273,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({});
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
 
       test('should not register if req.body is invalid', async () => {
@@ -281,14 +283,14 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({ username: 'John.Pop' });
 
-        assert.withInvalidReqBody(result);
+        assertAdmin.withInvalidReqBody(result);
       });
     });
   });
 
   /*
    * Should register an admin, if req.body is valid
-   * Should not register an admin, if username already exists
+   * Should not register an admin, if username already exists in database
    */
   describe(`${resourceName[1]}: with-good-req-body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
@@ -297,9 +299,9 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assert.withGoodPassword);
+          .send(assertAdmin.withGoodPassword);
 
-        assert.withValidReqBody(result);
+        assertAdmin.withValidReqBody(result);
       });
 
       test('should not register if admin already exists', async () => {
@@ -307,14 +309,79 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assert.withGoodPassword);
+          .send(assertAdmin.withGoodPassword);
 
-        assert.adminAlreadyExists(result);
+        assertAdmin.adminAlreadyExists(result);
       });
     });
   });
 
-  describe(`POST/DELETE /${resourceName[1]}`, () => {
-    test.skip('test user name already exists', () => {});
+  /*
+   * Super admin gets all admins data
+   */
+  describe(`${resourceName[1]}:`, () => {
+    describe(`GET /${resourceName[1]}`, () => {
+      test('should get all admins', async () => {
+        const result = await chai
+          .request(app)
+          .get(`/api/v1/${resourceName[1]}`)
+          .set('Authorization', `Bearer ${jwt}`);
+
+        const { admins } = result.body.data;
+        ids.push(admins[0]._id);
+        ids.push(admins[1]._id);
+
+        assertAdmin.getAllAdmins(result);
+      });
+    });
+  });
+
+  /*
+   * Super admin gets admin by id
+   */
+  describe(`${resourceName[1]}:`, () => {
+    describe(`GET /${resourceName[1]}/{id}`, () => {
+      test('should get the first admin (super-admin) by id', async () => {
+        const result = await chai
+          .request(app)
+          .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`);
+
+        assertAdmin.getAllAdmins(result, false);
+      });
+
+      test('should get the second admin (admin) by id', async () => {
+        const result = await chai
+          .request(app)
+          .get(`/api/v1/${resourceName[1]}/${ids[1]}`)
+          .set('Authorization', `Bearer ${jwt}`);
+
+        assertAdmin.getAllAdmins(result, false);
+      });
+
+      test('should not get admin with bad mongoose id', async () => {
+        const result = await chai
+          .request(app)
+          .get(`/api/v1/${resourceName[1]}/${faker.invalidMongoId}`)
+          .set('Authorization', `Bearer ${jwt}`);
+
+        assert.notFound(result, 'Not a MongoId');
+      });
+
+      test('should not get admin with valid but non-existent mongoose id', async () => {
+        const result = await chai
+          .request(app)
+          .get(`/api/v1/${resourceName[1]}/${faker.mongoId}`)
+          .set('Authorization', `Bearer ${jwt}`);
+
+        assert.notFound(result, 'No resource found with this Id');
+      });
+    });
+  });
+
+  describe(`${resourceName[1]}:`, () => {
+    describe(`GET /${resourceName[1]}`, () => {
+      test.skip('test user name already exists', () => {});
+    });
   });
 });
