@@ -136,9 +136,9 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
    * - password is < 8 characters
    * - password is > 128 characters
    */
-  describe(`${resourceName[0]}: with-bad-req.body`, () => {
+  describe(`${resourceName[0]}: with-bad-req-body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
-      test('should not register if req.body is {}', async () => {
+      test('should not register if req-body is {}', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
@@ -147,7 +147,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         assertAdmin.withInvalidReqBody(result);
       });
 
-      test('should not register if req.body is invalid', async () => {
+      test('should not register if req-body is invalid', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
@@ -242,7 +242,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         expect(status).to.equal('success');
       });
 
-      test('should not register super-admin if is exists', async () => {
+      test('should not register super-admin if it exists', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
@@ -276,7 +276,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         assertAdmin.withInvalidReqBody(result);
       });
 
-      test('should not register if req.body is invalid', async () => {
+      test('should not register if req-body is invalid', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
@@ -382,6 +382,9 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
   describe(`${resourceName[1]}:`, () => {
     describe(`GET /${resourceName[1]}`, () => {
       test.skip('test user name already exists', () => {});
+      test.skip('get all with admin', () => {});
+      test.skip('get {id} with admin', () => {});
+      test.skip('get {id} with admin', () => {});
     });
   });
 });

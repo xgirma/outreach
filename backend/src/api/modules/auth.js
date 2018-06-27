@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
-import { AUTERR } from '../docs/error.codes';
 import * as err from './error';
 
 const secret = process.env.JWT_SECRET;
@@ -13,20 +12,20 @@ export const verifyUser = (req, res, next) => {
 
   if (!username || !password) {
     logger.warn('signin with no username and password');
-    return setImmediate(() => next(AUTERR));
+    return setImmediate(() => next(err.Forbidden()));
   }
 
   return Admins.findOne({ username })
     .then((user) => {
       if (!user) {
-        logger.warn('signin: with bad username', { un: username });
-        return setImmediate(() => next(AUTERR));
+        logger.warn('signin: username not found', { username });
+        return setImmediate(() => next(err.Forbidden()));
       } else if (!user.authenticate(password)) {
-        logger.warn('signin: with wrong password', { un: username });
-        return setImmediate(() => next(AUTERR));
+        logger.warn('signin: wrong password', { username });
+        return setImmediate(() => next(err.Forbidden()));
       }
       req.user = user;
-      logger.info('signin: ', { un: username });
+      logger.info('signin: success', { username });
       return next();
     })
     .catch((error) => {

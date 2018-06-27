@@ -2,17 +2,14 @@
 import merge from 'lodash.merge';
 import isEmpty from 'lodash.isempty';
 import { generate } from 'generate-password';
-import { Validator } from 'jsonschema';
 import { isMongoId } from 'validator';
-import * as schema from './schema';
-import owasp from './password';
-import { NOTFUD, MDUERR, AUTERR } from '../docs/error.codes';
+import { owasp, testPasswordStrength } from './password';
+import { testCreateAdmin } from './schema';
+import { MDUERR } from '../docs/error.codes';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
 import { signToken, decodeToken } from './auth';
 import logger from './logger';
-
-const validator = new Validator();
 
 export const controllers = {
   /*
@@ -144,32 +141,18 @@ export const controllers = {
   },
 };
 
-/*
- * Test and throw error if the create-new-admin request-body is
- * invalid based on the schema validation
- */
-const testNewAdminReqBody = (body) => {
-  const testBody = validator.validate(body, schema.createAdmin);
-
-  if (testBody.errors.length > 0) {
-    const { errors } = testBody;
-    logger.warn('Request body validation error', { errors });
-    throw err.BadRequest('Proper username and password is required');
-  }
-};
-
-/*
- * Test and throw error if a password is weak.
- * Should come after req body test (testNewAdminReqBody)
- */
-const testPasswordStrength = ({ password }) => {
-  const passwordTest = owasp.test(password);
-  if (!passwordTest.strong) {
-    const { errors } = passwordTest;
-    const message = errors.join(' ');
-    throw err.WeakPassword(message);
-  }
-};
+// /*
+//  * Test and throw error if a password is weak.
+//  * Should come after req body test (testCreateAdmin)
+//  */
+// const testPasswordStrength = ({ password }) => {
+//   const passwordTest = owasp.test(password);
+//   if (!passwordTest.strong) {
+//     const { errors } = passwordTest;
+//     const message = errors.join(' ');
+//     throw err.WeakPassword(message);
+//   }
+// };
 
 /*
  * Creates supper admin if it dose not exist and sign a token
@@ -182,7 +165,7 @@ const testPasswordStrength = ({ password }) => {
  * - if super admin already exist
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
-  testNewAdminReqBody(req.body);
+  testCreateAdmin(req.body);
   testPasswordStrength(req.body);
 
   controllers
@@ -218,7 +201,7 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
  * - if admin with the same name already exists
  */
 export const registerAdmin = (model) => (req, res, next) => {
-  testNewAdminReqBody(req.body);
+  testCreateAdmin(req.body);
   testPasswordStrength(req.body);
   decodeToken();
 
@@ -240,9 +223,8 @@ export const registerAdmin = (model) => (req, res, next) => {
 };
 
 /*
- * If the requesting user is admin return only the requesting admin user data.
- * When super-admin, return all admins data. That will be used when the super-admin
- * manages other admin accounts, such as deleting or updating other admins
+ * Requesting user super-admin :-> gets all admin user data
+ * Requesting user admin :-> gets its own user data only
  *
  * @param model - admin
  * @returns {Function}
@@ -264,18 +246,16 @@ export const getAdmins = (model) => (req, res, next) => {
         setImmediate(() => next(error));
       });
   } else {
-    // TODO this could be extracted from the token
     res.status(200).json({
       status: 'success',
-      data: { admin: user },
+      data: { admins: user },
     });
   }
 };
 
 /*
- * If the requesting user is admin return only the requesting admin user data.
- * A super-admin, can get any admin data by id. That will be used when the super-admin
- * manages other admin accounts, such as deleting or updating other admins
+ * Requesting user super-admin :-> gets all admin user data
+ * Requesting user admin :-> gets its own user data only
  *
  * @param model - admin
  * @returns {Function}
@@ -296,18 +276,22 @@ export const getAdmin = (model) => (req, res, next) => {
         setImmediate(() => next(error));
       });
   } else {
-    // TODO this could be extracted from the token
     res.status(200).json({
       status: 'success',
-      data: { admin: user },
+      data: { admins: user },
     });
   }
 };
 
-/**
- * Super admin can delete all, admin only itself
+/*
+ * Requesting user super-admin :-> delete any admin user by id
+ * Requesting user admin :-> delete itself only
+ *
  * @param model - admin
  * @returns {Function}
+ *
+ * This function may fail for several reasons
+ * - if admin tries to delete another admin
  */
 export const deleteAdmin = (model) => (req, res, next) => {
   const { user } = req;
@@ -315,29 +299,24 @@ export const deleteAdmin = (model) => (req, res, next) => {
     controllers
       .deleteOne(req.docFromId)
       .then((admin) => {
-        logger.info('admin deleted', { name: req.docFromId.username });
+        logger.info('admin deleted', { name: admin.username });
         res.status(201).json({
           status: 'success',
-          data: { admin },
+          data: {},
         });
       })
-      .catch((error) => setImmediate(() => next(error)));
-  } else if (user.id !== req.docFromId.id) {
-    logger.warn(`unauthorized attempted to delete admin ${req.docFromId.username}`, {
-      name: user.username,
+      .catch((error) => setImmediate(() => next(error))); //
+  } else if (user._id.equals(req.docFromId.id)) {
+    controllers.deleteOne(user).then((self) => {
+      logger.info('admin deleted', { name: self.username });
+      res.status(201).json({
+        status: 'success',
+        data: {},
+      });
     });
-    setImmediate(() => next(err.Unauthorized('can not delete other admin')));
   } else {
-    controllers
-      .deleteOne(user)
-      .then((self) => {
-        logger.info('admin deleted', { name: user.username });
-        res.status(201).json({
-          status: 'success',
-          data: { self },
-        });
-      })
-      .catch((error) => setImmediate(() => next(error)));
+    logger.warn('unauthorized attempted to delete admin', { data: req.docFromId.username });
+    setImmediate(() => next(err.Unauthorized()));
   }
 };
 
