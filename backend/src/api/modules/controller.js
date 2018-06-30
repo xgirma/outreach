@@ -3,9 +3,8 @@ import merge from 'lodash.merge';
 import isEmpty from 'lodash.isempty';
 import { generate } from 'generate-password';
 import { isMongoId } from 'validator';
-import { owasp, testPasswordStrength } from './password';
+import { owasp, testPasswordStrength, tempPassword } from './password';
 import { testCreateAdmin } from './schema';
-import { MDUERR } from '../docs/error.codes';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
 import { signToken, decodeToken } from './auth';
@@ -141,19 +140,6 @@ export const controllers = {
   },
 };
 
-// /*
-//  * Test and throw error if a password is weak.
-//  * Should come after req body test (testCreateAdmin)
-//  */
-// const testPasswordStrength = ({ password }) => {
-//   const passwordTest = owasp.test(password);
-//   if (!passwordTest.strong) {
-//     const { errors } = passwordTest;
-//     const message = errors.join(' ');
-//     throw err.WeakPassword(message);
-//   }
-// };
-
 /*
  * Creates supper admin if it dose not exist and sign a token
  *
@@ -266,7 +252,7 @@ export const getAdmin = (model) => (req, res, next) => {
     controllers
       .getOne(req.docFromId)
       .then((admins) => {
-        if (!admins) throw err.ResourceNotFound();
+        if (!admins) throw err.NotFound();
         res.status(200).json({
           status: 'success',
           data: { admins },
@@ -320,121 +306,119 @@ export const deleteAdmin = (model) => (req, res, next) => {
   }
 };
 
-/**
- * Update admin password
- * Super-admin can update its and other password
- * Admin can only update its own password
+/*
+ * validation before updating a password, if all checks pass
+ * return a new admin with hashed password
+ *
+ * @param req - request
+ * @param res - response
+ * @param next
+ *
+ * @returns {number}
+ *
+ * This function may fail for several reasons
+ * - if new password entries do not match
+ * - if new password and current password is the same
+ * - if new password is weak
+ * - if current password is incorrect
+ */
+const checkPasswordUpdate = (model) => (req, res, next)  => {
+  const userToUpdate = req.docFromId;
+  const { newPassword, newPasswordAgain, currentPassword } = req.body;
+  
+  if (newPassword !== newPasswordAgain) {
+    logger.info('new password entries do not match');
+    return setImmediate(() =>
+      next(err.BadRequest('new password entries do not match')),
+    );
+  }
+  
+  if (newPassword === currentPassword) {
+    return setImmediate(() => next(err.BadRequest('new and current password should be different')));
+  }
+  
+  testPasswordStrength(newPassword);
+  
+  if (!userToUpdate.authenticate(currentPassword)) {
+    logger.info('entered current password is wrong');
+    return setImmediate(() => next(err.Unauthorized('wrong current password')));
+  }
+  
+  const update = new Admins(userToUpdate);
+  update.passwordHash = update.hashPassword(newPassword);
+  
+  return update;
+};
+
+/*
+ * By super-admin
+ * 1. update super-admin (self) password: {newPassword, newPasswordAgain, currentPassword }
+ * 2. update other admin password { id, return temporary password }
+ *
+ * By admin
+ * 1. update admin (self) password: {newPassword, newPasswordAgain, currentPassword }
+ * 2. update other admin password: prohibited
+ *
  * @param model - admin
- * @returns {Function}
+ *
+ * This function may fail for several reasons
+ * - if admin tries to update another admin password
  */
 export const updateAdmin = (model) => (req, res, next) => {
-  const { user } = req; // the admin who is changing password
-  const userToUpdate = req.docFromId; // the admin that its password is going to be updated
+  const { user } = req; // who is changing password
+  const userToUpdate = req.docFromId; // its data is going to be updated
 
   if (user.role === 0) {
+    // 1. super-admin changing his own password
     if (user._id.equals(userToUpdate._id)) {
-      // use-case 1 -super-admin changing its own password
-      const { newPassword, newPasswordAgain, currentPassword } = req.body;
+      const update = checkPasswordUpdate(model);
 
-      if (newPassword !== newPasswordAgain) {
-        logger.info('new password one and new password two do not match');
-        return setImmediate(() =>
-          next(err.BadRequest('the two new passwords do not match, try again')),
-        );
-      }
-      logger.info('new password one and new password two match');
-
-      if (newPassword === currentPassword) {
-        return setImmediate(() => next(err.BadRequest('new and old password are same')));
-      }
-
-      const passwordTest = owasp.test(newPassword);
-
-      if (!passwordTest.strong) {
-        logger.info('week password selected');
-        // TODO return passwordTest.errors
-        return setImmediate(() => next(err.BadRequest('weak password entered')));
-      }
-
-      // password matches with existing password in db?
-      if (!userToUpdate.authenticate(currentPassword)) {
-        logger.info('entered wrong old password');
-        return setImmediate(() => next(err.Unauthorized('wrong old password')));
-      }
-
-      logger.info('entered correct old password');
-      const update = new Admins(userToUpdate);
-      update.passwordHash = update.hashPassword(newPassword);
-      logger.info('before and after hash', {
-        old: userToUpdate.passwordHash,
-        new: update.passwordHash,
-      });
       return controllers
         .updateOne(userToUpdate, update)
-        .then((admin) => res.status(201).json({ admin, newPassword }))
+        .then((admin) => {
+          const { username } = admin;
+          logger.info('password updated', {username});
+          res.status(201).json({
+            status: "success", data: {}
+          })
+        })
+        .catch((error) => setImmediate(() => next(error)));
+    } else {
+      // 2. super-admin changing other admin password
+      const update = {
+        passwordHash: userToUpdate.hashPassword(tempPassword),
+      };
+  
+      return controllers
+        .updateOne(userToUpdate, update)
+        .then((admin) => {
+          const { username } = admin;
+          logger.info('password updated', {username});
+          res.status(201).json({
+            status: "success",
+            data: { tempPassword }
+          })
+        })
         .catch((error) => setImmediate(() => next(error)));
     }
-    // use-case 2 -super-admin changing its another admin password (temp-pwd)
-    const tempPassword = generate({
-      numbers: true,
-      symbols: true,
-      strict: true,
-      excludeSimilarCharacters: true,
-      exclude: '"',
-    });
-
-    const update = {
-      passwordHash: userToUpdate.hashPassword(tempPassword),
-    };
-
+  } else if (user._id.equals(userToUpdate._id)) {
+    // 3. admin changing his own password
+    const update = checkPasswordUpdate(model);
+  
     return controllers
       .updateOne(userToUpdate, update)
-      .then((admin) => res.status(201).json({ admin, tempPassword }))
+      .then((admin) => {
+        const { username } = admin;
+        logger.info('password updated', {username});
+        res.status(201).json({
+          status: "success", data: {}
+        })
+      })
       .catch((error) => setImmediate(() => next(error)));
+  } else {
+    // 4. admin cannot update other admin password
+    return setImmediate(() => next(err.Unauthorized()));
   }
-
-  if (user._id.equals(userToUpdate._id)) {
-    // **** use-case 3 - admin changing his own password (old-pwd, new-pwd, new-pwd)
-    // check if new password matches
-    const { newPassword, newPasswordAgain, currentPassword } = req.body;
-    if (newPassword !== newPasswordAgain) {
-      logger.info('new password one and new password two do not match');
-      return setImmediate(() =>
-        next(err.BadRequest('the two new passwords do not match, try again')),
-      );
-    }
-    logger.info('new password one and new password two match');
-    if (newPassword === currentPassword) {
-      return setImmediate(() => next(err.BadRequest('new and old password are same')));
-    }
-
-    const passwordTest = owasp.test(newPassword);
-
-    if (!passwordTest.strong) {
-      logger.info('week password selected');
-      // TODO return passwordTest.errors
-      return setImmediate(() => next(err.BadRequest('weak password entered')));
-    }
-
-    // password matches with existing password in db?
-    if (!userToUpdate.authenticate(currentPassword)) {
-      logger.info('entered wrong old password');
-      return setImmediate(() => next(err.Unauthorized('wrong old password')));
-    }
-    logger.info('entered correct old password');
-    const update = new Admins(userToUpdate);
-    update.passwordHash = update.hashPassword(newPassword);
-    logger.info('before and after hash', {
-      old: userToUpdate.passwordHash,
-      new: update.passwordHash,
-    });
-    return controllers
-      .updateOne(userToUpdate, update)
-      .then((admin) => res.status(201).json({ admin, newPassword }))
-      .catch((error) => setImmediate(() => next(error)));
-  }
-  // **** use-case 4 - admin attempting to change others password
-  return setImmediate(() => next(err.Unauthorized('not authorised to update other admin')));
 };
 
 export const createOne = (model) => (req, res, next) =>
@@ -443,7 +427,7 @@ export const createOne = (model) => (req, res, next) =>
     .then((doc) => res.status(201).json(doc))
     .catch((error) => {
       if (error.code === 11000) {
-        setImmediate(() => next(MDUERR));
+        setImmediate(() => next(err.BadRequest('Mongodb duplicate key error')));
       } else {
         setImmediate(() => next(error));
       }
@@ -496,13 +480,13 @@ export const findByIdParam = (model) => (req, res, next, id) => {
     controllers
       .findByParam(model, id)
       .then((doc) => {
-        if (!doc) throw err.ResourceNotFound('No resource found with this Id');
+        if (!doc) throw err.NotFound('No resource found with this Id');
         req.docFromId = doc;
         next();
       })
       .catch((error) => setImmediate(() => next(error)));
   } else {
-    setImmediate(() => next(err.ResourceNotFound('Not a MongoId')));
+    setImmediate(() => next(err.NotFound('Not a MongoId')));
   }
 };
 

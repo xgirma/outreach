@@ -1,7 +1,7 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { restRouter } from './api';
-import { NOTFUD } from './api/docs/error.codes';
+import { NotFound } from './api/modules/error';
 import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import connect from './db';
@@ -16,7 +16,7 @@ app.use('/api/v1', restRouter);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('*', (req, res, next) => {
-  setImmediate(() => next(NOTFUD));
+  setImmediate(() => next(NotFound()));
 });
 
 app.use(apiErrorHandler);

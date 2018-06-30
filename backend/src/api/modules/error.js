@@ -41,12 +41,12 @@ const Forbidden = (msg) => {
   return err;
 };
 
-const ResourceNotFound = (msg) => {
+const NotFound = (msg) => {
   const message = msg || RESOURCE_NOT_FOUND;
   const err = new Error(message);
-  err.name = ResourceNotFound.name;
+  err.name = NotFound.name;
   err.status = 404;
   return err;
 };
 
-export { ResourceNotFound, Unauthorized, BadRequest, WeakPassword, Forbidden };
+export { NotFound, Unauthorized, BadRequest, WeakPassword, Forbidden };

@@ -1,11 +1,28 @@
+import { generate } from "generate-password";
 import * as owasp from 'owasp-password-strength-test';
 import * as err from './error';
 
+/*
+ * Password strength config
+ */
 owasp.config({
   allowPassphrases: true,
   maxLength: 128,
   minLength: 8,
   minPhraseLength: 20,
+});
+
+export { owasp };
+
+/*
+ * Generate a temporary password, for password reset
+ */
+export const tempPassword = generate({
+  numbers: true,
+  symbols: true,
+  strict: true,
+  excludeSimilarCharacters: true,
+  exclude: '"',
 });
 
 /*
@@ -22,5 +39,3 @@ export const testPasswordStrength = ({ password }) => {
     throw err.WeakPassword(message);
   }
 };
-
-export { owasp };
