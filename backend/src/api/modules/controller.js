@@ -322,31 +322,29 @@ export const deleteAdmin = (model) => (req, res, next) => {
  * - if new password is weak
  * - if current password is incorrect
  */
-const checkPasswordUpdate = (model) => (req, res, next)  => {
+const checkPasswordUpdate = (model) => (req, res, next) => {
   const userToUpdate = req.docFromId;
   const { newPassword, newPasswordAgain, currentPassword } = req.body;
-  
+
   if (newPassword !== newPasswordAgain) {
     logger.info('new password entries do not match');
-    return setImmediate(() =>
-      next(err.BadRequest('new password entries do not match')),
-    );
+    return setImmediate(() => next(err.BadRequest('new password entries do not match')));
   }
-  
+
   if (newPassword === currentPassword) {
     return setImmediate(() => next(err.BadRequest('new and current password should be different')));
   }
-  
+
   testPasswordStrength(newPassword);
-  
+
   if (!userToUpdate.authenticate(currentPassword)) {
     logger.info('entered current password is wrong');
     return setImmediate(() => next(err.Unauthorized('wrong current password')));
   }
-  
+
   const update = new Admins(userToUpdate);
   update.passwordHash = update.hashPassword(newPassword);
-  
+
   return update;
 };
 
@@ -377,48 +375,48 @@ export const updateAdmin = (model) => (req, res, next) => {
         .updateOne(userToUpdate, update)
         .then((admin) => {
           const { username } = admin;
-          logger.info('password updated', {username});
+          logger.info('password updated', { username });
           res.status(201).json({
-            status: "success", data: {}
-          })
-        })
-        .catch((error) => setImmediate(() => next(error)));
-    } else {
-      // 2. super-admin changing other admin password
-      const update = {
-        passwordHash: userToUpdate.hashPassword(tempPassword),
-      };
-  
-      return controllers
-        .updateOne(userToUpdate, update)
-        .then((admin) => {
-          const { username } = admin;
-          logger.info('password updated', {username});
-          res.status(201).json({
-            status: "success",
-            data: { tempPassword }
-          })
+            status: 'success',
+            data: {},
+          });
         })
         .catch((error) => setImmediate(() => next(error)));
     }
-  } else if (user._id.equals(userToUpdate._id)) {
-    // 3. admin changing his own password
-    const update = checkPasswordUpdate(model);
-  
+    // 2. super-admin changing other admin password
+    const update = {
+      passwordHash: userToUpdate.hashPassword(tempPassword),
+    };
+
     return controllers
       .updateOne(userToUpdate, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('password updated', {username});
+        logger.info('password updated', { username });
         res.status(201).json({
-          status: "success", data: {}
-        })
+          status: 'success',
+          data: { tempPassword },
+        });
       })
       .catch((error) => setImmediate(() => next(error)));
-  } else {
-    // 4. admin cannot update other admin password
-    return setImmediate(() => next(err.Unauthorized()));
+  } else if (user._id.equals(userToUpdate._id)) {
+    // 3. admin changing his own password
+    const update = checkPasswordUpdate(model);
+
+    return controllers
+      .updateOne(userToUpdate, update)
+      .then((admin) => {
+        const { username } = admin;
+        logger.info('password updated', { username });
+        res.status(201).json({
+          status: 'success',
+          data: {},
+        });
+      })
+      .catch((error) => setImmediate(() => next(error)));
   }
+  // 4. admin cannot update other admin password
+  return setImmediate(() => next(err.Unauthorized()));
 };
 
 export const createOne = (model) => (req, res, next) =>

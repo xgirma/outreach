@@ -1,4 +1,4 @@
-import { generate } from "generate-password";
+import { generate } from 'generate-password';
 import * as owasp from 'owasp-password-strength-test';
 import * as err from './error';
 
