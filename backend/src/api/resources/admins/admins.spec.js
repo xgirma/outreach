@@ -254,7 +254,7 @@ describe(`Route: ${resourceName.join(', ')}`, () => {
         expect(result).to.have.status(403);
         expect(status).to.equal('fail');
         expect(name).to.equal(err.Forbidden.name);
-        expect(message).to.equal('Admin already exists');
+        expect(message).to.equal('admin already exists');
       });
     });
   });

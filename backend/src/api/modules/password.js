@@ -31,7 +31,7 @@ export const tempPassword = generate({
  * This function may fail for several reasons
  * - if password is weak
  */
-export const testPasswordStrength = ({ password }) => {
+export const testPasswordStrength = (password) => {
   const passwordTest = owasp.test(password);
   if (!passwordTest.strong) {
     const { errors } = passwordTest;

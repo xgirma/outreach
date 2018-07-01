@@ -4,8 +4,8 @@ import logger from './logger';
 
 const validator = new Validator();
 
-// POST /admins create admin request body schema
-export const createAdmin = {
+// POST /admins - request body
+const createAdmin = {
   type: 'object',
   properties: {
     username: { type: 'string', required: true },
@@ -21,17 +21,60 @@ export const createAdmin = {
 };
 
 /*
- * Test if req.body have proper createAdmin schema
+ * Test if req.body have proper schema
  *
  * This function may fail for several reasons
  * - invalid request body
  */
-export const testCreateAdmin = (body) => {
+export const createAdminBody = (body) => {
   const testBody = validator.validate(body, createAdmin);
 
   if (testBody.errors.length > 0) {
     const { errors } = testBody;
-    logger.warn('Request body validation error', { errors });
-    throw err.BadRequest('Proper username and password is required');
+    logger.warn('request body validation error', { errors });
+    throw err.BadRequest('proper username and password is required');
+  }
+};
+
+// PUT /admins - request body
+const updateAdmin = {
+  type: 'object',
+  properties: {
+    currentPassword: {
+      type: 'string',
+      minLength: 8,
+      maxLength: 128,
+      required: true,
+    },
+    newPassword: {
+      type: 'string',
+      minLength: 8,
+      maxLength: 128,
+      required: true,
+    },
+    newPasswordAgain: {
+      type: 'string',
+      minLength: 8,
+      maxLength: 128,
+      required: true,
+    },
+  },
+  minProperties: 3,
+  maxProperties: 3,
+};
+
+/*
+ * Test if req.body have proper schema
+ *
+ * This function may fail for several reasons
+ * - invalid request body
+ */
+export const adminUpdateBody = (body) => {
+  const testBody = validator.validate(body, updateAdmin);
+
+  if (testBody.errors.length > 0) {
+    const { errors } = testBody;
+    logger.warn('request body validation error', { errors });
+    throw err.BadRequest('proper current and new password is required');
   }
 };

@@ -45,7 +45,7 @@ export const withInvalidReqBody = (result) => {
   expect(result).to.have.status(400);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('Proper username and password is required');
+  expect(message).to.equal('proper username and password is required');
 };
 
 /*

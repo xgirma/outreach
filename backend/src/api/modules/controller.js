@@ -1,10 +1,9 @@
 /* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle, function-paren-newline */
 import merge from 'lodash.merge';
 import isEmpty from 'lodash.isempty';
-import { generate } from 'generate-password';
 import { isMongoId } from 'validator';
-import { owasp, testPasswordStrength, tempPassword } from './password';
-import { testCreateAdmin } from './schema';
+import { testPasswordStrength, tempPassword } from './password';
+import * as test from './schema';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
 import { signToken, decodeToken } from './auth';
@@ -151,11 +150,12 @@ export const controllers = {
  * - if super admin already exist
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
-  testCreateAdmin(req.body);
-  testPasswordStrength(req.body);
+  const { body } = req;
+  test.createAdminBody(body);
+  testPasswordStrength(body.password);
 
   controllers
-    .addSuperAdmin(model, req.body)
+    .addSuperAdmin(model, body)
     .then((superAdmin) => {
       if (superAdmin) {
         const { id, username } = superAdmin;
@@ -166,9 +166,9 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
           data: { token },
         });
       } else {
-        const { username } = req.body;
+        const { username } = body;
         logger.warn('failed supper-admin registration', { username });
-        throw err.Forbidden('Admin already exists');
+        throw err.Forbidden('admin already exists');
       }
     })
     .catch((error) => {
@@ -187,18 +187,19 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
  * - if admin with the same name already exists
  */
 export const registerAdmin = (model) => (req, res, next) => {
-  testCreateAdmin(req.body);
-  testPasswordStrength(req.body);
+  const { body, user } = req;
+  test.createAdminBody(body);
+  testPasswordStrength(body.password);
   decodeToken();
 
   controllers
-    .addAdmin(model, req.body, req.user)
+    .addAdmin(model, body, user)
     .then((newAdmin) => {
       if (newAdmin) {
         logger.info('admin is registered', { name: newAdmin.username });
         res.status(201).json({ status: 'success', data: {} });
       } else {
-        const { username } = req.body;
+        const { username } = body;
         logger.warn('failed admin registration', { username });
         throw err.Forbidden('Admin already exist');
       }
@@ -307,75 +308,62 @@ export const deleteAdmin = (model) => (req, res, next) => {
 };
 
 /*
- * validation before updating a password, if all checks pass
- * return a new admin with hashed password
+ * By super-admin
+ * 1.1. update super-admin (self) password: {newPassword, newPasswordAgain, currentPassword }
+ * 1.2. update other admin password { id, return temporary password }
  *
- * @param req - request
- * @param res - response
- * @param next
+ * By admin
+ * 2.1. update admin (self) password: {newPassword, newPasswordAgain, currentPassword }
+ * 2.2. update other admin password: prohibited
  *
- * @returns {number}
+ * @param model - admin
+ *
+ * - user - (super-)admin who is updating
+ * - docFromId - (super-)admin who is being updated
  *
  * This function may fail for several reasons
+ * - if admin tries to update another admin password
  * - if new password entries do not match
  * - if new password and current password is the same
  * - if new password is weak
  * - if current password is incorrect
  */
-const checkPasswordUpdate = (model) => (req, res, next) => {
-  const userToUpdate = req.docFromId;
-  const { newPassword, newPasswordAgain, currentPassword } = req.body;
-
-  if (newPassword !== newPasswordAgain) {
-    logger.info('new password entries do not match');
-    return setImmediate(() => next(err.BadRequest('new password entries do not match')));
-  }
-
-  if (newPassword === currentPassword) {
-    return setImmediate(() => next(err.BadRequest('new and current password should be different')));
-  }
-
-  testPasswordStrength(newPassword);
-
-  if (!userToUpdate.authenticate(currentPassword)) {
-    logger.info('entered current password is wrong');
-    return setImmediate(() => next(err.Unauthorized('wrong current password')));
-  }
-
-  const update = new Admins(userToUpdate);
-  update.passwordHash = update.hashPassword(newPassword);
-
-  return update;
-};
-
-/*
- * By super-admin
- * 1. update super-admin (self) password: {newPassword, newPasswordAgain, currentPassword }
- * 2. update other admin password { id, return temporary password }
- *
- * By admin
- * 1. update admin (self) password: {newPassword, newPasswordAgain, currentPassword }
- * 2. update other admin password: prohibited
- *
- * @param model - admin
- *
- * This function may fail for several reasons
- * - if admin tries to update another admin password
- */
 export const updateAdmin = (model) => (req, res, next) => {
-  const { user } = req; // who is changing password
-  const userToUpdate = req.docFromId; // its data is going to be updated
+  const { body, user, docFromId } = req;
+
+  const validatePassword = () => {
+    const { newPassword, newPasswordAgain, currentPassword } = body;
+    test.adminUpdateBody(body);
+    testPasswordStrength(newPassword);
+
+    if (newPassword !== newPasswordAgain) {
+      logger.info('new passwords do not match');
+      return setImmediate(() => next(err.BadRequest('new passwords do not match')));
+    }
+
+    if (newPassword === currentPassword) {
+      return setImmediate(() => next(err.BadRequest('new password is the same as current')));
+    }
+
+    if (!docFromId.authenticate(currentPassword)) {
+      logger.info('provided current password is wrong');
+      return setImmediate(() => next(err.Unauthorized('wrong current password')));
+    }
+    return true;
+  };
 
   if (user.role === 0) {
-    // 1. super-admin changing his own password
-    if (user._id.equals(userToUpdate._id)) {
-      const update = checkPasswordUpdate(model);
+    if (user._id.equals(docFromId._id)) { // 1.1
+      validatePassword();
+      const { newPassword } = body;
+      const update = new Admins(docFromId);
+      update.passwordHash = update.hashPassword(newPassword);
 
       return controllers
-        .updateOne(userToUpdate, update)
+        .updateOne(docFromId, update)
         .then((admin) => {
           const { username } = admin;
-          logger.info('password updated', { username });
+          logger.info('super-admin password updated by ', { username });
           res.status(201).json({
             status: 'success',
             data: {},
@@ -383,31 +371,31 @@ export const updateAdmin = (model) => (req, res, next) => {
         })
         .catch((error) => setImmediate(() => next(error)));
     }
-    // 2. super-admin changing other admin password
-    const update = {
-      passwordHash: userToUpdate.hashPassword(tempPassword),
-    };
+    // 1.2.
+    const update = { passwordHash: docFromId.hashPassword(tempPassword) };
 
     return controllers
-      .updateOne(userToUpdate, update)
+      .updateOne(docFromId, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('password updated', { username });
+        logger.info('admin password updated by', { username });
         res.status(201).json({
           status: 'success',
           data: { tempPassword },
         });
       })
       .catch((error) => setImmediate(() => next(error)));
-  } else if (user._id.equals(userToUpdate._id)) {
-    // 3. admin changing his own password
-    const update = checkPasswordUpdate(model);
+  } else if (user._id.equals(docFromId._id)) { // 2.1.
+    validatePassword();
+    const { newPassword } = body;
+    const update = new Admins(docFromId);
+    update.passwordHash = update.hashPassword(newPassword);
 
     return controllers
-      .updateOne(userToUpdate, update)
+      .updateOne(docFromId, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('password updated', { username });
+        logger.info('admin password updated by ', { username });
         res.status(201).json({
           status: 'success',
           data: {},
@@ -415,7 +403,9 @@ export const updateAdmin = (model) => (req, res, next) => {
       })
       .catch((error) => setImmediate(() => next(error)));
   }
-  // 4. admin cannot update other admin password
+  // 2.2.
+  const { username } = user;
+  logger.warn('admin attempted to update other (super-)admin', { username });
   return setImmediate(() => next(err.Unauthorized()));
 };
 
@@ -425,7 +415,7 @@ export const createOne = (model) => (req, res, next) =>
     .then((doc) => res.status(201).json(doc))
     .catch((error) => {
       if (error.code === 11000) {
-        setImmediate(() => next(err.BadRequest('Mongodb duplicate key error')));
+        setImmediate(() => next(err.BadRequest('mongodb duplicate key error')));
       } else {
         setImmediate(() => next(error));
       }
