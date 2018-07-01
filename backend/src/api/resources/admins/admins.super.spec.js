@@ -446,16 +446,16 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
         assert.success(result);
       });
-  
+
       test('should update admin password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send({});
-        
+
         const { status, data } = result.body;
-  
+
         expect(result).to.have.status(201);
         expect(status).to.equal('success');
         expect(data.tempPassword).not.to.equal('');
