@@ -6,7 +6,7 @@ import { dropDb } from '../../../../helpers/dropDb';
 import * as faker from '../../../../helpers/faker';
 import * as assertAdmin from './test.helper';
 import logger from '../../modules/logger';
-import * as err from "../../modules/error"; // TODO remove after devlopment
+import * as err from '../../modules/error'; // TODO remove after devlopment
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
@@ -327,43 +327,43 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.newPasswordDoNotMatch);
-  
+
         const { status, data } = result.body;
         const { name, message } = data;
-  
+
         expect(result).to.have.status(400);
         expect(status).to.equal('fail');
         expect(name).to.equal(err.BadRequest.name);
         expect(message).to.equal('new passwords do not match');
       });
-  
+
       test('new password is the same as current', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.newPasswordSameWithCurrent);
-    
+
         const { status, data } = result.body;
         const { name, message } = data;
-    
+
         expect(result).to.have.status(400);
         expect(status).to.equal('fail');
         expect(name).to.equal(err.BadRequest.name);
         expect(message).to.equal('new password is the same as current');
       });
-  
+
       test('wrong current password', async () => {
-        logger.error('weong current password', {pw: assertAdmin.wrongCurrentPassword});
+        logger.error('weong current password', { pw: assertAdmin.wrongCurrentPassword });
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.wrongCurrentPassword);
-    
+
         const { status, data } = result.body;
         const { name, message } = data;
-    
+
         expect(result).to.have.status(403);
         expect(status).to.equal('fail');
         expect(name).to.equal(err.Forbidden.name);

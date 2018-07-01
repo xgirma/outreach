@@ -330,9 +330,9 @@ export const deleteAdmin = (model) => (req, res, next) => {
  */
 export const updateAdmin = (model) => (req, res, next) => {
   const { body, user, docFromId } = req;
-  
+
   const validatePassword = () => {
-    const { currentPassword, newPassword, newPasswordAgain,  } = body;
+    const { currentPassword, newPassword, newPasswordAgain } = body;
     test.adminUpdateBody(body);
     testPasswordStrength(newPassword);
 

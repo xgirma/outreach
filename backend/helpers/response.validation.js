@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import * as err from '../src/api/modules/error';
 import isEmpty from 'lodash.isempty';
+import * as err from '../src/api/modules/error';
 
 const jsonContent = (result) => {
   expect(result).to.have.header('content-type', 'application/json; charset=utf-8');

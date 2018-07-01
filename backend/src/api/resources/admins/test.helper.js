@@ -33,7 +33,7 @@ export const registerWithBadRequestBody = (result) => {
 export const registerWithWeakPassword = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
-  
+
   expect(result).to.have.status(400);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.WeakPassword.name);
@@ -48,7 +48,7 @@ export const registerWithWeakPassword = (result) => {
 export const registerWithWeakPassPhrase = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
-  
+
   expect(result).to.have.status(400);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.WeakPassword.name);
@@ -64,7 +64,7 @@ export const registerWithWeakPassPhrase = (result) => {
 export const registerWhileExist = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
-  
+
   expect(result).to.have.status(403);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.Forbidden.name);
@@ -94,26 +94,68 @@ export const getAdmin = (result, all = true) => {
 };
 
 // admin
-export const supperAdminCredential = { username: common.username, password: common.password};
-export const secondAdminCredential = { username: common.adminUsername, password: common.adminPassword };
-export const thirdAdminCredential = { username: common.adminUsernameSecond, password: common.adminPasswordSecond };
+export const supperAdminCredential = { username: common.username, password: common.password };
+export const secondAdminCredential = {
+  username: common.adminUsername,
+  password: common.adminPassword,
+};
+export const thirdAdminCredential = {
+  username: common.adminUsernameSecond,
+  password: common.adminPasswordSecond,
+};
 
 // bad passwords
-export const withShortPassword = { username: faker.internet.userName(), password: common.shortPassword };
-export const withLongPassword = { username: faker.internet.userName(), password: common.longPassword };
-export const withWeakPassword = { username: faker.internet.userName(), password: common.weakPassword };
-export const withWeakPassPhrase = { username: faker.internet.userName(), password: common.weakPassPhrase };
+export const withShortPassword = {
+  username: faker.internet.userName(),
+  password: common.shortPassword,
+};
+export const withLongPassword = {
+  username: faker.internet.userName(),
+  password: common.longPassword,
+};
+export const withWeakPassword = {
+  username: faker.internet.userName(),
+  password: common.weakPassword,
+};
+export const withWeakPassPhrase = {
+  username: faker.internet.userName(),
+  password: common.weakPassPhrase,
+};
 
 // good passwords
-export const with8CharacterPassword = { username: faker.internet.userName(), password: common.minPassword8 };
-export const with128CharacterPassword = { username: faker.internet.userName(), password: common.maxPassword128 };
-export const withStrongPassword = { username: faker.internet.userName(), password: common.strongPassword };
-export const withStrongPassPhrase = { username: faker.internet.userName(), password: common.strongPassPhrase };
+export const with8CharacterPassword = {
+  username: faker.internet.userName(),
+  password: common.minPassword8,
+};
+export const with128CharacterPassword = {
+  username: faker.internet.userName(),
+  password: common.maxPassword128,
+};
+export const withStrongPassword = {
+  username: faker.internet.userName(),
+  password: common.strongPassword,
+};
+export const withStrongPassPhrase = {
+  username: faker.internet.userName(),
+  password: common.strongPassPhrase,
+};
 
 // new password entries do not match
-export const newPasswordDoNotMatch = { currentPassword: common.password, newPassword: "q-W:QzA$3Sa", newPasswordAgain: "q-W:QzA$3Sb" };
-export const newPasswordSameWithCurrent = { currentPassword: common.password, newPassword: common.password, newPasswordAgain: common.password };
-export const wrongCurrentPassword = { currentPassword: "q-W:QzA$3Sa", newPassword: "q-W:QzA$3Sb", newPasswordAgain: "q-W:QzA$3Sb" };
+export const newPasswordDoNotMatch = {
+  currentPassword: common.password,
+  newPassword: 'q-W:QzA$3Sa',
+  newPasswordAgain: 'q-W:QzA$3Sb',
+};
+export const newPasswordSameWithCurrent = {
+  currentPassword: common.password,
+  newPassword: common.password,
+  newPasswordAgain: common.password,
+};
+export const wrongCurrentPassword = {
+  currentPassword: 'q-W:QzA$3Sa',
+  newPassword: 'q-W:QzA$3Sb',
+  newPasswordAgain: 'q-W:QzA$3Sb',
+};
 
 // password change
 export const sameNewPasswords = {};
