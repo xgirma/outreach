@@ -13,7 +13,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     'import/prefer-default-export': 'warn',
     'no-unused-vars': 1,
-    'no-underscore-dangle': 'warn',
+    'no-underscore-dangle': 0,
     'no-param-reassign': 0,
     'consistent-return': ['warn', { treatUndefinedAsUnspecified: true }],
     'import/no-extraneous-dependencies': ['warn', { devDependencies: true }],

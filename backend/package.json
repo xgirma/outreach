@@ -4,8 +4,8 @@
   "description": "Backend app for outreach",
   "main": "dist",
   "scripts": {
-    "test": "jest --verbose --forceExit",
-    "test:watch": "jest --watch --coverage",
+    "test": "jest --verbose --bail --forceExit",
+    "test:watch": "jest --watch --verbose",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
     "precommit": "lint-staged husky --dev",

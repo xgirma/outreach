@@ -20,11 +20,11 @@ export const controllers = {
    *      password: "p-U:QaA/3G"
    *    }
    *
-   * @return: a new admin (role = 0) / error
+   * @return: a new admin (role = 0) or error
    *
    * This function may fail for several reasons
    * - invalid request body
-   * - password: OWASP Password Strength Test
+   * - weak password: OWASP Password Strength Test
    */
   addSuperAdmin(model, body) {
     return model
@@ -98,8 +98,8 @@ export const controllers = {
       })
       .catch((error) => {
         if (error.name === 'ValidationError') {
-          logger.warn('Duplicate', { error });
-          throw err.BadRequest('Username already exists');
+          logger.warn('Duplicate user', { error });
+          throw err.Forbidden('user already exists');
         }
         throw error;
       });
@@ -168,7 +168,7 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
       } else {
         const { username } = body;
         logger.warn('failed supper-admin registration', { username });
-        throw err.Forbidden('admin already exists');
+        throw err.Forbidden('user already exists');
       }
     })
     .catch((error) => {
@@ -201,7 +201,7 @@ export const registerAdmin = (model) => (req, res, next) => {
       } else {
         const { username } = body;
         logger.warn('failed admin registration', { username });
-        throw err.Forbidden('Admin already exist');
+        throw err.Forbidden('user already exists');
       }
     })
     .catch((error) => {
@@ -322,17 +322,17 @@ export const deleteAdmin = (model) => (req, res, next) => {
  * - docFromId - (super-)admin who is being updated
  *
  * This function may fail for several reasons
- * - if admin tries to update another admin password
  * - if new password entries do not match
  * - if new password and current password is the same
  * - if new password is weak
  * - if current password is incorrect
+ * - if admin tries to update another admin password
  */
 export const updateAdmin = (model) => (req, res, next) => {
   const { body, user, docFromId } = req;
-
+  
   const validatePassword = () => {
-    const { newPassword, newPasswordAgain, currentPassword } = body;
+    const { currentPassword, newPassword, newPasswordAgain,  } = body;
     test.adminUpdateBody(body);
     testPasswordStrength(newPassword);
 
@@ -347,13 +347,14 @@ export const updateAdmin = (model) => (req, res, next) => {
 
     if (!docFromId.authenticate(currentPassword)) {
       logger.info('provided current password is wrong');
-      return setImmediate(() => next(err.Unauthorized('wrong current password')));
+      return setImmediate(() => next(err.Forbidden('wrong current password')));
     }
     return true;
   };
 
   if (user.role === 0) {
-    if (user._id.equals(docFromId._id)) { // 1.1
+    if (user._id.equals(docFromId._id)) {
+      // 1.1
       validatePassword();
       const { newPassword } = body;
       const update = new Admins(docFromId);
@@ -385,7 +386,8 @@ export const updateAdmin = (model) => (req, res, next) => {
         });
       })
       .catch((error) => setImmediate(() => next(error)));
-  } else if (user._id.equals(docFromId._id)) { // 2.1.
+  } else if (user._id.equals(docFromId._id)) {
+    // 2.1.
     validatePassword();
     const { newPassword } = body;
     const update = new Admins(docFromId);

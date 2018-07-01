@@ -1,44 +1,21 @@
 import { expect } from 'chai';
+import faker from 'faker';
 import isEmpty from 'lodash.isempty';
 import * as err from '../../modules/error';
-import * as faker from '../../../../helpers/faker';
+import * as common from '../../../../helpers/faker';
 
-/*
- * authorisation without-token should be prevented
- *
- * @param result: http response
- */
-export const withoutToken = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(401);
-  expect(status).to.equal('fail');
-  expect(name).to.equal('UnauthorizedError');
-  expect(message).to.equal('No authorization token was found');
-};
-
-/*
- * authorisation with-invalid-token should be prevented
- *
- * @param result: http response
- */
-export const withInvalidToken = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(401);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.Unauthorized.name);
-  expect(message).to.equal(err.UNAUTHORIZED);
-};
+const weakPasswordErrors = [
+  'The password must contain at least one uppercase letter.',
+  'The password must contain at least one number.',
+  'The password must contain at least one special character.',
+];
 
 /*
  * creating new admin with invalid req.body should be prevented
  *
  * @param result: http response
  */
-export const withInvalidReqBody = (result) => {
+export const registerWithBadRequestBody = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
 
@@ -49,39 +26,60 @@ export const withInvalidReqBody = (result) => {
 };
 
 /*
- * creating new admin with valid req.body should be allowed
+ * creating new (super-)admin with weak password should be prevented
  *
  * @param result: http response
  */
-export const withValidReqBody = (result) => {
+export const registerWithWeakPassword = (result) => {
   const { status, data } = result.body;
-
-  expect(result).to.have.status(201);
-  expect(status).to.equal('success');
-  expect(isEmpty(data)).to.equal(true);
-  expect(isEmpty([])).to.equal(true);
+  const { name, message } = data;
+  
+  expect(result).to.have.status(400);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.WeakPassword.name);
+  expect(message).to.equal(`${weakPasswordErrors.join(' ')}`);
 };
 
 /*
- * creating new admin with valid req.body should be allowed
+ * creating new (super-)admin with weak pass-phrase should be prevented
  *
  * @param result: http response
  */
-export const adminAlreadyExists = (result) => {
+export const registerWithWeakPassPhrase = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
-
+  
   expect(result).to.have.status(400);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('Username already exists');
+  expect(name).to.equal(err.WeakPassword.name);
+  expect(message).to.equal(`${weakPasswordErrors[0]} ${weakPasswordErrors[1]}`);
+};
+
+/*
+ * creating new (super-)admin while one already exist should be prevented.
+ * creating a new admin with already existing admin username should be prevented.
+ *
+ * @param result: http response
+ */
+export const registerWhileExist = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+  
+  expect(result).to.have.status(403);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.Forbidden.name);
+  expect(message).to.equal('user already exists');
 };
 
 /*
  * gets all admin for supper-admin or gets the requesting admin
- * @type {{username: string, password: string}}
+ *
+ * @param result: http response
+ * @param all: (boolean)
+ *    true: get all admins
+ *    false: get one admin by id
  */
-export const getAllAdmins = (result, all = true) => {
+export const getAdmin = (result, all = true) => {
   const { status, data } = result.body;
   const { admins } = data;
 
@@ -91,14 +89,31 @@ export const getAllAdmins = (result, all = true) => {
   if (all) {
     expect(admins.length).to.be.greaterThan(1);
   } else {
-    expect(isEmpty(admins)).to.equal(false);
+    expect(isEmpty(admins)).to.equal(false); // not array
   }
 };
 
-// request body for POST /admin
-export const withShortPassword = { username: faker.username, password: faker.shortPassword };
-export const withLongPassword = { username: faker.username, password: faker.longPassword };
-export const withWeakPassword = { username: faker.username, password: faker.weakPassword };
-export const withWeakPassPhrase = { username: faker.username, password: faker.weakPassPhrase };
-export const with8CharacterPassword = { username: faker.username, password: faker.minPassword8 };
-export const withGoodPassword = { username: faker.adminUsername, password: faker.maxPassword128 };
+// admin
+export const supperAdminCredential = { username: common.username, password: common.password};
+export const secondAdminCredential = { username: common.adminUsername, password: common.adminPassword };
+export const thirdAdminCredential = { username: common.adminUsernameSecond, password: common.adminPasswordSecond };
+
+// bad passwords
+export const withShortPassword = { username: faker.internet.userName(), password: common.shortPassword };
+export const withLongPassword = { username: faker.internet.userName(), password: common.longPassword };
+export const withWeakPassword = { username: faker.internet.userName(), password: common.weakPassword };
+export const withWeakPassPhrase = { username: faker.internet.userName(), password: common.weakPassPhrase };
+
+// good passwords
+export const with8CharacterPassword = { username: faker.internet.userName(), password: common.minPassword8 };
+export const with128CharacterPassword = { username: faker.internet.userName(), password: common.maxPassword128 };
+export const withStrongPassword = { username: faker.internet.userName(), password: common.strongPassword };
+export const withStrongPassPhrase = { username: faker.internet.userName(), password: common.strongPassPhrase };
+
+// new password entries do not match
+export const newPasswordDoNotMatch = { currentPassword: common.password, newPassword: "q-W:QzA$3Sa", newPasswordAgain: "q-W:QzA$3Sb" };
+export const newPasswordSameWithCurrent = { currentPassword: common.password, newPassword: common.password, newPasswordAgain: common.password };
+export const wrongCurrentPassword = { currentPassword: "q-W:QzA$3Sa", newPassword: "q-W:QzA$3Sb", newPasswordAgain: "q-W:QzA$3Sb" };
+
+// password change
+export const sameNewPasswords = {};

@@ -2,7 +2,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import dotenv from 'dotenv';
-import { notFound, ok, created } from './http.status.assertion';
+import { notFound, ok, created } from './response.validation';
 
 dotenv.config();
 

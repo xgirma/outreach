@@ -24,17 +24,17 @@ const adminsSchema = new mongoose.Schema(schema, { timestamps: true });
 adminsSchema.plugin(uniqueValidator);
 
 adminsSchema.methods = {
-  authenticate(plaintTextPassword) {
-    return bcrypt.compareSync(plaintTextPassword, this.passwordHash);
+  authenticate(plainTextPassword) {
+    return bcrypt.compareSync(plainTextPassword, this.passwordHash);
   },
-  hashPassword(plaintTextPassword) {
-    if (!plaintTextPassword) {
+  hashPassword(plainTextPassword) {
+    if (!plainTextPassword) {
       logger.error('Can not create a new Admin user', { admin: this.username });
       throw new Error('Could not save admin user');
     }
 
     const salt = bcrypt.genSaltSync(10);
-    return bcrypt.hashSync(plaintTextPassword, salt);
+    return bcrypt.hashSync(plainTextPassword, salt);
   },
 };
 

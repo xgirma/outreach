@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as err from '../src/api/modules/error';
+import isEmpty from 'lodash.isempty';
 
 const jsonContent = (result) => {
   expect(result).to.have.header('content-type', 'application/json; charset=utf-8');
@@ -37,4 +38,41 @@ export const created = (result) => {
   expect(result).to.have.status(201);
   expect(result.body.data).to.not.equal({});
   jsonContent(result);
+};
+
+export const success = (result) => {
+  const { status, data } = result.body;
+
+  expect(status).to.equal('success');
+  expect(isEmpty(data)).to.equal(true);
+};
+
+/*
+ * authorisation without-token should be prevented
+ *
+ * @param result: http response
+ */
+export const noToken = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(401);
+  expect(status).to.equal('fail');
+  expect(name).to.equal('UnauthorizedError');
+  expect(message).to.equal('No authorization token was found');
+};
+
+/*
+ * authorisation with-invalid-token should be prevented
+ *
+ * @param result: http response
+ */
+export const invalidToken = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(401);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.Unauthorized.name);
+  expect(message).to.equal(err.UNAUTHORIZED);
 };
