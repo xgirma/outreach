@@ -26,6 +26,21 @@ export const registerWithBadRequestBody = (result) => {
 };
 
 /*
+ * update (super-)admin data with bad req.body should be prevented
+ *
+ * @param result: http response
+ */
+export const updateWithBadRequestBody = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(400);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.BadRequest.name);
+  expect(message).to.equal('proper current and new password is required');
+};
+
+/*
  * creating new (super-)admin with weak password should be prevented
  *
  * @param result: http response
@@ -94,11 +109,16 @@ export const getAdmin = (result, all = true) => {
 };
 
 // admin
-export const supperAdminCredential = { username: common.username, password: common.password };
+export const supperAdminCredential = {
+  username: common.username,
+  password: common.password,
+};
+
 export const secondAdminCredential = {
   username: common.adminUsername,
   password: common.adminPassword,
 };
+
 export const thirdAdminCredential = {
   username: common.adminUsernameSecond,
   password: common.adminPasswordSecond,
@@ -109,14 +129,17 @@ export const withShortPassword = {
   username: faker.internet.userName(),
   password: common.shortPassword,
 };
+
 export const withLongPassword = {
   username: faker.internet.userName(),
   password: common.longPassword,
 };
+
 export const withWeakPassword = {
   username: faker.internet.userName(),
   password: common.weakPassword,
 };
+
 export const withWeakPassPhrase = {
   username: faker.internet.userName(),
   password: common.weakPassPhrase,
@@ -127,34 +150,71 @@ export const with8CharacterPassword = {
   username: faker.internet.userName(),
   password: common.minPassword8,
 };
+
 export const with128CharacterPassword = {
   username: faker.internet.userName(),
   password: common.maxPassword128,
 };
+
 export const withStrongPassword = {
   username: faker.internet.userName(),
   password: common.strongPassword,
 };
+
 export const withStrongPassPhrase = {
   username: faker.internet.userName(),
   password: common.strongPassPhrase,
 };
 
-// new password entries do not match
+// bad update body
+
+export const updateWithShortPassword = {
+  currentPassword: common.password,
+  newPassword: common.shortPassword,
+  newPasswordAgain: common.shortPassword,
+};
+
+export const updateWithLongPassword = {
+  currentPassword: common.password,
+  newPassword: common.longPassword,
+  newPasswordAgain: common.longPassword,
+};
+
+export const updateWithWeakPassword = {
+  currentPassword: common.password,
+  newPassword: common.weakPassword,
+  newPasswordAgain: common.weakPassword,
+};
+
+export const updateWithWeakPassPhrase = {
+  currentPassword: common.password,
+  newPassword: common.weakPassPhrase,
+  newPasswordAgain: common.weakPassPhrase,
+};
+
 export const newPasswordDoNotMatch = {
   currentPassword: common.password,
   newPassword: 'q-W:QzA$3Sa',
   newPasswordAgain: 'q-W:QzA$3Sb',
 };
+
 export const newPasswordSameWithCurrent = {
   currentPassword: common.password,
   newPassword: common.password,
   newPasswordAgain: common.password,
 };
+
 export const wrongCurrentPassword = {
   currentPassword: 'q-W:QzA$3Sa',
   newPassword: 'q-W:QzA$3Sb',
   newPasswordAgain: 'q-W:QzA$3Sb',
+};
+
+// super-admin
+export const withGoodPassword = {
+  currentPassword: common.password,
+  newPassword: common.passwordNew,
+  newPasswordAgain: common.passwordNew,
 };
 
 // password change

@@ -338,18 +338,18 @@ export const updateAdmin = (model) => (req, res, next) => {
 
     if (newPassword !== newPasswordAgain) {
       logger.info('new passwords do not match');
-      return setImmediate(() => next(err.BadRequest('new passwords do not match')));
+      throw err.BadRequest('new passwords do not match');
     }
 
     if (newPassword === currentPassword) {
-      return setImmediate(() => next(err.BadRequest('new password is the same as current')));
+      throw err.BadRequest('new password is the same as current');
     }
 
     if (!docFromId.authenticate(currentPassword)) {
       logger.info('provided current password is wrong');
-      return setImmediate(() => next(err.Forbidden('wrong current password')));
+      throw err.Forbidden('wrong current password');
     }
-    return true;
+    // return true;
   };
 
   if (user.role === 0) {

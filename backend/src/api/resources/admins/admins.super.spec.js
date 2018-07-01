@@ -315,12 +315,80 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
   /*
    * Test case: update password of
-   * 1. super-admin password
-   * 2. admin password
-   * 3. non-exiting admin
+   * 1. super-admin
+   * 2. admin
+   * 3. non-exiting
+   *
+   * Should fail if
+   * - req.body is bad
+   * - new password is < 8 characters
+   * - new password is > 128 characters
+   * - new password entries do not match
+   * - new password is the same as current
+   * - wrong current password
    */
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
+      test('should not register if req-body is {}', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({});
+
+        assertAdmin.updateWithBadRequestBody(result);
+      });
+
+      test('should not register if req-body is invalid', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({ name: '' });
+
+        assertAdmin.updateWithBadRequestBody(result);
+      });
+
+      test('should not register if password length is < 8 characters', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.updateWithShortPassword);
+
+        assertAdmin.updateWithBadRequestBody(result);
+      });
+
+      test('should not register if password length is > 128 characters', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.updateWithLongPassword);
+
+        assertAdmin.updateWithBadRequestBody(result);
+      });
+
+      test('should not register if password is weak', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.updateWithWeakPassword);
+
+        assertAdmin.registerWithWeakPassword(result);
+      });
+
+      test('should not register if pass-phrase is weak', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.updateWithWeakPassPhrase);
+
+        assertAdmin.registerWithWeakPassPhrase(result);
+      });
+
       test('new password entries do not match', async () => {
         const result = await chai
           .request(app)
@@ -354,7 +422,6 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
 
       test('wrong current password', async () => {
-        logger.error('weong current password', { pw: assertAdmin.wrongCurrentPassword });
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
@@ -368,6 +435,30 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         expect(status).to.equal('fail');
         expect(name).to.equal(err.Forbidden.name);
         expect(message).to.equal('wrong current password');
+      });
+
+      test('should update super-admin password', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.withGoodPassword);
+
+        assert.success(result);
+      });
+  
+      test('should update admin password', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({});
+        
+        const { status, data } = result.body;
+  
+        expect(result).to.have.status(201);
+        expect(status).to.equal('success');
+        expect(data.tempPassword).not.to.equal('');
       });
     });
   });

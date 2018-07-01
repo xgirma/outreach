@@ -25,6 +25,7 @@ export const invalidMongoId = '5b1de7ac698c71055ef657f33333';
 // super admin
 export const username = 'John.Doe'; // super-admin-username
 export const password = 's-A:XaW/3R'; // super-admin-password
+export const passwordNew = 'o-Y:SaM/4W'; // super-admin--updated password
 
 // admin
 export const adminUsername = 'Joan.Joe';
