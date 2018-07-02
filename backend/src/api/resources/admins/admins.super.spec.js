@@ -108,6 +108,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
         expect(result).to.have.status(201);
         expect(status).to.equal('success');
+        expect(token).not.to.equal('');
       });
 
       test('should not register super-admin if one already exists', async () => {
@@ -459,6 +460,25 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         expect(result).to.have.status(201);
         expect(status).to.equal('success');
         expect(data.tempPassword).not.to.equal('');
+      });
+    });
+  });
+  
+  describe(`${resourceName[2].toUpperCase()}:`, () => {
+    describe(`POST /${resourceName[2]}`, () => {
+      test('super-admin should be able to signin', async () => {
+        const result = await chai
+          .request(app)
+          .post(`/api/v1/${resourceName[2]}`)
+          .send(assertAdmin.signInAfterUpdate);
+  
+        const { status, data } = result.body;
+        const { token } = data;
+        // jwt = token; // the new super-admin token is saved here
+  
+        expect(result).to.have.status(200);
+        expect(status).to.equal('success');
+        expect(token).not.to.equal('');
       });
     });
   });

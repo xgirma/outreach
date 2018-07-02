@@ -3,6 +3,7 @@ import faker from 'faker';
 import isEmpty from 'lodash.isempty';
 import * as err from '../../modules/error';
 import * as common from '../../../../helpers/faker';
+import {passwordNew} from "../../../../helpers/faker";
 
 const weakPasswordErrors = [
   'The password must contain at least one uppercase letter.',
@@ -215,6 +216,11 @@ export const withGoodPassword = {
   currentPassword: common.password,
   newPassword: common.passwordNew,
   newPasswordAgain: common.passwordNew,
+};
+
+export const signInAfterUpdate = {
+  username: common.username,
+  password: passwordNew
 };
 
 // password change

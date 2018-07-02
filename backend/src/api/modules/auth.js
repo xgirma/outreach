@@ -3,17 +3,14 @@ import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import * as err from './error';
+import * as test from "./schema";
 
 const secret = process.env.JWT_SECRET;
 const checkToken = expressJwt({ secret });
 
 export const verifyUser = (req, res, next) => {
+  test.createAdminBody(req.body);
   const { username, password } = req.body;
-
-  if (!username || !password) {
-    logger.warn('signin with no username and password');
-    return setImmediate(() => next(err.Forbidden()));
-  }
 
   return Admins.findOne({ username })
     .then((user) => {
