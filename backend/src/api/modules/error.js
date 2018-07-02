@@ -1,4 +1,4 @@
-const RESOURCE_NOT_FOUND =
+export const RESOURCE_NOT_FOUND =
   'the origin server did not find a current representation for the target resource or is not willing to disclose that one exists.';
 export const UNAUTHORIZED =
   'the request has not been applied because it lacks valid authentication credentials for the target resource.';
@@ -6,7 +6,7 @@ const BAD_REQUEST =
   'the server cannot or will not process the request due to something that is perceived to be a client error';
 const WEAK_PASSWORD = 'weak password based on the OWASP password strength test';
 
-const FORBIDDEN =
+export const FORBIDDEN =
   'the request has not been applied because it lacks valid authentication credentials for the target resource.';
 
 const WeakPassword = (msg) => {

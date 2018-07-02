@@ -24,7 +24,7 @@ export const notFound = (result, msg) => {
   expect(result).to.have.status(404);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.NotFound.name);
-  expect(message).to.equal(msg || err.NotFound.message);
+  expect(message).to.equal(msg || err.RESOURCE_NOT_FOUND);
   jsonContent(result);
 };
 

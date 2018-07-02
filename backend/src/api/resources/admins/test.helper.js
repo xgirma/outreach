@@ -87,6 +87,22 @@ export const registerWhileExist = (result) => {
 };
 
 /*
+ * creating new (super-)admin while one already exist should be prevented.
+ * creating a new admin with already existing admin username should be prevented.
+ *
+ * @param result: http response
+ */
+export const badUsernameOrPassword = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(403);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.Forbidden.name);
+  expect(message).to.equal(err.FORBIDDEN);
+};
+
+/*
  * gets all admin for supper-admin or gets the requesting admin
  *
  * @param result: http response
@@ -215,6 +231,22 @@ export const withGoodPassword = {
   currentPassword: common.password,
   newPassword: common.passwordNew,
   newPasswordAgain: common.passwordNew,
+};
+
+// signin
+export const signBadUsername = {
+  username: 'bad.username',
+  password: common.passwordNew,
+};
+
+export const signBadPassword = {
+  username: common.username,
+  password: 'bad.password',
+};
+
+export const signBadUsernameAndPassword = {
+  username: 'bad.username',
+  password: 'bad.password',
 };
 
 export const signInAfterUpdate = {

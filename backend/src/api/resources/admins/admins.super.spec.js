@@ -5,7 +5,6 @@ import * as assert from '../../../../helpers/response.validation';
 import { dropDb } from '../../../../helpers/dropDb';
 import * as faker from '../../../../helpers/faker';
 import * as assertAdmin from './test.helper';
-import logger from '../../modules/logger';
 import * as err from '../../modules/error'; // TODO remove after devlopment
 
 chai.use(chaiHttp);
@@ -464,8 +463,60 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
+  /*
+   * Test case: signin
+   *
+   * Should fail if
+   * - bad req.body
+   * - bad username and/or password
+   */
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
+      test('should not register if req-body is {}', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
+          .send({});
+
+        assertAdmin.registerWithBadRequestBody(result);
+      });
+
+      test('should not register if req-body is invalid', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
+          .send({ name: '' });
+
+        assertAdmin.registerWithBadRequestBody(result);
+      });
+
+      test('should not register with bad username', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
+          .send(assertAdmin.signBadUsername);
+
+        assertAdmin.badUsernameOrPassword(result);
+      });
+
+      test('should not register with bad password', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
+          .send(assertAdmin.signBadPassword);
+
+        assertAdmin.badUsernameOrPassword(result);
+      });
+
+      test('should not register with bad username and password', async () => {
+        const result = await chai
+          .request(app)
+          .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
+          .send(assertAdmin.signBadUsernameAndPassword);
+
+        assertAdmin.badUsernameOrPassword(result);
+      });
+
       test('super-admin should be able to signin', async () => {
         const result = await chai
           .request(app)
@@ -483,9 +534,53 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  describe.skip(`${resourceName[1].toUpperCase()}:`, () => {
-    describe(`GET /${resourceName[1]}`, () => {
-      test.skip('test user name already exists', () => {});
+  /*
+   * Super-admin delete admin by id
+   *
+   * Should fail
+   * - non existing id
+   */
+  describe(`${resourceName[1].toUpperCase()}:`, () => {
+    describe(`DELETE /${resourceName[1]}`, () => {
+      test('should delete the first admin', async () => {
+        const result = await chai
+          .request(app)
+          .delete(`/api/v1/${resourceName[1]}/${ids[1]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.thirdAdminCredential);
+
+        assert.success(result);
+      });
+
+      test('should delete the second admin', async () => {
+        const result = await chai
+          .request(app)
+          .delete(`/api/v1/${resourceName[1]}/${ids[2]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.thirdAdminCredential);
+
+        assert.success(result);
+      });
+
+      test('should not delete if admin does not exist', async () => {
+        const result = await chai
+          .request(app)
+          .delete(`/api/v1/${resourceName[1]}/${ids[2]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.thirdAdminCredential);
+
+        assert.notFound(result, 'No resource found with this Id');
+      });
+
+      test('should delete self (super-admin)', async () => {
+        const result = await chai
+          .request(app)
+          .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send(assertAdmin.thirdAdminCredential);
+
+        assert.success(result);
+      });
     });
   });
 });
