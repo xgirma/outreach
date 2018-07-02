@@ -161,7 +161,7 @@ export const withWeakPassPhrase = {
   password: common.weakPassPhrase,
 };
 
-// good passwords
+// good passwords // TODO add test
 export const with8CharacterPassword = {
   username: faker.internet.userName(),
   password: common.minPassword8,
@@ -183,7 +183,6 @@ export const withStrongPassPhrase = {
 };
 
 // bad update body
-
 export const updateWithShortPassword = {
   currentPassword: common.password,
   newPassword: common.shortPassword,
@@ -260,6 +259,3 @@ export const signInAfterUpdate = {
   username: common.username,
   password: common.passwordNew,
 };
-
-// password change
-export const sameNewPasswords = {};

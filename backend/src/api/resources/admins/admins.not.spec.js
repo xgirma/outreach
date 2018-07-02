@@ -4,6 +4,7 @@ import app from '../../../server';
 import { dropDb } from '../../../../helpers/dropDb';
 import * as assert from '../../../../helpers/response.validation';
 import * as faker from '../../../../helpers/faker';
+import * as assertAdmin from './test.helper';
 
 chai.use(chaiHttp);
 const resourceName = 'admins';
@@ -79,17 +80,11 @@ describe(`Route: ${resourceName.toUpperCase()}`, () => {
     });
 
     describe(`PUT /${resourceName}/${faker.mongoId}`, () => {
-      const updatePassword = {
-        currentPassword: faker.strongPassword,
-        newPassword: faker.newPassword,
-        newPasswordAgain: faker.newPasswordAgain,
-      };
-
       test(`should not update ${resourceName}/${faker.mongoId} without-token`, async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName}/${faker.mongoId}`)
-          .send(updatePassword);
+          .send(assertAdmin.withGoodPassword);
 
         assert.noToken(result);
       });
@@ -99,7 +94,7 @@ describe(`Route: ${resourceName.toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName}/${faker.mongoId}`)
           .set('Authorization', `Bearer ${faker.badToken}`)
-          .send(updatePassword);
+          .send(assertAdmin.withGoodPassword);
 
         assert.invalidToken(result);
       });
