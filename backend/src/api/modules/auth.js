@@ -3,7 +3,7 @@ import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import * as err from './error';
-import * as test from "./schema";
+import * as test from './schema';
 
 const secret = process.env.JWT_SECRET;
 const checkToken = expressJwt({ secret });
