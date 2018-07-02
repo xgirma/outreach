@@ -91,7 +91,6 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   /*
    * Test case: Should register an super-admin, if req.body is valid.
    * There should be only one super-admin. Adding more should be prevented.
-   * - test using 8 character long password
    */
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {

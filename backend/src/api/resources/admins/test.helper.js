@@ -233,6 +233,13 @@ export const withGoodPassword = {
   newPasswordAgain: common.passwordNew,
 };
 
+// admin
+export const withGoodPasswordAdmin = {
+  currentPassword: common.adminPassword,
+  newPassword: common.passwordNew,
+  newPasswordAgain: common.passwordNew,
+};
+
 // signin
 export const signBadUsername = {
   username: 'bad.username',
