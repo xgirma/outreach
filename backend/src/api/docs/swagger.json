@@ -148,8 +148,7 @@
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
                       "properties": {
-                        "type": "object",
-                        "token": { "$ref": "#/components/parameters/token" }
+                        "type": "object"
                       }
                     }
                   }
@@ -341,26 +340,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "status": { "$ref": "#/components/parameters/success" },
-                      "data": {
-                        "properties": {
-                          "admins": {
-                            "properties": {
-                              "type": "object",
-                              "_id": { "$ref": "#/components/parameters/_id" },
-                              "username": { "$ref": "#/components/parameters/username" },
-                              "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
-                              "role": { "$ref": "#/components/parameters/passwordHash" },
-                              "createdAt": { "$ref": "#/components/parameters/createdAt" },
-                              "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
-                            }
-                          }
-                        }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
                       }
                     }
                   }
