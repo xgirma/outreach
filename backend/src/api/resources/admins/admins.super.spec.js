@@ -444,6 +444,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .send(assertAdmin.withGoodPassword);
 
         assert.success(result);
+        expect(result).to.have.status(202);
       });
 
       test('should update admin password', async () => {
@@ -458,6 +459,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         expect(result).to.have.status(201);
         expect(status).to.equal('success');
         expect(data.tempPassword).not.to.equal('');
+        expect(result).to.have.status(201);
       });
     });
   });

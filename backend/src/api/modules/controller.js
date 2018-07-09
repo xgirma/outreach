@@ -349,7 +349,6 @@ export const updateAdmin = (model) => (req, res, next) => {
       logger.info('provided current password is wrong');
       throw err.Forbidden('wrong current password');
     }
-    // return true;
   };
 
   if (user.role === 0) {
@@ -365,7 +364,7 @@ export const updateAdmin = (model) => (req, res, next) => {
         .then((admin) => {
           const { username } = admin;
           logger.info('super-admin password updated by ', { username });
-          res.status(201).json({
+          res.status(202).json({
             status: 'success',
             data: {},
           });
@@ -398,7 +397,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       .then((admin) => {
         const { username } = admin;
         logger.info('admin password updated by ', { username });
-        res.status(201).json({
+        res.status(202).json({
           status: 'success',
           data: {},
         });

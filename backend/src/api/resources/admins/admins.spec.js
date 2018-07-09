@@ -19,6 +19,8 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     await dropDb();
   });
 
+  /* TEST SETUP BEGIN */
+  
   /*
    * Test case: Should register an super-admin
    */
@@ -59,8 +61,8 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
- * Test case: Super admin gets all admins data
- */
+   * Test case: Super admin gets all admins data
+   */
   describe(`${resourceName[1].toUpperCase()}: get all`, () => {
     describe(`GET /${resourceName[1]}`, () => {
       test('should get all admins', async () => {
@@ -77,6 +79,8 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
+  
+  /* TEST SETUP END */
 
   /*
    * Test case: signin admin
@@ -105,7 +109,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
    */
   describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
     describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test.skip('should get only its own admin data', async () => {
+      test('should get only its own admin data', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
@@ -168,12 +172,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
+  /* TEST TEAR_DOWN BEGINS */
+  
   /*
    * Test case: signin super-admin
    */
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
-      test('admin should be able to signin', async () => {
+      test('super-admin should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
@@ -195,7 +201,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
    */
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
-      test('should delete self (admin)', async () => {
+      test('should delete self (super-admin)', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
@@ -205,4 +211,6 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
+  
+  /* TEST TEAR_DOWN ENDS */
 });
