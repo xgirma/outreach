@@ -254,7 +254,8 @@
       },
       "put": {
         "tags": ["Admins"],
-        "description": "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
+        "description":
+          "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
         "summary": "Return success or a temporary password",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -1900,7 +1901,12 @@
         "example": "q-W:QzA$3S",
         "format": "q-W:QzA$3S"
       },
-      "tempPassword": { "type": "string", "length": 10, "example": "Xn.E>P){@2", "format": "password" },
+      "tempPassword": {
+        "type": "string",
+        "length": 10,
+        "example": "Xn.E>P){@2",
+        "format": "password"
+      },
       "role": { "type": "number", "enum": [0, 1], "example": "0" },
       "passwordHash": {
         "type": "string",

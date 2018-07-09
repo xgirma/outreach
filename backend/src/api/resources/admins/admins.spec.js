@@ -20,7 +20,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /* TEST SETUP BEGIN */
-  
+
   /*
    * Test case: Should register an super-admin
    */
@@ -79,7 +79,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   /* TEST SETUP END */
 
   /*
@@ -173,7 +173,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /* TEST TEAR_DOWN BEGINS */
-  
+
   /*
    * Test case: signin super-admin
    */
@@ -211,6 +211,6 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   /* TEST TEAR_DOWN ENDS */
 });
