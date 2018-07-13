@@ -142,7 +142,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.withGoodPassword);
 
-        assert.invalidToken(result);
+        assert.validTokenNotAuthorised(result);
       });
     });
   });
@@ -158,7 +158,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.invalidToken(result);
+        assert.validTokenNotAuthorised(result);
       });
 
       test('should delete self (admin)', async () => {
