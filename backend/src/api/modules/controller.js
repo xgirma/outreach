@@ -418,11 +418,11 @@ export const createOne = (model) => (req, res, next) =>
       res.status(201).json({
         status: 'success',
         data: {},
-      })
+      });
     })
     .catch((error) => {
       if (error.code === 11000) {
-        logger.warn('attempted to duplicate document', {error});
+        logger.warn('attempted to duplicate document', { error });
         setImmediate(() => next(err.BadRequest('mongodb duplicate key error')));
       } else {
         setImmediate(() => next(error));
@@ -454,9 +454,12 @@ export const getOne = () => (req, res, next) =>
 export const getAll = (model) => (req, res, next) =>
   controllers
     .getAll(model)
-    .then((docs) => res.status(200).json({
-      status: 'success',
-      data: docs}))
+    .then((docs) =>
+      res.status(200).json({
+        status: 'success',
+        data: docs,
+      }),
+    )
     .catch((error) => setImmediate(() => next(error)));
 
 export const getPast = (model) => (req, res, next) => {

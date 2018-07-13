@@ -365,7 +365,8 @@
     "/info": {
       "get": {
         "tags": ["Info"],
-        "description": "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
+        "description":
+          "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
         "summary": "Return church information",
         "security": [{ "bearerAuth": [] }],
         "responses": {
@@ -379,18 +380,18 @@
                     "type": "object",
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
-                        "type": "array",
-                        "items": {
-                          "properties": {
-                            "type": "object",
-                            "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                            "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                            "phone": { "$ref": "#/components/parameters/phone" },
-                            "email": { "$ref": "#/components/parameters/email" },
-                            "address": { "$ref": "#/components/schemas/Address" },
-                            "updatedBy": { "$ref": "#/components/parameters/username" }
-                          }
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "type": "object",
+                          "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "phone": { "$ref": "#/components/parameters/phone" },
+                          "email": { "$ref": "#/components/parameters/email" },
+                          "address": { "$ref": "#/components/schemas/Address" },
+                          "updatedBy": { "$ref": "#/components/parameters/username" }
                         }
+                      }
                     }
                   }
                 }
@@ -405,7 +406,8 @@
         "summary": "Add church information",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Church information to add. You can change the 'am' block with Amharic content.",
+          "description":
+            "Church information to add. You can change the 'am' block with Amharic content.",
           "required": true,
           "content": {
             "application/json": {

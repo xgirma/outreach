@@ -41,7 +41,7 @@ export const schema = {
     zip: { type: String, maxlength: 50 },
     country: { type: String, required: [true, 'info must have a country'], maxlength: 100 },
   },
-  updatedBy: { type: String, required: [true, 'info must have a user name'], maxlength: 20 }
+  updatedBy: { type: String, required: [true, 'info must have a user name'], maxlength: 20 },
 };
 
 const infoSchema = new mongoose.Schema(schema);
