@@ -74,7 +74,7 @@ export const invalidToken = (result) => {
 export const validTokenNotAuthorised = (result) => {
   const { status, data } = result.body;
   const { name, message } = data;
-  
+
   expect(result).to.have.status(401);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.Unauthorized.name);
