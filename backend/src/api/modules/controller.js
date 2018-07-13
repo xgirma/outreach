@@ -454,7 +454,7 @@ export const deleteOne = () => (req, res, next) => {
   return controllers
     .deleteOne(docFromId)
     .then((doc) => {
-      logger.info('successful delete', { doc, username});
+      logger.info('successful delete', { doc, username });
       res.status(202).json({
         status: 'success',
         data: {},
