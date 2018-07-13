@@ -448,7 +448,12 @@ export const deleteOne = () => (req, res, next) =>
 export const getOne = () => (req, res, next) =>
   controllers
     .getOne(req.docFromId)
-    .then((doc) => res.status(200).json(doc))
+    .then((doc) =>
+      res.status(200).json({
+        status: 'success',
+        data: doc,
+      }),
+    )
     .catch((error) => setImmediate(() => next(error)));
 
 export const getAll = (model) => (req, res, next) =>

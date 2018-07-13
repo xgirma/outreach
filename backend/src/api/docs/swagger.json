@@ -451,7 +451,7 @@
     "/info/{id}": {
       "get": {
         "tags": ["Info"],
-        "description": "Return a church information matches an ID",
+        "description": "Return a church information by ID. Use the GET /info route to get the ID.",
         "summary": "Returns a church information",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -461,7 +461,7 @@
             "required": true,
             "description": "Info ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -470,14 +470,20 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "phone": { "$ref": "#/components/parameters/phone" },
+                        "email": { "$ref": "#/components/parameters/email" },
+                        "address": { "$ref": "#/components/schemas/Address" },
+                        "updatedBy": { "$ref": "#/components/parameters/username" }
+                      }
+                    }
                   }
                 }
               }
