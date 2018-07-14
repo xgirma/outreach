@@ -80,3 +80,27 @@ export const validTokenNotAuthorised = (result) => {
   expect(name).to.equal(err.Unauthorized.name);
   expect(message).to.equal(err.UNAUTHORIZED);
 };
+
+/*
+ * handle bad authorisation with no-token, expired jwt, and invalid signature
+ *
+ * @param result: http response
+ * @param expectedStatus: http response status
+ * @param expectedStatus: error message
+ */
+export const unauthorizedError = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+  const expectedMessage = [
+    'No authorization token was found',
+    'jwt expired',
+    'invalid signature',
+    'jwt malformed',
+    'Format is Authorization: Bearer [token]',
+  ];
+
+  expect(result).to.have.status(401);
+  expect(status).to.equal('fail');
+  expect(name).to.equal('UnauthorizedError');
+  expect(expectedMessage).to.include(message);
+};

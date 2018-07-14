@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 const resourceName = 'admins';
 const adminUser = faker.model.admin;
 
-describe.only(`Route: ${resourceName.toUpperCase()}`, () => {
+describe(`Route: ${resourceName.toUpperCase()}`, () => {
   beforeAll(async () => {
     await dropDb();
   });

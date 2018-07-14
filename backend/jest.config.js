@@ -28,7 +28,6 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/src/api/resources/blog',
     '<rootDir>/src/api/resources/event',
-    '<rootDir>/src/api/resources/info',
     '<rootDir>/src/api/resources/intro',
     '<rootDir>/src/api/resources/media',
     '<rootDir>/src/api/resources/service',

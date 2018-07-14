@@ -30,12 +30,12 @@ export const verifyUser = (req, res, next) => {
     });
 };
 
-export const signToken = (id, role, username) =>
-  jwt.sign({ id, role, username }, secret, { expiresIn: process.env.EXPIRATION_TIME });
+export const signToken = (id, role) =>
+  jwt.sign({ id, role }, secret, { expiresIn: process.env.EXPIRATION_TIME });
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
-  const token = signToken(req.user.id, req.user.role, req.user.username);
+  const token = signToken(req.user.id, req.user.role);
   res.status(200).json({ status: 'success', data: { token } });
 };
 
