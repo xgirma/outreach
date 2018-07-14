@@ -4,7 +4,7 @@ import * as assert from './response.validation';
 import * as faker from './faker';
 
 export const getWithoutToken = (resource) => {
-  test(`should not GET: ${resource} without-token`, async () => {
+  test(`should not GET: /${resource} without-token`, async () => {
     const result = await chai.request(app).get(`/api/v1/${resource}`);
 
     assert.unauthorizedError(result);
@@ -12,7 +12,7 @@ export const getWithoutToken = (resource) => {
 };
 
 export const getWithExpiredToken = (resource) => {
-  test(`should not GET: ${resource} with expired token`, async () => {
+  test(`should not GET: /${resource} with expired token`, async () => {
     const result = await chai
       .request(app)
       .get(`/api/v1/${resource}`)
@@ -23,7 +23,7 @@ export const getWithExpiredToken = (resource) => {
 };
 
 export const getUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not GET: ${resource} using token with invalid signature`, async () => {
+  test(`should not GET: /${resource} using token with invalid signature`, async () => {
     const result = await chai
       .request(app)
       .get(`/api/v1/${resource}`)
@@ -34,7 +34,7 @@ export const getUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const getMalformedToken = (resource) => {
-  test(`should not GET: ${resource} with malformed token`, async () => {
+  test(`should not GET: /${resource} with malformed token`, async () => {
     const result = await chai
       .request(app)
       .get(`/api/v1/${resource}`)
@@ -45,7 +45,7 @@ export const getMalformedToken = (resource) => {
 };
 
 export const getWithBadFormattedToken = (resources) => {
-  test(`should not GET: ${resources} with bad-formatted token`, async () => {
+  test(`should not GET: /${resources} with bad-formatted token`, async () => {
     const result = await chai
       .request(app)
       .get(`/api/v1/${resources}`)
@@ -55,8 +55,8 @@ export const getWithBadFormattedToken = (resources) => {
   });
 };
 
-export const postWithoutToken = (resource) => {
-  test(`should not POST: ${resource} without-token`, async () => {
+export const postWithoutToken = (resource, body) => {
+  test(`should not POST: /${resource} without-token`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resource}`)
@@ -67,7 +67,7 @@ export const postWithoutToken = (resource) => {
 };
 
 export const postWithExpiredToken = (resource) => {
-  test(`should not POST: ${resource} with expired token`, async () => {
+  test(`should not POST: /${resource} with expired token`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resource}`)
@@ -79,7 +79,7 @@ export const postWithExpiredToken = (resource) => {
 };
 
 export const postUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not POST: ${resource} using token with invalid signature`, async () => {
+  test(`should not POST: /${resource} using token with invalid signature`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resource}`)
@@ -91,7 +91,7 @@ export const postUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const postMalformedToken = (resource) => {
-  test(`should not POST: ${resource} with malformed token`, async () => {
+  test(`should not POST: /${resource} with malformed token`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resource}`)
@@ -103,7 +103,7 @@ export const postMalformedToken = (resource) => {
 };
 
 export const postWithBadFormattedToken = (resources) => {
-  test(`should not POST: ${resources} with bad-formatted token`, async () => {
+  test(`should not POST: /${resources} with bad-formatted token`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resources}`)
@@ -115,7 +115,7 @@ export const postWithBadFormattedToken = (resources) => {
 };
 
 export const putWithoutToken = (resource) => {
-  test(`should not PUT: ${resource} without-token`, async () => {
+  test(`should not PUT: /${resource} without-token`, async () => {
     const result = await chai
       .request(app)
       .get(`/api/v1/${resource}`)
@@ -126,7 +126,7 @@ export const putWithoutToken = (resource) => {
 };
 
 export const putWithExpiredToken = (resource) => {
-  test(`should not PUT: ${resource} with expired token`, async () => {
+  test(`should not PUT: /${resource} with expired token`, async () => {
     const result = await chai
       .request(app)
       .post(`/api/v1/${resource}`)
@@ -138,7 +138,7 @@ export const putWithExpiredToken = (resource) => {
 };
 
 export const putUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not PUT: ${resource} using token with invalid signature`, async () => {
+  test(`should not PUT: /${resource} using token with invalid signature`, async () => {
     const result = await chai
       .request(app)
       .put(`/api/v1/${resource}`)
@@ -150,7 +150,7 @@ export const putUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const putMalformedToken = (resource) => {
-  test(`should not PUT: ${resource} with malformed token`, async () => {
+  test(`should not PUT: /${resource} with malformed token`, async () => {
     const result = await chai
       .request(app)
       .put(`/api/v1/${resource}`)
@@ -162,7 +162,7 @@ export const putMalformedToken = (resource) => {
 };
 
 export const putWithBadFormattedToken = (resources) => {
-  test(`should not PUT: ${resources} with bad-formatted token`, async () => {
+  test(`should not PUT: /${resources} with bad-formatted token`, async () => {
     const result = await chai
       .request(app)
       .put(`/api/v1/${resources}`)
@@ -174,7 +174,7 @@ export const putWithBadFormattedToken = (resources) => {
 };
 
 export const deleteWithoutToken = (resource) => {
-  test(`should not DELETE: ${resource} without-token`, async () => {
+  test(`should not DELETE: /${resource} without-token`, async () => {
     const result = await chai.request(app).delete(`/api/v1/${resource}`);
 
     assert.unauthorizedError(result);
@@ -182,7 +182,7 @@ export const deleteWithoutToken = (resource) => {
 };
 
 export const deleteWithExpiredToken = (resource) => {
-  test(`should not DELETE: ${resource} with expired token`, async () => {
+  test(`should not DELETE: /${resource} with expired token`, async () => {
     const result = await chai
       .request(app)
       .delete(`/api/v1/${resource}`)
@@ -193,7 +193,7 @@ export const deleteWithExpiredToken = (resource) => {
 };
 
 export const deleteUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not DELETE: ${resource} using token with invalid signature`, async () => {
+  test(`should not DELETE: /${resource} using token with invalid signature`, async () => {
     const result = await chai
       .request(app)
       .delete(`/api/v1/${resource}`)
@@ -204,7 +204,7 @@ export const deleteUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const deleteMalformedToken = (resource) => {
-  test(`should not DELETE: ${resource} with malformed token`, async () => {
+  test(`should not DELETE: /${resource} with malformed token`, async () => {
     const result = await chai
       .request(app)
       .delete(`/api/v1/${resource}`)
@@ -215,7 +215,7 @@ export const deleteMalformedToken = (resource) => {
 };
 
 export const deleteWithBadFormattedToken = (resources) => {
-  test(`should not DELETE: ${resources} with bad-formatted token`, async () => {
+  test(`should not DELETE: /${resources} with bad-formatted token`, async () => {
     const result = await chai
       .request(app)
       .delete(`/api/v1/${resources}`)

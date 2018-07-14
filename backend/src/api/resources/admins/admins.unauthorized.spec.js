@@ -5,14 +5,14 @@ import * as faker from '../../../../helpers/faker';
 import * as jwtTest from '../../../../helpers/jwt.validation';
 
 chai.use(chaiHttp);
-const resourceName = 'info';
+const resourceName = 'admins';
 
 /*
  * Test case: an attempt to use protected resources
  * without-token, with expired token, and with invalid-signature-token,
  * should be prevented.
  */
-describe(`Route: ${resourceName.toUpperCase()}`, () => {
+describe(`${resourceName.toUpperCase()}`, () => {
   beforeAll(async () => {
     await dropDb();
   });
@@ -21,20 +21,20 @@ describe(`Route: ${resourceName.toUpperCase()}`, () => {
     await dropDb();
   });
 
-  describe(`GET /${resourceName}`, () => {
-    jwtTest.getWithoutToken(resourceName);
-    jwtTest.getWithExpiredToken(resourceName);
-    jwtTest.getUsingTokenWithInvalidSignature(resourceName);
-    jwtTest.getMalformedToken(resourceName);
-    jwtTest.getWithBadFormattedToken(resourceName);
-  });
-
   describe(`POST /${resourceName}`, () => {
     jwtTest.postWithoutToken(resourceName);
     jwtTest.postWithExpiredToken(resourceName);
     jwtTest.postUsingTokenWithInvalidSignature(resourceName);
     jwtTest.postMalformedToken(resourceName);
     jwtTest.postWithBadFormattedToken(resourceName);
+  });
+
+  describe(`GET /${resourceName}`, () => {
+    jwtTest.getWithoutToken(resourceName);
+    jwtTest.getWithExpiredToken(resourceName);
+    jwtTest.getUsingTokenWithInvalidSignature(resourceName);
+    jwtTest.getMalformedToken(resourceName);
+    jwtTest.getWithBadFormattedToken(resourceName);
   });
 
   describe(`GET /${resourceName}/${faker.mongoId}`, () => {
