@@ -365,26 +365,33 @@
     "/info": {
       "get": {
         "tags": ["Info"],
-        "description": "Returns all church information",
-        "summary": "Returns all church information",
+        "description":
+          "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
+        "summary": "Return church information",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "A list of church information",
+            "description": "Church information",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "address": { "$ref": "#/components/schemas/Address" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "type": "object",
+                          "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "phone": { "$ref": "#/components/parameters/phone" },
+                          "email": { "$ref": "#/components/parameters/email" },
+                          "address": { "$ref": "#/components/schemas/Address" },
+                          "adminname": { "$ref": "#/components/parameters/username" }
+                        }
+                      }
                     }
                   }
                 }
@@ -395,104 +402,12 @@
       },
       "post": {
         "tags": ["Info"],
-        "description": "Add a new church information",
+        "description": "Add church information",
         "summary": "Add church information",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Church information to add",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "type": "object",
-                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                  "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                  "phone": { "$ref": "#/components/parameters/phone" },
-                  "email": { "$ref": "#/components/parameters/email" },
-                  "address": { "$ref": "#/components/schemas/Address" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/info/{id}": {
-      "get": {
-        "tags": ["Info"],
-        "description": "Return a church information matches an ID",
-        "summary": "Returns a church information",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Info ID",
-            "schema": { "type": "string" },
-            "example": "1234"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": ["Info"],
-        "description": "Updates a church information matches an ID",
-        "summary": "Updates a church information",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "Info ID",
-            "schema": { "type": "string" },
-            "example": "1234"
-          }
-        ],
-        "requestBody": {
-          "description": "Church information to update",
+          "description":
+            "Church information to add. You can change the 'am' block with Amharic content. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
           "required": true,
           "content": {
             "application/json": {
@@ -515,14 +430,115 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info/{id}": {
+      "get": {
+        "tags": ["Info"],
+        "description": "Return a church information by ID. Use the GET /info route to get the ID.",
+        "summary": "Returns church information",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": { "type": "string" },
+            "example": "5b1de7ac698c71055ef657f3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "phone": { "$ref": "#/components/parameters/phone" },
+                        "email": { "$ref": "#/components/parameters/email" },
+                        "address": { "$ref": "#/components/schemas/Address" },
+                        "adminname": { "$ref": "#/components/parameters/username" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Info"],
+        "description":
+          "Updates church information by ID. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
+        "summary": "Updates church information",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Info ID",
+            "schema": { "type": "string" },
+            "example": "5b1de7ac698c71055ef657f3"
+          }
+        ],
+        "requestBody": {
+          "description": "Church information to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": "object",
+                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "phone": { "$ref": "#/components/parameters/phone" },
+                  "email": { "$ref": "#/components/parameters/email" },
+                  "address": { "$ref": "#/components/schemas/Address" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -532,8 +548,8 @@
       },
       "delete": {
         "tags": ["Info"],
-        "description": "Deletes a church information matches an ID",
-        "summary": "Deletes a church information",
+        "description": "Deletes church information by ID",
+        "summary": "Deletes church information",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -542,26 +558,23 @@
             "required": true,
             "description": "Info ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted church information",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "address": { "$ref": "#/components/schemas/Address" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
                     }
                   }
                 }

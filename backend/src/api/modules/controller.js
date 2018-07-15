@@ -105,12 +105,13 @@ export const controllers = {
       });
   },
 
-  createOne(model, body) {
-    return model.create(body);
+  createOne(model, body, adminname) {
+    return model.create({ ...body, adminname });
   },
 
-  updateOne(docToUpdate, update) {
-    merge(docToUpdate, update);
+  updateOne(docToUpdate, update, adminname) {
+    const newUpdate = { ...update, adminname };
+    merge(docToUpdate, newUpdate);
     return docToUpdate.save();
   },
 
@@ -410,44 +411,78 @@ export const updateAdmin = (model) => (req, res, next) => {
   return setImmediate(() => next(err.Unauthorized()));
 };
 
-export const createOne = (model) => (req, res, next) =>
-  controllers
-    .createOne(model, req.body)
-    .then((doc) => res.status(201).json(doc))
+export const createOne = (model) => (req, res, next) => {
+  const { body, user } = req;
+  const { username } = user;
+  return controllers
+    .createOne(model, body, username)
+    .then((doc) => {
+      logger.info('resource created', { doc, username });
+      res.status(201).json({
+        status: 'success',
+        data: {},
+      });
+    })
     .catch((error) => {
       if (error.code === 11000) {
+        logger.warn('attempted to duplicate document', { error });
         setImmediate(() => next(err.BadRequest('mongodb duplicate key error')));
       } else {
         setImmediate(() => next(error));
       }
     });
+};
 
 export const updateOne = () => (req, res, next) => {
-  const docToUpdate = req.docFromId;
-  const update = req.body;
-
+  const { docFromId, body, user } = req;
+  const { username } = user;
   return controllers
-    .updateOne(docToUpdate, update)
-    .then((doc) => res.status(201).json(doc))
+    .updateOne(docFromId, body, username)
+    .then((doc) => {
+      logger.info('successful update', { doc, username });
+      res.status(202).json({
+        status: 'success',
+        data: {},
+      });
+    })
     .catch((error) => setImmediate(() => next(error)));
 };
 
-export const deleteOne = () => (req, res, next) =>
-  controllers
-    .deleteOne(req.docFromId)
-    .then((doc) => res.status(201).json(doc))
+export const deleteOne = () => (req, res, next) => {
+  const { docFromId, user } = req;
+  const { username } = user;
+  return controllers
+    .deleteOne(docFromId)
+    .then((doc) => {
+      logger.info('successful delete', { doc, username });
+      res.status(202).json({
+        status: 'success',
+        data: {},
+      });
+    })
     .catch((error) => setImmediate(() => next(error)));
+};
 
 export const getOne = () => (req, res, next) =>
   controllers
     .getOne(req.docFromId)
-    .then((doc) => res.status(200).json(doc))
+    .then((doc) =>
+      res.status(200).json({
+        status: 'success',
+        data: doc,
+      }),
+    )
     .catch((error) => setImmediate(() => next(error)));
 
 export const getAll = (model) => (req, res, next) =>
   controllers
     .getAll(model)
-    .then((docs) => res.status(200).json(docs))
+    .then((docs) =>
+      res.status(200).json({
+        status: 'success',
+        data: docs,
+      }),
+    )
     .catch((error) => setImmediate(() => next(error)));
 
 export const getPast = (model) => (req, res, next) => {
