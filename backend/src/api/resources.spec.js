@@ -13,7 +13,8 @@ const resources = ['admins', 'info', 'event', 'service', 'blog', 'media'];
  * token, and token with invalid-signature, should be prevented.
  */
 describe('Token test', () => {
-  resources.map((resourceName) =>
+  // prettier-ignore
+  resources.map(resourceName =>
     describe(`Route:: ${resourceName.toUpperCase()}`, () => {
       beforeAll(async () => {
         await dropDb();
@@ -62,5 +63,5 @@ describe('Token test', () => {
         jwtTest.deleteMalformedToken(`${resourceName}/${faker.mongoId}`);
         jwtTest.deleteWithBadFormattedToken(`${resourceName}/${faker.mongoId}`);
       });
-    }),);
+    }));
 });

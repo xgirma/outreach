@@ -1,32 +1,6 @@
 import { expect } from 'chai';
-import faker from 'faker';
-import isEmpty from 'lodash.isempty';
-import * as err from '../../modules/error';
 import * as common from '../../../../helpers/faker';
 
-/*
- * gets all admin for supper-admin or gets the requesting admin
- *
- * @param result: http response
- * @param all: (boolean)
- *    true: get all admins
- *    false: get one admin by id
- */
-export const getAdmin = (result, all = true) => {
-  const { status, data } = result.body;
-  const { admins } = data;
-
-  expect(result).to.have.status(200);
-  expect(status).to.equal('success');
-
-  if (all) {
-    expect(admins.length).to.be.greaterThan(1);
-  } else {
-    expect(isEmpty(admins)).to.equal(false); // not array
-  }
-};
-
-// admin
 export const supperAdminCredential = {
   username: common.username,
   password: common.password,

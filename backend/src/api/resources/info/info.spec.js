@@ -63,7 +63,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         .set('Authorization', `Bearer ${jwt}`);
 
       const { data } = result.body;
-      data.map((info) => ids.push(info._id)); // ids saved
+      data.map((d) => ids.push(d._id)); // ids saved
 
       helpers.getSuccess(result);
     });
@@ -75,7 +75,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         .request(app)
         .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
         .set('Authorization', `Bearer ${jwt}`);
-  
+
       helpers.getSuccess(result);
     });
   });
@@ -87,7 +87,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
         .set('Authorization', `Bearer ${jwt}`)
         .send({ ...info.churchInfo, phone });
-      
+
       helpers.putSuccess(result);
     });
   });
