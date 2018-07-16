@@ -47,11 +47,8 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         .post(`/api/v1/${resourceName[1]}`)
         .set('Authorization', `Bearer ${jwt}`)
         .send(info.churchInfo);
-
-      const { status, data } = result.body;
-      expect(result).to.have.status(201);
-      expect(status).to.equal('success');
-      expect(data).to.deep.equal({});
+  
+      helpers.postSuccess(result);
     });
   });
 

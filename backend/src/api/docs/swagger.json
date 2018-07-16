@@ -480,6 +480,7 @@
                         "phone": { "$ref": "#/components/parameters/phone" },
                         "email": { "$ref": "#/components/parameters/email" },
                         "address": { "$ref": "#/components/schemas/Address" },
+                        "date": { "$ref": "#/components/parameters/date" },
                         "adminname": { "$ref": "#/components/parameters/username" }
                       }
                     }
@@ -587,12 +588,12 @@
     "/intro": {
       "get": {
         "tags": ["Intro"],
-        "description": "Home page main content",
-        "summary": "Returns home page content detail",
+        "description": "The content in the introduction section of the homepage",
+        "summary": "Returns homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Home page content",
+            "description": "Introduction content",
             "content": {
               "application/json": {
                 "schema": {
@@ -604,7 +605,7 @@
                       "am": { "$ref": "#/components/schemas/Intro" },
                       "en": { "$ref": "#/components/schemas/Intro" },
                       "date": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "adminname": { "$ref": "#/components/parameters/username" }
                     }
                   }
                 }
@@ -616,10 +617,10 @@
       "post": {
         "tags": ["Intro"],
         "description": "Add the main content of the home page",
-        "summary": "Adds home page main content",
+        "summary": "Add homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Home page content to add",
+          "description": "Homepage introduction content to add",
           "required": true,
           "content": {
             "application/json": {
@@ -627,9 +628,7 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Intro" },
-                  "en": { "$ref": "#/components/schemas/Intro" },
-                  "date": { "$ref": "#/components/parameters/date" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "en": { "$ref": "#/components/schemas/Intro" }
                 }
               }
             }
@@ -637,16 +636,19 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Introduction created",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Intro" },
-                    "en": { "$ref": "#/components/schemas/Intro" },
-                    "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -658,8 +660,8 @@
     "/intro/{id}": {
       "get": {
         "tags": ["Intro"],
-        "description": "Return a home page main content by ID",
-        "summary": "Returns a home page main content",
+        "description": "Return a homepage main content by ID. Multiple introductions could be stored. And could be used in different yearly events.",
+        "summary": "Returns homepage introduction content by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -668,7 +670,7 @@
             "required": true,
             "description": "Intro ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -682,7 +684,7 @@
                     "am": { "$ref": "#/components/schemas/Intro" },
                     "en": { "$ref": "#/components/schemas/Intro" },
                     "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "adminname": { "$ref": "#/components/parameters/username" }
                   }
                 }
               }
@@ -692,8 +694,8 @@
       },
       "put": {
         "tags": ["Intro"],
-        "description": "Updates a home page main content by ID",
-        "summary": "Updates a home page main content",
+        "description": "Updates homepage introduction content by ID",
+        "summary": "Updates homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -704,7 +706,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -716,25 +718,27 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Intro" },
-                  "en": { "$ref": "#/components/schemas/Intro" },
-                  "date": { "$ref": "#/components/parameters/date" }
+                  "en": { "$ref": "#/components/schemas/Intro" }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Created",
+          "202": {
+            "description": "Update accepted",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Intro" },
-                    "en": { "$ref": "#/components/schemas/Intro" },
-                    "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -744,8 +748,8 @@
       },
       "delete": {
         "tags": ["Intro"],
-        "description": "Deletes a home page main content matches an ID",
-        "summary": "Deletes a home page main content",
+        "description": "Deletes homepage introduction content by ID",
+        "summary": "Deletes homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -754,24 +758,23 @@
             "required": true,
             "description": "Intro ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
-          "201": {
-            "description": "Deleted a home page main content",
+          "202": {
+            "description": "Deleted homepage introduction content",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Intro" },
-                      "en": { "$ref": "#/components/schemas/Intro" },
-                      "date": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
                     }
                   }
                 }
@@ -1748,7 +1751,7 @@
         }
       },
       "Intro": {
-        "required": ["title", "date", "intro"],
+        "required": ["title", "author", "intro"],
         "type": "object",
         "properties": {
           "title": {
@@ -1756,11 +1759,8 @@
             "maxLength": 200,
             "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
           },
-          "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
-          "intro": {
-            "type": "string",
-            "example": { "$ref": "#/components/parameters/long_text" }
-          }
+          "author": { "$ref": "#/components/parameters/name" },
+          "intro": { "$ref": "#/components/parameters/long_text" }
         }
       },
       "Service": {
@@ -1901,10 +1901,7 @@
       },
       "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
       "tag": { "type": "string", "length": 1000, "example": "History" },
-      "long_text": {
-        "type": "string",
-        "example":
-          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
+      "long_text": {"type": "string", "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
       },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
       "password": { "type": "string", "length": 10, "example": "p-U:QaA/3G", "format": "password" },
