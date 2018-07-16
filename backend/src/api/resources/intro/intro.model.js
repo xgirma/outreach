@@ -17,7 +17,11 @@ export const schema = {
       required: [true, 'introduction is missing'],
     },
   },
-  adminname: { type: String, required: [true, 'introduction must have a adminname'], maxlength: 20 },
+  adminname: {
+    type: String,
+    required: [true, 'introduction must have a adminname'],
+    maxlength: 20,
+  },
   date: { type: Date, default: Date.now, index: true },
 };
 

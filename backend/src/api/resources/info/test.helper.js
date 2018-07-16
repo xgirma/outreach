@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import * as common from '../../../../helpers/faker';
 
 export const supperAdminCredential = {
