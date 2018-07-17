@@ -410,8 +410,7 @@
                   "en": { "$ref": "#/components/schemas/ChurchInfo" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "email": { "$ref": "#/components/parameters/email" },
-                  "address": { "$ref": "#/components/schemas/Address" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "address": { "$ref": "#/components/schemas/Address" }
                 }
               }
             }
@@ -452,7 +451,7 @@
             "required": true,
             "description": "Info ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -488,7 +487,7 @@
             "required": true,
             "description": "Info ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -542,7 +541,7 @@
             "required": true,
             "description": "Info ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -615,8 +614,7 @@
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Intro" },
                   "en": { "$ref": "#/components/schemas/Intro" },
-                  "date": { "$ref": "#/components/parameters/date" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "date": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -655,7 +653,7 @@
             "required": true,
             "description": "Intro ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -691,7 +689,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -741,7 +739,7 @@
             "required": true,
             "description": "Intro ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -923,7 +921,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -961,7 +959,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1019,7 +1017,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1137,7 +1135,7 @@
             "required": true,
             "description": "Service ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1174,7 +1172,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1226,7 +1224,7 @@
             "required": true,
             "description": "Service ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1344,7 +1342,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1380,7 +1378,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1434,7 +1432,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1568,7 +1566,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1608,7 +1606,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1672,7 +1670,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {

@@ -413,7 +413,13 @@ export const updateAdmin = (model) => (req, res, next) => {
 export const createOne = (model) => (req, res, next) =>
   controllers
     .createOne(model, req.body)
-    .then((doc) => res.status(201).json(doc))
+    .then((doc) => {
+      logger.warn('document created', { doc });
+      res.status(202).json({
+        status: 'success',
+        data: {},
+      });
+    })
     .catch((error) => {
       if (error.code === 11000) {
         setImmediate(() => next(err.BadRequest('mongodb duplicate key error')));
