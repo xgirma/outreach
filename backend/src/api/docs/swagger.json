@@ -162,7 +162,7 @@
         "tags": ["Admins"],
         "description":
           "If the requesting user is admin return only the requesting admin user data. When super-admin, return all admins data. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return all admins",
+        "summary": "Return admins",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -205,7 +205,7 @@
         "tags": ["Admins"],
         "description":
           "If the requesting user is admin return only the requesting admin user data. A super-admin, can get any admin data by ID. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return a single admin by ID",
+        "summary": "Return admin by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -256,7 +256,7 @@
         "tags": ["Admins"],
         "description":
           "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
-        "summary": "Return success or a temporary password",
+        "summary": "Update password by ID and returns temporary password",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -451,7 +451,7 @@
       "get": {
         "tags": ["Info"],
         "description": "Return a church information by ID. Use the GET /info route to get the ID.",
-        "summary": "Returns church information",
+        "summary": "Returns church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -495,7 +495,7 @@
         "tags": ["Info"],
         "description":
           "Updates church information by ID. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
-        "summary": "Updates church information",
+        "summary": "Updates church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -550,7 +550,7 @@
       "delete": {
         "tags": ["Info"],
         "description": "Deletes church information by ID",
-        "summary": "Deletes church information",
+        "summary": "Deletes church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -662,7 +662,7 @@
         "tags": ["Intro"],
         "description":
           "Return a homepage main content by ID. Multiple introductions could be stored. And could be used in different yearly events.",
-        "summary": "Returns homepage introduction content by ID",
+        "summary": "Returns homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -696,7 +696,7 @@
       "put": {
         "tags": ["Intro"],
         "description": "Updates homepage introduction content by ID",
-        "summary": "Updates homepage introduction content",
+        "summary": "Updates homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -750,7 +750,7 @@
       "delete": {
         "tags": ["Intro"],
         "description": "Deletes homepage introduction content by ID",
-        "summary": "Deletes homepage introduction content",
+        "summary": "Deletes homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -901,7 +901,7 @@
       "get": {
         "tags": ["Event"],
         "description": "Return future event",
-        "summary": "Returns past event",
+        "summary": "Returns future event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -940,7 +940,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -978,7 +978,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1036,7 +1036,7 @@
             "required": true,
             "description": "Event ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1154,7 +1154,7 @@
             "required": true,
             "description": "Service ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1191,7 +1191,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1243,7 +1243,7 @@
             "required": true,
             "description": "Service ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1361,7 +1361,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1397,7 +1397,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1451,7 +1451,7 @@
             "required": true,
             "description": "Blog ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1585,7 +1585,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
@@ -1625,7 +1625,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
@@ -1689,7 +1689,7 @@
             "required": true,
             "description": "Video/audio ID",
             "schema": { "type": "string" },
-            "example": "1234"
+            "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
