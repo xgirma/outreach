@@ -1086,7 +1086,7 @@
                       "am": { "$ref": "#/components/schemas/Service" },
                       "en": { "$ref": "#/components/schemas/Service" },
                       "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
+                      "email": { "$ref": "#/components/parameters/email" }
                     }
                   }
                 }
@@ -1164,7 +1164,7 @@
                     "am": { "$ref": "#/components/schemas/Service" },
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
+                    "email": { "$ref": "#/components/parameters/email" }
                   }
                 }
               }
@@ -1726,14 +1726,18 @@
             "description": "Blog title",
             "example": "“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)"
           },
-          "body":  { "$ref": "#/components/parameters/longText" }
+          "body": { "$ref": "#/components/parameters/longText" }
         }
       },
       "Introduction": {
         "required": ["title", "author", "intro"],
         "type": "object",
         "properties": {
-          "title": { "type": "string", "maxLength": 200, "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!" },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
+          },
           "author": { "$ref": "#/components/parameters/name" },
           "intro": { "$ref": "#/components/parameters/longText" }
         }
@@ -1870,7 +1874,11 @@
       },
       "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
       "tag": { "type": "string", "length": 1000, "example": "History" },
-      "longText": { "type": "string", "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።" },
+      "longText": {
+        "type": "string",
+        "example":
+          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
+      },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
       "password": { "type": "string", "length": 10, "example": "p-U:QaA/3G", "format": "password" },
       "newPassword": {
