@@ -162,7 +162,7 @@
         "tags": ["Admins"],
         "description":
           "If the requesting user is admin return only the requesting admin user data. When super-admin, return all admins data. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return all admins",
+        "summary": "Return admins",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -205,7 +205,7 @@
         "tags": ["Admins"],
         "description":
           "If the requesting user is admin return only the requesting admin user data. A super-admin, can get any admin data by ID. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return a single admin by ID",
+        "summary": "Return admin by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -256,7 +256,7 @@
         "tags": ["Admins"],
         "description":
           "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
-        "summary": "Return success or a temporary password",
+        "summary": "Update password by ID and returns temporary password",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -365,26 +365,33 @@
     "/info": {
       "get": {
         "tags": ["Info"],
-        "description": "Returns all church information",
-        "summary": "Returns all church information",
+        "description":
+          "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
+        "summary": "Return church information",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "A list of church information",
+            "description": "Church information",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "address": { "$ref": "#/components/schemas/Address" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "type": "object",
+                          "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "phone": { "$ref": "#/components/parameters/phone" },
+                          "email": { "$ref": "#/components/parameters/email" },
+                          "address": { "$ref": "#/components/schemas/Address" },
+                          "adminname": { "$ref": "#/components/parameters/username" }
+                        }
+                      }
                     }
                   }
                 }
@@ -395,11 +402,12 @@
       },
       "post": {
         "tags": ["Info"],
-        "description": "Add a new church information",
+        "description": "Add church information",
         "summary": "Add church information",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Church information to add",
+          "description":
+            "Church information to add. You can change the 'am' block with Amharic content. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
           "required": true,
           "content": {
             "application/json": {
@@ -422,14 +430,15 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -441,8 +450,8 @@
     "/info/{id}": {
       "get": {
         "tags": ["Info"],
-        "description": "Return a church information matches an ID",
-        "summary": "Returns a church information",
+        "description": "Return a church information by ID. Use the GET /info route to get the ID.",
+        "summary": "Returns church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -460,14 +469,21 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "en": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "phone": { "$ref": "#/components/parameters/phone" },
+                        "email": { "$ref": "#/components/parameters/email" },
+                        "address": { "$ref": "#/components/schemas/Address" },
+                        "date": { "$ref": "#/components/parameters/date" },
+                        "adminname": { "$ref": "#/components/parameters/username" }
+                      }
+                    }
                   }
                 }
               }
@@ -477,8 +493,9 @@
       },
       "put": {
         "tags": ["Info"],
-        "description": "Updates a church information matches an ID",
-        "summary": "Updates a church information",
+        "description":
+          "Updates church information by ID. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
+        "summary": "Updates church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -509,19 +526,20 @@
           }
         },
         "responses": {
-          "201": {
+          "202": {
             "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -531,8 +549,8 @@
       },
       "delete": {
         "tags": ["Info"],
-        "description": "Deletes a church information matches an ID",
-        "summary": "Deletes a church information",
+        "description": "Deletes church information by ID",
+        "summary": "Deletes church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -545,22 +563,19 @@
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted church information",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "en": { "$ref": "#/components/schemas/ChurchInfo" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "address": { "$ref": "#/components/schemas/Address" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
                     }
                   }
                 }
@@ -573,12 +588,12 @@
     "/intro": {
       "get": {
         "tags": ["Intro"],
-        "description": "Home page main content",
-        "summary": "Returns home page content detail",
+        "description": "The content in the introduction section of the homepage",
+        "summary": "Returns homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Home page content",
+            "description": "Introduction content",
             "content": {
               "application/json": {
                 "schema": {
@@ -590,7 +605,7 @@
                       "am": { "$ref": "#/components/schemas/Intro" },
                       "en": { "$ref": "#/components/schemas/Intro" },
                       "date": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "adminname": { "$ref": "#/components/parameters/username" }
                     }
                   }
                 }
@@ -602,10 +617,10 @@
       "post": {
         "tags": ["Intro"],
         "description": "Add the main content of the home page",
-        "summary": "Adds home page main content",
+        "summary": "Add homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Home page content to add",
+          "description": "Homepage introduction content to add",
           "required": true,
           "content": {
             "application/json": {
@@ -613,8 +628,12 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Intro" },
+<<<<<<< HEAD
                   "en": { "$ref": "#/components/schemas/Intro" },
                   "date": { "$ref": "#/components/parameters/date" }
+=======
+                  "en": { "$ref": "#/components/schemas/Intro" }
+>>>>>>> 3183b860c302f652ede2a2518bba3db25f182bea
                 }
               }
             }
@@ -622,16 +641,19 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Introduction created",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Intro" },
-                    "en": { "$ref": "#/components/schemas/Intro" },
-                    "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -643,8 +665,9 @@
     "/intro/{id}": {
       "get": {
         "tags": ["Intro"],
-        "description": "Return a home page main content by ID",
-        "summary": "Returns a home page main content",
+        "description":
+          "Return a homepage main content by ID. Multiple introductions could be stored. And could be used in different yearly events.",
+        "summary": "Returns homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -667,7 +690,7 @@
                     "am": { "$ref": "#/components/schemas/Intro" },
                     "en": { "$ref": "#/components/schemas/Intro" },
                     "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "adminname": { "$ref": "#/components/parameters/username" }
                   }
                 }
               }
@@ -677,8 +700,8 @@
       },
       "put": {
         "tags": ["Intro"],
-        "description": "Updates a home page main content by ID",
-        "summary": "Updates a home page main content",
+        "description": "Updates homepage introduction content by ID",
+        "summary": "Updates homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -701,25 +724,27 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Intro" },
-                  "en": { "$ref": "#/components/schemas/Intro" },
-                  "date": { "$ref": "#/components/parameters/date" }
+                  "en": { "$ref": "#/components/schemas/Intro" }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Created",
+          "202": {
+            "description": "Update accepted",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Intro" },
-                    "en": { "$ref": "#/components/schemas/Intro" },
-                    "date": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -729,8 +754,8 @@
       },
       "delete": {
         "tags": ["Intro"],
-        "description": "Deletes a home page main content matches an ID",
-        "summary": "Deletes a home page main content",
+        "description": "Deletes homepage introduction content by ID",
+        "summary": "Deletes homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -743,20 +768,19 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Deleted a home page main content",
+          "202": {
+            "description": "Deleted homepage introduction content",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Intro" },
-                      "en": { "$ref": "#/components/schemas/Intro" },
-                      "date": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
                     }
                   }
                 }
@@ -882,7 +906,7 @@
       "get": {
         "tags": ["Event"],
         "description": "Return future event",
-        "summary": "Returns past event",
+        "summary": "Returns future event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -1733,7 +1757,7 @@
         }
       },
       "Intro": {
-        "required": ["title", "date", "intro"],
+        "required": ["title", "author", "intro"],
         "type": "object",
         "properties": {
           "title": {
@@ -1741,11 +1765,8 @@
             "maxLength": 200,
             "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
           },
-          "author": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" },
-          "intro": {
-            "type": "string",
-            "example": { "$ref": "#/components/parameters/long_text" }
-          }
+          "author": { "$ref": "#/components/parameters/name" },
+          "intro": { "$ref": "#/components/parameters/long_text" }
         }
       },
       "Service": {
