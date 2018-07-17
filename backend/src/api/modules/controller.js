@@ -411,14 +411,6 @@ export const updateAdmin = (model) => (req, res, next) => {
   return setImmediate(() => next(err.Unauthorized()));
 };
 
-<<<<<<< HEAD
-export const createOne = (model) => (req, res, next) =>
-  controllers
-    .createOne(model, req.body)
-    .then((doc) => {
-      logger.warn('document created', { doc });
-      res.status(202).json({
-=======
 export const createOne = (model) => (req, res, next) => {
   const { body, user } = req;
   const { username } = user;
@@ -427,7 +419,6 @@ export const createOne = (model) => (req, res, next) => {
     .then((doc) => {
       logger.info('resource created', { doc, username });
       res.status(201).json({
->>>>>>> 3183b860c302f652ede2a2518bba3db25f182bea
         status: 'success',
         data: {},
       });

@@ -602,8 +602,8 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": { "$ref": "#/components/schemas/Intro" },
-                      "en": { "$ref": "#/components/schemas/Intro" },
+                      "am": { "$ref": "#/components/schemas/Introduction" },
+                      "en": { "$ref": "#/components/schemas/Introduction" },
                       "date": { "$ref": "#/components/parameters/date" },
                       "adminname": { "$ref": "#/components/parameters/username" }
                     }
@@ -627,13 +627,9 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Intro" },
-<<<<<<< HEAD
-                  "en": { "$ref": "#/components/schemas/Intro" },
+                  "am": { "$ref": "#/components/schemas/Introduction" },
+                  "en": { "$ref": "#/components/schemas/Introduction" },
                   "date": { "$ref": "#/components/parameters/date" }
-=======
-                  "en": { "$ref": "#/components/schemas/Intro" }
->>>>>>> 3183b860c302f652ede2a2518bba3db25f182bea
                 }
               }
             }
@@ -687,8 +683,8 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Intro" },
-                    "en": { "$ref": "#/components/schemas/Intro" },
+                    "am": { "$ref": "#/components/schemas/Introduction" },
+                    "en": { "$ref": "#/components/schemas/Introduction" },
                     "date": { "$ref": "#/components/parameters/date" },
                     "adminname": { "$ref": "#/components/parameters/username" }
                   }
@@ -723,8 +719,8 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Intro" },
-                  "en": { "$ref": "#/components/schemas/Intro" }
+                  "am": { "$ref": "#/components/schemas/Introduction" },
+                  "en": { "$ref": "#/components/schemas/Introduction" }
                 }
               }
             }
@@ -813,8 +809,7 @@
                       "email": { "$ref": "#/components/parameters/email" },
                       "phone": { "$ref": "#/components/parameters/phone" },
                       "date_start": { "$ref": "#/components/parameters/date" },
-                      "date_end": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "date_end": { "$ref": "#/components/parameters/date" }
                     }
                   }
                 }
@@ -841,8 +836,7 @@
                   "email": { "$ref": "#/components/parameters/email" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "date_start": { "$ref": "#/components/parameters/date" },
-                  "date_end": { "$ref": "#/components/parameters/date" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "date_end": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -1093,7 +1087,6 @@
                       "en": { "$ref": "#/components/schemas/Service" },
                       "phone": { "$ref": "#/components/parameters/phone" },
                       "email": { "$ref": "#/components/parameters/email" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
                     }
                   }
                 }
@@ -1118,8 +1111,7 @@
                   "am": { "$ref": "#/components/schemas/Service" },
                   "en": { "$ref": "#/components/schemas/Service" },
                   "phone": { "$ref": "#/components/parameters/phone" },
-                  "email": { "$ref": "#/components/parameters/email" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "email": { "$ref": "#/components/parameters/email" }
                 }
               }
             }
@@ -1136,8 +1128,7 @@
                     "am": { "$ref": "#/components/schemas/Service" },
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "email": { "$ref": "#/components/parameters/email" }
                   }
                 }
               }
@@ -1174,7 +1165,6 @@
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
                     "email": { "$ref": "#/components/parameters/email" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
               }
@@ -1227,8 +1217,7 @@
                     "am": { "$ref": "#/components/schemas/Service" },
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "email": { "$ref": "#/components/parameters/email" }
                   }
                 }
               }
@@ -1265,8 +1254,7 @@
                       "am": { "$ref": "#/components/schemas/Service" },
                       "en": { "$ref": "#/components/schemas/Service" },
                       "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "email": { "$ref": "#/components/parameters/email" }
                     }
                   }
                 }
@@ -1297,8 +1285,7 @@
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
                       "date_start": { "$ref": "#/components/parameters/date" },
-                      "tag": { "$ref": "#/components/parameters/tag" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "tag": { "$ref": "#/components/parameters/tag" }
                     }
                   }
                 }
@@ -1324,8 +1311,7 @@
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
                   "date_start": { "$ref": "#/components/parameters/date" },
-                  "tag": { "$ref": "#/components/parameters/tag" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "tag": { "$ref": "#/components/parameters/tag" }
                 }
               }
             }
@@ -1343,8 +1329,7 @@
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "date_start": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
               }
@@ -1381,8 +1366,7 @@
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "date_start": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
               }
@@ -1435,8 +1419,7 @@
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "date_start": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
               }
@@ -1474,8 +1457,7 @@
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
                       "date_start": { "$ref": "#/components/parameters/date" },
-                      "tag": { "$ref": "#/components/parameters/tag" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "tag": { "$ref": "#/components/parameters/tag" }
                     }
                   }
                 }
@@ -1511,8 +1493,7 @@
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                       "media_type": { "type": "string", "example": "video" },
-                      "tag": { "type": "string", "example": "Mezmur" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "tag": { "type": "string", "example": "Mezmur" }
                     }
                   }
                 }
@@ -1543,8 +1524,7 @@
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                   "media_type": { "type": "string", "example": "video" },
-                  "tag": { "type": "string", "example": "Mezmur" },
-                  "_id": { "$ref": "#/components/parameters/_id" }
+                  "tag": { "type": "string", "example": "Mezmur" }
                 }
               }
             }
@@ -1567,8 +1547,7 @@
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                     "media_type": { "type": "string", "example": "video" },
-                    "tag": { "type": "string", "example": "Mezmur" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "tag": { "type": "string", "example": "Mezmur" }
                   }
                 }
               }
@@ -1673,8 +1652,7 @@
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                     "media_type": { "type": "string", "example": "video" },
-                    "tag": { "type": "string", "example": "Mezmur" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "tag": { "type": "string", "example": "Mezmur" }
                   }
                 }
               }
@@ -1718,8 +1696,7 @@
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                       "media_type": { "type": "string", "example": "video" },
-                      "tag": { "type": "string", "example": "Mezmur" },
-                      "_id": { "$ref": "#/components/parameters/_id" }
+                      "tag": { "type": "string", "example": "Mezmur" }
                     }
                   }
                 }
@@ -1749,24 +1726,16 @@
             "description": "Blog title",
             "example": "“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)"
           },
-          "body": {
-            "type": "string",
-            "description": "The main content of the blog",
-            "example": { "$ref": "#/components/parameters/long_text" }
-          }
+          "body":  { "$ref": "#/components/parameters/longText" }
         }
       },
-      "Intro": {
+      "Introduction": {
         "required": ["title", "author", "intro"],
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 200,
-            "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
-          },
+          "title": { "type": "string", "maxLength": 200, "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!" },
           "author": { "$ref": "#/components/parameters/name" },
-          "intro": { "$ref": "#/components/parameters/long_text" }
+          "intro": { "$ref": "#/components/parameters/longText" }
         }
       },
       "Service": {
@@ -1778,10 +1747,7 @@
             "maxLength": 200,
             "example": "The Divine Liturgy"
           },
-          "description": {
-            "type": "string",
-            "example": { "$ref": "#/components/parameters/long_text" }
-          },
+          "description": { "$ref": "#/components/parameters/longText" },
           "contact": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" }
         }
       },
@@ -1872,15 +1838,12 @@
         "type": "object",
         "properties": {
           "title": { "type": "string", "maxLength": 200, "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
-          "description": {
-            "type": "string",
-            "example": { "$ref": "#/components/parameters/long_text" }
-          }
+          "description": { "$ref": "#/components/parameters/longText" }
         }
       },
       "Media": {
         "type": "object",
-        "properties": { "body": { "$ref": "#/components/parameters/long_text" } }
+        "properties": { "body": { "$ref": "#/components/parameters/longText" } }
       }
     },
     "parameters": {
@@ -1907,11 +1870,7 @@
       },
       "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
       "tag": { "type": "string", "length": 1000, "example": "History" },
-      "long_text": {
-        "type": "string",
-        "example":
-          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
-      },
+      "longText": { "type": "string", "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።" },
       "username": { "type": "string", "length": 10, "example": "John.Doe" },
       "password": { "type": "string", "length": 10, "example": "p-U:QaA/3G", "format": "password" },
       "newPassword": {
