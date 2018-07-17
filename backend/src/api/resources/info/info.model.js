@@ -42,7 +42,7 @@ export const schema = {
     country: { type: String, required: [true, 'info must have a country'], maxlength: 100 },
   },
   adminname: { type: String, required: [true, 'info must have a adminname'], maxlength: 20 },
-  date: { type: Date, default: Date.now },
+  date: { type: Date, default: Date.now, index: true },
 };
 
 const infoSchema = new mongoose.Schema(schema);

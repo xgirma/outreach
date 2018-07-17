@@ -2,14 +2,14 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
 import { dropDb } from '../../../../helpers/dropDb';
-import * as intro from './test.helper';
+import * as info from './test.helper';
 import * as helpers from './../test.helper';
 
 chai.use(chaiHttp);
-const resourceName = ['register', 'intro'];
+const resourceName = ['register', 'info'];
 let jwt;
 const ids = [];
-const { en } = intro;
+const phone = '(425) 329 - 9000';
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -28,7 +28,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       const result = await chai
         .request(app)
         .post(`/api/v1/${resourceName[0]}`)
-        .send(intro.supperAdminCredential);
+        .send(info.supperAdminCredential);
 
       const { status, data } = result.body;
       const { token } = data;
@@ -41,19 +41,19 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   describe(`POST /${resourceName[1]}`, () => {
-    test('should POST intro', async () => {
+    test('should POST info', async () => {
       const result = await chai
         .request(app)
         .post(`/api/v1/${resourceName[1]}`)
         .set('Authorization', `Bearer ${jwt}`)
-        .send(intro.churchIntro);
+        .send(info.churchInfo);
 
       helpers.postSuccess(result);
     });
   });
 
   describe(`GET /${resourceName[1]}`, () => {
-    test('should GET intro', async () => {
+    test('should GET info', async () => {
       const result = await chai
         .request(app)
         .get(`/api/v1/${resourceName[1]}`)
@@ -67,7 +67,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   describe(`GET /${resourceName[1]}/{id}`, () => {
-    test('should GET intro', async () => {
+    test('should GET info', async () => {
       const result = await chai
         .request(app)
         .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
@@ -78,19 +78,19 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   describe(`PUT /${resourceName[1]}/{id}`, () => {
-    test('should update intro', async () => {
+    test('should update info', async () => {
       const result = await chai
         .request(app)
         .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
         .set('Authorization', `Bearer ${jwt}`)
-        .send({ ...intro.churchIntro, en });
+        .send({ ...info.churchInfo, phone });
 
       helpers.putSuccess(result);
     });
   });
 
   describe(`GET /${resourceName[1]}/{id}`, () => {
-    test('should GET intro', async () => {
+    test('should GET info', async () => {
       const result = await chai
         .request(app)
         .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
@@ -100,12 +100,12 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
       expect(result).to.have.status(200);
       expect(status).to.equal('success');
-      expect(data.en).to.deep.equal(en);
+      expect(data.phone).to.deep.equal(phone);
     });
   });
 
   describe(`DELETE /${resourceName[1]}/{id}}`, () => {
-    test('should delete intro', async () => {
+    test('should delete info', async () => {
       const result = await chai
         .request(app)
         .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
