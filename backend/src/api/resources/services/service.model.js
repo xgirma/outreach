@@ -12,14 +12,16 @@ export const schema = {
     description: { type: String },
     contact: { type: String },
   },
-  phone: { type: String, required: [true, 'Info must have a phone'] },
+  phone: { type: String, required: [true, 'service must have a phone'] },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    required: [true, 'Info must have an email'],
-    validate: [isEmail, 'Invalid email'],
+    required: [true, 'service must have an email'],
+    validate: [isEmail, 'invalid email'],
   },
+  adminname: { type: String, required: [true, 'service must have a adminname'], maxlength: 20 },
+  date: { type: Date, default: Date.now, index: true },
 };
 
 const serviceSchema = new mongoose.Schema(schema);
