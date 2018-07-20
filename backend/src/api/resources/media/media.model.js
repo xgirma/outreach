@@ -7,14 +7,15 @@ export const schema = {
   en: {
     body: { type: String },
   },
-  title: { type: String, maxlength: 200, required: [true, 'Media must have a title'] },
+  title: { type: String, maxlength: 200, required: [true, 'Media must have a title'], index: true },
   url: { type: String, maxlength: 300, required: [true, 'Media must have url'] },
-  media_type: {
+  mediaType: {
     type: String,
     enum: ['video', 'audio'],
     required: [true, 'Media type must be selected'],
+    index: true
   },
-  tag: { type: String, maxlength: 100 },
+  tag: { type: String, maxlength: 100, index: true },
 };
 
 const mediaSchema = new mongoose.Schema(schema);

@@ -20,7 +20,7 @@ export const removeModel = (modelName) => {
   });
 };
 
-export const dropDatabase = () =>
+export const database = () =>
   mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => Promise.all(mongoose.modelNames().map(removeModel)));

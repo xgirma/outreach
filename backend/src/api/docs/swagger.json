@@ -678,8 +678,8 @@
                       "address": { "$ref": "#/components/schemas/Address" },
                       "email": { "$ref": "#/components/parameters/email" },
                       "phone": { "$ref": "#/components/parameters/phone" },
-                      "date_start": { "$ref": "#/components/parameters/date" },
-                      "date_end": { "$ref": "#/components/parameters/date" }
+                      "dateStart": { "$ref": "#/components/parameters/date" },
+                      "dateEnd": { "$ref": "#/components/parameters/date" }
                     }
                   }
                 }
@@ -705,8 +705,8 @@
                   "address": { "$ref": "#/components/schemas/Address" },
                   "email": { "$ref": "#/components/parameters/email" },
                   "phone": { "$ref": "#/components/parameters/phone" },
-                  "date_start": { "$ref": "#/components/parameters/date" },
-                  "date_end": { "$ref": "#/components/parameters/date" }
+                  "dateStart": { "$ref": "#/components/parameters/date" },
+                  "dateEnd": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -743,8 +743,8 @@
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
-                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
+                    "dateEnd": { "$ref": "#/components/parameters/date" },
                     "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
@@ -773,8 +773,8 @@
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
-                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
+                    "dateEnd": { "$ref": "#/components/parameters/date" },
                     "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
@@ -813,8 +813,8 @@
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
-                    "date_end": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
+                    "dateEnd": { "$ref": "#/components/parameters/date" },
                     "_id": { "$ref": "#/components/parameters/_id" }
                   }
                 }
@@ -851,8 +851,8 @@
                   "address": { "$ref": "#/components/schemas/Address" },
                   "email": { "$ref": "#/components/parameters/email" },
                   "phone": { "$ref": "#/components/parameters/phone" },
-                  "date_start": { "$ref": "#/components/parameters/date" },
-                  "date_end": { "$ref": "#/components/parameters/date" }
+                  "dateStart": { "$ref": "#/components/parameters/date" },
+                  "dateEnd": { "$ref": "#/components/parameters/date" }
                 }
               }
             }
@@ -1088,7 +1088,7 @@
                       "am": { "$ref": "#/components/schemas/Blog" },
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
-                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "dateStart": { "$ref": "#/components/parameters/date" },
                       "tag": { "$ref": "#/components/parameters/tag" }
                     }
                   }
@@ -1114,7 +1114,7 @@
                   "am": { "$ref": "#/components/schemas/Blog" },
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
-                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "dateStart": { "$ref": "#/components/parameters/date" },
                   "tag": { "$ref": "#/components/parameters/tag" }
                 }
               }
@@ -1132,7 +1132,7 @@
                     "am": { "$ref": "#/components/schemas/Blog" },
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
                     "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
@@ -1169,7 +1169,7 @@
                     "am": { "$ref": "#/components/schemas/Blog" },
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
                     "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
@@ -1204,7 +1204,7 @@
                   "am": { "$ref": "#/components/schemas/Blog" },
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
-                  "date_start": { "$ref": "#/components/parameters/date" },
+                  "dateStart": { "$ref": "#/components/parameters/date" },
                   "tag": { "$ref": "#/components/parameters/tag" }
                 }
               }
@@ -1222,7 +1222,7 @@
                     "am": { "$ref": "#/components/schemas/Blog" },
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
+                    "dateStart": { "$ref": "#/components/parameters/date" },
                     "tag": { "$ref": "#/components/parameters/tag" }
                   }
                 }
@@ -1260,7 +1260,7 @@
                       "am": { "$ref": "#/components/schemas/Blog" },
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
-                      "date_start": { "$ref": "#/components/parameters/date" },
+                      "dateStart": { "$ref": "#/components/parameters/date" },
                       "tag": { "$ref": "#/components/parameters/tag" }
                     }
                   }
@@ -1296,7 +1296,7 @@
                           "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                      "media_type": { "type": "string", "example": "video" },
+                      "mediaType": { "type": "string", "example": "video" },
                       "tag": { "type": "string", "example": "Mezmur" }
                     }
                   }
@@ -1327,7 +1327,7 @@
                     "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                  "media_type": { "type": "string", "example": "video" },
+                  "mediaType": { "type": "string", "example": "video" },
                   "tag": { "type": "string", "example": "Mezmur" }
                 }
               }
@@ -1350,7 +1350,7 @@
                       "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                    "media_type": { "type": "string", "example": "video" },
+                    "mediaType": { "type": "string", "example": "video" },
                     "tag": { "type": "string", "example": "Mezmur" }
                   }
                 }
@@ -1392,7 +1392,7 @@
                       "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                    "media_type": { "type": "string", "example": "video" },
+                    "mediaType": { "type": "string", "example": "video" },
                     "tag": { "type": "string", "example": "Mezmur" }
                   }
                 }
@@ -1432,7 +1432,7 @@
                     "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                  "media_type": { "type": "string", "example": "video" },
+                  "mediaType": { "type": "string", "example": "video" },
                   "tag": { "type": "string", "example": "Mezmur" }
                 }
               }
@@ -1455,7 +1455,7 @@
                       "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                    "media_type": { "type": "string", "example": "video" },
+                    "mediaType": { "type": "string", "example": "video" },
                     "tag": { "type": "string", "example": "Mezmur" }
                   }
                 }
@@ -1499,7 +1499,7 @@
                           "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                      "media_type": { "type": "string", "example": "video" },
+                      "mediaType": { "type": "string", "example": "video" },
                       "tag": { "type": "string", "example": "Mezmur" }
                     }
                   }

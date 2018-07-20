@@ -54,8 +54,8 @@ export const event = {
   },
   email: 'info@gedam.org',
   phone: '(425) 329 - 9092',
-  date_start: '2018-07-19T07:06:47.396Z',
-  date_end: '2018-07-19T07:06:47.396Z',
+  dateStart: '2018-07-19T07:06:47.396Z',
+  dateEnd: '2018-07-19T07:06:47.396Z',
 };
 
 export const services = {
@@ -87,7 +87,7 @@ export const blog = {
       'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
   },
   author: 'Melkamu Abate',
-  date_start: '2018-07-19T07:16:09.157Z',
+  dateStart: '2018-07-19T07:16:09.157Z',
   tag: 'History',
 };
 
@@ -102,6 +102,6 @@ export const media = {
   },
   title: 'ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs',
   url: 'https://youtu.be/BlnyzdJGqM8',
-  media_type: 'video',
+  mediaType: 'video',
   tag: 'Mezmur',
 };

@@ -24,12 +24,5 @@ module.exports = {
       functions: 50,
       lines: 50,
     },
-  },
-  testPathIgnorePatterns: [
-    '<rootDir>/src/api/resources/blog',
-    '<rootDir>/src/api/resources/event',
-    '<rootDir>/src/api/resources/media',
-    '<rootDir>/src/api/resources/service',
-    '<rootDir>/__tests__',
-  ],
+  }
 };

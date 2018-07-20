@@ -24,8 +24,8 @@ export const schema = {
     validate: [isEmail, 'invalid email'],
   },
   phone: { type: String, required: [true, 'event must have a phone'] },
-  date_start: { type: Date, default: Date.now, index: true },
-  date_end: { type: Date, default: Date.now, index: true },
+  dateStart: { type: Date, default: Date.now, index: true },
+  dateEnd: { type: Date, default: Date.now, index: true },
   adminname: { type: String, required: [true, 'event must have a adminname'], maxlength: 20 },
   date: { type: Date, default: Date.now, index: true }, // document creation date
 };
