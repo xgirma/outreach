@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 export const schema = {
-  _id: { type: Number, default: 202020 },
   am: {
     body: { type: String },
   },

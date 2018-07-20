@@ -24,5 +24,5 @@ export const en = {
   title: 'He Has Risen, Jesus Christ our Savior!!!',
   author: 'Melkamu Abate',
   intro:
-    'He is not here; he has risen! Remember how he told you, while he was still with you in Galilee: ‘The Son of Man must be delivered into the hands of sinful men, be crucified and on the third day be raised again።',
+    'He is not here; he has risen! Remember how he told you, while he was still with you in Galilee: ‘The Son of Man must be delivered into the hands of sinful men, be crucified and on the third day be raised again. He is not here; he has risen! Remember how he told you, while he was still with you in Galilee. Remember how he told you, while he was still with you in Galilee.',
 };

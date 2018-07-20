@@ -34,3 +34,12 @@ export const getSuccess = (result) => {
   expect(status).to.equal('success');
   expect(isEmpty(data)).to.be.false;
 };
+
+// GET success but no data
+export const getSuccessEmpty = (result) => {
+  const { status, data } = result.body;
+
+  expect(result).to.have.status(200);
+  expect(status).to.equal('success');
+  expect(isEmpty(data)).to.be.true;
+};

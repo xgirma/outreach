@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 
 export const schema = {
-  _id: {
-    type: Number,
-    default: 100,
-  },
   am: {
     title: { type: String, maxlength: 200 },
     description: { type: String },

@@ -340,7 +340,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Deleted admin",
             "content": {
               "application/json": {

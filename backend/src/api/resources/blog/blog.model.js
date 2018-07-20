@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 
 export const schema = {
-  _id: {
-    type: Number,
-    default: 202020,
-  },
   am: {
     title: { type: String, maxlength: 200, required: [true, 'Event must have a title'] },
     body: { type: String },
