@@ -54,18 +54,7 @@
             "description": "Return super-admin token",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object",
-                        "token": { "$ref": "#/components/parameters/token" }
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -97,18 +86,7 @@
             "description": "Return token",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object",
-                        "token": { "$ref": "#/components/parameters/token" }
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -142,17 +120,7 @@
             "description": "Return token",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -289,17 +257,7 @@
             "description": "Confirm success",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           },
@@ -307,18 +265,7 @@
             "description": "Creates a temporary password",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object",
-                        "tempPassword": { "$ref": "#/components/parameters/tempPassword" }
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -344,18 +291,7 @@
             "description": "Deleted admin",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -429,18 +365,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -530,18 +455,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -567,18 +481,7 @@
             "description": "Deleted church information",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -640,18 +543,7 @@
             "description": "Introduction created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -731,18 +623,7 @@
             "description": "Update accepted",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -768,18 +649,7 @@
             "description": "Deleted homepage introduction content",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -847,19 +717,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Event" },
-                    "en": { "$ref": "#/components/schemas/Event" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
-                    "date_end": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1001,23 +859,11 @@
           }
         },
         "responses": {
-          "201": {
+          "202": {
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Event" },
-                    "en": { "$ref": "#/components/schemas/Event" },
-                    "address": { "$ref": "#/components/schemas/Address" },
-                    "email": { "$ref": "#/components/parameters/email" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "date_start": { "$ref": "#/components/parameters/date" },
-                    "date_end": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1039,27 +885,11 @@
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted event",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Event" },
-                      "en": { "$ref": "#/components/schemas/Event" },
-                      "address": { "$ref": "#/components/schemas/Address" },
-                      "email": { "$ref": "#/components/parameters/email" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "date_start": { "$ref": "#/components/parameters/date" },
-                      "date_end": { "$ref": "#/components/parameters/date" },
-                      "_id": { "$ref": "#/components/schemas/_id" }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1124,18 +954,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1216,18 +1035,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1253,18 +1061,7 @@
             "description": "Deleted a service",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "type": "object",
-                    "status": { "$ref": "#/components/parameters/success" },
-                    "data": {
-                      "properties": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1855,6 +1652,18 @@
       "Media": {
         "type": "object",
         "properties": { "body": { "$ref": "#/components/parameters/longText" } }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "type": "object",
+          "status": { "$ref": "#/components/parameters/success" },
+          "data": {
+            "properties": {
+              "type": "object"
+            }
+          }
+        }
       }
     },
     "parameters": {
