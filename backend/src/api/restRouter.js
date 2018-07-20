@@ -4,7 +4,7 @@ import eventRouter from './resources/event/event.restRouter';
 import infoRouter from './resources/info/info.restRouter';
 import introRouter from './resources/intro/intro.restRouter';
 import mediaRouter from './resources/media/media.restRouter';
-import serviceRouter from './resources/service/service.restRouter';
+import serviceRouter from './resources/services/service.restRouter';
 import { adminsRouter, superAdminsRouter } from './resources/admins/admins.restRouter';
 import { verifyUser, signin, protect } from './modules/auth';
 
@@ -19,6 +19,6 @@ restRouter.use('/event', protect, eventRouter);
 restRouter.use('/info', protect, infoRouter);
 restRouter.use('/intro', protect, introRouter);
 restRouter.use('/media', protect, mediaRouter);
-restRouter.use('/service', protect, serviceRouter);
+restRouter.use('/services', protect, serviceRouter);
 
 export default restRouter;

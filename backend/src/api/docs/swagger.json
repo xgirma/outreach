@@ -1066,7 +1066,7 @@
         }
       }
     },
-    "/service": {
+    "/services": {
       "get": {
         "tags": ["Service"],
         "description": "Church service",
@@ -1086,7 +1086,9 @@
                       "am": { "$ref": "#/components/schemas/Service" },
                       "en": { "$ref": "#/components/schemas/Service" },
                       "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" }
+                      "email": { "$ref": "#/components/parameters/email" },
+                      "adminname": { "$ref": "#/components/parameters/username" },
+                      "date": { "$ref": "#/components/parameters/date" }
                     }
                   }
                 }
@@ -1123,12 +1125,15 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Service" },
-                    "en": { "$ref": "#/components/schemas/Service" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -1137,7 +1142,7 @@
         }
       }
     },
-    "/service/{id}": {
+    "/services/{id}": {
       "get": {
         "tags": ["Service"],
         "description": "Return service by ID",
@@ -1207,17 +1212,20 @@
           }
         },
         "responses": {
-          "201": {
+          "202": {
             "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Service" },
-                    "en": { "$ref": "#/components/schemas/Service" },
-                    "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
+                    }
                   }
                 }
               }
@@ -1241,20 +1249,19 @@
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted a service",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
+                  "type": "object",
+                  "properties": {
                     "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Service" },
-                      "en": { "$ref": "#/components/schemas/Service" },
-                      "phone": { "$ref": "#/components/parameters/phone" },
-                      "email": { "$ref": "#/components/parameters/email" }
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "type": "object"
+                      }
                     }
                   }
                 }

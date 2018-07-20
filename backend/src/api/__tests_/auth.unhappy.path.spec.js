@@ -6,7 +6,7 @@ import * as jwtTest from './jwt.validation';
 
 chai.use(chaiHttp);
 
-const resources = ['admins', 'info', 'event', 'service', 'blog', 'media'];
+const resources = ['admins', 'info', 'event', 'services', 'blog', 'media'];
 
 /*
  * An attempt to use protected resources without-token, with expired

@@ -2,12 +2,12 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
 import { dropDatabase } from './drop.database';
-import * as assert from './commn.response.validators';
-import { admin, info, event, service, blog, media } from './request.body';
+import * as assert from './response.validator';
+import { admin, info, event, services, blog, media } from './request.body';
 
 chai.use(chaiHttp);
 
-const resources = ['info', 'event', 'service', 'blog', 'media'];
+const resources = ['info', 'event', 'services', 'blog', 'media'];
 let jwt;
 const ids = {};
 
@@ -70,8 +70,8 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
           case 'event':
             requestBody = event;
             break;
-          case 'service':
-            requestBody = service;
+          case 'services':
+            requestBody = services;
             break;
           case 'blog':
             requestBody = blog;
@@ -122,8 +122,9 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
         test(`should update PUT /${resourceName}`, async () => {
           let update = {};
           const phone = '(425) 329 - 9999';
+          /* eslint-disable-next-line */
           const date_start = '2025-07-19T07:06:47.396Z';
-          const email = 'service@gedam.org';
+          const email = 'services@gedam.org';
           const author = 'Unknown Author';
           const url = 'https://youtu.be/Blnyz888888';
 
@@ -134,8 +135,8 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
             case 'event':
               update = { ...event, date_start };
               break;
-            case 'service':
-              update = { ...service, email };
+            case 'services':
+              update = { ...services, email };
               break;
             case 'blog':
               update = { ...blog, author };
@@ -165,7 +166,7 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
               return () => {
                 Object.keys(data).map((d) => expect(d.date_start).to.equal(date_start));
               };
-            case 'service':
+            case 'services':
               return () => {
                 Object.keys(data).map((d) => expect(d.email).to.equal(email));
               };

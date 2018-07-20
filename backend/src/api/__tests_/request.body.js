@@ -8,30 +8,29 @@ export const admin = Object.assign({
 
 export const info = {
   am: {
-    name: 'ቅዱስ ጊዮርጊስ የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን',
-    denomination: 'የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን',
+    name: faker.lorem.words(),
+    denomination: faker.lorem.words(),
     bible: {
-      verse: 'እኔም እልሃለሁ: አንተ ጴጥሮስ ነህ: በዚችም ዓለት ላይ ቤተ ክርስቲያኔን እሠራለሁ: የገሃነም ደጆችም አይችሉአትም::',
-      from: 'Matthew 16:18',
+      verse: faker.lorem.sentence(),
+      from: faker.lorem.words(),
     },
   },
   en: {
-    name: 'St. George Ethiopian Orthodox Tewahedo Church',
-    denomination: 'Ethiopian Orthodox Tewahedo Church',
+    name: faker.lorem.words(),
+    denomination: faker.lorem.words(),
     bible: {
-      verse:
-        'And I tell you that you are Peter,and on this rock I will build my church, and the gates of Hadeswill not overcome it.',
-      from: 'Matthew 16:18',
+      verse: faker.lorem.sentence(),
+      from: faker.lorem.words(),
     },
   },
-  phone: '(425) 329 - 9092',
-  email: 'info@gedam.org',
+  phone: faker.phone.phoneNumber(),
+  email: faker.internet.email().toLowerCase(),
   address: {
-    street: '1234 EastLake Ave East',
-    city: 'Seattle',
-    state: 'WA',
-    zip: '98201',
-    country: 'United States',
+    street: faker.address.streetAddress(),
+    city: faker.address.city(),
+    state: faker.address.state(),
+    zip: faker.address.zipCode(),
+    country: faker.address.country(),
   },
 };
 
@@ -59,7 +58,7 @@ export const event = {
   date_end: '2018-07-19T07:06:47.396Z',
 };
 
-export const service = {
+export const services = {
   am: {
     title: 'The Divine Liturgy',
     description:
