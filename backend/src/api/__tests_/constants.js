@@ -37,8 +37,13 @@ export const SUPER_ADMIN_LOGIN = {
 
 export const SUPER_ADMIN_LOGIN_UPDATE = {
   currentPassword: 's-A:XaW/3R',
-  newPassword: 'q-W:QzA$3S',
-  newPasswordAgain: 'q-W:QzA$3S',
+  newPassword: 'o-Y:SaM/4W',
+  newPasswordAgain: 'o-Y:SaM/4W',
+};
+
+export const SUPER_ADMIN_LOGIN_AFTER_UPDATE = {
+  username: 'John.Doe',
+  password: 'o-Y:SaM/4W',
 };
 
 export const SUPER_ADMIN_UPDATE_WITH_NEW_SHORT_PASSWORD = {
@@ -63,6 +68,24 @@ export const SUPER_ADMIN_UPDATE_WITH_WEAK_PASS_PHRASE = {
   currentPassword: 's-A:XaW/3R',
   newPassword: weakPassPhrase,
   newPasswordAgain: weakPassPhrase,
+};
+
+export const SUPER_ADMIN_UPDATE_NEW_PASS_DO_NON_MATCH = {
+  currentPassword: 's-A:XaW/3R',
+  newPassword: 'q-W:QzA$3Sa',
+  newPasswordAgain: 'q-W:QzA$3Ss',
+};
+
+export const SUPER_ADMIN_SAME_NEW_AND_CURRENT_PASSWORD = {
+  currentPassword: 's-A:XaW/3R',
+  newPassword: 's-A:XaW/3R',
+  newPasswordAgain: 's-A:XaW/3R',
+};
+
+export const SUPER_ADMIN_WRONG_CURRENT_CURRENT_PASSWORD = {
+  currentPassword: 's-A:XaW/3RR',
+  newPassword: goodPassword,
+  newPasswordAgain: goodPassword,
 };
 
 export const ADMIN_LOGIN = {

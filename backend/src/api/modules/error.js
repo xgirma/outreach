@@ -33,8 +33,8 @@ const Unauthorized = (msg) => {
   return err;
 };
 
-const Forbidden = (msg) => {
-  const message = msg || FORBIDDEN;
+const Forbidden = (msg = FORBIDDEN) => {
+  const message = msg;
   const err = new Error(message);
   err.name = Forbidden.name;
   err.status = 403;

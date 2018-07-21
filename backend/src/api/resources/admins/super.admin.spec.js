@@ -1,12 +1,8 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
-import * as assert from '../../../../helpers/response.validation';
 import { dropDatabase } from '../../__tests_/database';
-import * as faker from '../../../../helpers/faker';
-import * as assertAdmin from './test.helper';
-import * as err from '../../modules/error'; // TODO remove after devlopment
-import * as assert2 from '../../__tests_/crud.validator';
+import * as assert from '../../__tests_/crud.validator';
 import * as co from '../../__tests_/constants';
 
 chai.use(chaiHttp);
@@ -14,7 +10,9 @@ const resourceName = ['register', 'admins', 'signin'];
 let jwt;
 const ids = [];
 const badRequest = (result) =>
-  assert2.badRequest(result, 'proper username and password is required');
+  assert.badRequest(result, 'proper username and password is required');
+const badUpdateRequest = (result) =>
+  assert.badRequest(result, 'proper current and new password is required');
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -26,7 +24,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * should not register a super-admin, if req.body is invalid
+   * should not register super-admin, if req.body contains
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -78,7 +76,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send(co.ADMIN_WEAK_PASSWORD);
 
-        assert2.registerWithWeakPassword(result);
+        assert.weakPassword(result);
       });
 
       test('should not register if pass-phrase is weak', async () => {
@@ -87,7 +85,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send(co.ADMIN_WEAK_PASS_PHRASE);
 
-        assert2.registerWithWeakPassPhrase(result);
+        assert.weakPassPhrase(result);
       });
     });
   });
@@ -108,7 +106,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
 
-        assert2.registerSuccess(result);
+        assert.registerSuccess(result);
       });
 
       test('super-admin: should not register super-admin if exists', async () => {
@@ -117,13 +115,13 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send(co.SUPER_ADMIN_LOGIN);
 
-        assert2.forbidden(result, 'user already exists');
+        assert.forbidden(result, 'user already exists');
       });
     });
   });
 
   /*
-   * should not register admin, if req.body is invalid
+   * should not register admin, if req.body is
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -180,7 +178,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.ADMIN_WEAK_PASSWORD);
 
-        assert2.registerWithWeakPassword(result);
+        assert.weakPassword(result);
       });
 
       test('should not register if pass-phrase is weak', async () => {
@@ -190,7 +188,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.ADMIN_WEAK_PASS_PHRASE);
 
-        assert2.registerWithWeakPassPhrase(result);
+        assert.weakPassPhrase(result);
       });
     });
   });
@@ -209,7 +207,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.ADMIN_LOGIN);
 
-        assert2.registerSuccess(result);
+        assert.registerSuccess(result);
       });
 
       test('super-admin: should register the 2nd admin with good req-body', async () => {
@@ -219,7 +217,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SECOND_ADMIN_LOGIN);
 
-        assert2.registerSuccess(result);
+        assert.registerSuccess(result);
       });
 
       test('super-admin: should not register if admin already exist', async () => {
@@ -229,7 +227,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SECOND_ADMIN_LOGIN);
 
-        assert2.forbidden(result, 'user already exists');
+        assert.forbidden(result, 'user already exists');
       });
     });
   });
@@ -250,7 +248,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         ids.push(admins[1]._id);
         ids.push(admins[2]._id);
 
-        assert2.getAdminSuccess(result);
+        assert.getAdminSuccess(result);
       });
     });
   });
@@ -269,7 +267,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert2.getAdminSuccess(result, false);
+        assert.getAdminSuccess(result, false);
       });
 
       test('super-admin: should get the second admin by id', async () => {
@@ -278,7 +276,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert2.getAdminSuccess(result, false);
+        assert.getAdminSuccess(result, false);
       });
 
       test(`super-admin: should get the third admin by id ${ids[2]}`, async () => {
@@ -287,7 +285,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${ids[2]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert2.getAdminSuccess(result, false);
+        assert.getAdminSuccess(result, false);
       });
 
       test('super-admin: should not get admin with bad mongoose id', async () => {
@@ -296,7 +294,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${co.BAD_MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert2.notFound(result, 'Not a MongoId');
+        assert.notFound(result, 'Not a MongoId');
       });
 
       test('super-admin: should not get admin with valid but non-existent mongoose id', async () => {
@@ -305,7 +303,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${co.MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert2.notFound(result, 'No resource found with this Id');
+        assert.notFound(result, 'No resource found with this Id');
       });
     });
   });
@@ -332,7 +330,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({});
 
-        assert2.badRequest(result, 'proper current and new password is required');
+        badUpdateRequest(result);
       });
 
       test('super-admin: should not update if req-body is invalid', async () => {
@@ -342,7 +340,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({ name: '' });
 
-        assert2.badRequest(result, 'proper current and new password is required');
+        badUpdateRequest(result);
       });
 
       test('super-admin: should not update if password length is < 8 characters', async () => {
@@ -352,7 +350,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SUPER_ADMIN_UPDATE_WITH_NEW_SHORT_PASSWORD);
 
-        assert2.badRequest(result, 'proper current and new password is required');
+        badUpdateRequest(result);
       });
 
       test('super-admin: should not update if password length is > 128 characters', async () => {
@@ -362,7 +360,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SUPER_ADMIN_UPDATE_WITH_LONG_PASSWORD);
 
-        assert2.badRequest(result, 'proper current and new password is required');
+        badUpdateRequest(result);
       });
 
       test('super-admin: should not update password if password is weak', async () => {
@@ -372,7 +370,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASSWORD);
 
-        assert2.updateWithWeakPassword(result);
+        assert.weakPassword(result);
       });
 
       test('super-admin: should not update password if pass-phrase is weak', async () => {
@@ -382,7 +380,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASS_PHRASE);
 
-        assert2.updateWithWeakPassPhrase(result);
+        assert.weakPassPhrase(result);
       });
 
       test('super-admin: new password entries do not match', async () => {
@@ -390,9 +388,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.newPasswordDoNotMatch);
+          .send(co.SUPER_ADMIN_UPDATE_NEW_PASS_DO_NON_MATCH);
 
-        assert2.badRequest(result, 'new passwords do not match');
+        assert.badRequest(result, 'new passwords do not match');
       });
 
       test('super-admin: new password is the same as current', async () => {
@@ -400,9 +398,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.newPasswordSameWithCurrent);
+          .send(co.SUPER_ADMIN_SAME_NEW_AND_CURRENT_PASSWORD);
 
-        assert2.badRequest(result, 'new password is the same as current');
+        assert.badRequest(result, 'new password is the same as current');
       });
 
       test('super-admin: wrong current password', async () => {
@@ -410,9 +408,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.wrongCurrentPassword);
+          .send(co.SUPER_ADMIN_WRONG_CURRENT_CURRENT_PASSWORD);
 
-        assert2.forbidden(result, 'wrong current password');
+        assert.forbidden(result, 'wrong current password');
       });
 
       test('super-admin: should update super-admin password', async () => {
@@ -420,9 +418,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withGoodPassword);
+          .send(co.SUPER_ADMIN_LOGIN_UPDATE);
 
-        assert2.putSuccess(result);
+        assert.putSuccess(result);
       });
 
       test('super-admin: should update admin password', async () => {
@@ -456,7 +454,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send({});
 
-        assert2.badRequest(result, 'proper username and password is required');
+        badRequest(result);
       });
 
       test('should not signin if req-body is invalid', async () => {
@@ -465,7 +463,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send({ name: '' });
 
-        assert2.badRequest(result, 'proper username and password is required');
+        badRequest(result);
       });
 
       test('should not signin with bad username', async () => {
@@ -474,7 +472,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send(co.SIGNIN_BAD_USERNAME);
 
-        assert2.badUsernameOrPassword(result);
+        assert.forbidden(result);
       });
 
       test('should not signin with bad password', async () => {
@@ -483,7 +481,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send(co.SIGNIN_BAD_PASSWORD);
 
-        assert2.badUsernameOrPassword(result);
+        assert.badUsernameOrPassword(result);
       });
 
       test('should not signin with bad username and password', async () => {
@@ -492,14 +490,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send(co.SIGNIN_BAD_USERNAME_AND_PASSWORD);
 
-        assert2.badUsernameOrPassword(result);
+        assert.badUsernameOrPassword(result);
       });
 
       test('super-admin should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(assertAdmin.signInAfterUpdate);
+          .send(co.SUPER_ADMIN_LOGIN_AFTER_UPDATE);
 
         const { status, data } = result.body;
         const { token } = data;
@@ -513,51 +511,47 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * super-admin delete admin by id
+   * super-admin delete admin by id and self
    *
-   * Should fail
+   * should fail
    * - non existing id
    */
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
-      test('should delete the first admin', async () => {
+      test('super-admin: should delete the first admin', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[1]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.thirdAdminCredential);
+          .set('Authorization', `Bearer ${jwt}`);
 
-        assert.success(result);
+        assert.deleteSuccess(result);
       });
 
-      test('should delete the second admin', async () => {
+      test('super-admin: should delete the second admin', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[2]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.thirdAdminCredential);
+          .set('Authorization', `Bearer ${jwt}`);
 
-        assert.success(result);
+        assert.deleteSuccess(result);
       });
 
-      test('should not delete if admin does not exist', async () => {
+      test('super-admin: should not delete if admin does not exist', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[2]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.thirdAdminCredential);
+          .set('Authorization', `Bearer ${jwt}`);
 
         assert.notFound(result, 'No resource found with this Id');
       });
 
-      test('should delete self (super-admin)', async () => {
+      test('super-admin: should delete self (super-admin)', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.thirdAdminCredential);
+          .set('Authorization', `Bearer ${jwt}`);
 
-        assert.success(result);
+        assert.deleteSuccess(result);
       });
     });
   });

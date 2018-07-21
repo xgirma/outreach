@@ -217,6 +217,11 @@ export const withGoodPassword = {
   newPasswordAgain: common.passwordNew,
 };
 
+export const signInAfterUpdate = {
+  username: common.username,
+  password: common.passwordNew,
+};
+
 // admin
 export const withGoodPasswordAdmin = {
   currentPassword: common.adminPassword,
@@ -238,9 +243,4 @@ export const signBadPassword = {
 export const signBadUsernameAndPassword = {
   username: 'bad.username',
   password: 'bad.password',
-};
-
-export const signInAfterUpdate = {
-  username: common.username,
-  password: common.passwordNew,
 };

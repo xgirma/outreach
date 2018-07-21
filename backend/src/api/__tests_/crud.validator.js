@@ -110,14 +110,14 @@ export const unauthorizedError = (result) => {
   expect(co.UNAUTHORIZED_ERROR).to.include(message);
 };
 
-export const badRequest = (result, msg) => {
+export const badRequest = (result, msg = err.BadRequest().message) => {
   const { status, data } = result.body;
   const { name, message } = data;
 
   expect(result).to.have.status(400);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal(msg || err.BadRequest.message);
+  expect(name).to.equal(err.BadRequest().name);
+  expect(message).to.equal(msg);
 };
 
 /*
@@ -149,15 +149,15 @@ export const getAdminSuccess = (result, superAdmin = true) => {
  *
  * @param result: http response
  */
-export const unauthorized = (result) => {
+export const unauthorized = (result, msg = err.Unauthorized().message) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { name, message } = data;
 
   expect(result).to.have.status(401);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.Unauthorized.name);
-  expect(message).to.equal(err.UNAUTHORIZED);
+  expect(name).to.equal(err.Unauthorized().name);
+  expect(message).to.equal(msg);
 };
 
 /*
@@ -165,14 +165,29 @@ export const unauthorized = (result) => {
  *
  * @param result: http response
  */
-export const forbidden = (result, msg) => {
+export const forbidden = (result, msg = err.Forbidden().message) => {
   const { status, data } = result.body;
   const { name, message } = data;
 
   expect(result).to.have.status(403);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.Forbidden.name);
-  expect(message).to.equal(msg || err.Forbidden.message);
+  expect(name).to.equal(err.Forbidden().name);
+  expect(message).to.equal(msg);
+};
+
+/*
+ * registering with weak password should be prevented
+ *
+ * @param result: http response
+ */
+export const weakPassword = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(400);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.WeakPassword.name);
+  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS.join(' ')}`);
 };
 
 /*
@@ -203,6 +218,21 @@ export const updateWithWeakPassword = (result) => {
   expect(status).to.equal('fail');
   expect(name).to.equal(err.WeakPassword.name);
   expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS.join(' ')}`);
+};
+
+/*
+ * registration with weak pass-phrase should be prevented
+ *
+ * @param result: http response
+ */
+export const weakPassPhrase = (result) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(400);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.WeakPassword.name);
+  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS[0]} ${co.WEAK_PASSWORD_ERRORS[1]}`);
 };
 
 /*
