@@ -2,7 +2,7 @@
 import merge from 'lodash.merge';
 import isEmpty from 'lodash.isempty';
 import { isMongoId } from 'validator';
-import { testPasswordStrength, tempPassword } from './password';
+import { testPasswordStrength, temporaryPassword } from './password';
 import * as test from './schema';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
@@ -373,16 +373,16 @@ export const updateAdmin = (model) => (req, res, next) => {
         .catch((error) => setImmediate(() => next(error)));
     }
     // 1.2.
-    const update = { passwordHash: docFromId.hashPassword(tempPassword) };
+    const update = { passwordHash: docFromId.hashPassword(temporaryPassword) };
 
     return controllers
       .updateOne(docFromId, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('admin password updated by', { username });
-        res.status(202).json({
+        logger.info('temporary admin password created by', { username });
+        res.status(201).json({
           status: 'success',
-          data: { tempPassword },
+          data: { temporaryPassword },
         });
       })
       .catch((error) => setImmediate(() => next(error)));

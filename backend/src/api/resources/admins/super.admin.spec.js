@@ -6,11 +6,15 @@ import { dropDatabase } from '../../__tests_/database';
 import * as faker from '../../../../helpers/faker';
 import * as assertAdmin from './test.helper';
 import * as err from '../../modules/error'; // TODO remove after devlopment
+import * as assert2 from '../../__tests_/crud.validator';
+import * as co from '../../__tests_/constants';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
 let jwt;
 const ids = [];
+const badRequest = (result) =>
+  assert2.badRequest(result, 'proper username and password is required');
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -22,7 +26,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Should not register a super-admin, if req.body is invalid
+   * should not register a super-admin, if req.body is invalid
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -38,7 +42,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send({});
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if req-body is invalid', async () => {
@@ -47,81 +51,79 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .post(`/api/v1/${resourceName[0]}`)
           .send({ name: '' });
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password length is < 8 characters', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.withShortPassword);
+          .send(co.ADMIN_SHORT_PASSWORD);
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password length is > 128 characters', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.withLongPassword);
+          .send(co.ADMIN_LONG_PASSWORD);
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password is weak', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.withWeakPassword);
+          .send(co.ADMIN_WEAK_PASSWORD);
 
-        assertAdmin.registerWithWeakPassword(result);
+        assert2.registerWithWeakPassword(result);
       });
 
       test('should not register if pass-phrase is weak', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.withWeakPassPhrase);
+          .send(co.ADMIN_WEAK_PASS_PHRASE);
 
-        assertAdmin.registerWithWeakPassPhrase(result);
+        assert2.registerWithWeakPassPhrase(result);
       });
     });
   });
 
   /*
-   * Should register an super-admin, if req.body is valid.
-   * There should be only one super-admin. Adding more should be prevented.
+   * should register super-admin
+   * there should only be one super-admin
+   * adding more super-admin should be prevented
    */
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
-      test('should register super-admin', async () => {
+      test('super-admin: should register super-admin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.supperAdminCredential);
+          .send(co.SUPER_ADMIN_LOGIN);
 
-        const { status, data } = result.body;
-        const { token } = data;
+        const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
 
-        expect(result).to.have.status(201);
-        expect(status).to.equal('success');
-        expect(token).not.to.equal('');
+        assert2.registerSuccess(result);
       });
 
-      test('should not register super-admin if one already exists', async () => {
+      test('super-admin: should not register super-admin if exists', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.supperAdminCredential);
+          .send(co.SUPER_ADMIN_LOGIN);
 
-        assertAdmin.registerWhileExist(result);
+        assert2.forbidden(result, 'user already exists');
       });
     });
   });
 
   /*
-   * Should not register admin, if req.body is invalid
+   * should not register admin, if req.body is invalid
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -138,7 +140,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({});
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if req-body is invalid', async () => {
@@ -148,7 +150,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({ name: '' });
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password length is < 8 characters', async () => {
@@ -156,9 +158,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withShortPassword);
+          .send(co.ADMIN_SHORT_PASSWORD);
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password length is > 128 characters', async () => {
@@ -166,9 +168,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withLongPassword);
+          .send(co.ADMIN_LONG_PASSWORD);
 
-        assertAdmin.registerWithBadRequestBody(result);
+        badRequest(result);
       });
 
       test('should not register if password is weak', async () => {
@@ -176,9 +178,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withWeakPassword);
+          .send(co.ADMIN_WEAK_PASSWORD);
 
-        assertAdmin.registerWithWeakPassword(result);
+        assert2.registerWithWeakPassword(result);
       });
 
       test('should not register if pass-phrase is weak', async () => {
@@ -186,62 +188,58 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withWeakPassPhrase);
+          .send(co.ADMIN_WEAK_PASS_PHRASE);
 
-        assertAdmin.registerWithWeakPassPhrase(result);
+        assert2.registerWithWeakPassPhrase(result);
       });
     });
   });
 
   /*
-   * Should register an admin, if req.body is valid
-   * Registering more-than one admin should be possible.
-   * Should not register admin if admin with the username already exists.
-   * {
-   *    username: "John.Doe",
-   *    password: "p-U:QaA/3G"
-   * }
+   * should register an admin, if req.body is valid
+   * registering more-than one admin should be possible.
+   * should not register admin if admin with the username already exists.
    */
   describe(`${resourceName[1].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
-      test('should register the 1st admin with good req-body', async () => {
+      test('super-admin: should register the 1st admin with good req-body', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.secondAdminCredential);
+          .send(co.ADMIN_LOGIN);
 
-        assert.success(result);
+        assert2.registerSuccess(result);
       });
 
-      test('should register the 2nd admin with good req-body', async () => {
+      test('super-admin: should register the 2nd admin with good req-body', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.thirdAdminCredential);
+          .send(co.SECOND_ADMIN_LOGIN);
 
-        assert.success(result);
+        assert2.registerSuccess(result);
       });
 
-      test('should not register if admin already exist', async () => {
+      test('super-admin: should not register if admin already exist', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.secondAdminCredential);
+          .send(co.SECOND_ADMIN_LOGIN);
 
-        assertAdmin.registerWhileExist(result);
+        assert2.forbidden(result, 'user already exists');
       });
     });
   });
 
   /*
-   * Test case: Super admin gets all admins data, including itself.
+   * super admin gets ALL admins data, including itself.
    */
   describe(`${resourceName[1].toUpperCase()}: get all`, () => {
     describe(`GET /${resourceName[1]}`, () => {
-      test('should get all admins', async () => {
+      test('super-admin: should get all admins', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}`)
@@ -252,71 +250,70 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         ids.push(admins[1]._id);
         ids.push(admins[2]._id);
 
-        assertAdmin.getAdmin(result);
+        assert2.getAdminSuccess(result);
       });
     });
   });
 
   /*
-   * Super-admin all gets admin by id
-   * Should not get admin with
+   * super-admin gets admin by id
+   * should not get admin with
    * - bad mongoID
    * - good but non exiting mongoID
    */
   describe(`${resourceName[1].toUpperCase()}: get one by id`, () => {
     describe(`GET /${resourceName[1]}/{id}`, () => {
-      test('should get the first super-admin by id', async () => {
+      test('super-admin: should get the first super-admin by id', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assertAdmin.getAdmin(result, false);
+        assert2.getAdminSuccess(result, false);
       });
 
-      test('should get the second admin by id', async () => {
+      test('super-admin: should get the second admin by id', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assertAdmin.getAdmin(result, false);
+        assert2.getAdminSuccess(result, false);
       });
 
-      test(`should get the third admin by id ${ids[2]}`, async () => {
+      test(`super-admin: should get the third admin by id ${ids[2]}`, async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}/${ids[2]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assertAdmin.getAdmin(result, false);
+        assert2.getAdminSuccess(result, false);
       });
 
-      test('should not get admin with bad mongoose id', async () => {
+      test('super-admin: should not get admin with bad mongoose id', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${faker.invalidMongoId}`)
+          .get(`/api/v1/${resourceName[1]}/${co.BAD_MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.notFound(result, 'Not a MongoId');
+        assert2.notFound(result, 'Not a MongoId');
       });
 
-      test('should not get admin with valid but non-existent mongoose id', async () => {
+      test('super-admin: should not get admin with valid but non-existent mongoose id', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${faker.mongoId}`)
+          .get(`/api/v1/${resourceName[1]}/${co.MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.notFound(result, 'No resource found with this Id');
+        assert2.notFound(result, 'No resource found with this Id');
       });
     });
   });
 
   /*
-   * Update password of
+   * update password of
    * 1. super-admin
    * 2. admin
-   * 3. non-exiting
    *
    * Should fail if
    * - req.body is bad
@@ -328,194 +325,174 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
    */
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
-      test('should not register if req-body is {}', async () => {
+      test('super-admin: should not update if req-body is {}', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send({});
 
-        assertAdmin.updateWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper current and new password is required');
       });
 
-      test('should not register if req-body is invalid', async () => {
+      test('super-admin: should not update if req-body is invalid', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send({ name: '' });
 
-        assertAdmin.updateWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper current and new password is required');
       });
 
-      test('should not register if password length is < 8 characters', async () => {
+      test('super-admin: should not update if password length is < 8 characters', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.updateWithShortPassword);
+          .send(co.SUPER_ADMIN_UPDATE_WITH_NEW_SHORT_PASSWORD);
 
-        assertAdmin.updateWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper current and new password is required');
       });
 
-      test('should not register if password length is > 128 characters', async () => {
+      test('super-admin: should not update if password length is > 128 characters', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.updateWithLongPassword);
+          .send(co.SUPER_ADMIN_UPDATE_WITH_LONG_PASSWORD);
 
-        assertAdmin.updateWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper current and new password is required');
       });
 
-      test('should not register if password is weak', async () => {
+      test('super-admin: should not update password if password is weak', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.updateWithWeakPassword);
+          .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASSWORD);
 
-        assertAdmin.registerWithWeakPassword(result);
+        assert2.updateWithWeakPassword(result);
       });
 
-      test('should not register if pass-phrase is weak', async () => {
+      test('super-admin: should not update password if pass-phrase is weak', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.updateWithWeakPassPhrase);
+          .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASS_PHRASE);
 
-        assertAdmin.registerWithWeakPassPhrase(result);
+        assert2.updateWithWeakPassPhrase(result);
       });
 
-      test('new password entries do not match', async () => {
+      test('super-admin: new password entries do not match', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.newPasswordDoNotMatch);
 
-        const { status, data } = result.body;
-        const { name, message } = data;
-
-        expect(result).to.have.status(400);
-        expect(status).to.equal('fail');
-        expect(name).to.equal(err.BadRequest.name);
-        expect(message).to.equal('new passwords do not match');
+        assert2.badRequest(result, 'new passwords do not match');
       });
 
-      test('new password is the same as current', async () => {
+      test('super-admin: new password is the same as current', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.newPasswordSameWithCurrent);
 
-        const { status, data } = result.body;
-        const { name, message } = data;
-
-        expect(result).to.have.status(400);
-        expect(status).to.equal('fail');
-        expect(name).to.equal(err.BadRequest.name);
-        expect(message).to.equal('new password is the same as current');
+        assert2.badRequest(result, 'new password is the same as current');
       });
 
-      test('wrong current password', async () => {
+      test('super-admin: wrong current password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.wrongCurrentPassword);
 
-        const { status, data } = result.body;
-        const { name, message } = data;
-
-        expect(result).to.have.status(403);
-        expect(status).to.equal('fail');
-        expect(name).to.equal(err.Forbidden.name);
-        expect(message).to.equal('wrong current password');
+        assert2.forbidden(result, 'wrong current password');
       });
 
-      test('should update super-admin password', async () => {
+      test('super-admin: should update super-admin password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
           .send(assertAdmin.withGoodPassword);
 
-        assert.success(result);
-        expect(result).to.have.status(202);
+        assert2.putSuccess(result);
       });
 
-      test('should update admin password', async () => {
+      test('super-admin: should update admin password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send({});
+          .send({}); // no request body required
 
         const { status, data } = result.body;
 
-        expect(result).to.have.status(202);
+        expect(result).to.have.status(201);
         expect(status).to.equal('success');
-        expect(data.tempPassword).not.to.equal('');
-        expect(result).to.have.status(202);
+        expect(data.temporaryPassword).not.to.equal('');
       });
     });
   });
 
   /*
-   * Signin
+   * signin
    *
-   * Should fail if
+   * should fail if
    * - bad req.body
    * - bad username and/or password
    */
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
-      test('should not register if req-body is {}', async () => {
+      test('should not signin if req-body is {}', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send({});
 
-        assertAdmin.registerWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper username and password is required');
       });
 
-      test('should not register if req-body is invalid', async () => {
+      test('should not signin if req-body is invalid', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
           .send({ name: '' });
 
-        assertAdmin.registerWithBadRequestBody(result);
+        assert2.badRequest(result, 'proper username and password is required');
       });
 
-      test('should not register with bad username', async () => {
+      test('should not signin with bad username', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(assertAdmin.signBadUsername);
+          .send(co.SIGNIN_BAD_USERNAME);
 
-        assertAdmin.badUsernameOrPassword(result);
+        assert2.badUsernameOrPassword(result);
       });
 
-      test('should not register with bad password', async () => {
+      test('should not signin with bad password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(assertAdmin.signBadPassword);
+          .send(co.SIGNIN_BAD_PASSWORD);
 
-        assertAdmin.badUsernameOrPassword(result);
+        assert2.badUsernameOrPassword(result);
       });
 
-      test('should not register with bad username and password', async () => {
+      test('should not signin with bad username and password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(assertAdmin.signBadUsernameAndPassword);
+          .send(co.SIGNIN_BAD_USERNAME_AND_PASSWORD);
 
-        assertAdmin.badUsernameOrPassword(result);
+        assert2.badUsernameOrPassword(result);
       });
 
       test('super-admin should be able to signin', async () => {
@@ -536,7 +513,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Super-admin delete admin by id
+   * super-admin delete admin by id
    *
    * Should fail
    * - non existing id

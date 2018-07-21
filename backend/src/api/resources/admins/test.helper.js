@@ -26,21 +26,6 @@ export const registerWithBadRequestBody = (result) => {
 };
 
 /*
- * update (super-)admin data with bad req.body should be prevented
- *
- * @param result: http response
- */
-export const updateWithBadRequestBody = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('proper current and new password is required');
-};
-
-/*
  * creating new (super-)admin with weak password should be prevented
  *
  * @param result: http response

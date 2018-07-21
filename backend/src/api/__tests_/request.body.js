@@ -1,9 +1,9 @@
 import faker from 'faker';
-import { tempPassword } from '../modules/password';
+import { temporaryPassword } from '../modules/password';
 
 export const admin = Object.assign({
   username: faker.internet.userName(),
-  password: tempPassword,
+  password: temporaryPassword,
 });
 
 export const info = {

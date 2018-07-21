@@ -265,7 +265,18 @@
             "description": "Creates a temporary password",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": "object",
+                    "status": { "$ref": "#/components/parameters/success" },
+                    "data": {
+                      "properties": {
+                        "temporaryPassword": { "$ref": "#/components/parameters/tempPassword" }
+                      }
+                    }
+                  }
+                }
               }
             }
           }

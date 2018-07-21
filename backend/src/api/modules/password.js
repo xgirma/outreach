@@ -17,7 +17,7 @@ export { owasp };
 /*
  * Generate a temporary password, for password reset
  */
-export const tempPassword = generate({
+export const temporaryPassword = generate({
   numbers: true,
   symbols: true,
   strict: true,
