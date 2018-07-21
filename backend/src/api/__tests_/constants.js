@@ -14,24 +14,24 @@ export const BAD_FORMAT_TOKEN =
 // users
 export const SUPER_ADMIN_LOGIN = {
   username: 'John.Doe',
-  password: 's-A:XaW/3R'
+  password: 's-A:XaW/3R',
 };
 
 export const SUPER_ADMIN_LOGIN_UPDATE = {
-  currentPassword: "s-A:XaW/3R",
-  newPassword: "q-W:QzA$3S",
-  newPasswordAgain: "q-W:QzA$3S"
+  currentPassword: 's-A:XaW/3R',
+  newPassword: 'q-W:QzA$3S',
+  newPasswordAgain: 'q-W:QzA$3S',
 };
 
 export const ADMIN_LOGIN = {
   username: 'Jane.Joe',
-  password: 'p-B:GaY/3U'
+  password: 'p-B:GaY/3U',
 };
 
 export const ADMIN_LOGIN_UPDATE = {
-  currentPassword: "p-B:GaY/3U",
-  newPassword: "B-W:QzA$3S",
-  newPasswordAgain: "B-W:QzA$3S"
+  currentPassword: 'p-B:GaY/3U',
+  newPassword: 'B-W:QzA$3S',
+  newPasswordAgain: 'B-W:QzA$3S',
 };
 
 export const SECOND_ADMIN_LOGIN = {

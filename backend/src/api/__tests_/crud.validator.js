@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import isEmpty from 'lodash.isempty';
-import * as err from "../modules/error";
+import * as err from '../modules/error';
 
 const testEmptySuccess = (data) => expect(isEmpty(data)).to.be.true;
 const testNonEmpty = (data) => expect(isEmpty(data)).to.be.false;
@@ -83,7 +83,7 @@ export const registerSuccess = (result) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { token } = data;
-  
+
   expect(result).to.have.status(201);
   expect(status).to.equal('success');
   expect(token).not.to.equal('');
@@ -94,7 +94,7 @@ export const signinSuccess = (result) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { token } = data;
-  
+
   expect(result).to.have.status(200);
   expect(status).to.equal('success');
   expect(token).not.to.equal('');
@@ -113,10 +113,10 @@ export const getAdminSuccess = (result, superAdmin = true) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { admins } = data;
-  
+
   expect(result).to.have.status(200);
   expect(status).to.equal('success');
-  
+
   if (superAdmin) {
     expect(admins).to.be.an('array');
   } else {
@@ -133,7 +133,7 @@ export const unauthorized = (result) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { name, message } = data;
-  
+
   expect(result).to.have.status(401);
   expect(status).to.equal('fail');
   expect(name).to.equal(err.Unauthorized.name);

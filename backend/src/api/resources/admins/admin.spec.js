@@ -18,7 +18,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   afterAll(async () => {
     await dropDatabase();
   });
-  
+
   // Should register an super-admin
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
@@ -27,15 +27,15 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
           .send(co.SUPER_ADMIN_LOGIN);
-        
+
         const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
-  
+
         assert.registerSuccess(result);
       });
     });
   });
-  
+
   // Super-admin register an admin
   describe(`${resourceName[1].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
@@ -50,7 +50,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // Super admin gets all admins data
   describe(`${resourceName[1].toUpperCase()}: get all`, () => {
     describe(`GET /${resourceName[1]}`, () => {
@@ -68,7 +68,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // Admin signin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
@@ -77,15 +77,15 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
           .send(co.ADMIN_LOGIN);
-        
+
         const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
-        
+
         assert.signinSuccess(result);
       });
     });
   });
-  
+
   // Admin gets only his own data.
   describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
     describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
@@ -99,7 +99,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // Admin only updates his own password
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
@@ -112,7 +112,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
         assert.putSuccess(result);
       });
-      
+
       test('admin: should not update others (super-admin or admin) password', async () => {
         const result = await chai
           .request(app)
@@ -124,7 +124,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // Admin delete only itself
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
@@ -133,7 +133,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
-  
+
         assert.unauthorized(result);
       });
 
@@ -147,7 +147,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // Signin super-admin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
@@ -156,16 +156,15 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
           .send(co.SUPER_ADMIN_LOGIN);
-        
+
         const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
-        
+
         assert.signinSuccess(result);
       });
     });
   });
 
-  
   // Super-admin delete self
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
@@ -174,7 +173,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
-  
+
         assert.deleteSuccess(result);
       });
     });
