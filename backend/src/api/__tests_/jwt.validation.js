@@ -1,6 +1,6 @@
 import chai from 'chai';
 import app from '../../server';
-import * as assert from './response.validator';
+import * as assert from './crud.validator';
 import {
   EXPIRED_TOKEN,
   INVALID_SIGNATURE_TOKEN,

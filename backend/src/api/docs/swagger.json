@@ -281,13 +281,13 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Admin Id",
+            "description": "Admin ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted admin",
             "content": {
               "application/json": {

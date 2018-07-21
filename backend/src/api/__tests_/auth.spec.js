@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { database } from './database';
+import { dropDatabase } from './database';
 import { MONGO_ID } from './constants';
 import * as jwtTest from './jwt.validation';
 
@@ -17,11 +17,11 @@ describe('Token test', () => {
   resources.map(resourceName =>
     describe(`Route:: ${resourceName.toUpperCase()}`, () => {
       beforeAll(async () => {
-        await database();
+        await dropDatabase();
       });
 
       afterAll(async () => {
-        await database();
+        await dropDatabase();
       });
 
       describe(`GET /${resourceName}`, () => {

@@ -62,3 +62,5 @@ export const invalidSignatureToken =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpM';
 export const malformedToken = 'MDU1ZWY2NTdmMyI';
 export const badFormatToken = 'jwt malformed MDU1ZWY2NTdmMyI';
+
+// user credentials

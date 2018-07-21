@@ -1,8 +1,8 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
-import { database } from './database';
-import * as assert from './response.validator';
+import { dropDatabase } from './database';
+import * as assert from './crud.validator';
 import { admin, info, event, services, blog, media } from './request.body';
 
 chai.use(chaiHttp);
@@ -13,11 +13,11 @@ const ids = {};
 
 describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
-    await database();
+    await dropDatabase();
   });
 
   afterAll(async () => {
-    await database();
+    await dropDatabase();
   });
 
   /*

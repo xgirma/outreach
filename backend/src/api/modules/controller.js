@@ -288,7 +288,7 @@ export const deleteAdmin = (model) => (req, res, next) => {
       .deleteOne(req.docFromId)
       .then((admin) => {
         logger.info('admin deleted', { name: admin.username });
-        res.status(201).json({
+        res.status(202).json({
           status: 'success',
           data: {},
         });
@@ -297,7 +297,7 @@ export const deleteAdmin = (model) => (req, res, next) => {
   } else if (user._id.equals(req.docFromId.id)) {
     controllers.deleteOne(user).then((self) => {
       logger.info('admin deleted', { name: self.username });
-      res.status(201).json({
+      res.status(202).json({
         status: 'success',
         data: {},
       });
@@ -380,7 +380,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       .then((admin) => {
         const { username } = admin;
         logger.info('admin password updated by', { username });
-        res.status(201).json({
+        res.status(202).json({
           status: 'success',
           data: { tempPassword },
         });

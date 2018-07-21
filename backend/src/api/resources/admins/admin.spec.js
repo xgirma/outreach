@@ -1,9 +1,9 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
-import * as assert from '../../../../helpers/response.validation';
-import { dropDb } from '../../../../helpers/dropDb';
-import * as assertAdmin from './test.helper';
+import * as assert from '../../__tests_/crud.validator';
+import { dropDatabase } from '../../__tests_/database';
+import * as co from '../../__tests_/constants';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
@@ -12,60 +12,49 @@ const ids = [];
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
-    await dropDb();
+    await dropDatabase();
   });
 
   afterAll(async () => {
-    await dropDb();
+    await dropDatabase();
   });
-
-  /* TEST SETUP BEGIN */
-
-  /*
-   * Test case: Should register an super-admin
-   */
+  
+  // Should register an super-admin
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
       test('should register super-admin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(assertAdmin.supperAdminCredential);
-
-        const { status, data } = result.body;
-        const { token } = data;
+          .send(co.SUPER_ADMIN_LOGIN);
+        
+        const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
-
-        expect(result).to.have.status(201);
-        expect(status).to.equal('success');
-        expect(token).not.to.equal('');
+  
+        assert.registerSuccess(result);
       });
     });
   });
-
-  /*
-   * Test case: Should register an admin
-   */
+  
+  // Super-admin register an admin
   describe(`${resourceName[1].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
-      test('should register the 1st admin with good req-body', async () => {
+      test('super-admin: should register an admin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.secondAdminCredential);
+          .send(co.ADMIN_LOGIN);
 
-        assert.success(result);
+        assert.postSuccess(result);
       });
     });
   });
-
-  /*
-   * Test case: Super admin gets all admins data
-   */
+  
+  // Super admin gets all admins data
   describe(`${resourceName[1].toUpperCase()}: get all`, () => {
     describe(`GET /${resourceName[1]}`, () => {
-      test('should get all admins', async () => {
+      test('super-admin: should GET admins', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}`)
@@ -75,142 +64,119 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         ids.push(admins[0]._id);
         ids.push(admins[1]._id);
 
-        assertAdmin.getAdmin(result);
+        assert.getAdminSuccess(result);
       });
     });
   });
-
-  /* TEST SETUP END */
-
-  /*
-   * Test case: signin admin
-   */
+  
+  // Admin signin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
-      test('admin should be able to signin', async () => {
+      test('admin: admin should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(assertAdmin.secondAdminCredential);
-
-        const { status, data } = result.body;
-        const { token } = data;
+          .send(co.ADMIN_LOGIN);
+        
+        const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
-
-        expect(result).to.have.status(200);
-        expect(status).to.equal('success');
-        expect(token).not.to.equal('');
+        
+        assert.signinSuccess(result);
       });
     });
   });
-
-  /*
-   * Test case: Admin gets only his own data.
-   */
+  
+  // Admin gets only his own data.
   describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
     describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test('should get only its own admin data', async () => {
+      test('admin: should GET itself', async () => {
         const result = await chai
           .request(app)
           .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assertAdmin.getAdmin(result, false);
+        assert.getAdminSuccess(result, false);
       });
     });
   });
-
-  /*
-   * Test case: admin only updates his own password
-   */
+  
+  // Admin only updates his own password
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
-      test('should update super-admin password', async () => {
+      test('admin: should update its-own password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withGoodPasswordAdmin);
+          .send(co.ADMIN_LOGIN_UPDATE);
 
-        assert.success(result);
+        assert.putSuccess(result);
       });
-
-      test('should update admin password', async () => {
+      
+      test('admin: should not update others (super-admin or admin) password', async () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(assertAdmin.withGoodPassword);
+          .send({});
 
-        assert.validTokenNotAuthorised(result);
+        assert.unauthorized(result);
       });
     });
   });
-
-  /*
-   * Test-case: admin delete only itself
-   */
+  
+  // Admin delete only itself
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
-      test('should not delete other admin', async () => {
+      test('admin: should not delete others (super-admin or admin)', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
-
-        assert.validTokenNotAuthorised(result);
+  
+        assert.unauthorized(result);
       });
 
-      test('should delete self (admin)', async () => {
+      test('admin: should delete self (admin)', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.success(result);
+        assert.deleteSuccess(result);
       });
     });
   });
-
-  /* TEST TEAR_DOWN BEGINS */
-
-  /*
-   * Test case: signin super-admin
-   */
+  
+  // Signin super-admin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
-      test('super-admin should be able to signin', async () => {
+      test('super-admin: should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(assertAdmin.supperAdminCredential);
-
-        const { status, data } = result.body;
-        const { token } = data;
+          .send(co.SUPER_ADMIN_LOGIN);
+        
+        const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
-
-        expect(result).to.have.status(200);
-        expect(status).to.equal('success');
-        expect(token).not.to.equal('');
+        
+        assert.signinSuccess(result);
       });
     });
   });
 
-  /*
-   * Super-admin delete self
-   */
+  
+  // Super-admin delete self
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
-      test('should delete self (super-admin)', async () => {
+      test('super-admin: should delete self', async () => {
         const result = await chai
           .request(app)
           .delete(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`);
-
-        assert.success(result);
+  
+        assert.deleteSuccess(result);
       });
     });
   });
-
-  /* TEST TEAR_DOWN ENDS */
 });

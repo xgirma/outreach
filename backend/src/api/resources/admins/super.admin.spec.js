@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
 import * as assert from '../../../../helpers/response.validation';
-import { dropDb } from '../../../../helpers/dropDb';
+import { dropDatabase } from '../../__tests_/database';
 import * as faker from '../../../../helpers/faker';
 import * as assertAdmin from './test.helper';
 import * as err from '../../modules/error'; // TODO remove after devlopment
@@ -14,15 +14,15 @@ const ids = [];
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
-    await dropDb();
+    await dropDatabase();
   });
 
   afterAll(async () => {
-    await dropDb();
+    await dropDatabase();
   });
 
   /*
-   * Test case: should not register a super-admin, if req.body is invalid
+   * Should not register a super-admin, if req.body is invalid
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -89,7 +89,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test case: Should register an super-admin, if req.body is valid.
+   * Should register an super-admin, if req.body is valid.
    * There should be only one super-admin. Adding more should be prevented.
    */
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
@@ -121,7 +121,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test case: should not register admin, if req.body is invalid
+   * Should not register admin, if req.body is invalid
    * - {}
    * - invalid schema, e.g. { name: '' },
    * - password is < 8 characters
@@ -194,7 +194,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test case: Should register an admin, if req.body is valid
+   * Should register an admin, if req.body is valid
    * Registering more-than one admin should be possible.
    * Should not register admin if admin with the username already exists.
    * {
@@ -258,7 +258,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test-case: Super-admin all gets admin by id
+   * Super-admin all gets admin by id
    * Should not get admin with
    * - bad mongoID
    * - good but non exiting mongoID
@@ -313,7 +313,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test case: update password of
+   * Update password of
    * 1. super-admin
    * 2. admin
    * 3. non-exiting
@@ -456,16 +456,16 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
 
         const { status, data } = result.body;
 
-        expect(result).to.have.status(201);
+        expect(result).to.have.status(202);
         expect(status).to.equal('success');
         expect(data.tempPassword).not.to.equal('');
-        expect(result).to.have.status(201);
+        expect(result).to.have.status(202);
       });
     });
   });
 
   /*
-   * Test case: signin
+   * Signin
    *
    * Should fail if
    * - bad req.body
