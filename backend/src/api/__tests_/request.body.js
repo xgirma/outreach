@@ -36,66 +36,60 @@ export const info = {
 
 export const event = {
   am: {
-    title: 'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ',
-    description:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
+    title: faker.lorem.words(),
+    description: faker.lorem.paragraphs(),
   },
   en: {
-    title: 'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ',
-    description:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
+    title: faker.lorem.words(),
+    description: faker.lorem.paragraphs(),
   },
   address: {
-    street: '1234 EastLake Ave East',
-    city: 'Seattle',
-    state: 'WA',
-    zip: '98201',
-    country: 'United States',
+    street: faker.address.streetAddress(),
+    city: faker.address.city(),
+    state: faker.address.state(),
+    zip: faker.address.zipCode(),
+    country: faker.address.country(),
   },
-  email: 'info@gedam.org',
-  phone: '(425) 329 - 9092',
-  dateStart: '2018-07-19T07:06:47.396Z',
-  dateEnd: '2018-07-19T07:06:47.396Z',
+  email: faker.internet.email().toLowerCase(),
+  phone: faker.phone.phoneNumber(),
+  dateStart: faker.date.future(2),
+  dateEnd: faker.date.future(4),
 };
 
 export const services = {
   am: {
-    title: 'The Divine Liturgy',
-    description:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
-    contact: 'Diakon Mezmur Mekasha',
+    title: faker.lorem.words(),
+    description: faker.lorem.paragraphs(),
+    contact: faker.name.findName(),
   },
   en: {
-    title: 'The Divine Liturgy',
-    description:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
-    contact: 'Diakon Mezmur Mekasha',
+    title: faker.lorem.words(),
+    description: faker.lorem.paragraphs(),
+    contact: faker.name.findName(),
   },
-  phone: '(425) 329 - 9092',
-  email: 'info@gedam.org',
+  phone: faker.phone.phoneNumber(),
+  email: faker.internet.email().toLowerCase(),
 };
 
 export const blog = {
   am: {
-    title: '“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)',
-    body:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
+    title: faker.lorem.words(),
+    body: faker.lorem.paragraphs(),
   },
   en: {
-    title: '“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)',
-    body:
-      'የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።',
+    title: faker.lorem.words(),
+    body: faker.lorem.paragraphs(),
   },
-  author: 'Melkamu Abate',
-  dateStart: '2018-07-19T07:16:09.157Z',
-  tag: 'History',
+  author: faker.name.findName(),
+  dateStart: faker.date.future(2),
+  tag: faker.hacker.noun(),
 };
 
 export const media = Object.assign({
   am: { body: faker.lorem.paragraphs() },
   en: { body: faker.lorem.paragraphs() },
   title: faker.lorem.words(),
-  url: 'https://youtu.be/L42pEhb6NGY',
+  url: faker.internet.url(),
   mediaType: 'video',
-  tag: 'song',
+  tag: faker.hacker.noun(),
 });

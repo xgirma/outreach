@@ -1,5 +1,6 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import faker from 'faker';
 import app from '../../server';
 import { dropDatabase } from './database';
 import * as assert from './crud.validator';
@@ -119,21 +120,21 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
       });
 
       describe(`PUT /${resourceName}/{id}`, () => {
+        /* eslint-disable-next-line */
         test(`should update PUT /${resourceName}`, async () => {
           let update = {};
-          const phone = '(425) 329 - 9999';
-          /* eslint-disable-next-line */
-          const date_start = '2025-07-19T07:06:47.396Z';
-          const email = 'services@gedam.org';
-          const author = 'Unknown Author';
-          const url = 'https://youtu.be/Blnyz888888';
+          const phone = faker.phone.phoneNumber();
+          const dateStart = faker.date.future(2);
+          const email = faker.internet.email().toLowerCase();
+          const author = faker.name.findName();
+          const url = faker.internet.url();
 
           switch (resourceName) {
             case 'info':
               update = { ...info, phone };
               break;
             case 'event':
-              update = { ...event, date_start };
+              update = { ...event, dateStart };
               break;
             case 'services':
               update = { ...services, email };
@@ -164,7 +165,7 @@ describe(`Route: ${resources.join(', ').toUpperCase()}`, () => {
               };
             case 'event':
               return () => {
-                Object.keys(data).map((d) => expect(d.date_start).to.equal(date_start));
+                Object.keys(data).map((d) => expect(d.date_start).to.equal(dateStart));
               };
             case 'services':
               return () => {

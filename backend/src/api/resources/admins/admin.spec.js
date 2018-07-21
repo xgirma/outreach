@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai';
+import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
 import * as assert from '../../__tests_/crud.validator';

@@ -6,6 +6,7 @@ dotenv.config();
 
 export const removeModel = (modelName) => {
   const model = mongoose.model(modelName);
+  /* eslint-disable-next-line */
   return new Promise((resolve, reject) => {
     if (!model) {
       return resolve();
