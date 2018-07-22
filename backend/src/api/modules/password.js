@@ -1,9 +1,8 @@
-import { generate } from 'generate-password';
 import * as owasp from 'owasp-password-strength-test';
 import * as err from './error';
 
 /*
- * Password strength config
+ * OWASP password strength config
  */
 owasp.config({
   allowPassphrases: true,
@@ -15,27 +14,28 @@ owasp.config({
 export { owasp };
 
 /*
- * Generate a temporary password, for password reset
- */
-export const temporaryPassword = generate({
-  numbers: true,
-  symbols: true,
-  strict: true,
-  excludeSimilarCharacters: true,
-  exclude: '"',
-});
-
-/*
- * Test password strength
+ * test password strength
  *
- * This function may fail for several reasons
+ * may fail for several reasons
  * - if password is weak
  */
-export const testPasswordStrength = (password) => {
+export const passwordStrengthTest = (password) => {
   const passwordTest = owasp.test(password);
   if (!passwordTest.strong) {
     const { errors } = passwordTest;
     const message = errors.join(' ');
     throw err.WeakPassword(message);
   }
+};
+
+/*
+ * temporary-password generation configuration
+ * for 'generate-password' module
+ */
+export const passwordConfig = {
+  numbers: true,
+  symbols: true,
+  strict: true,
+  excludeSimilarCharacters: true,
+  exclude: '"',
 };

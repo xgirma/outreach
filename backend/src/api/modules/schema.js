@@ -4,7 +4,7 @@ import logger from './logger';
 
 const validator = new Validator();
 
-// POST /admins - request body
+// POST /register /signin - request body
 const createAdmin = {
   type: 'object',
   properties: {
@@ -26,8 +26,34 @@ const createAdmin = {
  * This function may fail for several reasons
  * - invalid request body
  */
-export const createAdminBody = (body) => {
+export const usernamePasswordObject = (body) => {
   const testBody = validator.validate(body, createAdmin);
+
+  if (testBody.errors.length > 0) {
+    const { errors } = testBody;
+    logger.warn('request body validation error', { errors });
+    throw err.BadRequest('proper username and password is required');
+  }
+};
+
+// POST /admins - request body
+const username = {
+  type: 'object',
+  properties: {
+    username: { type: 'string', required: true },
+  },
+  minProperties: 1,
+  maxProperties: 1,
+};
+
+/*
+ * Test if POST /admins req.body have proper schema
+ *
+ * May fail for several reasons
+ * - invalid request body
+ */
+export const usernameObject = (body) => {
+  const testBody = validator.validate(body, username);
 
   if (testBody.errors.length > 0) {
     const { errors } = testBody;
@@ -69,7 +95,7 @@ const updateAdmin = {
  * This function may fail for several reasons
  * - invalid request body
  */
-export const adminUpdateBody = (body) => {
+export const updatePasswordObject = (body) => {
   const testBody = validator.validate(body, updateAdmin);
 
   if (testBody.errors.length > 0) {

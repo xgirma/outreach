@@ -107,8 +107,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "username": { "type": "string", "length": 10, "example": "Jane.Joe" },
-                  "password": { "$ref": "#/components/parameters/password" }
+                  "username": { "type": "string", "length": 10, "example": "Jane.Joe" }
                 }
               }
             }

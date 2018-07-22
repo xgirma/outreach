@@ -47,6 +47,18 @@ export const postSuccess = (result) => {
 };
 
 /*
+ * success and return data
+ */
+export const postSuccessData = (result) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+
+  expect(result).to.have.status(201);
+  expect(status).to.equal('success');
+  testNonEmpty(data);
+};
+
+/*
  * success and return no data
  */
 export const putSuccess = (result) => {
