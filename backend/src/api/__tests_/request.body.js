@@ -1,9 +1,10 @@
 import faker from 'faker';
-import { temporaryPassword } from '../modules/password';
+import { generate } from 'generate-password';
+import { passwordConfig } from '../modules/password';
 
 export const admin = Object.assign({
   username: faker.internet.userName(),
-  password: temporaryPassword,
+  password: generate({ ...passwordConfig }),
 });
 
 export const info = {
@@ -52,8 +53,8 @@ export const event = {
   },
   email: faker.internet.email().toLowerCase(),
   phone: faker.phone.phoneNumber(),
-  dateStart: faker.date.future(2),
-  dateEnd: faker.date.future(4),
+  dateStart: '2028-07-22T05:19:15.932Z',
+  dateEnd: '2028-12-22T05:19:15.932Z',
 };
 
 export const services = {

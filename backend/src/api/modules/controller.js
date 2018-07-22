@@ -1,8 +1,9 @@
 /* eslint-disable arrow-parens, no-unused-vars, no-underscore-dangle, function-paren-newline */
 import merge from 'lodash.merge';
 import isEmpty from 'lodash.isempty';
+import { generate } from 'generate-password/src/generate';
 import { isMongoId } from 'validator';
-import { testPasswordStrength, temporaryPassword } from './password';
+import { passwordStrengthTest, passwordConfig } from './password';
 import * as test from './schema';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
@@ -83,14 +84,10 @@ export const controllers = {
         const adminUser = JSON.parse(JSON.stringify(doc));
         // check if superAdmin is super-admin
         if (superAdmin._id.equals(adminUser[0]._id)) {
-          if (adminUser[0].role === superAdmin.role) {
-            if (adminUser[0].username === superAdmin.username) {
-              const newAdmin = new Admins(body);
-              newAdmin.passwordHash = newAdmin.hashPassword(body.password);
-              newAdmin.role = 1;
-              return model.create(newAdmin);
-            }
-          }
+          const newAdmin = new Admins(body);
+          newAdmin.passwordHash = newAdmin.hashPassword(body.password);
+          newAdmin.role = 1;
+          return model.create(newAdmin);
         }
 
         logger.warning('a non super-admin user attempted to create admin');
@@ -152,8 +149,8 @@ export const controllers = {
  */
 export const registerSuperAdmin = (model) => (req, res, next) => {
   const { body } = req;
-  test.createAdminBody(body);
-  testPasswordStrength(body.password);
+  test.usernamePasswordObject(body);
+  passwordStrengthTest(body.password);
 
   controllers
     .addSuperAdmin(model, body)
@@ -189,8 +186,9 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
  */
 export const registerAdmin = (model) => (req, res, next) => {
   const { body, user } = req;
-  test.createAdminBody(body);
-  testPasswordStrength(body.password);
+  test.usernameObject(body); // TODO change test to schemaTest
+  const temporaryPassword = generate({ ...passwordConfig });
+  body.password = temporaryPassword;
   decodeToken();
 
   controllers
@@ -198,11 +196,11 @@ export const registerAdmin = (model) => (req, res, next) => {
     .then((newAdmin) => {
       if (newAdmin) {
         logger.info('admin is registered', { name: newAdmin.username });
-        res.status(201).json({ status: 'success', data: {} });
+        res.status(201).json({ status: 'success', data: { temporaryPassword } });
       } else {
         const { username } = body;
         logger.warn('failed admin registration', { username });
-        throw err.Forbidden('user already exists');
+        throw err.Forbidden();
       }
     })
     .catch((error) => {
@@ -334,8 +332,8 @@ export const updateAdmin = (model) => (req, res, next) => {
 
   const validatePassword = () => {
     const { currentPassword, newPassword, newPasswordAgain } = body;
-    test.adminUpdateBody(body);
-    testPasswordStrength(newPassword);
+    test.updatePasswordObject(body);
+    passwordStrengthTest(newPassword);
 
     if (newPassword !== newPasswordAgain) {
       logger.info('new passwords do not match');
@@ -373,6 +371,7 @@ export const updateAdmin = (model) => (req, res, next) => {
         .catch((error) => setImmediate(() => next(error)));
     }
     // 1.2.
+    const temporaryPassword = generate({ ...passwordConfig });
     const update = { passwordHash: docFromId.hashPassword(temporaryPassword) };
 
     return controllers

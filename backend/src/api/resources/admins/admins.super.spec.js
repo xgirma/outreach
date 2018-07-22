@@ -123,11 +123,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   /*
    * should not register admin, if req.body is
    * - {}
-   * - invalid schema, e.g. { name: '' },
-   * - password is < 8 characters
-   * - password is > 128 characters
-   * - weak password
-   * - weak pass-phrase
+   * - invalid schema, e.g. { name: '' }
    */
   describe(`${resourceName[1].toUpperCase()}: with bad request body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
@@ -149,46 +145,6 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .send({ name: '' });
 
         badRequest(result);
-      });
-
-      test('should not register if password length is < 8 characters', async () => {
-        const result = await chai
-          .request(app)
-          .post(`/api/v1/${resourceName[1]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_SHORT_PASSWORD);
-
-        badRequest(result);
-      });
-
-      test('should not register if password length is > 128 characters', async () => {
-        const result = await chai
-          .request(app)
-          .post(`/api/v1/${resourceName[1]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_LONG_PASSWORD);
-
-        badRequest(result);
-      });
-
-      test('should not register if password is weak', async () => {
-        const result = await chai
-          .request(app)
-          .post(`/api/v1/${resourceName[1]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_WEAK_PASSWORD);
-
-        assert.weakPassword(result);
-      });
-
-      test('should not register if pass-phrase is weak', async () => {
-        const result = await chai
-          .request(app)
-          .post(`/api/v1/${resourceName[1]}`)
-          .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_WEAK_PASS_PHRASE);
-
-        assert.weakPassPhrase(result);
       });
     });
   });

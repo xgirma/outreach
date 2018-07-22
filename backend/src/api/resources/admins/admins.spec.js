@@ -8,6 +8,7 @@ import * as co from '../../__tests_/constants';
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
 let jwt;
+let password = '';
 const ids = [];
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
@@ -46,7 +47,10 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send(co.ADMIN_LOGIN);
 
-        assert.postSuccess(result);
+        const { temporaryPassword } = result.body.data;
+        password = temporaryPassword;
+
+        assert.postSuccessData(result);
       });
     });
   });
@@ -73,10 +77,12 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
       test('admin: admin should be able to signin', async () => {
+        const { username } = co.ADMIN_LOGIN;
+
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(co.ADMIN_LOGIN);
+          .send({ username, password });
 
         const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
@@ -104,11 +110,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
       test('admin: should update its-own password', async () => {
+        const { newPassword, newPasswordAgain } = co.ADMIN_LOGIN_UPDATE;
+        const currentPassword = password;
+
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_LOGIN_UPDATE);
+          .send({ currentPassword, newPassword, newPasswordAgain });
 
         assert.putSuccess(result);
       });

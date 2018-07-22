@@ -3,6 +3,8 @@ import { isEmail } from 'validator';
 import moment from 'moment';
 import * as err from './../../modules/error';
 
+const now = moment().format('YYYY-MM-DD');
+
 export const schema = {
   am: {
     title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
@@ -26,24 +28,28 @@ export const schema = {
     validate: [isEmail, 'invalid email'],
   },
   phone: { type: String, required: [true, 'event must have a phone'] },
-  dateStart: { type: Date, default: Date.now, index: true },
-  dateEnd: { type: Date, default: Date.now, index: true },
+  dateStart: { type: Date, index: true },
+  dateEnd: { type: Date, index: true },
   adminname: { type: String, required: [true, 'event must have a adminname'], maxlength: 20 },
   date: { type: Date, default: Date.now, index: true }, // document creation date
 };
 
 const eventSchema = new mongoose.Schema(schema);
 
-eventSchema.pre('validate', (next) => {
-  if (moment(this.dateStart).isSameOrBefore(Date.now())) {
-    next(err.BadRequest('start date must be greater than or equal to current date'));
+eventSchema.pre('validate', function validateEventDate(next) {
+  if (moment(this.dateStart).isBefore(now)) {
+    next(err.BadRequest('start date must be greater than or equal to now'));
+  }
+
+  if (moment(this.dateStart).isSame(this.dateEnd)) {
+    next();
   }
 
   if (moment(this.dateEnd).isBefore(this.dateStart)) {
     next(err.BadRequest('end date must be greater than start date'));
-  } else {
-    next();
   }
+
+  next();
 });
 
 export const Event = mongoose.model('event', eventSchema);

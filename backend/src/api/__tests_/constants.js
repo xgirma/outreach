@@ -90,18 +90,15 @@ export const SUPER_ADMIN_WRONG_CURRENT_CURRENT_PASSWORD = {
 
 export const ADMIN_LOGIN = {
   username: 'Jane.Joe',
-  password: 'p-B:GaY/3U',
 };
 
 export const ADMIN_LOGIN_UPDATE = {
-  currentPassword: 'p-B:GaY/3U',
   newPassword: 'B-W:QzA$3S',
   newPasswordAgain: 'B-W:QzA$3S',
 };
 
 export const SECOND_ADMIN_LOGIN = {
   username: 'Bob.Thomas',
-  password: 't-E:SaD/3F',
 };
 
 export const ADMIN_SHORT_PASSWORD = {
