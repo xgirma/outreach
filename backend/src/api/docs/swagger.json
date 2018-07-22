@@ -30,12 +30,12 @@
   "paths": {
     "/register": {
       "post": {
-        "tags": ["Admins"],
+        "tags": ["admins"],
         "description":
-          "Registers new super-admin if it does not exist already. Use strong password. The password must be at least 8 characters long. The password must contain at least one uppercase letter. The password must contain at least one number. The password must contain at least one special character. Password also can just be a pass-phrase as explained here https://xkcd.com/936/. Example pass-phrase: 'correct horse battery staple'",
-        "summary": "Registers super-admin user",
+          "registers super-admin. use strong password. the password must be at least 8 characters long, must contain at least one uppercase letter, must contain at least one number and must contain at least one special character. password also can just be a 'pass-phrase' as explained here https://xkcd.com/936/. example pass-phrase: 'correct horse battery staple'",
+        "summary": "registers super-admin and returns token",
         "requestBody": {
-          "description": "The username and password of the new super-admin",
+          "description": "username and password",
           "required": true,
           "content": {
             "application/json": {
@@ -51,10 +51,10 @@
         },
         "responses": {
           "201": {
-            "description": "Return super-admin token",
+            "description": "on success return super-admin token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -63,11 +63,11 @@
     },
     "/signin": {
       "post": {
-        "tags": ["Signin"],
-        "description": "Signin admin",
-        "summary": "Signin Admin user",
+        "tags": ["signin"],
+        "description": "signin registered (super-)admin",
+        "summary": "signin (super-)admin and returns token",
         "requestBody": {
-          "description": "Existing Admin username and password",
+          "description": "username and password",
           "required": true,
           "content": {
             "application/json": {
@@ -83,10 +83,10 @@
         },
         "responses": {
           "200": {
-            "description": "Return token",
+            "description": "on success return (super-)admin token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -95,13 +95,12 @@
     },
     "/admins": {
       "post": {
-        "tags": ["Admins"],
-        "description":
-          "Super-admin register a new admin user. Creating a new admin requires a super-admin token. Admin cannot create another admin. If an admin with the same username exists, the new admin cannot be created.",
-        "summary": "Registers a new admin user",
+        "tags": ["admins"],
+        "description": "super-admin registers admin. requires a super-admin token.",
+        "summary": "registers new admin",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "New Admin username and password",
+          "description": "username and password",
           "required": true,
           "content": {
             "application/json": {
@@ -120,7 +119,7 @@
             "description": "Return token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -257,7 +256,7 @@
             "description": "Confirm success",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           },
@@ -302,7 +301,7 @@
             "description": "Deleted admin",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -376,7 +375,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -466,7 +465,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -492,7 +491,7 @@
             "description": "Deleted church information",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -554,7 +553,7 @@
             "description": "Introduction created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -634,7 +633,7 @@
             "description": "Update accepted",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -660,7 +659,7 @@
             "description": "Deleted homepage introduction content",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -728,7 +727,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -874,7 +873,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -900,7 +899,7 @@
             "description": "Deleted event",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -965,7 +964,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -1046,7 +1045,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -1072,7 +1071,7 @@
             "description": "Deleted a service",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
+                "schema": { "$ref": "#/components/schemas/successResponse" }
               }
             }
           }
@@ -1664,7 +1663,7 @@
         "type": "object",
         "properties": { "body": { "$ref": "#/components/parameters/longText" } }
       },
-      "SuccessResponse": {
+      "successResponse": {
         "type": "object",
         "properties": {
           "type": "object",

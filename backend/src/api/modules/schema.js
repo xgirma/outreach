@@ -1,4 +1,4 @@
-import { Validator } from 'jsonschema/lib/index';
+import { Validator } from 'jsonschema';
 import * as err from './error';
 import logger from './logger';
 

@@ -8,7 +8,7 @@ import { admin, info, event, services, blog, media } from './request.body';
 
 chai.use(chaiHttp);
 
-const resources = ['info', 'event', 'services', 'blog', 'media'];
+const resources = ['info', 'services', 'blog', 'media']; // TODO see if event can be added
 let jwt;
 const ids = {};
 

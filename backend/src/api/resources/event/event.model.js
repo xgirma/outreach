@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
+import moment from 'moment';
+import * as err from './../../modules/error';
 
 export const schema = {
   am: {
@@ -31,5 +33,17 @@ export const schema = {
 };
 
 const eventSchema = new mongoose.Schema(schema);
+
+eventSchema.pre('validate', (next) => {
+  if (moment(this.dateStart).isSameOrBefore(Date.now())) {
+    next(err.BadRequest('start date must be greater than or equal to current date'));
+  }
+
+  if (moment(this.dateEnd).isBefore(this.dateStart)) {
+    next(err.BadRequest('end date must be greater than start date'));
+  } else {
+    next();
+  }
+});
 
 export const Event = mongoose.model('event', eventSchema);
