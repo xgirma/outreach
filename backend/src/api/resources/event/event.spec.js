@@ -122,7 +122,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       });
     });
   });
-  
+
   // super-admin delete self
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
