@@ -125,11 +125,11 @@ export const controllers = {
   },
 
   getPast(model) {
-    return model.find({ date_end: { $lt: new Date() } });
+    return model.find({ dateEnd: { $lt: new Date() } });
   },
 
   getFuture(model) {
-    return model.find({ date_end: { $gte: new Date() } });
+    return model.find({ dateEnd: { $gte: new Date() } });
   },
 
   findByParam(model, id) {

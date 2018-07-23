@@ -1,12 +1,14 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import moment from 'moment';
 import app from '../../../server';
 import * as assert from '../../__tests_/crud.validator';
 import { dropDatabase } from '../../__tests_/database';
+import { event } from '../../__tests_/request.body';
 import * as co from '../../__tests_/constants';
 
 chai.use(chaiHttp);
-const resourceName = ['register', 'admins', 'signin'];
+const resourceName = ['register', 'admins', 'event'];
 let jwt;
 const ids = [];
 
@@ -19,7 +21,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     await dropDatabase();
   });
 
-  // should register an super-admin
+  // should register super-admin
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
       test('should register super-admin', async () => {
@@ -53,79 +55,74 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // creates past event
+  // event on current date
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
-      test.skip('admin: admin should be able to signin', async () => {
+      test('super-admin: creates event for current date', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(co.ADMIN_LOGIN);
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({ ...event, dateEnd: moment().format(), dateStart: moment().format() });
 
-        const { token } = result.body.data;
-        jwt = token; // the new admin token is saved here
-
-        assert.signinSuccess(result);
+        assert.postSuccess(result);
       });
     });
   });
 
-  // creates current date event
-  describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
-    describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test.skip('admin: should GET itself', async () => {
+  // event start date in the past
+  describe(`${resourceName[2].toUpperCase()}:`, () => {
+    describe(`POST /${resourceName[2]}`, () => {
+      test('super-admin: event start date should be current date and after', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
-          .set('Authorization', `Bearer ${jwt}`);
+          .post(`/api/v1/${resourceName[2]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({ ...event, dateStart: '2018-01-23T02:47:38.412Z' });
 
-        assert.getAdminSuccess(result, false);
+        assert.badRequest(result, 'start date must be greater than or equal to now');
       });
     });
   });
 
-  // creates future event
-  describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
-    describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test.skip('admin: should GET itself', async () => {
+  // past event start-date is after end-date
+  describe(`${resourceName[2].toUpperCase()}:`, () => {
+    describe(`POST /${resourceName[2]}`, () => {
+      test('super-admin: event start-date should not be after end-date', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
-          .set('Authorization', `Bearer ${jwt}`);
+          .post(`/api/v1/${resourceName[2]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({ ...event, dateEnd: '2018-07-23T02:47:38.412Z' });
 
-        assert.getAdminSuccess(result, false);
+        assert.badRequest(result, 'end date must be greater than start date');
       });
     });
   });
 
-  // gets past events
-  describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
-    describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test.skip('admin: should GET itself', async () => {
+  // valid future date event
+  describe(`${resourceName[2].toUpperCase()}:`, () => {
+    describe(`POST /${resourceName[2]}`, () => {
+      test('super-admin: should create future events', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
-          .set('Authorization', `Bearer ${jwt}`);
+          .post(`/api/v1/${resourceName[2]}`)
+          .set('Authorization', `Bearer ${jwt}`)
+          .send({
+            ...event,
+            dateEnd: moment()
+              .add(17, 'days')
+              .format(),
+            dateStart: moment()
+              .add(7, 'days')
+              .format(),
+          });
 
-        assert.getAdminSuccess(result, false);
+        assert.postSuccess(result);
       });
     });
   });
-
-  // gets future events
-  describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
-    describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
-      test.skip('admin: should GET itself', async () => {
-        const result = await chai
-          .request(app)
-          .get(`/api/v1/${resourceName[1]}/${ids[0]}`)
-          .set('Authorization', `Bearer ${jwt}`);
-
-        assert.getAdminSuccess(result, false);
-      });
-    });
-  });
-
+  
   // super-admin delete self
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
