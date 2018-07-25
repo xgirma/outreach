@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 export const schema = {
   am: {
     title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
-    body: { type: String },
+    description: { type: String },
   },
   en: {
     title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
-    body: { type: String },
+    description: { type: String },
   },
   author: {
     type: String,

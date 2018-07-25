@@ -75,11 +75,11 @@ export const services = {
 export const blog = {
   am: {
     title: faker.lorem.words(),
-    body: faker.lorem.paragraphs(),
+    description: faker.lorem.paragraphs(),
   },
   en: {
     title: faker.lorem.words(),
-    body: faker.lorem.paragraphs(),
+    description: faker.lorem.paragraphs(),
   },
   author: faker.name.findName(),
   dateStart: faker.date.future(2),

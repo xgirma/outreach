@@ -50,7 +50,7 @@
         },
         "responses": {
           "201": {
-            "description": "on success return super-admin token",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -81,7 +81,7 @@
         },
         "responses": {
           "200": {
-            "description": "on success return (super-)admin token",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -112,7 +112,7 @@
         },
         "responses": {
           "201": {
-            "description": "on success returns token",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -127,7 +127,7 @@
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "admin(s)",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -178,7 +178,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Admin(s)",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -214,7 +214,7 @@
       "put": {
         "tags": ["admins"],
         "description":
-          "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
+          "update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. a request body is not required in this case. an admin is only allowed to update its own password.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -227,7 +227,7 @@
           }
         ],
         "requestBody": {
-          "description": "Old password and new password to update",
+          "description": "old password and new password to update",
           "required": true,
           "content": {
             "application/json": {
@@ -244,7 +244,7 @@
         },
         "responses": {
           "202": {
-            "description": "Confirm success",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -252,7 +252,7 @@
             }
           },
           "201": {
-            "description": "Creates a temporary password",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": {
@@ -274,21 +274,21 @@
       },
       "delete": {
         "tags": ["admins"],
-        "description": "If super-admin can delete all, else delete self",
+        "description": "If super-admin can delete any by ID, else delete self",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Admin ID",
+            "description": "admin ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted admin",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -301,12 +301,11 @@
     "/info": {
       "get": {
         "tags": ["info"],
-        "description":
-          "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
+        "description": "return info",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Church information",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -324,7 +323,8 @@
                           "phone": { "$ref": "#/components/parameters/phone" },
                           "email": { "$ref": "#/components/parameters/email" },
                           "address": { "$ref": "#/components/schemas/Address" },
-                          "adminname": { "$ref": "#/components/parameters/username" }
+                          "adminname": { "$ref": "#/components/parameters/username" },
+                          "date": { "$ref": "#/components/parameters/date" }
                         }
                       }
                     }
@@ -337,11 +337,11 @@
       },
       "post": {
         "tags": ["info"],
-        "description": "Add church information",
+        "description":
+          "add info. only one info should be needed, but more than one can be created to facilitate editing. for example, create a new one edit it and delete the old record.",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description":
-            "Church information to add. You can change the 'am' block with Amharic content. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
+          "description": "info to add",
           "required": true,
           "content": {
             "application/json": {
@@ -360,7 +360,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -373,21 +373,21 @@
     "/info/{id}": {
       "get": {
         "tags": ["info"],
-        "description": "Return a church information by ID. Use the GET /info route to get the ID.",
+        "description": "return info by ID.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Info ID",
+            "description": "info ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -415,21 +415,20 @@
       },
       "put": {
         "tags": ["info"],
-        "description":
-          "Updates church information by ID. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
+        "description": "updates info by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Info ID",
+            "description": "info ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
-          "description": "Church information to update",
+          "description": "info to update",
           "required": true,
           "content": {
             "application/json": {
@@ -448,7 +447,7 @@
         },
         "responses": {
           "202": {
-            "description": "Created",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -459,21 +458,21 @@
       },
       "delete": {
         "tags": ["info"],
-        "description": "Deletes church information by ID",
+        "description": "delete info by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Info ID",
+            "description": "info ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted church information",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -486,11 +485,11 @@
     "/intro": {
       "get": {
         "tags": ["intro"],
-        "description": "The content in the introduction section of the homepage",
+        "description": "the content in the introduction section of the homepage",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Introduction content",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -513,10 +512,10 @@
       },
       "post": {
         "tags": ["intro"],
-        "description": "Add the main content of the home page",
+        "description": "add new intro",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Homepage introduction content to add",
+          "description": "intro to add",
           "required": true,
           "content": {
             "application/json": {
@@ -533,7 +532,7 @@
         },
         "responses": {
           "201": {
-            "description": "Introduction created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -547,21 +546,21 @@
       "get": {
         "tags": ["intro"],
         "description":
-          "Return a homepage main content by ID. Multiple introductions could be stored. And could be used in different yearly events.",
+          "Return intro by ID. Multiple introductions could be stored. and could be reused for yearly events.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Intro ID",
+            "description": "intro ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -580,14 +579,14 @@
       },
       "put": {
         "tags": ["intro"],
-        "description": "Updates homepage introduction content by ID",
+        "description": "update intro by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Intro ID",
+            "description": "intro ID",
             "schema": {
               "type": "string"
             },
@@ -595,7 +594,7 @@
           }
         ],
         "requestBody": {
-          "description": "Home page content to update",
+          "description": "intro to update",
           "required": true,
           "content": {
             "application/json": {
@@ -611,7 +610,7 @@
         },
         "responses": {
           "202": {
-            "description": "Update accepted",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -622,21 +621,21 @@
       },
       "delete": {
         "tags": ["intro"],
-        "description": "Deletes homepage introduction content by ID",
+        "description": "delete intro by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Intro ID",
+            "description": "intro ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted homepage introduction content",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -649,11 +648,11 @@
     "/event": {
       "get": {
         "tags": ["event"],
-        "description": "Event details",
+        "description": "event details",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Event detail",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -668,7 +667,9 @@
                       "email": { "$ref": "#/components/parameters/email" },
                       "phone": { "$ref": "#/components/parameters/phone" },
                       "dateStart": { "$ref": "#/components/parameters/date" },
-                      "dateEnd": { "$ref": "#/components/parameters/date" }
+                      "dateEnd": { "$ref": "#/components/parameters/date" },
+                      "date": { "$ref": "#/components/parameters/date" },
+                      "adminname": { "$ref": "#/components/parameters/username" }
                     }
                   }
                 }
@@ -679,10 +680,10 @@
       },
       "post": {
         "tags": ["event"],
-        "description": "Add event",
+        "description": "add event",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Event to add",
+          "description": "event to add",
           "content": {
             "application/json": {
               "schema": {
@@ -702,7 +703,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -715,11 +716,11 @@
     "/event/past": {
       "get": {
         "tags": ["event"],
-        "description": "Return past event",
+        "description": "return past event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -732,7 +733,8 @@
                     "phone": { "$ref": "#/components/parameters/phone" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
                     "dateEnd": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "adminname": { "$ref": "#/components/parameters/username" }
                   }
                 }
               }
@@ -744,11 +746,11 @@
     "/event/future": {
       "get": {
         "tags": ["event"],
-        "description": "Return future event",
+        "description": "return future event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -761,7 +763,8 @@
                     "phone": { "$ref": "#/components/parameters/phone" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
                     "dateEnd": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "adminname": { "$ref": "#/components/parameters/username" }
                   }
                 }
               }
@@ -773,21 +776,21 @@
     "/event/{id}": {
       "get": {
         "tags": ["event"],
-        "description": "Return event by ID",
+        "description": "return event by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Event ID",
+            "description": "event ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -800,7 +803,8 @@
                     "phone": { "$ref": "#/components/parameters/phone" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
                     "dateEnd": { "$ref": "#/components/parameters/date" },
-                    "_id": { "$ref": "#/components/parameters/_id" }
+                    "date": { "$ref": "#/components/parameters/date" },
+                    "adminname": { "$ref": "#/components/parameters/username" }
                   }
                 }
               }
@@ -810,20 +814,20 @@
       },
       "put": {
         "tags": ["event"],
-        "description": "Updates event by ID",
+        "description": "updates event by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Event ID",
+            "description": "event ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
-          "description": "Event update",
+          "description": "event update",
           "required": true,
           "content": {
             "application/json": {
@@ -844,7 +848,7 @@
         },
         "responses": {
           "202": {
-            "description": "Created",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -855,21 +859,21 @@
       },
       "delete": {
         "tags": ["event"],
-        "description": "Deletes event by ID",
+        "description": "delete event by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Event ID",
+            "description": "event ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted event",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -882,11 +886,11 @@
     "/services": {
       "get": {
         "tags": ["service"],
-        "description": "Church service",
+        "description": "church service",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Church service",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -911,10 +915,10 @@
       },
       "post": {
         "tags": ["service"],
-        "description": "Add service",
+        "description": "add service",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Service to add",
+          "description": "service to add",
           "required": true,
           "content": {
             "application/json": {
@@ -932,7 +936,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -945,21 +949,21 @@
     "/services/{id}": {
       "get": {
         "tags": ["service"],
-        "description": "Return service by ID",
+        "description": "return service by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Service ID",
+            "description": "service ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -968,7 +972,9 @@
                     "am": { "$ref": "#/components/schemas/Service" },
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
-                    "email": { "$ref": "#/components/parameters/email" }
+                    "email": { "$ref": "#/components/parameters/email" },
+                    "adminname": { "$ref": "#/components/parameters/username" },
+                    "date": { "$ref": "#/components/parameters/date" }
                   }
                 }
               }
@@ -978,14 +984,14 @@
       },
       "put": {
         "tags": ["service"],
-        "description": "Updates service by ID",
+        "description": "updates service by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Service ID",
+            "description": "service ID",
             "schema": {
               "type": "string"
             },
@@ -993,7 +999,7 @@
           }
         ],
         "requestBody": {
-          "description": "Service to update",
+          "description": "service to update",
           "required": true,
           "content": {
             "application/json": {
@@ -1011,7 +1017,7 @@
         },
         "responses": {
           "202": {
-            "description": "Created",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1029,14 +1035,14 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Service ID",
+            "description": "service ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted a service",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1049,11 +1055,11 @@
     "/blog": {
       "get": {
         "tags": ["blog"],
-        "description": "Returns all blog",
+        "description": "returns blog",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "A list of blog",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -1066,7 +1072,9 @@
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
                       "dateStart": { "$ref": "#/components/parameters/date" },
-                      "tag": { "$ref": "#/components/schemas/Tags" }
+                      "tag": { "$ref": "#/components/schemas/Tags" },
+                      "adminname": { "$ref": "#/components/parameters/username" },
+                      "date": { "$ref": "#/components/parameters/date" }
                     }
                   }
                 }
@@ -1077,10 +1085,10 @@
       },
       "post": {
         "tags": ["blog"],
-        "description": "Add a new blog",
+        "description": "add new blog",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Blog to add",
+          "description": "blog to add",
           "required": true,
           "content": {
             "application/json": {
@@ -1099,7 +1107,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1112,21 +1120,21 @@
     "/blog/{id}": {
       "get": {
         "tags": ["blog"],
-        "description": "Return a blog by ID",
+        "description": "return blog by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Blog ID",
+            "description": "blog ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -1136,7 +1144,9 @@
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/schemas/Tags" }
+                    "tag": { "$ref": "#/components/schemas/Tags" },
+                    "adminname": { "$ref": "#/components/parameters/username" },
+                    "date": { "$ref": "#/components/parameters/date" }
                   }
                 }
               }
@@ -1146,20 +1156,20 @@
       },
       "put": {
         "tags": ["blog"],
-        "description": "Updates a blog by an ID",
+        "description": "updates blog by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Blog ID",
+            "description": "blog ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "requestBody": {
-          "description": "Blog to update",
+          "description": "blog to update",
           "required": true,
           "content": {
             "application/json": {
@@ -1178,7 +1188,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1189,21 +1199,21 @@
       },
       "delete": {
         "tags": ["blog"],
-        "description": "Deletes a blog matches an ID",
+        "description": "deletes by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Blog ID",
+            "description": "blog ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted blog",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1216,11 +1226,11 @@
     "/media": {
       "get": {
         "tags": ["media"],
-        "description": "Returns all audio/video",
+        "description": "returns media",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "A list of audio/video",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -1232,13 +1242,14 @@
                       "en": { "$ref": "#/components/schemas/Media" },
                       "title": {
                         "type": "string",
-                        "description": "Church audio/video",
                         "example":
                           "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                       "mediaType": { "type": "string", "example": "video" },
-                      "tag": { "$ref": "#/components/schemas/Tags" }
+                      "tag": { "$ref": "#/components/schemas/Tags" },
+                      "adminname": { "$ref": "#/components/parameters/username" },
+                      "date": { "$ref": "#/components/parameters/date" }
                     }
                   }
                 }
@@ -1249,10 +1260,10 @@
       },
       "post": {
         "tags": ["media"],
-        "description": "Add a new video/audio",
+        "description": "add new media",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
-          "description": "Video/audio to add",
+          "description": "add media",
           "required": true,
           "content": {
             "application/json": {
@@ -1263,7 +1274,6 @@
                   "en": { "$ref": "#/components/schemas/Media" },
                   "title": {
                     "type": "string",
-                    "description": "Church audio/video",
                     "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
@@ -1276,7 +1286,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "created",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1289,21 +1299,21 @@
     "/media/{id}": {
       "get": {
         "tags": ["media"],
-        "description": "Return a video/audio by ID",
+        "description": "Return media by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Video/audio ID",
+            "description": "media ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "200": {
-            "description": "Ok",
+            "description": "ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -1313,12 +1323,14 @@
                     "en": { "$ref": "#/components/schemas/Media" },
                     "title": {
                       "type": "string",
-                      "description": "Church audio/video",
+                      "description": "media",
                       "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                     "mediaType": { "type": "string", "example": "video" },
-                    "tag": { "$ref": "#/components/schemas/Tags" }
+                    "tag": { "$ref": "#/components/schemas/Tags" },
+                    "adminname": { "$ref": "#/components/parameters/username" },
+                    "date": { "$ref": "#/components/parameters/date" }
                   }
                 }
               }
@@ -1328,14 +1340,14 @@
       },
       "put": {
         "tags": ["media"],
-        "description": "Updates a video/audio by an ID",
+        "description": "updates media by an ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Video/audio ID",
+            "description": "media ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
@@ -1365,7 +1377,7 @@
         },
         "responses": {
           "202": {
-            "description": "Created",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1376,21 +1388,21 @@
       },
       "delete": {
         "tags": ["media"],
-        "description": "Deletes a video/audio matches an ID",
+        "description": "deletes media by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Video/audio ID",
+            "description": "media ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
         ],
         "responses": {
           "202": {
-            "description": "Deleted blog",
+            "description": "accepted",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/SuccessResponse" }
@@ -1403,31 +1415,19 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
+      "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
     },
     "schemas": {
       "Tags": {
         "type": "array",
-        "items": {
-          "type": "string",
-          "example": "history"
-        }
+        "items": { "type": "string", "example": "history" }
       },
       "Blog": {
         "required": ["title", "body"],
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 200,
-            "description": "Blog title",
-            "example": "“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)"
-          },
-          "body": { "$ref": "#/components/parameters/longText" }
+          "title": { "type": "string", "example": "“እያዩት ወደሰማይ ዐረገ” (ሉቃ 24÷50 የሐዋ 1÷9)" },
+          "description": { "$ref": "#/components/parameters/longText" }
         }
       },
       "Introduction": {
@@ -1436,7 +1436,6 @@
         "properties": {
           "title": {
             "type": "string",
-            "maxLength": 200,
             "example": "እንኳን ለጌታችን ለመድኃኒታችን ለኢየሱስ ክርስቶስ የዕርገት በዓል አደረሳችሁ!!!"
           },
           "author": { "$ref": "#/components/parameters/name" },
@@ -1447,11 +1446,7 @@
         "required": ["title", "description"],
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 200,
-            "example": "The Divine Liturgy"
-          },
+          "title": { "type": "string", "example": "The Divine Liturgy" },
           "description": { "$ref": "#/components/parameters/longText" },
           "contact": { "type": "string", "maxLength": 100, "example": "Diakon Mezmur Mekasha" }
         }
@@ -1460,38 +1455,11 @@
         "required": ["street", "city", "country"],
         "type": "object",
         "properties": {
-          "street": {
-            "type": "string",
-            "maxLength": 200,
-            "description": "Street name",
-            "example": "1234 EastLake Ave East"
-          },
-          "city": {
-            "type": "string",
-            "maxLength": 50,
-            "description": "City name",
-            "example": "Seattle"
-          },
-          "state": {
-            "type": "string",
-            "maxLength": 50,
-            "description": "State name",
-            "example": "WA"
-          },
-          "zip": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0,
-            "maximum": 1000000,
-            "description": "Zip code",
-            "example": "98201"
-          },
-          "country": {
-            "type": "string",
-            "maxLength": 50,
-            "description": "Country name",
-            "example": "United States"
-          }
+          "street": { "type": "string", "example": "1234 EastLake Ave East" },
+          "city": { "type": "string", "example": "Seattle" },
+          "state": { "type": "string", "example": "WA" },
+          "zip": { "type": "integer", "format": "int32", "example": "98201" },
+          "country": { "type": "string", "example": "United States" }
         }
       },
       "BasicInfo": {
@@ -1500,16 +1468,9 @@
         "properties": {
           "name": {
             "type": "string",
-            "maxLength": 200,
-            "description": "Church name",
             "example": "St. George Ethiopian Orthodox Tewahedo Church"
           },
-          "denomination": {
-            "type": "string",
-            "maxLength": 100,
-            "description": "Church denomination",
-            "example": "Ethiopian Orthodox Tewahedo Church"
-          }
+          "denomination": { "type": "string", "example": "Ethiopian Orthodox Tewahedo Church" }
         }
       },
       "Bible": {
@@ -1518,14 +1479,12 @@
         "properties": {
           "verse": {
             "type": "string",
-            "maxLength": 500,
             "description": "Bible verses or quotes",
             "example":
-              "And I tell you that you are Peter,and on this rock I will build my church, and the gates of Hadeswill not overcome it."
+              "And I tell you that you are Peter,and on this rock I will build my church, ..."
           },
           "from": {
             "type": "string",
-            "maxLength": 50,
             "description": "Bible verses or quotes reference",
             "example": "Matthew 16:18"
           }
@@ -1542,7 +1501,7 @@
         "required": ["title", "description"],
         "type": "object",
         "properties": {
-          "title": { "type": "string", "maxLength": 200, "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
+          "title": { "type": "string", "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ" },
           "description": { "$ref": "#/components/parameters/longText" }
         }
       },
@@ -1559,48 +1518,11 @@
       }
     },
     "parameters": {
-      "_id": {
-        "type": "integer",
-        "format": "int32",
-        "minimum": 0,
-        "maximum": 200,
-        "description": "ID",
-        "example": "5b1de7ac698c71055ef657f3"
-      },
-      "date": { "type": "string", "format": "date-time" },
-      "email": {
-        "type": "string",
-        "format": "email",
-        "description": "Church main contact email",
-        "example": "info@gedam.org"
-      },
-      "phone": {
-        "type": "string",
-        "maxLength": 20,
-        "description": "Church main contact phone number",
-        "example": "(425) 329 - 9092"
-      },
-      "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
       "longText": {
         "type": "string",
         "example":
-          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው። እያዩት በምስጋና ወደሰማይ ዐረገ።"
+          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው።"
       },
-      "username": { "type": "string", "length": 10, "example": "John.Doe" },
-      "password": { "type": "string", "length": 10, "example": "p-U:QaA/3G", "format": "password" },
-      "newPassword": {
-        "type": "string",
-        "length": 10,
-        "example": "q-W:QzA$3S",
-        "format": "q-W:QzA$3S"
-      },
-      "tempPassword": {
-        "type": "string",
-        "length": 10,
-        "example": "Xn.E>P){@2",
-        "format": "password"
-      },
-      "role": { "type": "number", "enum": [0, 1], "example": "0" },
       "passwordHash": {
         "type": "string",
         "example": "$2b$10$AmyUb3W1CWMao3cVbmiYDOsWAkD3vGLefYm09LhNpRbH9Q37A2LHi"
@@ -1610,6 +1532,16 @@
         "example":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
       },
+      "phone": { "type": "string", "example": "(425) 329 - 9092" },
+      "name": { "type": "string", "example": "Melkamu Abate" },
+      "email": { "type": "string", "format": "email", "example": "info@gedam.org" },
+      "_id": { "type": "integer", "format": "int32", "example": "5b1de7ac698c71055ef657f3" },
+      "date": { "type": "string", "format": "date-time" },
+      "role": { "type": "number", "enum": [0, 1], "example": "0" },
+      "username": { "type": "string", "example": "John.Doe" },
+      "password": { "type": "string", "example": "p-U:QaA/3G", "format": "password" },
+      "newPassword": { "type": "string", "example": "q-W:QzA$3S", "format": "q-W:QzA$3S" },
+      "tempPassword": { "type": "string", "example": "Xn.E>P){@2", "format": "password" },
       "success": { "type": "String", "example": "success" },
       "createdAt": {
         "type": "String",

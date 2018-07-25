@@ -29,8 +29,8 @@ adminsSchema.methods = {
   },
   hashPassword(plainTextPassword) {
     if (!plainTextPassword) {
-      logger.error('Can not create a new Admin user', { admin: this.username });
-      throw new Error('Could not save admin user');
+      logger.error('can not create a new Admin user', { admin: this.username });
+      throw new Error('could not save admin user');
     }
 
     const salt = bcrypt.genSaltSync(10);
