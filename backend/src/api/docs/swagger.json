@@ -123,8 +123,7 @@
       },
       "get": {
         "tags": ["admins"],
-        "description":
-          "return all admins for super-user and return self for admin.",
+        "description": "return all admins for super-user and return self for admin.",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -165,8 +164,7 @@
     "/admins/{id}": {
       "get": {
         "tags": ["admins"],
-        "description":
-          "return any admin by ID for super-user and return self for admin.",
+        "description": "return any admin by ID for super-user and return self for admin.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1416,8 +1414,7 @@
         "type": "array",
         "items": {
           "type": "string",
-          "example":
-            "history"
+          "example": "history"
         }
       },
       "Blog": {
@@ -1557,7 +1554,7 @@
         "type": "object",
         "properties": {
           "status": { "$ref": "#/components/parameters/success" },
-          "data": { "type": "object", "example": "{}"}
+          "data": { "type": "object", "example": "{}" }
         }
       }
     },
