@@ -11,6 +11,8 @@ chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'event'];
 let jwt;
 const ids = [];
+const { STRONG } = co.password;
+const { SUPER_ADMIN } = co.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -28,7 +30,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.SUPER_ADMIN_LOGIN);
+          .send({ username: SUPER_ADMIN, password: STRONG });
 
         const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here

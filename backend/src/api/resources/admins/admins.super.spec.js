@@ -1,4 +1,5 @@
-import chai, { expect } from 'chai';
+/* eslint-disable object-curly-newline */
+import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../server';
 import { dropDatabase } from '../../__tests_/database';
@@ -13,6 +14,8 @@ const badRequest = (result) =>
   assert.badRequest(result, 'proper username and password is required');
 const badUpdateRequest = (result) =>
   assert.badRequest(result, 'proper current and new password is required');
+const { SHORT, WEAK, LONG, STRONG, NEW, WEAK_PASS_PHRASE } = co.password;
+const { SUPER_ADMIN, ADMIN, ADMIN_ASSISTANT } = co.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -56,7 +59,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.ADMIN_SHORT_PASSWORD);
+          .send({ username: SUPER_ADMIN, password: SHORT });
 
         badRequest(result);
       });
@@ -65,7 +68,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.ADMIN_LONG_PASSWORD);
+          .send({ username: SUPER_ADMIN, password: LONG });
 
         badRequest(result);
       });
@@ -74,7 +77,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.ADMIN_WEAK_PASSWORD);
+          .send({ username: SUPER_ADMIN, password: WEAK });
 
         assert.weakPassword(result);
       });
@@ -83,7 +86,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.ADMIN_WEAK_PASS_PHRASE);
+          .send({ username: SUPER_ADMIN, password: WEAK_PASS_PHRASE });
 
         assert.weakPassPhrase(result);
       });
@@ -101,7 +104,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.SUPER_ADMIN_LOGIN);
+          .send({ username: SUPER_ADMIN, password: STRONG });
 
         const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
@@ -113,7 +116,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.SUPER_ADMIN_LOGIN);
+          .send({ username: SUPER_ADMIN, password: STRONG });
 
         assert.forbidden(result, 'user already exists');
       });
@@ -161,9 +164,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_LOGIN);
+          .send({ username: ADMIN });
 
-        assert.registerSuccess(result);
+        assert.postSuccessTemporaryPassword(result);
       });
 
       test('super-admin: should register the 2nd admin with good req-body', async () => {
@@ -171,9 +174,9 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SECOND_ADMIN_LOGIN);
+          .send({ username: ADMIN_ASSISTANT });
 
-        assert.registerSuccess(result);
+        assert.postSuccessTemporaryPassword(result);
       });
 
       test('super-admin: should not register if admin already exist', async () => {
@@ -181,7 +184,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SECOND_ADMIN_LOGIN);
+          .send({ username: ADMIN_ASSISTANT });
 
         assert.forbidden(result, 'user already exists');
       });
@@ -304,7 +307,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_UPDATE_WITH_NEW_SHORT_PASSWORD);
+          .send({
+            currentPassword: STRONG,
+            newPassword: SHORT,
+            newPasswordAgain: SHORT,
+          });
 
         badUpdateRequest(result);
       });
@@ -314,7 +321,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_UPDATE_WITH_LONG_PASSWORD);
+          .send({
+            currentPassword: STRONG,
+            newPassword: LONG,
+            newPasswordAgain: LONG,
+          });
 
         badUpdateRequest(result);
       });
@@ -324,7 +335,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASSWORD);
+          .send({
+            currentPassword: STRONG,
+            newPassword: WEAK,
+            newPasswordAgain: WEAK,
+          });
 
         assert.weakPassword(result);
       });
@@ -334,7 +349,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_UPDATE_WITH_WEAK_PASS_PHRASE);
+          .send({
+            currentPassword: STRONG,
+            newPassword: WEAK_PASS_PHRASE,
+            newPasswordAgain: WEAK_PASS_PHRASE,
+          });
 
         assert.weakPassPhrase(result);
       });
@@ -344,7 +363,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_UPDATE_NEW_PASS_DO_NON_MATCH);
+          .send({
+            currentPassword: STRONG,
+            newPassword: NEW,
+            newPasswordAgain: 'q-W:QzA$3SS',
+          });
 
         assert.badRequest(result, 'new passwords do not match');
       });
@@ -354,7 +377,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_SAME_NEW_AND_CURRENT_PASSWORD);
+          .send({
+            currentPassword: STRONG,
+            newPassword: STRONG,
+            newPasswordAgain: STRONG,
+          });
 
         assert.badRequest(result, 'new password is the same as current');
       });
@@ -364,7 +391,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_WRONG_CURRENT_CURRENT_PASSWORD);
+          .send({
+            currentPassword: 'o-Y:SaM/4Wwww',
+            newPassword: NEW,
+            newPasswordAgain: NEW,
+          });
 
         assert.forbidden(result, 'wrong current password');
       });
@@ -374,7 +405,11 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[0]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.SUPER_ADMIN_LOGIN_UPDATE);
+          .send({
+            currentPassword: STRONG,
+            newPassword: NEW,
+            newPasswordAgain: NEW,
+          });
 
         assert.putSuccess(result);
       });
@@ -386,11 +421,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .set('Authorization', `Bearer ${jwt}`)
           .send({}); // no request body required
 
-        const { status, data } = result.body;
-
-        expect(result).to.have.status(201);
-        expect(status).to.equal('success');
-        expect(data.temporaryPassword).not.to.equal('');
+        assert.putSuccessTemporaryPassword(result);
       });
     });
   });
@@ -426,7 +457,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(co.SIGNIN_BAD_USERNAME);
+          .send({ username: 'bad.username', password: STRONG });
 
         assert.forbidden(result);
       });
@@ -435,7 +466,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(co.SIGNIN_BAD_PASSWORD);
+          .send({ username: SUPER_ADMIN, password: 'bad.password' });
 
         assert.badUsernameOrPassword(result);
       });
@@ -444,24 +475,18 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[2]}/${ids[0]}`)
-          .send(co.SIGNIN_BAD_USERNAME_AND_PASSWORD);
+          .send({ username: 'bad.password', password: 'bad.password' });
 
         assert.badUsernameOrPassword(result);
       });
 
-      test('super-admin should be able to signin', async () => {
+      test('super-admin: should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(co.SUPER_ADMIN_LOGIN_AFTER_UPDATE);
+          .send({ username: SUPER_ADMIN, password: NEW });
 
-        const { status, data } = result.body;
-        const { token } = data;
-        // jwt = token; // the new super-admin token is saved here
-
-        expect(result).to.have.status(200);
-        expect(status).to.equal('success');
-        expect(token).not.to.equal('');
+        assert.signinSuccess(result);
       });
     });
   });
@@ -512,5 +537,3 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 });
-
-// TODO Try to create same admin again

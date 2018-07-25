@@ -10,6 +10,8 @@ const resourceName = ['register', 'admins', 'signin'];
 let jwt;
 let password = '';
 const ids = [];
+const { STRONG, NEW } = co.password;
+const { SUPER_ADMIN, ADMIN } = co.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -20,14 +22,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     await dropDatabase();
   });
 
-  // Should register an super-admin
+  // should register super-admin
   describe(`${resourceName[0].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[0]}`, () => {
       test('should register super-admin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[0]}`)
-          .send(co.SUPER_ADMIN_LOGIN);
+          .send({ username: SUPER_ADMIN, password: STRONG });
 
         const { token } = result.body.data;
         jwt = token; // the new super-admin token is saved here
@@ -37,7 +39,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Super-admin register an admin
+  // super-admin register an admin
   describe(`${resourceName[1].toUpperCase()}: with good request body`, () => {
     describe(`POST /${resourceName[1]}`, () => {
       test('super-admin: should register an admin', async () => {
@@ -45,7 +47,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .request(app)
           .post(`/api/v1/${resourceName[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send(co.ADMIN_LOGIN);
+          .send({ username: ADMIN });
 
         const { temporaryPassword } = result.body.data;
         password = temporaryPassword;
@@ -55,7 +57,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Super admin gets all admins data
+  // super admin gets all admins data
   describe(`${resourceName[1].toUpperCase()}: get all`, () => {
     describe(`GET /${resourceName[1]}`, () => {
       test('super-admin: should GET admins', async () => {
@@ -73,16 +75,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Admin signin
+  // admin signin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
       test('admin: admin should be able to signin', async () => {
-        const { username } = co.ADMIN_LOGIN;
-
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send({ username, password });
+          .send({ username: ADMIN, password });
 
         const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
@@ -92,7 +92,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Admin gets only his own data.
+  // admin gets only his own data.
   describe(`${resourceName[1].toUpperCase()}: get self only`, () => {
     describe(`GET /${resourceName[1]}/${ids[1]}`, () => {
       test('admin: should GET itself', async () => {
@@ -106,18 +106,19 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Admin only updates his own password
+  // admin only updates his own password
   describe(`${resourceName[1].toUpperCase()}: password update`, () => {
     describe(`PUT /${resourceName[1]}`, () => {
       test('admin: should update its-own password', async () => {
-        const { newPassword, newPasswordAgain } = co.ADMIN_LOGIN_UPDATE;
-        const currentPassword = password;
-
         const result = await chai
           .request(app)
           .put(`/api/v1/${resourceName[1]}/${ids[1]}`)
           .set('Authorization', `Bearer ${jwt}`)
-          .send({ currentPassword, newPassword, newPasswordAgain });
+          .send({
+            currentPassword: password,
+            newPassword: NEW,
+            newPasswordAgain: NEW,
+          });
 
         assert.putSuccess(result);
       });
@@ -134,7 +135,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Admin delete only itself
+  // admin delete only itself
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
       test('admin: should not delete others (super-admin or admin)', async () => {
@@ -157,14 +158,14 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Signin super-admin
+  // signin super-admin
   describe(`${resourceName[2].toUpperCase()}:`, () => {
     describe(`POST /${resourceName[2]}`, () => {
       test('super-admin: should be able to signin', async () => {
         const result = await chai
           .request(app)
           .post(`/api/v1/${resourceName[2]}`)
-          .send(co.SUPER_ADMIN_LOGIN);
+          .send({ username: SUPER_ADMIN, password: STRONG });
 
         const { token } = result.body.data;
         jwt = token; // the new admin token is saved here
@@ -174,7 +175,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 
-  // Super-admin delete self
+  // super-admin delete self
   describe(`${resourceName[1].toUpperCase()}:`, () => {
     describe(`DELETE /${resourceName[1]}`, () => {
       test('super-admin: should delete self', async () => {
@@ -188,5 +189,3 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
     });
   });
 });
-
-// TODO try to create another admin

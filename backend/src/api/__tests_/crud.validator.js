@@ -23,6 +23,19 @@ export const getSuccess = (result) => {
 };
 
 /*
+ * success and return token
+ */
+export const signinSuccess = (result) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+  const { token } = data;
+
+  expect(result).to.have.status(200);
+  expect(status).to.equal('success');
+  expect(token).not.to.equal('');
+};
+
+/*
  * success but return no data
  */
 export const getSuccessNoData = (result) => {
@@ -44,6 +57,43 @@ export const postSuccess = (result) => {
   expect(result).to.have.status(201);
   expect(status).to.equal('success');
   testEmptySuccess(data);
+};
+
+/*
+ * create new admin, success and return no data
+ */
+export const postSuccessTemporaryPassword = (result) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+
+  expect(result).to.have.status(201);
+  expect(status).to.equal('success');
+  expect(data.temporaryPassword).not.to.equal('');
+};
+
+/*
+ * update password, success and return temporary data
+ */
+export const putSuccessTemporaryPassword = (result) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+
+  expect(result).to.have.status(201);
+  expect(status).to.equal('success');
+  expect(data.temporaryPassword).not.to.equal('');
+};
+
+/*
+ * success and return token
+ */
+export const registerSuccess = (result) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+  const { token } = data;
+
+  expect(result).to.have.status(201);
+  expect(status).to.equal('success');
+  expect(token).not.to.equal('');
 };
 
 /*
@@ -83,56 +133,6 @@ export const deleteSuccess = (result) => {
 };
 
 /*
- * success and return token
- */
-export const registerSuccess = (result) => {
-  jsonContent(result);
-  const { status, data } = result.body;
-  const { token } = data;
-
-  expect(result).to.have.status(201);
-  expect(status).to.equal('success');
-  expect(token).not.to.equal('');
-};
-
-/*
- * success and return token
- */
-export const signinSuccess = (result) => {
-  jsonContent(result);
-  const { status, data } = result.body;
-  const { token } = data;
-
-  expect(result).to.have.status(200);
-  expect(status).to.equal('success');
-  expect(token).not.to.equal('');
-};
-
-/*
- * bad authorisation with no-token, expired jwt, and invalid signature
- */
-export const unauthorizedError = (result) => {
-  jsonContent(result);
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(401);
-  expect(status).to.equal('fail');
-  expect(name).to.equal('UnauthorizedError');
-  expect(co.UNAUTHORIZED_ERROR).to.include(message);
-};
-
-export const badRequest = (result, msg = err.BadRequest().message) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest().name);
-  expect(message).to.equal(msg);
-};
-
-/*
  * supper-admin gets all admins including itself
  * admin only gets itself
  *
@@ -156,41 +156,18 @@ export const getAdminSuccess = (result, superAdmin = true) => {
   }
 };
 
-/*
- * have valid-token, however not authorised for the resource
- *
- * @param result: http response
- */
-export const unauthorized = (result, msg = err.Unauthorized().message) => {
-  jsonContent(result);
+export const badRequest = (result, msg = err.BadRequest().message) => {
   const { status, data } = result.body;
   const { name, message } = data;
 
-  expect(result).to.have.status(401);
+  expect(result).to.have.status(400);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.Unauthorized().name);
-  expect(message).to.equal(msg);
-};
-
-/*
- * forbidden
- *
- * @param result: http response
- */
-export const forbidden = (result, msg = err.Forbidden().message) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(403);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.Forbidden().name);
+  expect(name).to.equal(err.BadRequest().name);
   expect(message).to.equal(msg);
 };
 
 /*
  * registering with weak password should be prevented
- *
- * @param result: http response
  */
 export const weakPassword = (result) => {
   const { status, data } = result.body;
@@ -203,39 +180,7 @@ export const weakPassword = (result) => {
 };
 
 /*
- * creating new (super-)admin with weak password should be prevented
- *
- * @param result: http response
- */
-export const registerWithWeakPassword = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.WeakPassword.name);
-  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS.join(' ')}`);
-};
-
-/*
- * updating the password of (super-)admin with weak password should be prevented
- *
- * @param result: http response
- */
-export const updateWithWeakPassword = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.WeakPassword.name);
-  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS.join(' ')}`);
-};
-
-/*
  * registration with weak pass-phrase should be prevented
- *
- * @param result: http response
  */
 export const weakPassPhrase = (result) => {
   const { status, data } = result.body;
@@ -248,123 +193,28 @@ export const weakPassPhrase = (result) => {
 };
 
 /*
- * creating new (super-)admin with weak pass-phrase should be prevented
- *
- * @param result: http response
+ * bad authorisation with no-token, expired jwt, and invalid signature
  */
-export const registerWithWeakPassPhrase = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.WeakPassword.name);
-  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS[0]} ${co.WEAK_PASSWORD_ERRORS[1]}`);
-};
-
-/*
- * updating the password of (super-)admin with weak pass-phrase should be prevented
- *
- * @param result: http response
- */
-export const updateWithWeakPassPhrase = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.WeakPassword.name);
-  expect(message).to.equal(`${co.WEAK_PASSWORD_ERRORS[0]} ${co.WEAK_PASSWORD_ERRORS[1]}`);
-};
-
-/*
- * updating the password, the two new passwords do not match
- *
- * @param result: http response
- */
-export const newPasswordDoNotMatch = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('new passwords do not match');
-};
-
-/*
- * updating the password, wrong current password
- *
- * @param result: http response
- */
-export const wrongCurrentPassword = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(403);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.Forbidden.name);
-  expect(message).to.equal('wrong current password');
-};
-
-/*
- * updating the password, new passwords and current password are the same
- *
- * @param result: http response
- */
-export const newAndCurrentPasswordAreSame = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('new password is the same as current');
-};
-
-/*
- * creating new (super-)admin while one already exist should be prevented.
- * creating a new admin with already existing admin username should be prevented.
- *
- * @param result: http response
- */
-export const registerWhileExist = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(403);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.Forbidden.name);
-  expect(message).to.equal('user already exists');
-};
-
-/*
- * update (super-)admin data with bad req.body should be prevented
- *
- * @param result: http response
- */
-export const updateWithBadRequestBody = (result) => {
-  const { status, data } = result.body;
-  const { name, message } = data;
-
-  expect(result).to.have.status(400);
-  expect(status).to.equal('fail');
-  expect(name).to.equal(err.BadRequest.name);
-  expect(message).to.equal('proper current and new password is required');
-};
-
-/*
- * not found
- */
-export const notFound = (result, msg) => {
+export const unauthorizedError = (result) => {
   jsonContent(result);
   const { status, data } = result.body;
   const { name, message } = data;
 
-  expect(result).to.have.status(404);
+  expect(result).to.have.status(401);
   expect(status).to.equal('fail');
-  expect(name).to.equal(err.NotFound.name);
-  expect(message).to.equal(msg || err.RESOURCE_NOT_FOUND);
+  expect(name).to.equal('UnauthorizedError');
+  expect(co.UNAUTHORIZED_ERROR).to.include(message);
+};
+
+export const unauthorized = (result, msg = err.Unauthorized().message) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(401);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.Unauthorized().name);
+  expect(message).to.equal(msg);
 };
 
 /*
@@ -378,4 +228,25 @@ export const badUsernameOrPassword = (result) => {
   expect(status).to.equal('fail');
   expect(name).to.equal(err.Forbidden.name);
   expect(message).to.equal(err.FORBIDDEN);
+};
+
+export const forbidden = (result, msg = err.Forbidden().message) => {
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(403);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.Forbidden().name);
+  expect(message).to.equal(msg);
+};
+
+export const notFound = (result, msg) => {
+  jsonContent(result);
+  const { status, data } = result.body;
+  const { name, message } = data;
+
+  expect(result).to.have.status(404);
+  expect(status).to.equal('fail');
+  expect(name).to.equal(err.NotFound.name);
+  expect(message).to.equal(msg || err.RESOURCE_NOT_FOUND);
 };
