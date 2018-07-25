@@ -95,7 +95,7 @@ export const controllers = {
       })
       .catch((error) => {
         if (error.name === 'ValidationError') {
-          logger.warn('Duplicate user', { error });
+          logger.warn('duplicate user', { error });
           throw err.Forbidden('user already exists');
         }
         throw error;
@@ -186,7 +186,7 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
  */
 export const registerAdmin = (model) => (req, res, next) => {
   const { body, user } = req;
-  test.usernameObject(body); // TODO change test to schemaTest
+  test.usernameObject(body);
   const temporaryPassword = generate({ ...passwordConfig });
   body.password = temporaryPassword;
   decodeToken();
@@ -503,13 +503,13 @@ export const findByIdParam = (model) => (req, res, next, id) => {
     controllers
       .findByParam(model, id)
       .then((doc) => {
-        if (!doc) throw err.NotFound('No resource found with this Id');
+        if (!doc) throw err.NotFound('no resource found with this Id');
         req.docFromId = doc;
         next();
       })
       .catch((error) => setImmediate(() => next(error)));
   } else {
-    setImmediate(() => next(err.NotFound('Not a MongoId')));
+    setImmediate(() => next(err.NotFound('not a MongoId')));
   }
 };
 

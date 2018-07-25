@@ -253,7 +253,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${co.BAD_MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.notFound(result, 'Not a MongoId');
+        assert.notFound(result, 'not a MongoId');
       });
 
       test('super-admin: should not get admin with valid but non-existent mongoose id', async () => {
@@ -262,7 +262,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .get(`/api/v1/${resourceName[1]}/${co.MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.notFound(result, 'No resource found with this Id');
+        assert.notFound(result, 'no resource found with this Id');
       });
     });
   });
@@ -523,7 +523,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
           .delete(`/api/v1/${resourceName[1]}/${ids[2]}`)
           .set('Authorization', `Bearer ${jwt}`);
 
-        assert.notFound(result, 'No resource found with this Id');
+        assert.notFound(result, 'no resource found with this Id');
       });
 
       test('super-admin: should delete self (super-admin)', async () => {
