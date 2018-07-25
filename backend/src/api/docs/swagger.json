@@ -33,7 +33,6 @@
         "tags": ["admins"],
         "description":
           "registers super-admin. use strong password. the password must be at least 8 characters long, must contain at least one uppercase letter, must contain at least one number and must contain at least one special character. password also can just be a 'pass-phrase' as explained here https://xkcd.com/936/. example pass-phrase: 'correct horse battery staple'",
-        "summary": "registers super-admin and returns token",
         "requestBody": {
           "description": "username and password",
           "required": true,
@@ -54,7 +53,7 @@
             "description": "on success return super-admin token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -65,7 +64,6 @@
       "post": {
         "tags": ["signin"],
         "description": "signin registered (super-)admin",
-        "summary": "signin (super-)admin and returns token",
         "requestBody": {
           "description": "username and password",
           "required": true,
@@ -86,7 +84,7 @@
             "description": "on success return (super-)admin token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -97,7 +95,6 @@
       "post": {
         "tags": ["admins"],
         "description": "super-admin registers admin. requires a super-admin token.",
-        "summary": "registers new admin",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "username and password",
@@ -115,24 +112,23 @@
         },
         "responses": {
           "201": {
-            "description": "Return token",
+            "description": "on success returns token",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "get": {
-        "tags": ["Admins"],
+        "tags": ["admins"],
         "description":
-          "If the requesting user is admin return only the requesting admin user data. When super-admin, return all admins data. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return admins",
+          "return all admins for super-user and return self for admin.",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
-            "description": "Admin(s)",
+            "description": "admin(s)",
             "content": {
               "application/json": {
                 "schema": {
@@ -168,17 +164,16 @@
     },
     "/admins/{id}": {
       "get": {
-        "tags": ["Admins"],
+        "tags": ["admins"],
         "description":
-          "If the requesting user is admin return only the requesting admin user data. A super-admin, can get any admin data by ID. That will be used when the super-admin manages other admin accounts, such as deleting or updating other admins",
-        "summary": "Return admin by ID",
+          "return any admin by ID for super-user and return self for admin.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "Admin ID",
+            "description": "admin ID",
             "schema": { "type": "string" },
             "example": "5b1de7ac698c71055ef657f3"
           }
@@ -219,10 +214,9 @@
         }
       },
       "put": {
-        "tags": ["Admins"],
+        "tags": ["admins"],
         "description":
           "Update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. A request body is not required in this case. An admin is only allowed to update its own password.",
-        "summary": "Update password by ID and returns temporary password",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -255,7 +249,7 @@
             "description": "Confirm success",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           },
@@ -281,9 +275,8 @@
         }
       },
       "delete": {
-        "tags": ["Admins"],
+        "tags": ["admins"],
         "description": "If super-admin can delete all, else delete self",
-        "summary": "Delete admin by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -300,7 +293,7 @@
             "description": "Deleted admin",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -309,10 +302,9 @@
     },
     "/info": {
       "get": {
-        "tags": ["Info"],
+        "tags": ["info"],
         "description":
           "Return church information. Only one should be needed, but more than one can be created to facilitate editing. For example, create a new one and delete the old record can give safe update.",
-        "summary": "Return church information",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -346,9 +338,8 @@
         }
       },
       "post": {
-        "tags": ["Info"],
+        "tags": ["info"],
         "description": "Add church information",
-        "summary": "Add church information",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description":
@@ -374,7 +365,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -383,9 +374,8 @@
     },
     "/info/{id}": {
       "get": {
-        "tags": ["Info"],
+        "tags": ["info"],
         "description": "Return a church information by ID. Use the GET /info route to get the ID.",
-        "summary": "Returns church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -426,10 +416,9 @@
         }
       },
       "put": {
-        "tags": ["Info"],
+        "tags": ["info"],
         "description":
           "Updates church information by ID. You don't need to enter 'adminname' value as it will be overwritten by the username of the request object.",
-        "summary": "Updates church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -464,16 +453,15 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Info"],
+        "tags": ["info"],
         "description": "Deletes church information by ID",
-        "summary": "Deletes church information by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -490,7 +478,7 @@
             "description": "Deleted church information",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -499,9 +487,8 @@
     },
     "/intro": {
       "get": {
-        "tags": ["Intro"],
+        "tags": ["intro"],
         "description": "The content in the introduction section of the homepage",
-        "summary": "Returns homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -527,9 +514,8 @@
         }
       },
       "post": {
-        "tags": ["Intro"],
+        "tags": ["intro"],
         "description": "Add the main content of the home page",
-        "summary": "Add homepage introduction content",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Homepage introduction content to add",
@@ -552,7 +538,7 @@
             "description": "Introduction created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -561,10 +547,9 @@
     },
     "/intro/{id}": {
       "get": {
-        "tags": ["Intro"],
+        "tags": ["intro"],
         "description":
           "Return a homepage main content by ID. Multiple introductions could be stored. And could be used in different yearly events.",
-        "summary": "Returns homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -596,9 +581,8 @@
         }
       },
       "put": {
-        "tags": ["Intro"],
+        "tags": ["intro"],
         "description": "Updates homepage introduction content by ID",
-        "summary": "Updates homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -632,16 +616,15 @@
             "description": "Update accepted",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Intro"],
+        "tags": ["intro"],
         "description": "Deletes homepage introduction content by ID",
-        "summary": "Deletes homepage introduction by ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -658,7 +641,7 @@
             "description": "Deleted homepage introduction content",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -667,9 +650,8 @@
     },
     "/event": {
       "get": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Event details",
-        "summary": "Returns event details",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -698,9 +680,8 @@
         }
       },
       "post": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Add event",
-        "summary": "Add event",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Event to add",
@@ -726,7 +707,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -735,9 +716,8 @@
     },
     "/event/past": {
       "get": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Return past event",
-        "summary": "Returns past event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -765,9 +745,8 @@
     },
     "/event/future": {
       "get": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Return future event",
-        "summary": "Returns future event",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -795,9 +774,8 @@
     },
     "/event/{id}": {
       "get": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Return event by ID",
-        "summary": "Returns event",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -833,9 +811,8 @@
         }
       },
       "put": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Updates event by ID",
-        "summary": "Updates event",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -872,16 +849,15 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Event"],
+        "tags": ["event"],
         "description": "Deletes event by ID",
-        "summary": "Deletes event",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -898,7 +874,7 @@
             "description": "Deleted event",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -907,9 +883,8 @@
     },
     "/services": {
       "get": {
-        "tags": ["Service"],
+        "tags": ["service"],
         "description": "Church service",
-        "summary": "Returns services",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -937,9 +912,8 @@
         }
       },
       "post": {
-        "tags": ["Service"],
+        "tags": ["service"],
         "description": "Add service",
-        "summary": "Adds service",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Service to add",
@@ -963,7 +937,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -972,9 +946,8 @@
     },
     "/services/{id}": {
       "get": {
-        "tags": ["Service"],
+        "tags": ["service"],
         "description": "Return service by ID",
-        "summary": "Returns service",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1006,9 +979,8 @@
         }
       },
       "put": {
-        "tags": ["Service"],
+        "tags": ["service"],
         "description": "Updates service by ID",
-        "summary": "Updates a service",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1044,16 +1016,15 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Service"],
+        "tags": ["service"],
         "description": "Deletes a service by ID",
-        "summary": "Deletes a home page main content",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1070,7 +1041,7 @@
             "description": "Deleted a service",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/successResponse" }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1079,9 +1050,8 @@
     },
     "/blog": {
       "get": {
-        "tags": ["Blog"],
+        "tags": ["blog"],
         "description": "Returns all blog",
-        "summary": "Returns blog",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -1098,7 +1068,7 @@
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
                       "dateStart": { "$ref": "#/components/parameters/date" },
-                      "tag": { "$ref": "#/components/parameters/tag" }
+                      "tag": { "$ref": "#/components/schemas/Tags" }
                     }
                   }
                 }
@@ -1108,9 +1078,8 @@
         }
       },
       "post": {
-        "tags": ["Blog"],
+        "tags": ["blog"],
         "description": "Add a new blog",
-        "summary": "Add blog",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Blog to add",
@@ -1124,7 +1093,7 @@
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
                   "dateStart": { "$ref": "#/components/parameters/date" },
-                  "tag": { "$ref": "#/components/parameters/tag" }
+                  "tag": { "$ref": "#/components/schemas/Tags" }
                 }
               }
             }
@@ -1135,16 +1104,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Blog" },
-                    "en": { "$ref": "#/components/schemas/Blog" },
-                    "author": { "$ref": "#/components/parameters/name" },
-                    "dateStart": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1153,9 +1113,8 @@
     },
     "/blog/{id}": {
       "get": {
-        "tags": ["Blog"],
+        "tags": ["blog"],
         "description": "Return a blog by ID",
-        "summary": "Returns a blog",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1179,7 +1138,7 @@
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" }
+                    "tag": { "$ref": "#/components/schemas/Tags" }
                   }
                 }
               }
@@ -1188,9 +1147,8 @@
         }
       },
       "put": {
-        "tags": ["Blog"],
+        "tags": ["blog"],
         "description": "Updates a blog by an ID",
-        "summary": "Updates a blog",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1214,7 +1172,7 @@
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
                   "dateStart": { "$ref": "#/components/parameters/date" },
-                  "tag": { "$ref": "#/components/parameters/tag" }
+                  "tag": { "$ref": "#/components/schemas/Tags" }
                 }
               }
             }
@@ -1225,25 +1183,15 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Blog" },
-                    "en": { "$ref": "#/components/schemas/Blog" },
-                    "author": { "$ref": "#/components/parameters/name" },
-                    "dateStart": { "$ref": "#/components/parameters/date" },
-                    "tag": { "$ref": "#/components/parameters/tag" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Blog"],
+        "tags": ["blog"],
         "description": "Deletes a blog matches an ID",
-        "summary": "Deletes a blog",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1256,24 +1204,11 @@
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted blog",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Blog" },
-                      "en": { "$ref": "#/components/schemas/Blog" },
-                      "author": { "$ref": "#/components/parameters/name" },
-                      "dateStart": { "$ref": "#/components/parameters/date" },
-                      "tag": { "$ref": "#/components/parameters/tag" }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1282,9 +1217,8 @@
     },
     "/media": {
       "get": {
-        "tags": ["Media"],
+        "tags": ["media"],
         "description": "Returns all audio/video",
-        "summary": "Returns audio/video",
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": {
@@ -1306,7 +1240,7 @@
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                       "mediaType": { "type": "string", "example": "video" },
-                      "tag": { "type": "string", "example": "Mezmur" }
+                      "tag": { "$ref": "#/components/schemas/Tags" }
                     }
                   }
                 }
@@ -1316,9 +1250,8 @@
         }
       },
       "post": {
-        "tags": ["Media"],
+        "tags": ["media"],
         "description": "Add a new video/audio",
-        "summary": "Add video/audio",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "Video/audio to add",
@@ -1337,7 +1270,7 @@
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                   "mediaType": { "type": "string", "example": "video" },
-                  "tag": { "type": "string", "example": "Mezmur" }
+                  "tag": { "$ref": "#/components/schemas/Tags" }
                 }
               }
             }
@@ -1348,21 +1281,7 @@
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Media" },
-                    "en": { "$ref": "#/components/schemas/Media" },
-                    "title": {
-                      "type": "string",
-                      "description": "Church audio/video",
-                      "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
-                    },
-                    "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                    "mediaType": { "type": "string", "example": "video" },
-                    "tag": { "type": "string", "example": "Mezmur" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1371,9 +1290,8 @@
     },
     "/media/{id}": {
       "get": {
-        "tags": ["Media"],
+        "tags": ["media"],
         "description": "Return a video/audio by ID",
-        "summary": "Returns a video/audio",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1402,7 +1320,7 @@
                     },
                     "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                     "mediaType": { "type": "string", "example": "video" },
-                    "tag": { "type": "string", "example": "Mezmur" }
+                    "tag": { "$ref": "#/components/schemas/Tags" }
                   }
                 }
               }
@@ -1411,9 +1329,8 @@
         }
       },
       "put": {
-        "tags": ["Media"],
+        "tags": ["media"],
         "description": "Updates a video/audio by an ID",
-        "summary": "Updates a video/audio",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1442,41 +1359,26 @@
                   },
                   "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                   "mediaType": { "type": "string", "example": "video" },
-                  "tag": { "type": "string", "example": "Mezmur" }
+                  "tag": { "$ref": "#/components/schemas/Tags" }
                 }
               }
             }
           }
         },
         "responses": {
-          "201": {
+          "202": {
             "description": "Created",
             "content": {
               "application/json": {
-                "schema": {
-                  "properties": {
-                    "type": "object",
-                    "am": { "$ref": "#/components/schemas/Media" },
-                    "en": { "$ref": "#/components/schemas/Media" },
-                    "title": {
-                      "type": "string",
-                      "description": "Church audio/video",
-                      "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
-                    },
-                    "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                    "mediaType": { "type": "string", "example": "video" },
-                    "tag": { "type": "string", "example": "Mezmur" }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": ["Media"],
+        "tags": ["media"],
         "description": "Deletes a video/audio matches an ID",
-        "summary": "Deletes a video/audio",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1489,30 +1391,11 @@
           }
         ],
         "responses": {
-          "201": {
+          "202": {
             "description": "Deleted blog",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "type": "object",
-                      "am": { "$ref": "#/components/schemas/Media" },
-                      "en": { "$ref": "#/components/schemas/Media" },
-                      "title": {
-                        "type": "string",
-                        "description": "Church audio/video",
-                        "example":
-                          "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
-                      },
-                      "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
-                      "mediaType": { "type": "string", "example": "video" },
-                      "tag": { "type": "string", "example": "Mezmur" }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/SuccessResponse" }
               }
             }
           }
@@ -1529,6 +1412,14 @@
       }
     },
     "schemas": {
+      "Tags": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "example":
+            "history"
+        }
+      },
       "Blog": {
         "required": ["title", "body"],
         "type": "object",
@@ -1660,18 +1551,13 @@
       },
       "Media": {
         "type": "object",
-        "properties": { "body": { "$ref": "#/components/parameters/longText" } }
+        "properties": { "description": { "$ref": "#/components/parameters/longText" } }
       },
-      "successResponse": {
+      "SuccessResponse": {
         "type": "object",
         "properties": {
-          "type": "object",
           "status": { "$ref": "#/components/parameters/success" },
-          "data": {
-            "properties": {
-              "type": "object"
-            }
-          }
+          "data": { "type": "object", "example": "{}"}
         }
       }
     },
@@ -1698,7 +1584,6 @@
         "example": "(425) 329 - 9092"
       },
       "name": { "type": "string", "length": 1000, "example": "Melkamu Abate" },
-      "tag": { "type": "string", "length": 1000, "example": "History" },
       "longText": {
         "type": "string",
         "example":

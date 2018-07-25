@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 export const schema = {
-  am: { body: { type: String } },
-  en: { body: { type: String } },
+  am: { description: { type: String } },
+  en: { description: { type: String } },
   title: {
     type: String,
     maxlength: 200,
@@ -16,7 +16,7 @@ export const schema = {
     required: [true, 'media type must be selected'],
     index: true,
   },
-  tag: { type: String, maxlength: 100, index: true },
+  tag: [String],
   adminname: { type: String, required: [true, 'media must have a adminname'], maxlength: 20 },
   date: { type: Date, default: Date.now, index: true },
 };
