@@ -3,15 +3,15 @@ import chaiHttp from 'chai-http';
 import app from '../../../server';
 import * as assert from '../../__tests_/crud.validator';
 import { dropDatabase } from '../../__tests_/database';
-import * as co from '../../__tests_/constants';
+import * as constants from '../../__tests_/constants';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
 let jwt;
 let password = '';
 const ids = [];
-const { STRONG, NEW } = co.password;
-const { SUPER_ADMIN, ADMIN } = co.username;
+const { STRONG, NEW } = constants.password;
+const { SUPER_ADMIN, ADMIN } = constants.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {

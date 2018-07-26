@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Outreach",
-    "description": "Church outreach admin platform. API documentation.",
+    "description": "Outreach admin platform API. API documentation.",
     "version": "1.0.0"
   },
   "servers": [

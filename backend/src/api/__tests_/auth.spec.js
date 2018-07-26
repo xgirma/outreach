@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { dropDatabase } from './database';
 import { MONGO_ID } from './constants';
-import * as jwtTest from './jwt.validation';
+import * as assert from './jwt.validation';
 
 chai.use(chaiHttp);
 
@@ -25,43 +25,43 @@ describe('Token test', () => {
       });
 
       describe(`GET /${resourceName}`, () => {
-        jwtTest.getWithoutToken(resourceName);
-        jwtTest.getWithExpiredToken(resourceName);
-        jwtTest.getUsingTokenWithInvalidSignature(resourceName);
-        jwtTest.getMalformedToken(resourceName);
-        jwtTest.getWithBadFormattedToken(resourceName);
+        assert.getWithoutToken(resourceName);
+        assert.getWithExpiredToken(resourceName);
+        assert.getUsingTokenWithInvalidSignature(resourceName);
+        assert.getMalformedToken(resourceName);
+        assert.getWithBadFormattedToken(resourceName);
       });
 
       describe(`POST /${resourceName}`, () => {
-        jwtTest.postWithoutToken(resourceName);
-        jwtTest.postWithExpiredToken(resourceName);
-        jwtTest.postUsingTokenWithInvalidSignature(resourceName);
-        jwtTest.postMalformedToken(resourceName);
-        jwtTest.postWithBadFormattedToken(resourceName);
+        assert.postWithoutToken(resourceName);
+        assert.postWithExpiredToken(resourceName);
+        assert.postUsingTokenWithInvalidSignature(resourceName);
+        assert.postMalformedToken(resourceName);
+        assert.postWithBadFormattedToken(resourceName);
       });
 
       describe(`GET /${resourceName}/${MONGO_ID}`, () => {
-        jwtTest.getWithoutToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.getWithExpiredToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.getUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
-        jwtTest.getMalformedToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.getWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
+        assert.getWithoutToken(`${resourceName}/${MONGO_ID}`);
+        assert.getWithExpiredToken(`${resourceName}/${MONGO_ID}`);
+        assert.getUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
+        assert.getMalformedToken(`${resourceName}/${MONGO_ID}`);
+        assert.getWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
       });
 
       describe(`PUT /${resourceName}/${MONGO_ID}`, () => {
-        jwtTest.putWithoutToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.putWithExpiredToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.putUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
-        jwtTest.putMalformedToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.putWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
+        assert.putWithoutToken(`${resourceName}/${MONGO_ID}`);
+        assert.putWithExpiredToken(`${resourceName}/${MONGO_ID}`);
+        assert.putUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
+        assert.putMalformedToken(`${resourceName}/${MONGO_ID}`);
+        assert.putWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
       });
 
       describe(`DELETE /${resourceName}/${MONGO_ID}`, () => {
-        jwtTest.deleteWithoutToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.deleteWithExpiredToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.deleteUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
-        jwtTest.deleteMalformedToken(`${resourceName}/${MONGO_ID}`);
-        jwtTest.deleteWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
+        assert.deleteWithoutToken(`${resourceName}/${MONGO_ID}`);
+        assert.deleteWithExpiredToken(`${resourceName}/${MONGO_ID}`);
+        assert.deleteUsingTokenWithInvalidSignature(`${resourceName}/${MONGO_ID}`);
+        assert.deleteMalformedToken(`${resourceName}/${MONGO_ID}`);
+        assert.deleteWithBadFormattedToken(`${resourceName}/${MONGO_ID}`);
       });
     }));
 });

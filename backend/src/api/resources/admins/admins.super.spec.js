@@ -4,7 +4,7 @@ import chaiHttp from 'chai-http';
 import app from '../../../server';
 import { dropDatabase } from '../../__tests_/database';
 import * as assert from '../../__tests_/crud.validator';
-import * as co from '../../__tests_/constants';
+import * as constants from '../../__tests_/constants';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'signin'];
@@ -14,8 +14,8 @@ const badRequest = (result) =>
   assert.badRequest(result, 'proper username and password is required');
 const badUpdateRequest = (result) =>
   assert.badRequest(result, 'proper current and new password is required');
-const { SHORT, WEAK, LONG, STRONG, NEW, WEAK_PASS_PHRASE } = co.password;
-const { SUPER_ADMIN, ADMIN, ADMIN_ASSISTANT } = co.username;
+const { SHORT, WEAK, LONG, STRONG, NEW, WEAK_PASS_PHRASE } = constants.password;
+const { SUPER_ADMIN, ADMIN, ADMIN_ASSISTANT } = constants.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
@@ -250,7 +250,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       test('super-admin: should not get admin with bad mongoose id', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${co.BAD_MONGO_ID}`)
+          .get(`/api/v1/${resourceName[1]}/${constants.BAD_MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
         assert.notFound(result, 'not a MongoId');
@@ -259,7 +259,7 @@ describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
       test('super-admin: should not get admin with valid but non-existent mongoose id', async () => {
         const result = await chai
           .request(app)
-          .get(`/api/v1/${resourceName[1]}/${co.MONGO_ID}`)
+          .get(`/api/v1/${resourceName[1]}/${constants.MONGO_ID}`)
           .set('Authorization', `Bearer ${jwt}`);
 
         assert.notFound(result, 'no resource found with this Id');

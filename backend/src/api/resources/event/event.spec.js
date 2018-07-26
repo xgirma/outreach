@@ -5,14 +5,14 @@ import app from '../../../server';
 import * as assert from '../../__tests_/crud.validator';
 import { dropDatabase } from '../../__tests_/database';
 import { event } from '../../__tests_/request.body';
-import * as co from '../../__tests_/constants';
+import * as constants from '../../__tests_/constants';
 
 chai.use(chaiHttp);
 const resourceName = ['register', 'admins', 'event'];
 let jwt;
 const ids = [];
-const { STRONG } = co.password;
-const { SUPER_ADMIN } = co.username;
+const { STRONG } = constants.password;
+const { SUPER_ADMIN } = constants.username;
 
 describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
