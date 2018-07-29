@@ -4,7 +4,7 @@
   "description": "outreach backend API",
   "main": "dist",
   "scripts": {
-    "test": "jest --verbose --bail --coverage --runInBand --forceExit",
+    "test": "jest --verbose --bail --coverage --runInBand",
     "test:watch": "jest --watch --verbose",
     "lint": "eslint src --fix",
     "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
@@ -39,7 +39,7 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*": ["npm run pretty", "npm run lint"]
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
