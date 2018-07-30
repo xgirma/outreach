@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 import './App.css';
 
 class App extends Component {
@@ -8,6 +10,7 @@ class App extends Component {
         <p className="App-intro">
           in the begging ...
         </p>
+        <DatePicker />
       </div>
     );
   }
