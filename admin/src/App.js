@@ -1,19 +1,22 @@
-import React, { Component } from 'react';
-import { DatePicker } from 'antd';
-import 'antd/dist/antd.css';
-import './App.css';
+import React from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import Login from './components/login';
+import NotFound from './components/not.found';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <p className="App-intro">
-          in the begging ...
-        </p>
-        <DatePicker />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="App">
+    <div className="App-header">
+      <p>Header</p>
+    </div>
+    <div className="App-body">
+      <HashRouter>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route component={NotFound} />
+        </Switch>
+      </HashRouter>
+    </div>
+  </div>
+);
 
 export default App;
