@@ -1,5 +1,8 @@
-export const DELETE_INFO = 'DELETE_INFO';
+import { signinUser, SIGNIN_FAILURE, SIGNIN_REQUEST, SIGNIN_SUCCESS } from './signin';
 
-export const deleteInfo = () => ({
-  type: DELETE_INFO,
-});
+export {
+  SIGNIN_FAILURE,
+  SIGNIN_REQUEST,
+  SIGNIN_SUCCESS,
+  signinUser
+};

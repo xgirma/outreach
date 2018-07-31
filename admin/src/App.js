@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-import Login from './components/login';
+import Signin from './components/signin';
 import NotFound from './components/not.found';
 
 const App = () => (
@@ -11,7 +11,7 @@ const App = () => (
     <div className="App-body">
       <HashRouter>
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={Signin} />
           <Route component={NotFound} />
         </Switch>
       </HashRouter>

@@ -1,6 +1,6 @@
 import thunk from 'redux-thunk';
 import { applyMiddleware, compose, createStore } from 'redux';
-import { deleteInfo } from '../actions';
+// import { deleteInfo } from '../actions';
 import reducers from '../reducers';
 import initialState from './initial';
 
@@ -14,6 +14,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware), ...enhancers),
 );
 
-store.dispatch(deleteInfo());
+// store.dispatch(deleteInfo());
 
 export default store;
