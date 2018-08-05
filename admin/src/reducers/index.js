@@ -1,6 +1,6 @@
 import * as ACTIONS from '../actions';
 
-export default function (state = {}, action) {
+export default function(state = {}, action) {
   if (action.type === ACTIONS.SIGNIN_REQUEST) {
     return {
       isFetching: true,

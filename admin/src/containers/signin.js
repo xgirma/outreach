@@ -5,6 +5,9 @@ import { signinUser } from '../actions';
 
 const mapStateToProps = ({ credential }) => ({ credential });
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signinUser }, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ signinUser }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signin);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Signin);

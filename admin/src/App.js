@@ -6,9 +6,7 @@ import NotFound from './components/not.found';
 const App = () => (
   <div className="App">
     <div className="App-header">
-      <p>
-Header
-      </p>
+      <p>Header</p>
     </div>
     <div className="App-body">
       <HashRouter>
