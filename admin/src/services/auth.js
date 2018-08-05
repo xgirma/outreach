@@ -1,7 +1,7 @@
 const BASE_URL = 'http://localhost:3005/api/v1/';
 
 export const signin = async (credential) => {
-  const {username, password} = credential;
+  const { username, password } = credential;
   try {
     const result = await fetch(`${BASE_URL}signin`, {
       method: 'POST',
@@ -9,7 +9,7 @@ export const signin = async (credential) => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-      }
+      },
     });
     return result.json();
   } catch (error) {
@@ -18,7 +18,7 @@ export const signin = async (credential) => {
 };
 
 export const register = async (credential) => {
-  const {username, password} = credential;
+  const { username, password } = credential;
   try {
     const result = await fetch(`${BASE_URL}register`, {
       method: 'POST',
@@ -26,7 +26,7 @@ export const register = async (credential) => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-      }
+      },
     });
     return result.json();
   } catch (error) {
