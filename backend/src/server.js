@@ -10,7 +10,7 @@ import apiErrorHandler from './api/modules/errorHandler';
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 setGlobalMiddleware(app);
 connect();
 
