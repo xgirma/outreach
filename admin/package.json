@@ -15,11 +15,11 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "lint": "eslint ./src --fix",
-    "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\""
+    "start-admin": "react-scripts start",
+    "build-admin": "react-scripts build",
+    "test-admin": "react-scripts test --env=jsdom",
+    "lint-admin": "eslint ./src --fix",
+    "pretty-admin": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\""
   },
   "devDependencies": {
     "eslint": "^5.3.0",

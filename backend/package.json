@@ -4,12 +4,12 @@
   "description": "outreach backend API",
   "main": "dist",
   "scripts": {
-    "test": "jest --verbose --bail --coverage --runInBand",
-    "test:watch": "jest --watch --verbose",
-    "lint": "eslint src --fix",
-    "pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
-    "precommit": "lint-staged husky --dev",
-    "start:dev": "./node_modules/.bin/webpack --colors --progress"
+    "test:admin": "jest --verbose --bail --coverage --runInBand",
+    "test:watch:admin": "jest --watch --verbose",
+    "lint:admin": "eslint src --fix",
+    "pretty:admin": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
+    "precommit:admin": "lint-staged husky --dev",
+    "start:dev" : "./node_modules/.bin/webpack --colors --progress"
   },
   "keywords": ["church", "Ethiopian", "orthodox", "Christian"],
   "author": "Girma Nigusse <xgirma@gmail.com>",
