@@ -1,19 +1,17 @@
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import SigninForm from '../forms/signin';
-import {connect} from "react-redux";
-import { signin }  from '../actions';
+import { signin } from '../actions';
 
 function mapStateToProps(state) {
   const { signingIn } = state.authentication;
   return {
-    signingIn
+    signingIn,
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({
-    signin
-  }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  signin,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);

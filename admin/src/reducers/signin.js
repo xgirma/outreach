@@ -1,26 +1,26 @@
-let user = JSON.parse(localStorage.getItem('outreach-admin-user'));
+const user = JSON.parse(localStorage.getItem('outreach-admin-user'));
 const initialState = user ? { signedIn: true, user } : {};
 
 export default function authentication(state = initialState, action) {
-  if(action.type === 'SIGNIN_REQUEST'){
+  if (action.type === 'SIGNIN_REQUEST') {
     return {
       signingIn: true,
-      user: action.user
-    }
+      user: action.user,
+    };
   }
-  
-  if(action.type === 'SIGNIN_SUCCESS'){
+
+  if (action.type === 'SIGNIN_SUCCESS') {
     return {
       signedIn: true,
-      user: action.user
-    }
+      user: action.user,
+    };
   }
-  
-  if(action.type === 'SIGNIN_FAILURE'){
+
+  if (action.type === 'SIGNIN_FAILURE') {
     return {
       signingIn: false,
-    }
+    };
   }
-  
+
   return state;
 }
