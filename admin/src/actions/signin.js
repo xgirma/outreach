@@ -15,7 +15,7 @@ const signinFailure = () => ({
 export const signin = (username, password) => async dispatch => {
   dispatch(signinRequest());
   try {
-    // add this
+    // TODO: add this
     dispatch(signinSuccess());
   } catch(error){
     console.log('signin error', error); // TODO remove
