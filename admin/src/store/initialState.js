@@ -1,6 +1,1 @@
-export default {
-  signin: {
-    username: '',
-    password: ''
-  }
-}
+export default {}
