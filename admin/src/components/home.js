@@ -13,7 +13,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container-home">
-        {"Hello home"}
+        {"Home page: protected"}
       </div>
     )
   }

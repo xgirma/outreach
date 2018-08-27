@@ -13,7 +13,7 @@ class Header extends Component {
   render() {
     return (
       <div className="container-Header">
-        {"Hello Header ..."}
+        {"Header: unprotected"}
       </div>
     )
   }

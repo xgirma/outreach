@@ -24,7 +24,7 @@ class Signin extends Component {
   render() {
     return (
       <div>
-        {"Hello signin"}
+        {"Signin page: unprotected"}
       </div>
     )
   }
