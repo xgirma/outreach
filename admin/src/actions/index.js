@@ -1,3 +1,10 @@
-import { signinUser, SIGNIN_FAILURE, SIGNIN_REQUEST, SIGNIN_SUCCESS } from './signin';
+/*
+import {bindActionCreators} from 'redux'
 
-export { SIGNIN_FAILURE, SIGNIN_REQUEST, SIGNIN_SUCCESS, signinUser };
+import * as AlertActionCreators from './alert';
+import * as SigninActionCreators from './signin';
+
+export default bindActionCreators({
+  AlertActionCreators,
+  SigninActionCreators
+}, dispatch);*/

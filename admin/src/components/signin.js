@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { signinUser } from '../actions';
 
 class Signin extends Component {
   static propTypes = {};
@@ -8,16 +7,26 @@ class Signin extends Component {
   static defaultProps = {};
 
   displayName = 'Signin';
-
+  
   state = {
-    isFetching: false,
-    isAuthenticated: false,
-    user: {},
-    errorMessage: '',
+    username: '',
+    password: '',
+  };
+  
+  handleChange = (event) => {
+  
+  };
+  
+  handleSubmit = (event) => {
+    event.preventDefault();
   };
 
   render() {
-    return <div className="Signin" />;
+    return (
+      <div>
+        {"Signin page: unprotected"}
+      </div>
+    )
   }
 }
 

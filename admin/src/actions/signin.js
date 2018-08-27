@@ -1,39 +1,26 @@
-import { signin } from '../services/index';
-
-export const SIGNIN_REQUEST = 'SIGNIN_REQUEST';
-export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
-export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
-
-const requestSignin = (credentials) => ({
-  type: SIGNIN_REQUEST,
-  isFetching: true,
-  isAuthenticated: false,
-  credentials,
+const signinRequest = (user) => ({
+  type: 'SIGNIN_REQUEST',
+  user,
 });
 
-const receiveSignin = (result) => ({
-  type: SIGNIN_SUCCESS,
-  isFetching: false,
-  isAuthenticated: true,
-  id_token: result.data.token,
+const signinSuccess = (user) => ({
+  type: 'SIGNIN_SUCCESS',
+  user,
 });
 
-const signinError = (result) => ({
-  type: SIGNIN_FAILURE,
-  isFetching: false,
-  isAuthenticated: true,
-  message: result.data.message,
+const signinFailure = () => ({
+  type: 'SIGNIN_FAILURE',
 });
 
-export const signinUser = (credential) => (dispatch) => {
-  dispatch(requestSignin(credential));
-  signin(credential)
-    .then((result) => {
-      const { token } = result.data;
-      localStorage.setItem('id_token', token);
-      dispatch(receiveSignin(result));
-    })
-    .catch((error) => {
-      dispatch(signinError(error));
-    });
+export const signin = (username, password) => async dispatch => {
+  dispatch(signinRequest());
+  try {
+    // add this
+    dispatch(signinSuccess());
+  } catch(error){
+    console.log('signin error', error); // TODO remove
+    dispatch(signinFailure());
+  }
 };
+
+export const signout = () => dispatch => {};

@@ -1,29 +1,9 @@
-import * as ACTIONS from '../actions';
+import { combineReducers } from 'redux';
 
-export default function(state = {}, action) {
-  if (action.type === ACTIONS.SIGNIN_REQUEST) {
-    return {
-      isFetching: true,
-      isAuthenticated: false,
-      user: action.credential,
-    };
-  }
+import alert from './alert';
+import authentication from './signin';
 
-  if (action.type === ACTIONS.SIGNIN_SUCCESS) {
-    return {
-      isFetching: false,
-      isAuthenticated: true,
-      errorMessage: '',
-    };
-  }
-
-  if (action.type === ACTIONS.SIGNIN_FAILURE) {
-    return {
-      isFetching: false,
-      isAuthenticated: false,
-      errorMessage: action.message,
-    };
-  }
-
-  return state;
-}
+export default combineReducers({
+  alert,
+  authentication,
+});
