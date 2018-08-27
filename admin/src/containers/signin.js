@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import SigninForm from '../forms/signin';
 import {connect} from "react-redux";
-import { signin }  from '../actions/signin';
+import { signin }  from '../actions';
 
 function mapStateToProps(state) {
   const { signingIn } = state.authentication;

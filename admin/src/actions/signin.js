@@ -1,11 +1,14 @@
-const signinRequest = (user) => ({
+import { signinService } from '../services';
+import { History } from "../helper";
+
+const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',
-  user,
+  username,
 });
 
-const signinSuccess = (user) => ({
+const signinSuccess = (username) => ({
   type: 'SIGNIN_SUCCESS',
-  user,
+  username,
 });
 
 const signinFailure = () => ({
@@ -13,12 +16,19 @@ const signinFailure = () => ({
 });
 
 export const signin = (username, password) => async dispatch => {
-  dispatch(signinRequest());
-  try {
-    // add this
-    dispatch(signinSuccess());
-  } catch(error){
-    console.log('signin error', error); // TODO remove
+  dispatch(signinRequest(username));
+  const result = await signinService(username, password);
+  const {status, data} = result;
+  
+  if (status === 'success') {
+    const {token} = data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
+    dispatch(signinSuccess(username));
+    History.push('/');
+  }
+  
+  if( status === 'fail') {
     dispatch(signinFailure());
   }
 };
