@@ -7,17 +7,23 @@ class Signin extends Component {
   static defaultProps = {};
 
   displayName = 'Signin';
-
+  
   state = {
-    isFetching: false,
-    isAuthenticated: false,
-    user: {},
-    errorMessage: '',
+    username: '',
+    password: '',
+  };
+  
+  handleChange = (event) => {
+  
+  };
+  
+  handleSubmit = (event) => {
+    event.preventDefault();
   };
 
   render() {
     return (
-      <div className="container-signin">
+      <div>
         {"Hello signin"}
       </div>
     )
