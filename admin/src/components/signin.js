@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { signinUser } from '../actions';
 
 class Signin extends Component {
   static propTypes = {};
@@ -17,7 +16,11 @@ class Signin extends Component {
   };
 
   render() {
-    return <div className="Signin" />;
+    return (
+      <div className="container-signin">
+        {"Hello signin"}
+      </div>
+    )
   }
 }
 

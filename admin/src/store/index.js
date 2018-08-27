@@ -1,8 +1,7 @@
 import thunk from 'redux-thunk';
 import { applyMiddleware, compose, createStore } from 'redux';
-// import { deleteInfo } from '../actions';
 import reducers from '../reducers';
-import initialState from './initial';
+import initialState from './initialState';
 
 const middleware = [thunk];
 const enhancers = [];
@@ -13,7 +12,5 @@ const store = createStore(
   initialState,
   composeEnhancers(applyMiddleware(...middleware), ...enhancers),
 );
-
-// store.dispatch(deleteInfo());
 
 export default store;
