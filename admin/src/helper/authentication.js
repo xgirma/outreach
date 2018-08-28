@@ -14,7 +14,6 @@ export const removeUser = () => {
   localStorage.removeItem('orrole');
 };
 
-
 export const isTokenAlive = () => {
   const token = localStorage.getItem('ortoken');
 

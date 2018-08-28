@@ -1,12 +1,12 @@
 import { signinService } from '../services';
 import { History, setUser, removeUser } from '../helper';
 
-const signinRequest = username => ({
+const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',
   username,
 });
 
-const signinSuccess = username => ({
+const signinSuccess = (username) => ({
   type: 'SIGNIN_SUCCESS',
   username,
 });

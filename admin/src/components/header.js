@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Header extends PureComponent {
   displayName = 'Header';
-  
+
   static propTypes = {
     signedIn: PropTypes.bool,
     username: PropTypes.string,
@@ -12,6 +12,7 @@ class Header extends PureComponent {
 
   static defaultProps = {
     signedIn: false,
+    username: '',
   };
 
   render() {
@@ -20,14 +21,10 @@ class Header extends PureComponent {
     return (
       <div>
         <h3>
-Outreach Administration:
+          Outreach Administration:
           {signedIn && `${username}`}
         </h3>
-        {signedIn && (
-        <Link to="/signin">
-Signout
-        </Link>
-        )}
+        {signedIn && <Link to="/signin">Signout</Link>}
       </div>
     );
   }
