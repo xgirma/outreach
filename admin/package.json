@@ -24,6 +24,7 @@
     "pretty-admin": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\""
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-plugin-import": "^2.13.0",
