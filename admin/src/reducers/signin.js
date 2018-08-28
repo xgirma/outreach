@@ -17,9 +17,11 @@ export default function authentication(state = initialState, action) {
   }
 
   if (action.type === 'SIGNIN_FAILURE') {
-    return {
-      signingIn: false,
-    };
+    return {};
+  }
+  
+  if (action.type === 'SIGNOUT'){
+    return {};
   }
 
   return state;

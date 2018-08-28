@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
-    signin, signout
+    signin, signout,
   },
   dispatch,
 );
