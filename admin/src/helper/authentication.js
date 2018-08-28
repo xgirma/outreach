@@ -1,13 +1,13 @@
 export const setUser = ({ id, role, token }, username) => {
-  localStorage.setItem('token', token);
-  localStorage.setItem('username', username);
-  localStorage.setItem('id', id);
-  localStorage.setItem('role', role);
+  localStorage.setItem('ortoken', token);
+  localStorage.setItem('orusername', username);
+  localStorage.setItem('orid', id);
+  localStorage.setItem('orrole', role);
 };
 
 export const removeUser = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
-  localStorage.removeItem('id');
-  localStorage.removeItem('role');
+  localStorage.removeItem('ortoken');
+  localStorage.removeItem('orusername');
+  localStorage.removeItem('orid');
+  localStorage.removeItem('orrole');
 };
