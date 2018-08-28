@@ -17,6 +17,11 @@ class SigninForm extends Component {
   };
 
   displayName = 'Signin form';
+  
+  componentDidMount(){
+    const { signout } = this.props;
+    signout();
+  }
 
   handleChange = (event) => {
     const { name, value } = event.target;
