@@ -1,5 +1,5 @@
 import { signinService } from '../services';
-import { History } from '../helper';
+import { History, setUser, removeUser } from '../helper';
 
 const signinRequest = username => ({
   type: 'SIGNIN_REQUEST',
@@ -15,15 +15,15 @@ const signinFailure = () => ({
   type: 'SIGNIN_FAILURE',
 });
 
+const logout = () => ({ type: 'SIGNOUT' });
+
 export const signin = (username, password) => async (dispatch) => {
   dispatch(signinRequest(username));
   const result = await signinService(username, password);
   const { status, data } = result;
 
   if (status === 'success') {
-    const { token } = data;
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
+    setUser(data, username);
     dispatch(signinSuccess(username));
     History.push('/');
   }
@@ -34,7 +34,7 @@ export const signin = (username, password) => async (dispatch) => {
 };
 
 export const signout = () => (dispatch) => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
+  removeUser();
   History.push('/signin');
+  dispatch(logout());
 };

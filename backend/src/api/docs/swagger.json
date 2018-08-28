@@ -190,7 +190,7 @@
                       "status": { "$ref": "#/components/parameters/success" },
                       "data": {
                         "properties": {
-                          "admins": {
+                          "admin": {
                             "properties": {
                               "type": "object",
                               "_id": { "$ref": "#/components/parameters/_id" },

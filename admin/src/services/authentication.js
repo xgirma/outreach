@@ -17,6 +17,4 @@ export const signinService = async (username, password) => {
   }
 };
 
-export const signoutService = () => {
-
-};
+export const signoutService = () => {};

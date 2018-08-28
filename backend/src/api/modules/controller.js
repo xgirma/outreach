@@ -240,7 +240,7 @@ export const getAdmins = (model) => (req, res, next) => {
 };
 
 /*
- * Requesting user super-admin :-> gets all admin user data
+ * Requesting user super-admin :-> gets any admin user data by id, including self
  * Requesting user admin :-> gets its own user data only
  *
  * @param model - admin
@@ -251,11 +251,11 @@ export const getAdmin = (model) => (req, res, next) => {
   if (user.role === 0) {
     controllers
       .getOne(req.docFromId)
-      .then((admins) => {
-        if (!admins) throw err.NotFound();
+      .then((admin) => {
+        if (!admin) throw err.NotFound();
         res.status(200).json({
           status: 'success',
-          data: { admins },
+          data : { admin },
         });
       })
       .catch((error) => {
@@ -264,7 +264,7 @@ export const getAdmin = (model) => (req, res, next) => {
   } else {
     res.status(200).json({
       status: 'success',
-      data: { admins: user },
+      data: { admin: user },
     });
   }
 };

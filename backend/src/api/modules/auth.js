@@ -35,8 +35,9 @@ export const signToken = (id, role) =>
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
-  const token = signToken(req.user.id, req.user.role);
-  res.status(200).json({ status: 'success', data: { token } });
+  const { id, role } = req.user;
+  const token = signToken(id, role);
+  res.status(200).json({ status: 'success', data: { id, role, token } });
 };
 
 export const decodeToken = () => (req, res, next) => {
