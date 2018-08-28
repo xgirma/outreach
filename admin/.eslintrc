@@ -3,5 +3,6 @@
   "plugins": [
     "react"
   ],
-  "rules": { "no-undef": 0 }
+  "rules": { "no-undef": 0 },
+  "parser": "babel-eslint"
 }
