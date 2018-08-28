@@ -1,4 +1,4 @@
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 export const setUser = ({ id, role, token }, username) => {
   localStorage.setItem('ortoken', token);
@@ -17,12 +17,12 @@ export const removeUser = () => {
 
 export const isTokenAlive = () => {
   const token = localStorage.getItem('ortoken');
-  
-  if(token){
-    const decoded = jwt_decode(token);
+
+  if (token) {
+    const decoded = jwtDecode(token);
     const now = Date.now().valueOf() / 1000;
     return typeof decoded.exp !== 'undefined' && decoded.exp > now;
   }
-  
+
   return false;
 };
