@@ -3,6 +3,7 @@ import Header from '../components/Header';
 
 function mapStateToProps(state) {
   const { signedIn, username } = state.authentication;
+
   return {
     signedIn, username,
   };
