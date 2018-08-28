@@ -10,8 +10,14 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  signin,
-}, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    signin,
+  },
+  dispatch,
+);
 
-export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SigninForm);
