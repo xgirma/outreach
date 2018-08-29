@@ -8,7 +8,6 @@ class Header extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
     username: PropTypes.string,
-    path: PropTypes.string.isRequired,
     navigateTo: PropTypes.func.isRequired,
   };
 
@@ -19,7 +18,7 @@ class Header extends PureComponent {
 
   /* eslint-disable */
   state = {
-    value: this.props.path,
+    value: 'home',
   };
   /* eslint-enable */
 

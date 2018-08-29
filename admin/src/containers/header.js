@@ -5,12 +5,10 @@ import { navigateTo } from '../actions';
 
 function mapStateToProps(state) {
   const { signedIn, username } = state.authentication;
-  const { path } = state.navigation;
 
   return {
     signedIn,
     username,
-    path,
   };
 }
 
