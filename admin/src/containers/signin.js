@@ -9,7 +9,7 @@ function mapStateToProps(state) {
   return {
     signingIn,
     type,
-    message
+    message,
   };
 }
 
