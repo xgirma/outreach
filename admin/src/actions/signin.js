@@ -26,7 +26,7 @@ export const signin = (username, password) => async (dispatch) => {
   if (status === 'success') {
     setUser(data, username);
     dispatch(signinSuccess(username));
-    History.push('/');
+    History.push('/home');
     dispatch(alertClear());
   }
 
