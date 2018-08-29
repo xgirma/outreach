@@ -10,6 +10,6 @@ export class Information extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello information'}</div>;
+    return <div>Hello information</div>;
   }
 }

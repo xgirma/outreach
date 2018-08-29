@@ -10,6 +10,6 @@ export class Account extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello account'}</div>;
+    return <div>Hello account</div>;
   }
 }

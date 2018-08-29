@@ -1,16 +1,14 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Header from '../components/header';
+import { Header } from '../components';
 import { navigateTo } from '../actions';
 
 function mapStateToProps(state) {
   const { signedIn, username } = state.authentication;
-  const { path } = state.navigation;
 
   return {
     signedIn,
     username,
-    path,
   };
 }
 

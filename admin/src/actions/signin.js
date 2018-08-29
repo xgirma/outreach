@@ -1,6 +1,7 @@
 import { signinService } from '../services';
-import { History, setUser, removeUser } from '../helper';
+import { setUser, removeUser } from '../helper';
 import { alertError, alertClear } from './alert';
+import { navigateTo } from './navigation';
 
 const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',
@@ -26,7 +27,7 @@ export const signin = (username, password) => async (dispatch) => {
   if (status === 'success') {
     setUser(data, username);
     dispatch(signinSuccess(username));
-    History.push('/home');
+    dispatch(navigateTo('home'));
     dispatch(alertClear());
   }
 
@@ -38,6 +39,6 @@ export const signin = (username, password) => async (dispatch) => {
 
 export const signout = () => (dispatch) => {
   removeUser();
-  History.push('/signin');
+  dispatch(navigateTo('signin'));
   dispatch(logout());
 };

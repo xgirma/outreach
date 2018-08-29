@@ -2,13 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-class Header extends PureComponent {
+export class Header extends PureComponent {
   displayName = 'Header';
 
   static propTypes = {
     signedIn: PropTypes.bool,
     username: PropTypes.string,
-    path: PropTypes.string.isRequired,
     navigateTo: PropTypes.func.isRequired,
   };
 
@@ -19,7 +18,7 @@ class Header extends PureComponent {
 
   /* eslint-disable */
   state = {
-    value: this.props.path,
+    value: 'home',
   };
   /* eslint-enable */
 
@@ -69,5 +68,3 @@ class Header extends PureComponent {
     );
   }
 }
-
-export default Header;
