@@ -1,12 +1,13 @@
 import { signinService } from '../services';
 import { History, setUser, removeUser } from '../helper';
+import { alertError, alertClear } from './';
 
-const signinRequest = username => ({
+const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',
   username,
 });
 
-const signinSuccess = username => ({
+const signinSuccess = (username) => ({
   type: 'SIGNIN_SUCCESS',
   username,
 });
@@ -26,10 +27,12 @@ export const signin = (username, password) => async (dispatch) => {
     setUser(data, username);
     dispatch(signinSuccess(username));
     History.push('/');
+    dispatch(alertClear());
   }
 
   if (status === 'fail') {
     dispatch(signinFailure());
+    dispatch(alertError('Incorrect username or password'));
   }
 };
 
