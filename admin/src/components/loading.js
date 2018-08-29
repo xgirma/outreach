@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Loading extends Component {
+export class Loading extends Component {
   static displayName = 'loading';
 
   static propTypes = {
@@ -40,5 +40,3 @@ class Loading extends Component {
     return <p>{text}</p>;
   }
 }
-
-export default Loading;

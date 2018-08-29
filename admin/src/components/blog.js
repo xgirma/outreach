@@ -10,6 +10,6 @@ export class Blog extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello blog'}</div>;
+    return <div>Hello blog</div>;
   }
 }

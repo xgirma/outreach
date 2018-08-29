@@ -10,6 +10,6 @@ export class Events extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello events'}</div>;
+    return <div>Hello events</div>;
   }
 }

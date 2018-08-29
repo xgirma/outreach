@@ -10,6 +10,6 @@ export class Services extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello services'}</div>;
+    return <div>Hello services</div>;
   }
 }

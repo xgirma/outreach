@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Loading from '../components/loading';
+import { Loading } from '../components';
 
 class SigninForm extends Component {
   displayName = 'Signin form';

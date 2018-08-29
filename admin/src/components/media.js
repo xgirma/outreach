@@ -10,6 +10,6 @@ export class Media extends Component {
   state = {};
 
   render() {
-    return <div>{'Hello media'}</div>;
+    return <div>Hello media</div>;
   }
 }

@@ -1,7 +1,7 @@
 import { signinService } from '../services';
-import { History, setUser, removeUser } from '../helper';
+import { setUser, removeUser } from '../helper';
 import { alertError, alertClear } from './alert';
-import { navigateTo } from "./navigation";
+import { navigateTo } from './navigation';
 
 const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',

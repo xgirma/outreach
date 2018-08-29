@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-class Header extends PureComponent {
+export class Header extends PureComponent {
   displayName = 'Header';
 
   static propTypes = {
@@ -68,5 +68,3 @@ class Header extends PureComponent {
     );
   }
 }
-
-export default Header;
