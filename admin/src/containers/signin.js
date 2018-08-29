@@ -5,8 +5,11 @@ import { signin, signout, alertClear } from '../actions';
 
 function mapStateToProps(state) {
   const { signingIn } = state.authentication;
+  const { type, message } = state.alert;
   return {
     signingIn,
+    type,
+    message
   };
 }
 

@@ -40,11 +40,17 @@ class SigninForm extends Component {
   };
 
   render() {
-    const { signingIn } = this.props;
+    const { signingIn, type, message } = this.props;
     const { username, password, submitted } = this.state;
 
     return (
       <div>
+        <div>
+          {message &&
+          <div className={`alert ${type}`}>{message}</div>
+          }
+        </div>
+        
         <form onSubmit={this.handleSubmit}>
           <div className={`form-group${submitted && !username ? ' has-error' : ''}`}>
             <label htmlFor="username">Username</label>
