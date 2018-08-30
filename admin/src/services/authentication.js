@@ -1,10 +1,10 @@
-import { headers } from '../helper';
+import { header, BASE_URL } from '../helper';
 
-const SIGNIN_URL = 'http://localhost:3005/api/v1/signin';
+const headers = { ...header };
 
 export const signinService = async (username, password) => {
   try {
-    const response = await fetch(`${SIGNIN_URL}`, {
+    const response = await fetch(`${BASE_URL}/signin`, {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers,
@@ -16,5 +16,3 @@ export const signinService = async (username, password) => {
     throw error;
   }
 };
-
-export const signoutService = () => {};

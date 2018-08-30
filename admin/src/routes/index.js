@@ -4,7 +4,8 @@ import Application from '../application';
 import PrivateRoute from './private-route';
 import SigninForm from '../containers/signin';
 import Home from '../containers/home';
-import { Account, Blog, Events, Information, Introduction, Media, Services } from '../components';
+import Information from '../containers/information';
+import { Account, Blog, Events, Introduction, Media, Services } from '../components';
 
 const Routes = () => (
   <Application>
@@ -17,6 +18,7 @@ const Routes = () => (
       <PrivateRoute exact path="/introduction" component={Introduction} />
       <PrivateRoute exact path="/media" component={Media} />
       <PrivateRoute exact path="/services" component={Services} />
+      <PrivateRoute exact path="/" component={Home} />
       <Route exact path="/signin" component={SigninForm} />
     </Switch>
   </Application>

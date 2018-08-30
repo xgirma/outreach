@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Home extends Component {
-  displayName = 'home';
-
-  render() {
-    return <div>Hello home</div>;
-  }
+export function Home() {
+  return <div>Hello home</div>;
 }
+
+Home.displayName = 'home';
