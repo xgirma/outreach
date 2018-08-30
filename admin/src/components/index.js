@@ -3,6 +3,7 @@ export * from './blog';
 export * from './events';
 export * from './header';
 export * from './home';
+export * from './input';
 export * from './introduction';
 export * from './loading';
 export * from './media';
