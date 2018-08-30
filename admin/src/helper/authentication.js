@@ -31,6 +31,4 @@ export const isTokenAlive = () => {
   return false;
 };
 
-export const getToken = () => {
-  return isTokenAlive() ? localStorage.getItem(TOKEN) : null;
-};
+export const getToken = () => (isTokenAlive() ? localStorage.getItem(TOKEN) : null);

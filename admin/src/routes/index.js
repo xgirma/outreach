@@ -4,7 +4,8 @@ import Application from '../application';
 import PrivateRoute from './private-route';
 import SigninForm from '../containers/signin';
 import Home from '../containers/home';
-import { Account, Blog, Events, Information, Introduction, Media, Services } from '../components';
+import Information from '../containers/information';
+import { Account, Blog, Events, Introduction, Media, Services } from '../components';
 
 const Routes = () => (
   <Application>
