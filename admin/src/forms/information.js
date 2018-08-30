@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Input } from '../components';
+import { Input, Button } from '../components';
 
 function EditButton({ onEdit }) {
   return (
@@ -45,43 +45,47 @@ TableRow.propTypes = {
   onEdit: PropTypes.func.isRequired,
 };
 
+const blankItem = {
+  am: {
+    name: '',
+    denomination: '',
+    bible: {
+      verse: '',
+      from: '',
+    },
+  },
+  en: {
+    name: '',
+    denomination: '',
+    bible: {
+      verse: '',
+      from: '',
+    },
+  },
+  phone: '',
+  email: '',
+  address: {
+    street: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: '',
+  },
+};
+
 class InformationForm extends Component {
   displayName = 'information-form';
 
   static propTypes = {
     getInformation: PropTypes.func.isRequired,
     deleteInformation: PropTypes.func.isRequired,
+    updateInformation: PropTypes.func.isRequired,
+    addInformation: PropTypes.func.isRequired,
   };
 
   state = {
     items: [],
-    item: {
-      am: {
-        name: '',
-        denomination: '',
-        bible: {
-          verse: '',
-          from: '',
-        },
-      },
-      en: {
-        name: '',
-        denomination: '',
-        bible: {
-          verse: '',
-          from: '',
-        },
-      },
-      phone: '',
-      email: '',
-      address: {
-        street: '',
-        city: '',
-        state: '',
-        zip: '',
-        country: '',
-      },
-    },
+    item: blankItem,
     add: false,
     error: [],
   };
@@ -107,6 +111,37 @@ class InformationForm extends Component {
   handleDelete = async (id) => {
     const { deleteInformation, getInformation } = this.props;
     const result = await deleteInformation(id);
+    const { status, data } = result;
+    if (status === 'success') {
+      const newResult = await getInformation();
+      if (newResult.status === 'success') {
+        this.setState({
+          items: newResult.data,
+          item: newResult.data.length > 0 ? newResult.data[0] : {},
+        });
+      }
+
+      if (newResult.status === 'fail') {
+        this.setState({
+          error: newResult.data,
+        });
+      }
+    }
+
+    if (status === 'fail') {
+      this.setState({
+        error: data,
+      });
+    }
+  };
+
+  handleFormUpdate = async () => {
+    const { updateInformation, getInformation, addInformation } = this.props;
+
+    const result = this.state.add
+      ? await addInformation(this.state.item)
+      : await updateInformation(this.state.item);
+
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getInformation();
@@ -203,6 +238,10 @@ class InformationForm extends Component {
         address: { ...prevState.item.address, [name]: value },
       },
     }));
+  };
+
+  handleFormClear = () => {
+    this.setState({ item: blankItem, add: true });
   };
 
   render() {
@@ -340,6 +379,8 @@ class InformationForm extends Component {
             placeholder="Enter your church country"
             onChange={this.handleAddressInput}
           />
+          <Button action={this.handleFormClear} title={'Clear'} />
+          <Button action={this.handleFormUpdate} title={'Submit'} />
         </form>
         <table>
           <thead>
