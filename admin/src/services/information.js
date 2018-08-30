@@ -1,17 +1,15 @@
-import { header, BASE_URL, token } from '../helper';
+import { header, token, requester } from '../helper';
 
 const headers = { ...header, ...token };
 
 export const getInformationService = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/info`, {
-      method: 'GET',
-      headers,
-    });
+  const path = 'info';
+  const method = 'GET';
+  return requester(path, method, headers);
+};
 
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    throw error;
-  }
+export const deleteInformationService = async (id) => {
+  const path = `info/${id}`;
+  const method = 'DELETE';
+  return requester(path, method, headers);
 };
