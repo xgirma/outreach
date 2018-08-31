@@ -73,6 +73,11 @@ const blankItem = {
   },
 };
 
+const blankError = {
+  message: '',
+  name: '',
+};
+
 class InformationForm extends Component {
   displayName = 'information-form';
 
@@ -87,7 +92,7 @@ class InformationForm extends Component {
     items: [],
     item: blankItem,
     add: false,
-    error: [],
+    error: blankError,
   };
 
   async componentDidMount() {
@@ -98,12 +103,13 @@ class InformationForm extends Component {
       this.setState({
         items: data,
         item: data.length > 0 ? data[0] : {},
+        error: blankError,
       });
     }
 
-    if (status === 'fail') {
+    if (status === 'fail' || status === 'error') {
       this.setState({
-        error: data,
+        error: { ...data },
       });
     }
   }
@@ -118,24 +124,26 @@ class InformationForm extends Component {
         this.setState({
           items: newResult.data,
           item: newResult.data.length > 0 ? newResult.data[0] : {},
+          error: blankError,
         });
       }
 
-      if (newResult.status === 'fail') {
+      if (newResult.status === 'fail' || status === 'error') {
         this.setState({
-          error: newResult.data,
+          error: { ...data },
         });
       }
     }
 
-    if (status === 'fail') {
+    if (status === 'fail' || status === 'error') {
       this.setState({
-        error: data,
+        error: { ...data },
       });
     }
   };
 
-  handleFormUpdate = async () => {
+  handleFormUpdate = async (event) => {
+    event.preventDefault();
     const { updateInformation, getInformation, addInformation } = this.props;
 
     const result = this.state.add
@@ -149,19 +157,20 @@ class InformationForm extends Component {
         this.setState({
           items: newResult.data,
           item: newResult.data.length > 0 ? newResult.data[0] : {},
+          error: blankError,
         });
       }
 
-      if (newResult.status === 'fail') {
+      if (newResult.status === 'fail' || status === 'error') {
         this.setState({
-          error: newResult.data,
+          error: { ...data },
         });
       }
     }
 
-    if (status === 'fail') {
+    if (status === 'fail' || status === 'error') {
       this.setState({
-        error: data,
+        error: { ...data },
       });
     }
   };
@@ -172,6 +181,11 @@ class InformationForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+  };
+
+  handleFormClear = (event) => {
+    event.preventDefault();
+    this.setState({ item: blankItem, add: true });
   };
 
   handleAmharicInput = (event) => {
@@ -240,16 +254,16 @@ class InformationForm extends Component {
     }));
   };
 
-  handleFormClear = () => {
-    this.setState({ item: blankItem, add: true });
-  };
-
   render() {
     const { items } = this.state;
 
     /* eslint-disable */
     return (
       <div>
+        <div>
+          {this.state.error.name !== '' &&
+            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+        </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
           <label>Amharic</label>
