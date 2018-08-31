@@ -52,7 +52,7 @@ TableRow.propTypes = {
 };
 
 class EventForm extends Component {
-  static displayName = 'introduction-form';
+  static displayName = 'event-form';
 
   static propTypes = {
     getEvent: PropTypes.func.isRequired,
@@ -193,8 +193,8 @@ class EventForm extends Component {
     if (status === 'success') {
       const newResult = await getEvent();
       if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.intro;
-        const englishHtml = newResult.data[0].en.intro;
+        const amharicHtml = newResult.data[0].am.description;
+        const englishHtml = newResult.data[0].en.description;
         this.setState({
           items: newResult.data,
           item: newResult.data[0],
@@ -219,8 +219,8 @@ class EventForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.intro;
-    const englishHtml = item.en.intro;
+    const amharicHtml = item.am.description;
+    const englishHtml = item.en.description;
     this.setState({
       item,
       add: false,
@@ -236,8 +236,8 @@ class EventForm extends Component {
     if (status === 'success') {
       const newResult = await getEvent();
       if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.intro;
-        const englishHtml = newResult.data[0].en.intro;
+        const amharicHtml = newResult.data[0].am.description;
+        const englishHtml = newResult.data[0].en.description;
         this.setState({
           items: newResult.data,
           item: newResult.data[0],
@@ -262,6 +262,7 @@ class EventForm extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -275,6 +276,7 @@ class EventForm extends Component {
             placeholder="Enter your event title"
             onChange={this.handleAmharicInput}
           />
+          <label>Description</label>
           <RichTextEditor
             value={this.state.amharic}
             onChange={this.onAmEditorChange}
@@ -289,8 +291,9 @@ class EventForm extends Component {
             placeholder="Enter your event title"
             onChange={this.handleEnglishInput}
           />
+          <label>Description</label>
           <RichTextEditor
-            value={this.state.amharic}
+            value={this.state.english}
             onChange={this.onEnEditorChange}
             toolbarConfig={toolbarConfig}
           />
@@ -365,7 +368,7 @@ class EventForm extends Component {
           <Input
             type="text"
             title="End date"
-            name="endStart"
+            name="dateEnd"
             value={this.state.item.dateEnd}
             placeholder="Enter your event start date"
             onChange={this.handleItemInput}
