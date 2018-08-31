@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -44,14 +45,14 @@ TableRow.propTypes = {
 
 class BlogForm extends Component {
   displayName = 'blog-form';
-  
+
   static propTypes = {
     getBlog: PropTypes.func.isRequired,
     deleteBlog: PropTypes.func.isRequired,
     updateBlog: PropTypes.func.isRequired,
     addBlog: PropTypes.func.isRequired,
   };
-  
+
   state = {
     items: [],
     item: blankItem,
@@ -60,7 +61,7 @@ class BlogForm extends Component {
     amharic: createEmptyValue(),
     english: createEmptyValue(),
   };
-  
+
   async componentDidMount() {
     const { getBlog } = this.props;
     const result = await getBlog();
@@ -76,14 +77,14 @@ class BlogForm extends Component {
         english: createValueFromString(englishHtml, 'html'),
       });
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   }
-  
+
   onAmEditorChange = (amharic) => {
     const description = amharic.toString('html');
     this.setState((prevState) => ({
@@ -98,7 +99,7 @@ class BlogForm extends Component {
       },
     }));
   };
-  
+
   onEnEditorChange = (english) => {
     const description = english.toString('html');
     this.setState((prevState) => ({
@@ -113,7 +114,7 @@ class BlogForm extends Component {
       },
     }));
   };
-  
+
   handleAmharicInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -124,7 +125,7 @@ class BlogForm extends Component {
       },
     }));
   };
-  
+
   handleEnglishInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -135,7 +136,7 @@ class BlogForm extends Component {
       },
     }));
   };
-  
+
   handleItemInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -146,7 +147,7 @@ class BlogForm extends Component {
       },
     }));
   };
-  
+
   handleFormClear = (event) => {
     event.preventDefault();
     this.setState({
@@ -156,7 +157,7 @@ class BlogForm extends Component {
       english: createValueFromString('', 'html'),
     });
   };
-  
+
   handleEdit = (item) => {
     const amharicHtml = item.am.description;
     const englishHtml = item.en.description;
@@ -167,15 +168,15 @@ class BlogForm extends Component {
       english: createValueFromString(englishHtml, 'html'),
     });
   };
-  
+
   handleFormUpdate = async (event) => {
     event.preventDefault();
     const { updateBlog, getBlog, addBlog } = this.props;
-    
+
     const result = this.state.add
       ? await addBlog(this.state.item)
       : await updateBlog(this.state.item);
-    
+
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getBlog();
@@ -190,21 +191,21 @@ class BlogForm extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
-      
+
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({
           error: { ...data },
         });
       }
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   };
-  
+
   handleDelete = async (id) => {
     const { deleteBlog, getBlog } = this.props;
     const result = await deleteBlog(id);
@@ -222,7 +223,7 @@ class BlogForm extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
-      
+
       if (newResult.status === 'success' && newResult.data.length === 0) {
         this.setState({
           items: newResult.data,
@@ -232,28 +233,28 @@ class BlogForm extends Component {
           english: createValueFromString('', 'html'),
         });
       }
-      
+
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({
           error: { ...data },
         });
       }
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   };
-  
+
   render() {
     return (
       <div>
-          <div>
-            {this.state.error.name !== '' &&
+        <div>
+          {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-          </div>
+        </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
           <Input
@@ -317,23 +318,23 @@ class BlogForm extends Component {
         </form>
         <table>
           <thead>
-          <tr>
-            <th>Created on</th>
-            <th>By</th>
-            <th>Title</th>
-            <th>Update</th>
-            <th>Delete</th>
-          </tr>
+            <tr>
+              <th>Created on</th>
+              <th>By</th>
+              <th>Title</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
           </thead>
           <tbody>
-          {this.state.items.map((item) => (
-            <TableRow
-              key={item._id}
-              item={item}
-              onDelete={this.handleDelete}
-              onEdit={this.handleEdit}
-            />
-          ))}
+            {this.state.items.map((item) => (
+              <TableRow
+                key={item._id}
+                item={item}
+                onDelete={this.handleDelete}
+                onEdit={this.handleEdit}
+              />
+            ))}
           </tbody>
         </table>
       </div>
@@ -341,4 +342,4 @@ class BlogForm extends Component {
   }
 }
 
-export default BlogForm
+export default BlogForm;

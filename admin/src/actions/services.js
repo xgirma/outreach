@@ -1,9 +1,4 @@
-import {
-  getService,
-  deleteService,
-  updateService,
-  addService,
-} from '../services';
+import { getService, deleteService, updateService, addService } from '../services';
 
 const resource = 'services';
 
@@ -42,59 +37,59 @@ const addServiceFailure = () => ({
 export const getServices = () => async (dispatch) => {
   const result = await getService(resource);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(getServiceSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(getServiceFailure());
   }
-  
+
   return result;
 };
 
 export const deleteServices = (id) => async (dispatch) => {
   const result = await deleteService(resource, id);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(deleteServiceSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(deleteServiceFailure());
   }
-  
+
   return result;
 };
 
 export const updateServices = (body) => async (dispatch) => {
   const result = await updateService(resource, body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(updateServiceSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(updateServiceFailure());
   }
-  
+
   return result;
 };
 
 export const addServices = (body) => async (dispatch) => {
   const result = await addService(resource, body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(addServiceSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(addServiceFailure());
   }
-  
+
   return result;
 };
