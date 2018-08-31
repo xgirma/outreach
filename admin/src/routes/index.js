@@ -7,7 +7,8 @@ import Home from '../containers/home';
 import Information from '../containers/information';
 import Introduction from '../containers/introduction';
 import Event from '../containers/event';
-import { Account, Blog, Media, Services } from '../components';
+import Services from '../containers/services';
+import { Account, Blog, Media } from '../components';
 
 const Routes = () => (
   <Application>
