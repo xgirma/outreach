@@ -65,12 +65,12 @@ class IntroductionForm extends Component {
     const { getIntroduction } = this.props;
     const result = await getIntroduction();
     const { status, data } = result;
-    if (status === 'success') {
+    if (status === 'success' && data.length > 0) {
       const amharicHtml = data[0].am.intro;
       const englishHtml = data[0].en.intro;
       this.setState({
         items: data,
-        item: data.length > 0 ? data[0] : {},
+        item: data[0],
         error: blankError,
         amharic: createValueFromString(amharicHtml, 'html'),
         english: createValueFromString(englishHtml, 'html'),
@@ -145,12 +145,12 @@ class IntroductionForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getIntroduction();
-      if (newResult.status === 'success') {
+      if (newResult.status === 'success' && newResult.data.length > 0) {
         const amharicHtml = newResult.data[0].am.intro;
         const englishHtml = newResult.data[0].en.intro;
         this.setState({
           items: newResult.data,
-          item: newResult.data.length > 0 ? newResult.data[0] : {},
+          item: newResult.data[0],
           error: blankError,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
@@ -182,7 +182,7 @@ class IntroductionForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getIntroduction();
-      if (newResult.status === 'success') {
+      if (newResult.status === 'success' && newResult.data.length > 0) {
         const amharicHtml = newResult.data[0].am.intro;
         const englishHtml = newResult.data[0].en.intro;
         this.setState({
@@ -231,8 +231,6 @@ class IntroductionForm extends Component {
   };
 
   render() {
-    const { items } = this.state;
-
     return (
       <div>
         <div>
@@ -247,7 +245,7 @@ class IntroductionForm extends Component {
             title="Title"
             name="title"
             value={this.state.item.am.title}
-            placeholder="Enter your church title"
+            placeholder="Enter your introduction title"
             onChange={this.handleAmharicInput}
           />
           <Input
@@ -255,7 +253,7 @@ class IntroductionForm extends Component {
             title="Author"
             name="author"
             value={this.state.item.am.author}
-            placeholder="Enter your church title"
+            placeholder="Enter your introduction author"
             onChange={this.handleAmharicInput}
           />
           <label>Introduction</label>
@@ -271,7 +269,7 @@ class IntroductionForm extends Component {
             title="Title"
             name="title"
             value={this.state.item.en.title}
-            placeholder="Enter your church title"
+            placeholder="Enter your introduction title"
             onChange={this.handleEnglishInput}
           />
           <Input
@@ -279,7 +277,7 @@ class IntroductionForm extends Component {
             title="Author"
             name="author"
             value={this.state.item.en.author}
-            placeholder="Enter your church title"
+            placeholder="Enter your introduction author"
             onChange={this.handleEnglishInput}
           />
           <label>Introduction</label>
@@ -302,7 +300,7 @@ class IntroductionForm extends Component {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {this.state.items.map((item) => (
               <TableRow
                 key={item._id}
                 item={item}

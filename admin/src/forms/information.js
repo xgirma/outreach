@@ -257,8 +257,6 @@ class InformationForm extends Component {
   };
 
   render() {
-    const { items } = this.state;
-
     return (
       <div>
         <div>
@@ -408,7 +406,7 @@ class InformationForm extends Component {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {this.state.items.map((item) => (
               <TableRow
                 key={item._id}
                 item={item}

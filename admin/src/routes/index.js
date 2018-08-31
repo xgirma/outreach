@@ -6,7 +6,8 @@ import SigninForm from '../containers/signin';
 import Home from '../containers/home';
 import Information from '../containers/information';
 import Introduction from '../containers/introduction';
-import { Account, Blog, Events, Media, Services } from '../components';
+import Event from '../containers/event';
+import { Account, Blog, Media, Services } from '../components';
 
 const Routes = () => (
   <Application>
@@ -14,7 +15,7 @@ const Routes = () => (
       <PrivateRoute exact path="/home" component={Home} />
       <PrivateRoute exact path="/account" component={Account} />
       <PrivateRoute exact path="/blog" component={Blog} />
-      <PrivateRoute exact path="/events" component={Events} />
+      <PrivateRoute exact path="/event" component={Event} />
       <PrivateRoute exact path="/information" component={Information} />
       <PrivateRoute exact path="/introduction" component={Introduction} />
       <PrivateRoute exact path="/media" component={Media} />

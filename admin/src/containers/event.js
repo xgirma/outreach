@@ -1,12 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import EventForm from '../forms/event';
-import {
-  getEvent,
-  deleteEvent,
-  updateEvent,
-  addEvent,
-} from '../actions';
+import { getEvent, deleteEvent, updateEvent, addEvent } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(

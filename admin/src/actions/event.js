@@ -40,59 +40,59 @@ const addEventFailure = () => ({
 export const getEvent = () => async (dispatch) => {
   const result = await getEventService();
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(getEventSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(getEventFailure());
   }
-  
+
   return result;
 };
 
 export const deleteEvent = (id) => async (dispatch) => {
   const result = await deleteEventService(id);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(deleteEventSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(deleteEventFailure());
   }
-  
+
   return result;
 };
 
 export const updateEvent = (body) => async (dispatch) => {
   const result = await updateEventService(body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(updateEventSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(updateEventFailure());
   }
-  
+
   return result;
 };
 
 export const addEvent = (body) => async (dispatch) => {
   const result = await addEventService(body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(addEventSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(addEventFailure());
   }
-  
+
   return result;
 };
