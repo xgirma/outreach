@@ -9,7 +9,8 @@ import Introduction from '../containers/introduction';
 import Event from '../containers/event';
 import Services from '../containers/services';
 import Blog from '../containers/blog';
-import { Account, Media } from '../components';
+import Media from '../containers/media';
+import { Account } from '../components';
 
 const Routes = () => (
   <Application>

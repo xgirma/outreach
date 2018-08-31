@@ -8,15 +8,14 @@ import { Input, Button } from '../components';
 
 const blankItem = {
   am: {
-    title: '',
     description: '',
   },
   en: {
-    title: '',
     description: '',
   },
-  author: '',
-  dateStart: '',
+  title: '',
+  url: '',
+  mediaType: '',
   tag: [],
 };
 
@@ -30,7 +29,7 @@ function TableRow({ item, onDelete, onEdit }) {
     <tr>
       <td>{moment(item.date).format('L')}</td>
       <td>{item.adminname}</td>
-      <td>{item.en.title}</td>
+      <td>{item.title}</td>
       <td>{<Button action={() => onEdit(item)} title="Edit" />}</td>
       <td>{<Button action={() => onDelete(item._id)} title="Delete" />}</td>
     </tr>
@@ -43,14 +42,14 @@ TableRow.propTypes = {
   onEdit: PropTypes.func.isRequired,
 };
 
-class BlogForm extends Component {
-  displayName = 'blog-form';
+class MediaForm extends Component {
+  displayName = 'media-form';
 
   static propTypes = {
-    getBlog: PropTypes.func.isRequired,
-    deleteBlog: PropTypes.func.isRequired,
-    updateBlog: PropTypes.func.isRequired,
-    addBlog: PropTypes.func.isRequired,
+    getMedia: PropTypes.func.isRequired,
+    deleteMedia: PropTypes.func.isRequired,
+    updateMedia: PropTypes.func.isRequired,
+    addMedia: PropTypes.func.isRequired,
   };
 
   state = {
@@ -63,8 +62,8 @@ class BlogForm extends Component {
   };
 
   async componentDidMount() {
-    const { getBlog } = this.props;
-    const result = await getBlog();
+    const { getMedia } = this.props;
+    const result = await getMedia();
     const { status, data } = result;
     if (status === 'success' && data.length > 0) {
       const amharicHtml = data[0].am.description;
@@ -115,28 +114,6 @@ class BlogForm extends Component {
     }));
   };
 
-  handleAmharicInput = (event) => {
-    const { value, name } = event.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      item: {
-        ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
-      },
-    }));
-  };
-
-  handleEnglishInput = (event) => {
-    const { value, name } = event.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      item: {
-        ...prevState.item,
-        en: { ...prevState.item.en, [name]: value },
-      },
-    }));
-  };
-
   handleItemInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -171,15 +148,15 @@ class BlogForm extends Component {
 
   handleFormUpdate = async (event) => {
     event.preventDefault();
-    const { updateBlog, getBlog, addBlog } = this.props;
+    const { updateMedia, getMedia, addMedia } = this.props;
 
     const result = this.state.add
-      ? await addBlog(this.state.item)
-      : await updateBlog(this.state.item);
+      ? await addMedia(this.state.item)
+      : await updateMedia(this.state.item);
 
     const { status, data } = result;
     if (status === 'success') {
-      const newResult = await getBlog();
+      const newResult = await getMedia();
       if (newResult.status === 'success' && newResult.data.length > 0) {
         const amharicHtml = newResult.data[0].am.description;
         const englishHtml = newResult.data[0].en.description;
@@ -207,11 +184,11 @@ class BlogForm extends Component {
   };
 
   handleDelete = async (id) => {
-    const { deleteBlog, getBlog } = this.props;
-    const result = await deleteBlog(id);
+    const { deleteMedia, getMedia } = this.props;
+    const result = await deleteMedia(id);
     const { status, data } = result;
     if (status === 'success') {
-      const newResult = await getBlog();
+      const newResult = await getMedia();
       if (newResult.status === 'success' && newResult.data.length > 0) {
         const amharicHtml = newResult.data[0].am.description;
         const englishHtml = newResult.data[0].en.description;
@@ -255,16 +232,9 @@ class BlogForm extends Component {
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
         </div>
+
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.am.title}
-            placeholder="Enter your blog title"
-            onChange={this.handleAmharicInput}
-          />
           <label>Description</label>
           <RichTextEditor
             value={this.state.amharic}
@@ -272,36 +242,37 @@ class BlogForm extends Component {
             toolbarConfig={toolbarConfig}
           />
           {/* english */}
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.en.title}
-            placeholder="Enter your service title"
-            onChange={this.handleEnglishInput}
-          />
           <label>Description</label>
           <RichTextEditor
             value={this.state.english}
             onChange={this.onEnEditorChange}
             toolbarConfig={toolbarConfig}
           />
-          {/* author, date, tags */}
-          <label>author, date, tags</label>
+          {/* title, url, type, tag */}
+          <label>title, url, type, tag</label>
           <Input
             type="text"
-            title="Author"
-            name="author"
-            value={this.state.item.author}
-            placeholder="Enter author name"
+            title="Title"
+            name="title"
+            value={this.state.item.title}
+            placeholder="Enter media title"
             onChange={this.handleItemInput}
           />
           <Input
             type="text"
-            title="Start date"
-            name="dateStart"
-            value={this.state.item.dateStart}
-            placeholder="Enter your blog publication date, it can be future date"
+            title="Url"
+            name="url"
+            value={this.state.item.url}
+            placeholder="Enter media url"
+            onChange={this.handleItemInput}
+          />
+          {/* TODO drop-down with audio/video */}
+          <Input
+            type="text"
+            title="Media Type"
+            name="mediaType"
+            value={this.state.item.mediaType}
+            placeholder="Enter media type"
             onChange={this.handleItemInput}
           />
           <Input
@@ -309,13 +280,14 @@ class BlogForm extends Component {
             title="Tags"
             name="tag"
             value={this.state.item.tag.toString()}
-            placeholder="Enter your blog tags comma separated date"
+            placeholder="Enter your media tags comma separated date"
             onChange={this.handleItemInput}
           />
           {/* clear, submit */}
           <Button action={this.handleFormClear} title="Clear" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
+
         <table>
           <thead>
             <tr>
@@ -342,4 +314,4 @@ class BlogForm extends Component {
   }
 }
 
-export default BlogForm;
+export default MediaForm;
