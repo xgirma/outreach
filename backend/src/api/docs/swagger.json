@@ -523,8 +523,7 @@
                 "properties": {
                   "type": "object",
                   "am": { "$ref": "#/components/schemas/Introduction" },
-                  "en": { "$ref": "#/components/schemas/Introduction" },
-                  "date": { "$ref": "#/components/parameters/date" }
+                  "en": { "$ref": "#/components/schemas/Introduction" }
                 }
               }
             }
