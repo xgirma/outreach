@@ -40,59 +40,59 @@ const addIntroFailure = () => ({
 export const getIntroduction = () => async (dispatch) => {
   const result = await getIntroductionService();
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(getIntroSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(getIntroFailure());
   }
-  
+
   return result;
 };
 
 export const deleteIntroduction = (id) => async (dispatch) => {
   const result = await deleteIntroductionService(id);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(deleteIntroSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(deleteIntroFailure());
   }
-  
+
   return result;
 };
 
 export const updateIntroduction = (body) => async (dispatch) => {
   const result = await updateIntroductionService(body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(updateIntroSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(updateIntroFailure());
   }
-  
+
   return result;
 };
 
 export const addIntroduction = (body) => async (dispatch) => {
   const result = await addIntroductionService(body);
   const { status } = result;
-  
+
   if (status === 'success') {
     dispatch(addIntroSuccess());
   }
-  
+
   if (status === 'fail') {
     dispatch(addIntroFailure());
   }
-  
+
   return result;
 };

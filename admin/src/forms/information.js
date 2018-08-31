@@ -1,8 +1,10 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Input, Button } from '../components';
 
+// TODO use generic buttons
 function EditButton({ onEdit }) {
   return (
     <button type="submit" onClick={onEdit}>
@@ -79,7 +81,7 @@ const blankError = {
 };
 
 class InformationForm extends Component {
-  displayName = 'information-form';
+  static displayName = 'information-form';
 
   static propTypes = {
     getInformation: PropTypes.func.isRequired,
@@ -257,7 +259,6 @@ class InformationForm extends Component {
   render() {
     const { items } = this.state;
 
-    /* eslint-disable */
     return (
       <div>
         <div>
@@ -393,8 +394,8 @@ class InformationForm extends Component {
             placeholder="Enter your church country"
             onChange={this.handleAddressInput}
           />
-          <Button action={this.handleFormClear} title={'Clear'} />
-          <Button action={this.handleFormUpdate} title={'Submit'} />
+          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormUpdate} title="Submit" />
         </form>
         <table>
           <thead>
@@ -419,7 +420,6 @@ class InformationForm extends Component {
         </table>
       </div>
     );
-    /* eslint-enable */
   }
 }
 

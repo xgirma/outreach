@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const Button = ({ action, title }) => (
-  <button onClick={action} type="submit">
+  <button type="submit" onClick={action}>
     {title}
   </button>
 );

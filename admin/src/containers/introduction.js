@@ -1,7 +1,12 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import IntroductionForm from '../forms/introduction';
-import { getIntroduction, deleteIntroduction, updateIntroduction, addIntroduction } from '../actions';
+import {
+  getIntroduction,
+  deleteIntroduction,
+  updateIntroduction,
+  addIntroduction,
+} from '../actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
