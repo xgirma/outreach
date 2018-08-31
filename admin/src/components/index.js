@@ -6,4 +6,3 @@ export * from './home';
 export * from './input';
 export * from './loading';
 export * from './media';
-export * from './services';
