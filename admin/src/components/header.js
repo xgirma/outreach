@@ -52,7 +52,7 @@ export class Header extends PureComponent {
                   <option value="home">Home</option>
                   <option value="information">Information</option>
                   <option value="introduction">Introduction</option>
-                  <option value="events">Events</option>
+                  <option value="event">Event</option>
                   <option value="services">Services</option>
                   <option value="blog">Blog</option>
                   <option value="media">Media</option>
