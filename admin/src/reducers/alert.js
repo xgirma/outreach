@@ -1,4 +1,4 @@
-export default function(state = {}, action) {
+export default function alert(state = {}, action) {
   if (action.type === 'ALERT_SUCCESS') {
     return {
       type: 'alert-success',

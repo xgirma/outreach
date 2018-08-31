@@ -1,21 +1,26 @@
 import jwtDecode from 'jwt-decode';
 
+const TOKEN = 'ortoken';
+const USERNAME = 'orusername';
+const ID = 'orid';
+const ROLE = 'orrole';
+
 export const setUser = ({ id, role, token }, username) => {
-  localStorage.setItem('ortoken', token);
-  localStorage.setItem('orusername', username);
-  localStorage.setItem('orid', id);
-  localStorage.setItem('orrole', role);
+  localStorage.setItem(TOKEN, token);
+  localStorage.setItem(USERNAME, username);
+  localStorage.setItem(ID, id);
+  localStorage.setItem(ROLE, role);
 };
 
 export const removeUser = () => {
-  localStorage.removeItem('ortoken');
-  localStorage.removeItem('orusername');
-  localStorage.removeItem('orid');
-  localStorage.removeItem('orrole');
+  localStorage.removeItem(TOKEN);
+  localStorage.removeItem(USERNAME);
+  localStorage.removeItem(ID);
+  localStorage.removeItem(ROLE);
 };
 
 export const isTokenAlive = () => {
-  const token = localStorage.getItem('ortoken');
+  const token = localStorage.getItem(TOKEN);
 
   if (token) {
     const decoded = jwtDecode(token);
@@ -25,3 +30,5 @@ export const isTokenAlive = () => {
 
   return false;
 };
+
+export const getToken = () => (isTokenAlive() ? localStorage.getItem(TOKEN) : null);
