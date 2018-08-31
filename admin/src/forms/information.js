@@ -104,7 +104,7 @@ class InformationForm extends Component {
     if (status === 'success') {
       this.setState({
         items: data,
-        item: data.length > 0 ? data[0] : {},
+        item: data.length > 0 ? data[0] : blankItem,
         error: blankError,
       });
     }

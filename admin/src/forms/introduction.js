@@ -156,6 +156,16 @@ class IntroductionForm extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
+  
+      if (newResult.status === 'success' && newResult.data.length === 0) {
+        this.setState({
+          items: newResult.data,
+          item: blankItem,
+          error: blankError,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
+        });
+      }
 
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({

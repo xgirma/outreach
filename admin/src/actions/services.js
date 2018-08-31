@@ -5,7 +5,7 @@ import {
   addService,
 } from '../services';
 
-const resource = 'service';
+const resource = 'services';
 
 const getServiceSuccess = () => ({
   type: 'GET_SERVICES_SUCCESS',

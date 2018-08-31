@@ -246,6 +246,16 @@ class EventForm extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
+      
+      if (newResult.status === 'success' && newResult.data.length === 0) {
+        this.setState({
+          items: newResult.data,
+          item: blankItem,
+          error: blankError,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
+        });
+      }
 
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({
@@ -339,7 +349,7 @@ class EventForm extends Component {
             placeholder="Enter your event country"
             onChange={this.handleAddressInput}
           />
-          {/* phone, email */}
+          {/* phone, email, date range */}
           <label>Phone, email</label>
           <Input
             type="text"
@@ -373,7 +383,7 @@ class EventForm extends Component {
             placeholder="Enter your event start date"
             onChange={this.handleItemInput}
           />
-          {/* action buttons */}
+          {/* clear, submit */}
           <Button action={this.handleFormClear} title="Clear" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
