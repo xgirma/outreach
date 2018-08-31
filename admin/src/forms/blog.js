@@ -9,14 +9,15 @@ import { Input, Button } from '../components';
 const blankItem = {
   am: {
     title: '',
-    author: '',
-    intro: '',
+    description: '',
   },
   en: {
     title: '',
-    author: '',
-    intro: '',
+    description: '',
   },
+  author: '',
+  dateStart: '',
+  tag: [],
 };
 
 const blankError = {
@@ -42,14 +43,14 @@ TableRow.propTypes = {
   onEdit: PropTypes.func.isRequired,
 };
 
-class IntroductionForm extends Component {
-  static displayName = 'introduction-form';
+class BlogForm extends Component {
+  displayName = 'blog-form';
 
   static propTypes = {
-    getIntroduction: PropTypes.func.isRequired,
-    deleteIntroduction: PropTypes.func.isRequired,
-    updateIntroduction: PropTypes.func.isRequired,
-    addIntroduction: PropTypes.func.isRequired,
+    getBlog: PropTypes.func.isRequired,
+    deleteBlog: PropTypes.func.isRequired,
+    updateBlog: PropTypes.func.isRequired,
+    addBlog: PropTypes.func.isRequired,
   };
 
   state = {
@@ -62,12 +63,12 @@ class IntroductionForm extends Component {
   };
 
   async componentDidMount() {
-    const { getIntroduction } = this.props;
-    const result = await getIntroduction();
+    const { getBlog } = this.props;
+    const result = await getBlog();
     const { status, data } = result;
     if (status === 'success' && data.length > 0) {
-      const amharicHtml = data[0].am.intro;
-      const englishHtml = data[0].en.intro;
+      const amharicHtml = data[0].am.description;
+      const englishHtml = data[0].en.description;
       this.setState({
         items: data,
         item: data[0],
@@ -85,7 +86,7 @@ class IntroductionForm extends Component {
   }
 
   onAmEditorChange = (amharic) => {
-    const introduction = amharic.toString('html');
+    const description = amharic.toString('html');
     this.setState((prevState) => ({
       ...prevState,
       amharic,
@@ -93,14 +94,14 @@ class IntroductionForm extends Component {
         ...prevState.item,
         am: {
           ...prevState.item.am,
-          intro: introduction,
+          description,
         },
       },
     }));
   };
 
   onEnEditorChange = (english) => {
-    const introduction = english.toString('html');
+    const description = english.toString('html');
     this.setState((prevState) => ({
       ...prevState,
       english,
@@ -108,21 +109,43 @@ class IntroductionForm extends Component {
         ...prevState.item,
         en: {
           ...prevState.item.en,
-          intro: introduction,
+          description,
         },
       },
     }));
   };
 
-  handleEdit = (item) => {
-    const amharicHtml = item.am.intro;
-    const englishHtml = item.en.intro;
-    this.setState({
-      item,
-      add: false,
-      amharic: createValueFromString(amharicHtml, 'html'),
-      english: createValueFromString(englishHtml, 'html'),
-    });
+  handleAmharicInput = (event) => {
+    const { value, name } = event.target;
+    this.setState((prevState) => ({
+      ...prevState,
+      item: {
+        ...prevState.item,
+        am: { ...prevState.item.am, [name]: value },
+      },
+    }));
+  };
+
+  handleEnglishInput = (event) => {
+    const { value, name } = event.target;
+    this.setState((prevState) => ({
+      ...prevState,
+      item: {
+        ...prevState.item,
+        en: { ...prevState.item.en, [name]: value },
+      },
+    }));
+  };
+
+  handleItemInput = (event) => {
+    const { value, name } = event.target;
+    this.setState((prevState) => ({
+      ...prevState,
+      item: {
+        ...prevState.item,
+        [name]: value,
+      },
+    }));
   };
 
   handleFormClear = (event) => {
@@ -135,19 +158,63 @@ class IntroductionForm extends Component {
     });
   };
 
-  handleSubmit = (event) => {
+  handleEdit = (item) => {
+    const amharicHtml = item.am.description;
+    const englishHtml = item.en.description;
+    this.setState({
+      item,
+      add: false,
+      amharic: createValueFromString(amharicHtml, 'html'),
+      english: createValueFromString(englishHtml, 'html'),
+    });
+  };
+
+  handleFormUpdate = async (event) => {
     event.preventDefault();
+    const { updateBlog, getBlog, addBlog } = this.props;
+
+    const result = this.state.add
+      ? await addBlog(this.state.item)
+      : await updateBlog(this.state.item);
+
+    const { status, data } = result;
+    if (status === 'success') {
+      const newResult = await getBlog();
+      if (newResult.status === 'success' && newResult.data.length > 0) {
+        const amharicHtml = newResult.data[0].am.description;
+        const englishHtml = newResult.data[0].en.description;
+        this.setState({
+          items: newResult.data,
+          item: newResult.data[0],
+          error: blankError,
+          amharic: createValueFromString(amharicHtml, 'html'),
+          english: createValueFromString(englishHtml, 'html'),
+        });
+      }
+
+      if (newResult.status === 'fail' || status === 'error') {
+        this.setState({
+          error: { ...data },
+        });
+      }
+    }
+
+    if (status === 'fail' || status === 'error') {
+      this.setState({
+        error: { ...data },
+      });
+    }
   };
 
   handleDelete = async (id) => {
-    const { deleteIntroduction, getIntroduction } = this.props;
-    const result = await deleteIntroduction(id);
+    const { deleteBlog, getBlog } = this.props;
+    const result = await deleteBlog(id);
     const { status, data } = result;
     if (status === 'success') {
-      const newResult = await getIntroduction();
+      const newResult = await getBlog();
       if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.intro;
-        const englishHtml = newResult.data[0].en.intro;
+        const amharicHtml = newResult.data[0].am.description;
+        const englishHtml = newResult.data[0].en.description;
         this.setState({
           items: newResult.data,
           item: newResult.data[0],
@@ -181,65 +248,6 @@ class IntroductionForm extends Component {
     }
   };
 
-  handleFormUpdate = async (event) => {
-    event.preventDefault();
-    const { updateIntroduction, getIntroduction, addIntroduction } = this.props;
-
-    const result = this.state.add
-      ? await addIntroduction(this.state.item)
-      : await updateIntroduction(this.state.item);
-
-    const { status, data } = result;
-    if (status === 'success') {
-      const newResult = await getIntroduction();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.intro;
-        const englishHtml = newResult.data[0].en.intro;
-        this.setState({
-          items: newResult.data,
-          item: newResult.data.length > 0 ? newResult.data[0] : {},
-          error: blankError,
-          amharic: createValueFromString(amharicHtml, 'html'),
-          english: createValueFromString(englishHtml, 'html'),
-        });
-      }
-
-      if (newResult.status === 'fail' || status === 'error') {
-        this.setState({
-          error: { ...data },
-        });
-      }
-    }
-
-    if (status === 'fail' || status === 'error') {
-      this.setState({
-        error: { ...data },
-      });
-    }
-  };
-
-  handleAmharicInput = (event) => {
-    const { value, name } = event.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      item: {
-        ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
-      },
-    }));
-  };
-
-  handleEnglishInput = (event) => {
-    const { value, name } = event.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      item: {
-        ...prevState.item,
-        en: { ...prevState.item.en, [name]: value },
-      },
-    }));
-  };
-
   render() {
     return (
       <div>
@@ -249,53 +257,62 @@ class IntroductionForm extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
-          <label>Amharic</label>
           <Input
             type="text"
             title="Title"
             name="title"
             value={this.state.item.am.title}
-            placeholder="Enter your introduction title"
+            placeholder="Enter your blog title"
             onChange={this.handleAmharicInput}
           />
-          <Input
-            type="text"
-            title="Author"
-            name="author"
-            value={this.state.item.am.author}
-            placeholder="Enter your introduction author"
-            onChange={this.handleAmharicInput}
-          />
-          <label>Introduction</label>
+          <label>Description</label>
           <RichTextEditor
             value={this.state.amharic}
             onChange={this.onAmEditorChange}
             toolbarConfig={toolbarConfig}
           />
           {/* english */}
-          <label>English</label>
           <Input
             type="text"
             title="Title"
             name="title"
             value={this.state.item.en.title}
-            placeholder="Enter your introduction title"
+            placeholder="Enter your service title"
             onChange={this.handleEnglishInput}
           />
-          <Input
-            type="text"
-            title="Author"
-            name="author"
-            value={this.state.item.en.author}
-            placeholder="Enter your introduction author"
-            onChange={this.handleEnglishInput}
-          />
-          <label>Introduction</label>
+          <label>Description</label>
           <RichTextEditor
             value={this.state.english}
             onChange={this.onEnEditorChange}
             toolbarConfig={toolbarConfig}
           />
+          {/* author, date, tags */}
+          <label>author, date, tags</label>
+          <Input
+            type="text"
+            title="Author"
+            name="author"
+            value={this.state.item.author}
+            placeholder="Enter author name"
+            onChange={this.handleItemInput}
+          />
+          <Input
+            type="text"
+            title="Start date"
+            name="dateStart"
+            value={this.state.item.dateStart}
+            placeholder="Enter your blog publication date, it can be future date"
+            onChange={this.handleItemInput}
+          />
+          <Input
+            type="text"
+            title="Tags"
+            name="tag"
+            value={this.state.item.tag.toString()}
+            placeholder="Enter your blog tags coma separated date"
+            onChange={this.handleItemInput}
+          />
+          {/* clear, submit */}
           <Button action={this.handleFormClear} title="Clear" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
@@ -325,4 +342,4 @@ class IntroductionForm extends Component {
   }
 }
 
-export default IntroductionForm;
+export default BlogForm;

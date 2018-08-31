@@ -246,7 +246,7 @@ class EventForm extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
-      
+
       if (newResult.status === 'success' && newResult.data.length === 0) {
         this.setState({
           items: newResult.data,
@@ -272,7 +272,6 @@ class EventForm extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <form onSubmit={this.handleSubmit}>

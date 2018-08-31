@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -9,7 +10,7 @@ const blankItem = {
   am: {
     title: '',
     description: '',
-    contact: ''
+    contact: '',
   },
   en: {
     title: '',
@@ -45,14 +46,14 @@ TableRow.propTypes = {
 
 class Services extends Component {
   displayName = 'services-form';
-  
+
   static propTypes = {
     getServices: PropTypes.func.isRequired,
     deleteServices: PropTypes.func.isRequired,
     updateServices: PropTypes.func.isRequired,
     addServices: PropTypes.func.isRequired,
   };
-  
+
   state = {
     items: [],
     item: blankItem,
@@ -61,7 +62,7 @@ class Services extends Component {
     amharic: createEmptyValue(),
     english: createEmptyValue(),
   };
-  
+
   async componentDidMount() {
     const { getServices } = this.props;
     const result = await getServices();
@@ -77,18 +78,18 @@ class Services extends Component {
         english: createValueFromString(englishHtml, 'html'),
       });
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   }
-  
+
   handleSubmit = (event) => {
     event.preventDefault();
   };
-  
+
   onAmEditorChange = (amharic) => {
     const description = amharic.toString('html');
     this.setState((prevState) => ({
@@ -103,7 +104,7 @@ class Services extends Component {
       },
     }));
   };
-  
+
   onEnEditorChange = (english) => {
     const description = english.toString('html');
     this.setState((prevState) => ({
@@ -118,7 +119,7 @@ class Services extends Component {
       },
     }));
   };
-  
+
   handleAmharicInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -129,7 +130,7 @@ class Services extends Component {
       },
     }));
   };
-  
+
   handleEnglishInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -140,7 +141,7 @@ class Services extends Component {
       },
     }));
   };
-  
+
   handleItemInput = (event) => {
     const { value, name } = event.target;
     this.setState((prevState) => ({
@@ -151,7 +152,7 @@ class Services extends Component {
       },
     }));
   };
-  
+
   handleFormClear = (event) => {
     event.preventDefault();
     this.setState({
@@ -161,7 +162,7 @@ class Services extends Component {
       english: createValueFromString('', 'html'),
     });
   };
-  
+
   handleEdit = (item) => {
     const amharicHtml = item.am.description;
     const englishHtml = item.en.description;
@@ -172,15 +173,15 @@ class Services extends Component {
       english: createValueFromString(englishHtml, 'html'),
     });
   };
-  
+
   handleFormUpdate = async (event) => {
     event.preventDefault();
     const { updateServices, getServices, addServices } = this.props;
-    
+
     const result = this.state.add
       ? await addServices(this.state.item)
       : await updateServices(this.state.item);
-    
+
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getServices();
@@ -195,21 +196,21 @@ class Services extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
-      
+
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({
           error: { ...data },
         });
       }
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   };
-  
+
   handleDelete = async (id) => {
     const { deleteServices, getServices } = this.props;
     const result = await deleteServices(id);
@@ -227,7 +228,7 @@ class Services extends Component {
           english: createValueFromString(englishHtml, 'html'),
         });
       }
-  
+
       if (newResult.status === 'success' && newResult.data.length === 0) {
         this.setState({
           items: newResult.data,
@@ -237,21 +238,21 @@ class Services extends Component {
           english: createValueFromString('', 'html'),
         });
       }
-      
+
       if (newResult.status === 'fail' || status === 'error') {
         this.setState({
           error: { ...data },
         });
       }
     }
-    
+
     if (status === 'fail' || status === 'error') {
       this.setState({
         error: { ...data },
       });
     }
   };
-  
+
   render() {
     return (
       <div>
@@ -327,27 +328,27 @@ class Services extends Component {
 
         <table>
           <thead>
-          <tr>
-            <th>Created on</th>
-            <th>By</th>
-            <th>Title</th>
-            <th>Update</th>
-            <th>Delete</th>
-          </tr>
+            <tr>
+              <th>Created on</th>
+              <th>By</th>
+              <th>Title</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
           </thead>
           <tbody>
-          {this.state.items.map((item) => (
-            <TableRow
-              key={item._id}
-              item={item}
-              onDelete={this.handleDelete}
-              onEdit={this.handleEdit}
-            />
-          ))}
+            {this.state.items.map((item) => (
+              <TableRow
+                key={item._id}
+                item={item}
+                onDelete={this.handleDelete}
+                onEdit={this.handleEdit}
+              />
+            ))}
           </tbody>
         </table>
       </div>
-    )
+    );
   }
 }
 
