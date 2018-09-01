@@ -1,9 +1,8 @@
 import {
-  getInformationService,
-  deleteInformationService,
-  updateInformationService,
-  addInformationService,
+  getService, deleteService, updateService, addService
 } from '../services';
+
+const resource = 'info';
 
 const getInfoSuccess = () => ({
   type: 'GET_INFORMATION_SUCCESS',
@@ -38,7 +37,7 @@ const addInfoFailure = () => ({
 });
 
 export const getInformation = () => async (dispatch) => {
-  const result = await getInformationService();
+  const result = await getService(resource);
   const { status } = result;
 
   if (status === 'success') {
@@ -53,7 +52,7 @@ export const getInformation = () => async (dispatch) => {
 };
 
 export const deleteInformation = (id) => async (dispatch) => {
-  const result = await deleteInformationService(id);
+  const result = await deleteService(resource, id);
   const { status } = result;
 
   if (status === 'success') {
@@ -68,7 +67,7 @@ export const deleteInformation = (id) => async (dispatch) => {
 };
 
 export const updateInformation = (body) => async (dispatch) => {
-  const result = await updateInformationService(body);
+  const result = await updateService(resource, body);
   const { status } = result;
 
   if (status === 'success') {
@@ -83,7 +82,7 @@ export const updateInformation = (body) => async (dispatch) => {
 };
 
 export const addInformation = (body) => async (dispatch) => {
-  const result = await addInformationService(body);
+  const result = await addService(resource, body);
   const { status } = result;
 
   if (status === 'success') {

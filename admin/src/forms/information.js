@@ -108,6 +108,10 @@ class InformationForm extends Component {
         error: blankError,
       });
     }
+  
+    if(this.state.items.length === 0){
+      this.setState({add: true})
+    }
 
     if (status === 'fail' || status === 'error') {
       this.setState({
@@ -122,10 +126,19 @@ class InformationForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getInformation();
-      if (newResult.status === 'success') {
+      if (newResult.status === 'success' && newResult.data.length > 0) {
         this.setState({
           items: newResult.data,
-          item: newResult.data.length > 0 ? newResult.data[0] : {},
+          item: newResult.data[0],
+          error: blankError,
+        });
+      }
+  
+      if (newResult.status === 'success' && newResult.data.length === 0) {
+        this.setState({
+          items: newResult.data,
+          item: blankItem,
+          add: true,
           error: blankError,
         });
       }
@@ -257,6 +270,7 @@ class InformationForm extends Component {
   };
 
   render() {
+    console.log('papa: ', this.state);
     return (
       <div>
         <div>

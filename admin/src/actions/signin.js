@@ -1,7 +1,9 @@
-import { signinService } from '../services';
+import { addService } from '../services';
 import { setUser, removeUser } from '../helper';
 import { alertError, alertClear } from './alert';
 import { navigateTo } from './navigation';
+
+const resource = 'signin';
 
 const signinRequest = (username) => ({
   type: 'SIGNIN_REQUEST',
@@ -21,7 +23,8 @@ const logout = () => ({ type: 'SIGNOUT' });
 
 export const signin = (username, password) => async (dispatch) => {
   dispatch(signinRequest(username));
-  const result = await signinService(username, password);
+  const body = { username, password };
+  const result = await addService(resource, body);
   const { status, data } = result;
 
   if (status === 'success') {

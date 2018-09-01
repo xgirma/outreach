@@ -85,6 +85,10 @@ class EventForm extends Component {
         english: createValueFromString(englishHtml, 'html'),
       });
     }
+  
+    if(this.state.items.length === 0){
+      this.setState({add: true})
+    }
 
     if (status === 'fail' || status === 'error') {
       this.setState({
@@ -252,6 +256,7 @@ class EventForm extends Component {
           items: newResult.data,
           item: blankItem,
           error: blankError,
+          add: true,
           amharic: createValueFromString('', 'html'),
           english: createValueFromString('', 'html'),
         });
