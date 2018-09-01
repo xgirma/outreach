@@ -202,8 +202,9 @@ class IntroductionForm extends Component {
         const englishHtml = newResult.data[0].en.intro;
         this.setState({
           items: newResult.data,
-          item: newResult.data.length > 0 ? newResult.data[0] : {},
+          item: newResult.data[0],
           error: blankError,
+          add: false,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
         });
@@ -301,7 +302,7 @@ class IntroductionForm extends Component {
             onChange={this.onEnEditorChange}
             toolbarConfig={toolbarConfig}
           />
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
         <table>

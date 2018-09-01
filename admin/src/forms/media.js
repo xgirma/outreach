@@ -72,6 +72,7 @@ class MediaForm extends Component {
         items: data,
         item: data[0],
         error: blankError,
+        add: false,
         amharic: createValueFromString(amharicHtml, 'html'),
         english: createValueFromString(englishHtml, 'html'),
       });
@@ -168,6 +169,7 @@ class MediaForm extends Component {
           items: newResult.data,
           item: newResult.data[0],
           error: blankError,
+          add: false,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
         });
@@ -289,7 +291,7 @@ class MediaForm extends Component {
             onChange={this.handleItemInput}
           />
           {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
 

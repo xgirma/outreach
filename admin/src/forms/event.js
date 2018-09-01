@@ -79,8 +79,9 @@ class EventForm extends Component {
       const englishHtml = data[0].en.description;
       this.setState({
         items: data,
-        item: data.length > 0 ? data[0] : {},
+        item: data[0],
         error: blankError,
+        add: false,
         amharic: createValueFromString(amharicHtml, 'html'),
         english: createValueFromString(englishHtml, 'html'),
       });
@@ -203,6 +204,7 @@ class EventForm extends Component {
           items: newResult.data,
           item: newResult.data[0],
           error: blankError,
+          add: false,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
         });
@@ -279,6 +281,10 @@ class EventForm extends Component {
   render() {
     return (
       <div>
+        <div>
+          {this.state.error.name !== '' &&
+          `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+        </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
           <label>Amharic</label>
@@ -388,7 +394,7 @@ class EventForm extends Component {
             onChange={this.handleItemInput}
           />
           {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
         <table>

@@ -4,39 +4,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Input, Button } from '../components';
 
-// TODO use generic buttons
-function EditButton({ onEdit }) {
-  return (
-    <button type="submit" onClick={onEdit}>
-      Edit
-    </button>
-  );
-}
-
-EditButton.propTypes = {
-  onEdit: PropTypes.func.isRequired,
-};
-
-function DeleteButton({ onDelete }) {
-  return (
-    <button type="submit" onClick={onDelete}>
-      Delete
-    </button>
-  );
-}
-
-DeleteButton.propTypes = {
-  onDelete: PropTypes.func.isRequired,
-};
-
 function TableRow({ item, onDelete, onEdit }) {
   return (
     <tr>
       <td>{moment(item.date).format('L')}</td>
       <td>{item.adminname}</td>
       <td>{item.en.name}</td>
-      <td>{<EditButton onEdit={() => onEdit(item)} />}</td>
-      <td>{<DeleteButton onDelete={() => onDelete(item._id)} />}</td>
+      <td>{<Button action={() => onEdit(item)} title="Edit" />}</td>
+      <td>{<Button action={() => onDelete(item._id)} title="Delete" />}</td>
     </tr>
   );
 }
@@ -168,11 +143,13 @@ class InformationForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getInformation();
-      if (newResult.status === 'success') {
+      if (newResult.status === 'success' && newResult.data.length > 0) {
+        console.log('here ...')
         this.setState({
           items: newResult.data,
-          item: newResult.data.length > 0 ? newResult.data[0] : {},
+          item: newResult.data[0],
           error: blankError,
+          add: true,
         });
       }
 
@@ -270,7 +247,7 @@ class InformationForm extends Component {
   };
 
   render() {
-    console.log('papa: ', this.state);
+    console.log('STATE: ', this.state.add);
     return (
       <div>
         <div>
@@ -406,7 +383,7 @@ class InformationForm extends Component {
             placeholder="Enter your church country"
             onChange={this.handleAddressInput}
           />
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
         <table>

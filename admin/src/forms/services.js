@@ -196,6 +196,7 @@ class Services extends Component {
           items: newResult.data,
           item: newResult.data[0],
           error: blankError,
+          add: false,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
         });
@@ -261,6 +262,10 @@ class Services extends Component {
   render() {
     return (
       <div>
+        <div>
+          {this.state.error.name !== '' &&
+          `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+        </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}
           <Input
@@ -306,7 +311,7 @@ class Services extends Component {
             name="contact"
             value={this.state.item.en.contact}
             placeholder="Enter your service title"
-            onChange={this.handleAmharicInput}
+            onChange={this.handleEnglishInput}
           />
           {/* phone, email */}
           <label>Phone, email</label>
@@ -327,7 +332,7 @@ class Services extends Component {
             onChange={this.handleItemInput}
           />
           {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
 

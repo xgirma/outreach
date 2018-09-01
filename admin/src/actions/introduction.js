@@ -1,9 +1,8 @@
 import {
-  getIntroductionService,
-  deleteIntroductionService,
-  updateIntroductionService,
-  addIntroductionService,
+  getService, deleteService, updateService, addService
 } from '../services';
+
+const resource = 'intro';
 
 const getIntroSuccess = () => ({
   type: 'GET_INTRODUCTION_SUCCESS',
@@ -38,7 +37,7 @@ const addIntroFailure = () => ({
 });
 
 export const getIntroduction = () => async (dispatch) => {
-  const result = await getIntroductionService();
+  const result = await getService(resource);
   const { status } = result;
 
   if (status === 'success') {
@@ -53,7 +52,7 @@ export const getIntroduction = () => async (dispatch) => {
 };
 
 export const deleteIntroduction = (id) => async (dispatch) => {
-  const result = await deleteIntroductionService(id);
+  const result = await deleteService(resource, id);
   const { status } = result;
 
   if (status === 'success') {
@@ -68,7 +67,7 @@ export const deleteIntroduction = (id) => async (dispatch) => {
 };
 
 export const updateIntroduction = (body) => async (dispatch) => {
-  const result = await updateIntroductionService(body);
+  const result = await updateService(resource, body);
   const { status } = result;
 
   if (status === 'success') {
@@ -83,7 +82,7 @@ export const updateIntroduction = (body) => async (dispatch) => {
 };
 
 export const addIntroduction = (body) => async (dispatch) => {
-  const result = await addIntroductionService(body);
+  const result = await addService(resource, body);
   const { status } = result;
 
   if (status === 'success') {

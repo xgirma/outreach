@@ -190,6 +190,7 @@ class BlogForm extends Component {
         this.setState({
           items: newResult.data,
           item: newResult.data[0],
+          add: false,
           error: blankError,
           amharic: createValueFromString(amharicHtml, 'html'),
           english: createValueFromString(englishHtml, 'html'),
@@ -318,7 +319,7 @@ class BlogForm extends Component {
             onChange={this.handleItemInput}
           />
           {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Clear" />
+          <Button action={this.handleFormClear} title="Add New" />
           <Button action={this.handleFormUpdate} title="Submit" />
         </form>
         <table>

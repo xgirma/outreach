@@ -1,9 +1,8 @@
 import {
-  getEventService,
-  deleteEventService,
-  updateEventService,
-  addEventService,
+  getService, deleteService, updateService, addService
 } from '../services';
+
+const resource = 'event';
 
 const getEventSuccess = () => ({
   type: 'GET_EVENT_SUCCESS',
@@ -38,7 +37,7 @@ const addEventFailure = () => ({
 });
 
 export const getEvent = () => async (dispatch) => {
-  const result = await getEventService();
+  const result = await getService(resource);
   const { status } = result;
 
   if (status === 'success') {
@@ -53,7 +52,7 @@ export const getEvent = () => async (dispatch) => {
 };
 
 export const deleteEvent = (id) => async (dispatch) => {
-  const result = await deleteEventService(id);
+  const result = await deleteService(resource, id);
   const { status } = result;
 
   if (status === 'success') {
@@ -68,7 +67,7 @@ export const deleteEvent = (id) => async (dispatch) => {
 };
 
 export const updateEvent = (body) => async (dispatch) => {
-  const result = await updateEventService(body);
+  const result = await updateService(resource, body);
   const { status } = result;
 
   if (status === 'success') {
@@ -83,7 +82,7 @@ export const updateEvent = (body) => async (dispatch) => {
 };
 
 export const addEvent = (body) => async (dispatch) => {
-  const result = await addEventService(body);
+  const result = await addService(resource, body);
   const { status } = result;
 
   if (status === 'success') {
