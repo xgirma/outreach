@@ -1,3 +1,4 @@
+export * from './admin';
 export * from './alert';
 export * from './blog';
 export * from './event';

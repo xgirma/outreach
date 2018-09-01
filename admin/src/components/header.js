@@ -56,7 +56,7 @@ export class Header extends PureComponent {
                   <option value="services">Services</option>
                   <option value="blog">Blog</option>
                   <option value="media">Media</option>
-                  <option value="account">Account</option>
+                  <option value="admin">Admin</option>
                 </select>
               </label>
               <input type="submit" value="Go" />

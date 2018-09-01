@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 
+import admin from './admin';
 import alert from './alert';
 import blog from './blog';
 import event from './event';
@@ -10,6 +11,7 @@ import navigation from './navigation';
 import services from './services';
 
 export default combineReducers({
+  admin,
   authentication,
   alert,
   blog,

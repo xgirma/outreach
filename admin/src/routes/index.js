@@ -10,13 +10,13 @@ import Event from '../containers/event';
 import Services from '../containers/services';
 import Blog from '../containers/blog';
 import Media from '../containers/media';
-import { Account } from '../components';
+import Admin from '../containers/admin';
 
 const Routes = () => (
   <Application>
     <Switch>
       <PrivateRoute exact path="/home" component={Home} />
-      <PrivateRoute exact path="/account" component={Account} />
+      <PrivateRoute exact path="/admin" component={Admin} />
       <PrivateRoute exact path="/blog" component={Blog} />
       <PrivateRoute exact path="/event" component={Event} />
       <PrivateRoute exact path="/information" component={Information} />
