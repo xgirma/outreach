@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Header } from '../components';
+import Header from '../components/header';
 import { navigateTo } from '../actions';
 
 function mapStateToProps(state) {
