@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import withRoot from '../withRoot';
+import styles from '../style';
 
-export function Home() {
-  return <div>Hello home</div>;
+class Home extends Component {
+  static displayName = 'home-component';
+
+  render() {
+    return <div>Home</div>;
+  }
 }
 
-Home.displayName = 'home';
+export default withRoot(withStyles(styles, { withTheme: true })(Home));
