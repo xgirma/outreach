@@ -15,7 +15,6 @@ import Admin from '../containers/admin';
 const Routes = () => (
   <Application>
     <Switch>
-      <PrivateRoute exact path="/home" component={Home} />
       <PrivateRoute exact path="/admin" component={Admin} />
       <PrivateRoute exact path="/blog" component={Blog} />
       <PrivateRoute exact path="/event" component={Event} />
@@ -23,8 +22,8 @@ const Routes = () => (
       <PrivateRoute exact path="/introduction" component={Introduction} />
       <PrivateRoute exact path="/media" component={Media} />
       <PrivateRoute exact path="/services" component={Services} />
-      <PrivateRoute exact path="/" component={Home} />
       <Route exact path="/signin" component={SigninForm} />
+      <PrivateRoute path="/" component={Home} />
     </Switch>
   </Application>
 );
