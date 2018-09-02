@@ -1,4 +1,4 @@
-import { header, token, requester, poster } from '../helper';
+import { header, token, requester, poster, getId } from '../helper';
 
 const headers = { ...header, ...token };
 
@@ -15,8 +15,14 @@ export const deleteService = async (resource, id) => {
 };
 
 export const updateService = async (resource, item) => {
-  const { _id } = item;
-  const path = `${resource}/${_id}`;
+  let id;
+  const hasIdProperty = Object.prototype.hasOwnProperty.call(item, '_id');
+  if (hasIdProperty) {
+    id = item._id;
+  } else {
+    id = getId();
+  }
+  const path = `${resource}/${id}`;
   const method = 'PUT';
   return poster(path, method, headers, item);
 };
@@ -24,5 +30,8 @@ export const updateService = async (resource, item) => {
 export const addService = async (resource, item) => {
   const path = resource;
   const method = 'POST';
+  if (resource === 'signin') {
+    return poster(path, method, header, item);
+  }
   return poster(path, method, headers, item);
 };

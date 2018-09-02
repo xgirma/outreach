@@ -1,6 +1,4 @@
-import {
-  getService, deleteService, updateService, addService
-} from '../services';
+import { getService, deleteService, updateService, addService } from '../services';
 
 const resource = 'info';
 
