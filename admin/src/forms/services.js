@@ -78,9 +78,9 @@ class Services extends Component {
         english: createValueFromString(englishHtml, 'html'),
       });
     }
-  
-    if(this.state.items.length === 0){
-      this.setState({add: true})
+
+    if (this.state.items.length === 0) {
+      this.setState({ add: true });
     }
 
     if (status === 'fail' || status === 'error') {
@@ -264,7 +264,7 @@ class Services extends Component {
       <div>
         <div>
           {this.state.error.name !== '' &&
-          `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
         </div>
         <form onSubmit={this.handleSubmit}>
           {/* amharic */}

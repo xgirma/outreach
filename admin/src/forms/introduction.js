@@ -76,9 +76,9 @@ class IntroductionForm extends Component {
         english: createValueFromString(englishHtml, 'html'),
       });
     }
-  
-    if(this.state.items.length === 0){
-      this.setState({add: true})
+
+    if (this.state.items.length === 0) {
+      this.setState({ add: true });
     }
 
     if (status === 'fail' || status === 'error') {

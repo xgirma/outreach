@@ -32,3 +32,5 @@ export const isTokenAlive = () => {
 };
 
 export const getToken = () => (isTokenAlive() ? localStorage.getItem(TOKEN) : null);
+export const getId = () => (isTokenAlive() ? localStorage.getItem(ID) : null);
+export const getRole = () => (isTokenAlive() ? localStorage.getItem(ROLE) : null);

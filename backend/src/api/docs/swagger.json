@@ -145,7 +145,7 @@
                               "_id": { "$ref": "#/components/parameters/_id" },
                               "username": { "$ref": "#/components/parameters/username" },
                               "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
-                              "role": { "$ref": "#/components/parameters/passwordHash" },
+                              "role": { "$ref": "#/components/parameters/role" },
                               "createdAt": { "$ref": "#/components/parameters/createdAt" },
                               "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
                             }
@@ -190,13 +190,13 @@
                       "status": { "$ref": "#/components/parameters/success" },
                       "data": {
                         "properties": {
-                          "admin": {
+                          "admins": {
                             "properties": {
                               "type": "object",
                               "_id": { "$ref": "#/components/parameters/_id" },
                               "username": { "$ref": "#/components/parameters/username" },
                               "passwordHash": { "$ref": "#/components/parameters/passwordHash" },
-                              "role": { "$ref": "#/components/parameters/passwordHash" },
+                              "role": { "$ref": "#/components/parameters/role" },
                               "createdAt": { "$ref": "#/components/parameters/createdAt" },
                               "updatedAt": { "$ref": "#/components/parameters/updatedAt" }
                             }

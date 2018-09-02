@@ -83,9 +83,9 @@ class InformationForm extends Component {
         error: blankError,
       });
     }
-  
-    if(this.state.items.length === 0){
-      this.setState({add: true})
+
+    if (this.state.items.length === 0) {
+      this.setState({ add: true });
     }
 
     if (status === 'fail' || status === 'error') {
@@ -108,7 +108,7 @@ class InformationForm extends Component {
           error: blankError,
         });
       }
-  
+
       if (newResult.status === 'success' && newResult.data.length === 0) {
         this.setState({
           items: newResult.data,
@@ -144,7 +144,6 @@ class InformationForm extends Component {
     if (status === 'success') {
       const newResult = await getInformation();
       if (newResult.status === 'success' && newResult.data.length > 0) {
-        console.log('here ...')
         this.setState({
           items: newResult.data,
           item: newResult.data[0],
@@ -247,7 +246,6 @@ class InformationForm extends Component {
   };
 
   render() {
-    console.log('STATE: ', this.state.add);
     return (
       <div>
         <div>
