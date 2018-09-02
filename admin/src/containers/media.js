@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MediaForm from '../forms/media';
+import { MediaForm } from '../forms';
 import { getMedia, deleteMedia, updateMedia, addMedia } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>

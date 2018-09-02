@@ -44,7 +44,7 @@ TableRow.propTypes = {
   onEdit: PropTypes.func.isRequired,
 };
 
-class Services extends Component {
+class ServicesForm extends Component {
   displayName = 'services-form';
 
   static propTypes = {
@@ -362,4 +362,4 @@ class Services extends Component {
   }
 }
 
-export default Services;
+export default ServicesForm;

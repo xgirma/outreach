@@ -174,5 +174,3 @@ class AdminForm extends Component {
 }
 
 export default AdminForm;
-
-// MkJW$s--@8

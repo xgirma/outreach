@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AdminForm from '../forms/admin';
+import { AdminForm } from '../forms';
 import { changePassword, getAdmin } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>

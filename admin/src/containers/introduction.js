@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import IntroductionForm from '../forms/introduction';
+import { IntroductionForm } from '../forms';
 import {
   getIntroduction,
   deleteIntroduction,
