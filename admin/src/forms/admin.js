@@ -46,6 +46,7 @@ class AdminForm extends Component {
 
   static propTypes = {
     changePassword: PropTypes.func.isRequired,
+    getAdmin: PropTypes.func.isRequired,
   };
 
   state = {
