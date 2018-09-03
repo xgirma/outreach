@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-rte';
+import { withStyles } from '@material-ui/core/styles';
 import { toolbarConfig } from '../helper';
 import { Input, Button } from '../components';
+import withRoot from '../withRoot';
+import styles from '../styles';
 
 const blankItem = {
   am: {
@@ -50,6 +53,7 @@ class IntroductionForm extends Component {
     deleteIntroduction: PropTypes.func.isRequired,
     updateIntroduction: PropTypes.func.isRequired,
     addIntroduction: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
   };
 
   state = {
@@ -247,8 +251,9 @@ class IntroductionForm extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <div>
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
@@ -331,4 +336,4 @@ class IntroductionForm extends Component {
   }
 }
 
-export default IntroductionForm;
+export default withRoot(withStyles(styles, { withTheme: true })(IntroductionForm));

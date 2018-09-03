@@ -2,8 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment/moment';
+import { withStyles } from '@material-ui/core/styles';
 import { Input, Button } from '../components';
 import { getRole } from '../helper';
+import withRoot from '../withRoot';
+import styles from '../styles';
 
 const blankPassword = {
   password: {
@@ -47,6 +50,7 @@ class AdminForm extends Component {
   static propTypes = {
     changePassword: PropTypes.func.isRequired,
     getAdmin: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
   };
 
   state = {
@@ -115,8 +119,9 @@ class AdminForm extends Component {
 
   render() {
     const { currentPassword, newPassword, newPasswordAgain } = this.state.password;
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <div>
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
@@ -174,4 +179,4 @@ class AdminForm extends Component {
   }
 }
 
-export default AdminForm;
+export default withRoot(withStyles(styles, { withTheme: true })(AdminForm));

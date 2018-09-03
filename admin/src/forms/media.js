@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-rte';
+import { withStyles } from '@material-ui/core/styles';
 import { toolbarConfig } from '../helper';
 import { Input, Button } from '../components';
+import withRoot from '../withRoot';
+import styles from '../styles';
 
 const blankItem = {
   am: {
@@ -50,6 +53,7 @@ class MediaForm extends Component {
     deleteMedia: PropTypes.func.isRequired,
     updateMedia: PropTypes.func.isRequired,
     addMedia: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
   };
 
   state = {
@@ -233,8 +237,9 @@ class MediaForm extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes}>
         <div>
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
@@ -321,4 +326,4 @@ class MediaForm extends Component {
   }
 }
 
-export default MediaForm;
+export default withRoot(withStyles(styles, { withTheme: true })(MediaForm));

@@ -13,7 +13,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import withRoot from '../withRoot';
-import styles from '../style';
+import styles from '../styles';
 
 class SigninForm extends Component {
   static displayName = 'Signin form';
