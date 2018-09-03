@@ -2,7 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
 import { Input, Button } from '../components';
+import withRoot from '../withRoot';
+import styles from '../styles';
 
 function TableRow({ item, onDelete, onEdit }) {
   return (
@@ -63,6 +66,7 @@ class InformationForm extends Component {
     deleteInformation: PropTypes.func.isRequired,
     updateInformation: PropTypes.func.isRequired,
     addInformation: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
   };
 
   state = {
@@ -246,8 +250,9 @@ class InformationForm extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
         <div>
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
@@ -410,4 +415,4 @@ class InformationForm extends Component {
   }
 }
 
-export default InformationForm;
+export default withRoot(withStyles(styles, { withTheme: true })(InformationForm));

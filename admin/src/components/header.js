@@ -3,45 +3,41 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Drawer, Divider, List, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
-import { ChevronRight, ChevronLeft, Menu } from '@material-ui/icons';
+import { Menu } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { pageListItems, adminListItems } from './drawer-menu';
 import withRoot from '../withRoot';
-import styles from '../style';
+import styles from '../styles';
 
 class Header extends Component {
   displayName = 'Header';
 
   static propTypes = {
     signedIn: PropTypes.bool,
-    username: PropTypes.string,
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     signedIn: false,
-    username: '',
   };
 
   /* eslint-disable */
   state = {
     value: 'home',
     open: false,
+    left: false,
   };
   /* eslint-enable */
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
+  toggleDrawer = (open) => () => {
+    this.setState({
+      left: open,
+    });
   };
 
   render() {
-    const { signedIn, username } = this.props;
-    const { classes, theme } = this.props;
+    const { signedIn } = this.props;
+    const { classes } = this.props;
 
     return (
       <Fragment>
@@ -55,7 +51,7 @@ class Header extends Component {
               <IconButton
                 color="inherit"
                 aria-label="Open drawer"
-                onClick={this.handleDrawerOpen}
+                onClick={this.toggleDrawer(true)}
                 className={classNames(classes.menuButton, this.state.open && classes.hide)}
               >
                 <Menu />
@@ -64,35 +60,23 @@ class Header extends Component {
             <Typography variant="title" color="inherit" className={classes.flex}>
               Outreach Administration Panel
             </Typography>
-            <div>
-              {signedIn && (
-                <Typography variant="caption" color="inherit" className={classes.flex}>
-                  {username}
-                </Typography>
-              )}
-            </div>
           </Toolbar>
         </AppBar>
         {/* body: drawer & body */}
         {signedIn && (
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-            }}
-            open={this.state.open}
-          >
-            <div className={classes.toolbar}>
-              <IconButton onClick={this.handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
-                {/* TODO chevron toggle */}
-              </IconButton>
+          <Drawer open={this.state.left} onClose={this.toggleDrawer(false)}>
+            <div
+              tabIndex={0}
+              role="button"
+              onClick={this.toggleDrawer(false)}
+              onKeyDown={this.toggleDrawer(false)}
+            >
+              <Divider />
+              <Divider />
+              <List>{pageListItems}</List>
+              <Divider />
+              <List>{adminListItems}</List>
             </div>
-            <Divider />
-            <Divider />
-            <List>{pageListItems}</List>
-            <Divider />
-            <List>{adminListItems}</List>
           </Drawer>
         )}
       </Fragment>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import withRoot from '../withRoot';
-import styles from '../style';
+import styles from '../styles';
 
 class Home extends Component {
   static displayName = 'home-component';
