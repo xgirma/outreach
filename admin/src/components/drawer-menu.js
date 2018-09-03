@@ -1,7 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
-import { Info, Home, Event, Create, MusicVideo, AccountBox, ExitToApp } from '@material-ui/icons';
+import {
+  Info,
+  Home,
+  Event,
+  Create,
+  MusicVideo,
+  AccountBox,
+  ExitToApp,
+  AssignmentInd,
+} from '@material-ui/icons';
 
 export const pageListItems = (
   <div>
@@ -20,6 +29,15 @@ export const pageListItems = (
           <Home />
         </ListItemIcon>
         <ListItemText primary="Introduction" />
+      </ListItem>
+    </Link>
+
+    <Link to="/services">
+      <ListItem button>
+        <ListItemIcon>
+          <AssignmentInd />
+        </ListItemIcon>
+        <ListItemText primary="Services" />
       </ListItem>
     </Link>
 
