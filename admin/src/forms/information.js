@@ -259,7 +259,7 @@ class InformationForm extends Component {
       <div className={classes.root}>
         <Grid container spacing={24} alignContent="center">
           <Grid item xs={12}>
-            <Typography variant="headline">Introduction</Typography>
+            <Typography variant="headline">Information</Typography>
             <Typography color="inherit" noWrap>
               {this.state.error.name !== '' &&
                 `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
