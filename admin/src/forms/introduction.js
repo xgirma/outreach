@@ -4,10 +4,26 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-rte';
 import { withStyles } from '@material-ui/core/styles';
+import {
+  Typography,
+  AppBar,
+  Tabs,
+  Tab,
+  TextField,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
+  Card,
+  CardActions,
+  CardContent,
+} from '@material-ui/core';
+import ButtonTwo from '@material-ui/core/Button';
 import { toolbarConfig } from '../helper';
-import { Input, Button } from '../components';
 import withRoot from '../withRoot';
 import styles from '../styles';
+import TabContainer from '../components/tab-container';
 
 const blankItem = {
   am: {
@@ -25,24 +41,6 @@ const blankItem = {
 const blankError = {
   message: '',
   name: '',
-};
-
-function TableRow({ item, onDelete, onEdit }) {
-  return (
-    <tr>
-      <td>{moment(item.date).format('L')}</td>
-      <td>{item.adminname}</td>
-      <td>{item.en.title}</td>
-      <td>{<Button action={() => onEdit(item)} title="Edit" />}</td>
-      <td>{<Button action={() => onDelete(item._id)} title="Delete" />}</td>
-    </tr>
-  );
-}
-
-TableRow.propTypes = {
-  item: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
 };
 
 class IntroductionForm extends Component {
@@ -63,6 +61,7 @@ class IntroductionForm extends Component {
     error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
+    value: 0,
   };
 
   async componentDidMount() {
@@ -91,6 +90,10 @@ class IntroductionForm extends Component {
       });
     }
   }
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
 
   onAmEditorChange = (amharic) => {
     const introduction = amharic.toString('html');
@@ -252,85 +255,186 @@ class IntroductionForm extends Component {
 
   render() {
     const { classes } = this.props;
+    const { value } = this.state;
+
     return (
       <div className={classes.root}>
-        <div>
-          {this.state.error.name !== '' &&
-            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          {/* amharic */}
-          <label>Amharic</label>
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.am.title}
-            placeholder="Enter your introduction title"
-            onChange={this.handleAmharicInput}
-          />
-          <Input
-            type="text"
-            title="Author"
-            name="author"
-            value={this.state.item.am.author}
-            placeholder="Enter your introduction author"
-            onChange={this.handleAmharicInput}
-          />
-          <label>Introduction</label>
-          <RichTextEditor
-            value={this.state.amharic}
-            onChange={this.onAmEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          {/* english */}
-          <label>English</label>
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.en.title}
-            placeholder="Enter your introduction title"
-            onChange={this.handleEnglishInput}
-          />
-          <Input
-            type="text"
-            title="Author"
-            name="author"
-            value={this.state.item.en.author}
-            placeholder="Enter your introduction author"
-            onChange={this.handleEnglishInput}
-          />
-          <label>Introduction</label>
-          <RichTextEditor
-            value={this.state.english}
-            onChange={this.onEnEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          <Button action={this.handleFormClear} title="Add New" />
-          <Button action={this.handleFormUpdate} title="Submit" />
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Created on</th>
-              <th>By</th>
-              <th>Title</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.items.map((item) => (
-              <TableRow
-                key={item._id}
-                item={item}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-              />
-            ))}
-          </tbody>
-        </table>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Active
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Introduction
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              Add new or update existing
+            </Typography>
+          </CardContent>
+          <CardContent>
+            <form onSubmit={this.handleSubmit}>
+              <AppBar position="static" color="default">
+                <Tabs value={value} onChange={this.handleChange}>
+                  <Tab label="Amharic" />
+                  <Tab label="English" />
+                </Tabs>
+              </AppBar>
+              {value === 0 && (
+                <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="title"
+                    value={this.state.item.am.title}
+                    placeholder="Enter your introduction title"
+                    onChange={this.handleAmharicInput}
+                    helperText="ለምሳሌ - ቤተ ክርስቲያናችን"
+                  />
+                  <RichTextEditor
+                    value={this.state.amharic}
+                    onChange={this.onAmEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Author"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="author"
+                    value={this.state.item.am.author}
+                    placeholder="Enter your introduction author"
+                    onChange={this.handleAmharicInput}
+                    helperText="ለምሳሌ - ዲያቆን ዳኒየል"
+                  />
+                </TabContainer>
+              )}
+              {value === 1 && (
+                <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="title"
+                    value={this.state.item.en.title}
+                    placeholder="Enter your introduction title"
+                    onChange={this.handleEnglishInput}
+                    helperText="e.g - About our church"
+                  />
+                  <RichTextEditor
+                    value={this.state.english}
+                    onChange={this.onEnEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Author"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="author"
+                    value={this.state.item.en.author}
+                    placeholder="Enter your introduction author"
+                    onChange={this.handleEnglishInput}
+                    helperText="e.g. - Deacon Daniel"
+                  />
+                </TabContainer>
+              )}
+              <CardActions>
+                <ButtonTwo
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormClear}
+                >
+                  Add New
+                </ButtonTwo>
+
+                <ButtonTwo
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormUpdate}
+                >
+                  Submit
+                </ButtonTwo>
+              </CardActions>
+            </form>
+          </CardContent>
+
+          <CardContent>
+            <Typography color="error">
+              {this.state.error.name !== '' &&
+                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+            </Typography>
+          </CardContent>
+
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Database
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Introduction
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              List of existing data
+            </Typography>
+
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Created on</TableCell>
+                  <TableCell>By</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Update</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.items.map((item) => (
+                  <TableRow key={item._id}>
+                    <TableCell component="th" scope="row">
+                      {moment(item.date).format('L')}
+                    </TableCell>
+                    <TableCell>{item.adminname}</TableCell>
+                    <TableCell>
+                      <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <ButtonTwo
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleEdit(item)}
+                        >
+                          Edit
+                        </ButtonTwo>
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <ButtonTwo
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleDelete(item._id)}
+                        >
+                          Delete
+                        </ButtonTwo>
+                      }
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     );
   }
