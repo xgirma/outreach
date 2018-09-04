@@ -3,35 +3,35 @@ import { getService, deleteService, updateService, addService } from '../service
 const resource = 'media';
 
 const getMediaSuccess = () => ({
-  type: 'GET_BLOG_SUCCESS',
+  type: 'GET_MEDIA_SUCCESS',
 });
 
 const getMediaFailure = () => ({
-  type: 'GET_BLOG_FAILURE',
+  type: 'GET_MEDIA_FAILURE',
 });
 
 const deleteMediaSuccess = () => ({
-  type: 'DELETE_BLOG_SUCCESS',
+  type: 'DELETE_MEDIA_SUCCESS',
 });
 
 const deleteMediaFailure = () => ({
-  type: 'DELETE_BLOG_FAILURE',
+  type: 'DELETE_MEDIA_FAILURE',
 });
 
 const updateMediaSuccess = () => ({
-  type: 'UPDATE_BLOG_SUCCESS',
+  type: 'UPDATE_MEDIA_SUCCESS',
 });
 
 const updateMediaFailure = () => ({
-  type: 'UPDATE_BLOG_FAILURE',
+  type: 'UPDATE_MEDIA_FAILURE',
 });
 
 const addMediaSuccess = () => ({
-  type: 'ADD_BLOG_SUCCESS',
+  type: 'ADD_MEDIA_SUCCESS',
 });
 
 const addMediaFailure = () => ({
-  type: 'ADD_BLOG_FAILURE',
+  type: 'ADD_MEDIA_FAILURE',
 });
 
 export const getMedia = () => async (dispatch) => {

@@ -1,15 +1,25 @@
 /* eslint-disable react/destructuring-assignment */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import {
+  Paper,
+  Typography,
+  Avatar,
+  InputAdornment,
+  IconButton,
+  Button,
+  FormControl,
+  Input,
+  InputLabel,
+} from '@material-ui/core';
+import { LockOutlined, VisibilityOff, Visibility } from '@material-ui/icons';
 import withRoot from '../withRoot';
 import styles from '../styles';
-import { Paper, Typography, Avatar, InputAdornment, IconButton, Button, FormControl, Input, InputLabel } from '@material-ui/core';
-import { LockOutlined, VisibilityOff, Visibility }  from '@material-ui/icons';
 
 class SigninForm extends Component {
   static displayName = 'Signin form';
-  
+
   static propTypes = {
     signout: PropTypes.func.isRequired,
     signin: PropTypes.func.isRequired,
@@ -17,51 +27,51 @@ class SigninForm extends Component {
     message: PropTypes.string,
     classes: PropTypes.object.isRequired,
   };
-  
+
   static defaultProps = {
     type: '',
     message: '',
   };
-  
+
   state = {
     username: '',
     password: '',
     showPassword: false,
   };
-  
+
   componentDidMount() {
-    const {signout} = this.props;
+    const { signout } = this.props;
     signout();
   }
-  
+
   handleChange = (prop) => (event) => {
-    this.setState({[prop]: event.target.value});
+    this.setState({ [prop]: event.target.value });
   };
-  
+
   handleClickShowPassword = () => {
-    this.setState((state) => ({showPassword: !state.showPassword}));
+    this.setState((state) => ({ showPassword: !state.showPassword }));
   };
-  
+
   handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  
+
   handleSubmit = (event) => {
     event.preventDefault();
   };
-  
+
   handleClick = (event) => {
     event.preventDefault();
-    const {username, password} = this.state;
-    const {signin} = this.props;
+    const { username, password } = this.state;
+    const { signin } = this.props;
     if (username && password) {
       signin(username, password);
     }
   };
-  
+
   render() {
-    const {type, message, classes} = this.props;
-    
+    const { type, message, classes } = this.props;
+
     return (
       <div className={classes.root}>
         <main className={classes.layout}>
@@ -80,7 +90,8 @@ class SigninForm extends Component {
                   value={this.state.username}
                   onChange={this.handleChange('username')}
                   autoComplete="username"
-                  autoFocus />
+                  autoFocus
+                />
               </FormControl>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -125,4 +136,4 @@ class SigninForm extends Component {
   }
 }
 
-export default withRoot(withStyles(styles, {withTheme: true})(SigninForm));
+export default withRoot(withStyles(styles, { withTheme: true })(SigninForm));
