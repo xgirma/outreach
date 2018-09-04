@@ -96,7 +96,7 @@ class ServicesForm extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
   };
-  
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -284,7 +284,7 @@ class ServicesForm extends Component {
               Add new or update existing
             </Typography>
           </CardContent>
-  
+
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <AppBar position="static" color="default">
@@ -363,7 +363,7 @@ class ServicesForm extends Component {
                   />
                 </TabContainer>
               )}
-              
+
               <CardContent>
                 <TextField
                   className={classes.formControl}
@@ -378,7 +378,7 @@ class ServicesForm extends Component {
                   onChange={this.handleItemInput}
                   helperText="e.g. (425) 000-1234"
                 />
-  
+
                 <TextField
                   className={classes.formControl}
                   id="full-width"
@@ -393,7 +393,7 @@ class ServicesForm extends Component {
                   helperText="e.g. xyz@gmail.com"
                 />
               </CardContent>
-              
+
               <CardActions>
                 <Button
                   variant="contained"
@@ -402,7 +402,7 @@ class ServicesForm extends Component {
                 >
                   Add New
                 </Button>
-        
+
                 <Button
                   variant="contained"
                   className={classes.button}
@@ -413,14 +413,14 @@ class ServicesForm extends Component {
               </CardActions>
             </form>
           </CardContent>
-  
+
           <CardContent>
             <Typography color="error">
               {this.state.error.name !== '' &&
-              `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
           </CardContent>
-  
+
           <CardContent>
             <Typography className={classes.title} color="textSecondary">
               Database
@@ -431,7 +431,7 @@ class ServicesForm extends Component {
             <Typography className={classes.pos} color="textSecondary">
               List of existing data
             </Typography>
-    
+
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
