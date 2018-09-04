@@ -4,7 +4,6 @@ const styles = (theme) => ({
   root: {
     paddingTop: theme.spacing.unit * 20,
     flexGrow: 1,
-    // height: 440,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -27,7 +26,6 @@ const styles = (theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    textAlign: "center"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -38,7 +36,7 @@ const styles = (theme) => ({
     }),
   },
   menuButton: {
-    marginLeft: 12,
+    marginLeft: 36,
     marginRight: 36,
   },
   hide: {
@@ -56,9 +54,6 @@ const styles = (theme) => ({
     marginTop: theme.spacing.unit * 3,
   },
   margin: {
-    margin: theme.spacing.unit,
-  },
-  snackbar: {
     margin: theme.spacing.unit,
   },
   paper: {
@@ -91,6 +86,25 @@ const styles = (theme) => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+  },
+  card: {
+    minWidth: 275,
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    marginBottom: 16,
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  grid: {
+    margin: '0 -15px !important',
+    width: 'unset',
   },
 });
 

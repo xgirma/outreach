@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 import {
-  Grid,
   Typography,
   AppBar,
   Tabs,
@@ -15,7 +14,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Paper,
+  Card,
+  CardActions,
+  CardContent,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import withRoot from '../withRoot';
@@ -257,16 +258,17 @@ class InformationForm extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={24} alignContent="center">
-          <Grid item xs={12}>
-            <Typography variant="headline">Information</Typography>
-            <Typography color="inherit" noWrap>
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Active
             </Typography>
-          </Grid>
-
-          <Grid item xs={12}>
+            <Typography variant="headline" component="h2">
+              Information
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              Add new or update existing
+            </Typography>
             <form onSubmit={this.handleSubmit}>
               <AppBar position="static" color="default">
                 <Tabs value={value} onChange={this.handleChange}>
@@ -484,74 +486,82 @@ class InformationForm extends Component {
                 onChange={this.handleAddressInput}
                 helperText="e.g. United State"
               />
-
-              <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={this.handleFormClear}
-                >
-                  Add New
-                </Button>
-
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={this.handleFormUpdate}
-                >
-                  Submit
-                </Button>
-              </Grid>
             </form>
-          </Grid>
-        </Grid>
+          </CardContent>
+          <CardActions>
+            <Button variant="contained" className={classes.button} onClick={this.handleFormClear}>
+              Add New
+            </Button>
 
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Created on</TableCell>
-                <TableCell>By</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Edit</TableCell>
-                <TableCell>Delete</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.items.map((item) => (
-                <TableRow key={item._id}>
-                  <TableCell component="th" scope="row">
-                    {moment(item.date).format('L')}
-                  </TableCell>
-                  <TableCell>{item.adminname}</TableCell>
-                  <TableCell>{item.en.name}</TableCell>
-                  <TableCell>
-                    {
-                      <Button
-                        variant="contained"
-                        className={classes.button}
-                        onClick={() => this.handleEdit(item)}
-                      >
-                        Edit
-                      </Button>
-                    }
-                  </TableCell>
-                  <TableCell>
-                    {
-                      <Button
-                        variant="contained"
-                        className={classes.button}
-                        onClick={() => this.handleDelete(item._id)}
-                      >
-                        Delete
-                      </Button>
-                    }
-                  </TableCell>
+            <Button variant="contained" className={classes.button} onClick={this.handleFormUpdate}>
+              Submit
+            </Button>
+          </CardActions>
+          <CardContent>
+            <Typography color="error">
+              {this.state.error.name !== '' &&
+                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+            </Typography>
+          </CardContent>
+
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Database
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Information
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              List of existing data
+            </Typography>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Created on</TableCell>
+                  <TableCell>By</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Edit</TableCell>
+                  <TableCell>Delete</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Paper>
+              </TableHead>
+              <TableBody>
+                {this.state.items.map((item) => (
+                  <TableRow key={item._id}>
+                    <TableCell component="th" scope="row">
+                      {moment(item.date).format('L')}
+                    </TableCell>
+                    <TableCell>{item.adminname}</TableCell>
+                    <TableCell>
+                      <div onClick={() => this.handleEdit(item)}>{item.am.name}</div>
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleEdit(item)}
+                        >
+                          Edit
+                        </Button>
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleDelete(item._id)}
+                        >
+                          Delete
+                        </Button>
+                      }
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     );
   }

@@ -58,7 +58,7 @@ class Header extends Component {
               </IconButton>
             )}
             <Typography variant="title" color="inherit" className={classes.flex}>
-              Outreach Administration Panel
+              Content Admin
             </Typography>
           </Toolbar>
         </AppBar>
