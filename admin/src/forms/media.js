@@ -4,10 +4,30 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-rte';
 import { withStyles } from '@material-ui/core/styles';
+import {
+  Typography,
+  AppBar,
+  Tabs,
+  Tab,
+  TextField,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+} from '@material-ui/core';
 import { toolbarConfig } from '../helper';
-import { Input, Button } from '../components';
 import withRoot from '../withRoot';
 import styles from '../styles';
+import TabContainer from '../components/tab-container';
 
 const blankItem = {
   am: {
@@ -25,24 +45,6 @@ const blankItem = {
 const blankError = {
   message: '',
   name: '',
-};
-
-function TableRow({ item, onDelete, onEdit }) {
-  return (
-    <tr>
-      <td>{moment(item.date).format('L')}</td>
-      <td>{item.adminname}</td>
-      <td>{item.title}</td>
-      <td>{<Button action={() => onEdit(item)} title="Edit" />}</td>
-      <td>{<Button action={() => onDelete(item._id)} title="Delete" />}</td>
-    </tr>
-  );
-}
-
-TableRow.propTypes = {
-  item: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
 };
 
 class MediaForm extends Component {
@@ -63,6 +65,7 @@ class MediaForm extends Component {
     error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
+    value: 0,
   };
 
   async componentDidMount() {
@@ -92,6 +95,14 @@ class MediaForm extends Component {
       });
     }
   }
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
+  handleMediaTypeChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   onAmEditorChange = (amharic) => {
     const description = amharic.toString('html');
@@ -238,89 +249,185 @@ class MediaForm extends Component {
 
   render() {
     const { classes } = this.props;
+    const { value } = this.state;
+
     return (
       <div className={classes.root}>
-        <div>
-          {this.state.error.name !== '' &&
-            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-        </div>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Active
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Media
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              Add new or update existing
+            </Typography>
+          </CardContent>
 
-        <form onSubmit={this.handleSubmit}>
-          {/* amharic */}
-          <label>Description</label>
-          <RichTextEditor
-            value={this.state.amharic}
-            onChange={this.onAmEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          {/* english */}
-          <label>Description</label>
-          <RichTextEditor
-            value={this.state.english}
-            onChange={this.onEnEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          {/* title, url, type, tag */}
-          <label>title, url, type, tag</label>
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.title}
-            placeholder="Enter media title"
-            onChange={this.handleItemInput}
-          />
-          <Input
-            type="text"
-            title="Url"
-            name="url"
-            value={this.state.item.url}
-            placeholder="Enter media url"
-            onChange={this.handleItemInput}
-          />
-          {/* TODO drop-down with audio/video */}
-          <Input
-            type="text"
-            title="Media Type"
-            name="mediaType"
-            value={this.state.item.mediaType}
-            placeholder="Enter media type"
-            onChange={this.handleItemInput}
-          />
-          <Input
-            type="text"
-            title="Tags"
-            name="tag"
-            value={this.state.item.tag.toString()}
-            placeholder="Enter your media tags comma separated date"
-            onChange={this.handleItemInput}
-          />
-          {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Add New" />
-          <Button action={this.handleFormUpdate} title="Submit" />
-        </form>
+          <CardContent>
+            <form onSubmit={this.handleSubmit}>
+              <AppBar position="static" color="default">
+                <Tabs value={value} onChange={this.handleChange}>
+                  <Tab label="Amharic" />
+                  <Tab label="English" />
+                </Tabs>
+              </AppBar>
+              {value === 0 && (
+                <TabContainer>
+                  <RichTextEditor
+                    value={this.state.amharic}
+                    onChange={this.onAmEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                </TabContainer>
+              )}
+              {value === 1 && (
+                <TabContainer>
+                  <RichTextEditor
+                    value={this.state.english}
+                    onChange={this.onEnEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                </TabContainer>
+              )}
 
-        <table>
-          <thead>
-            <tr>
-              <th>Created on</th>
-              <th>By</th>
-              <th>Title</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.items.map((item) => (
-              <TableRow
-                key={item._id}
-                item={item}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-              />
-            ))}
-          </tbody>
-        </table>
+              <TabContainer>
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Title"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="title"
+                  value={this.state.item.title}
+                  placeholder="Enter media author"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. - ለመድሃኔአለም ምስጋና ይድረሰው Medhanialem Mezmur - Ethiopia Orthodox Tewahedo Mezmur"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Media URL"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="url"
+                  value={this.state.item.url}
+                  placeholder="Enter your media URL"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. https://www.youtube.com/watch?v=farii-8XWxE"
+                />
+
+                <FormControl className={classes.formControl}>
+                  <InputLabel htmlFor="media-simple">Type</InputLabel>
+                  <Select
+                    value={this.state.item.mediaType}
+                    onChange={this.handleMediaTypeChange}
+                    inputProps={{ name: 'mediaType' }}
+                  >
+                    <MenuItem value="video">video</MenuItem>
+                    <MenuItem value="audio">audio</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Tags"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="tag"
+                  value={this.state.item.tag.toString()}
+                  placeholder="Enter your blog tags comma separated"
+                  onChange={this.handleItemInput}
+                  helperText="epiphany,ጥምቀት,holy matrimony,ቅዱስ ጋብቻ"
+                />
+              </TabContainer>
+
+              <CardActions>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormClear}
+                >
+                  Add New
+                </Button>
+
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormUpdate}
+                >
+                  Submit
+                </Button>
+              </CardActions>
+            </form>
+          </CardContent>
+
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Database
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Media
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              List of existing data
+            </Typography>
+
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Created on</TableCell>
+                  <TableCell>By</TableCell>
+                  <TableCell>Title</TableCell>
+                  <TableCell>Update</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.items.map((item) => (
+                  <TableRow key={item._id}>
+                    <TableCell component="th" scope="row">
+                      {moment(item.date).format('L')}
+                    </TableCell>
+                    <TableCell>{item.adminname}</TableCell>
+                    <TableCell>
+                      <div onClick={() => this.handleEdit(item)}>{item.title}</div>
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleEdit(item)}
+                        >
+                          Edit
+                        </Button>
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        <Button
+                          variant="contained"
+                          className={classes.button}
+                          onClick={() => this.handleDelete(item._id)}
+                        >
+                          Delete
+                        </Button>
+                      }
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     );
   }
