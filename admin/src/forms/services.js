@@ -278,7 +278,7 @@ class ServicesForm extends Component {
               Active
             </Typography>
             <Typography variant="headline" component="h2">
-              Introduction
+              Service
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               Add new or update existing
@@ -426,7 +426,7 @@ class ServicesForm extends Component {
               Database
             </Typography>
             <Typography variant="headline" component="h2">
-              Introduction
+              Service
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
               List of existing data

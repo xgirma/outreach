@@ -518,7 +518,7 @@ class EventForm extends Component {
                 Database
               </Typography>
               <Typography variant="headline" component="h2">
-                Introduction
+                Event
               </Typography>
               <Typography className={classes.pos} color="textSecondary">
                 List of existing data
@@ -573,37 +573,6 @@ class EventForm extends Component {
             </CardContent>
           </CardContent>
         </Card>
-
-        <div>
-          {this.state.error.name !== '' &&
-            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          {/* clear, submit */}
-          {/* <Button action={this.handleFormClear} title="Add New" /> */}
-          {/* <Button action={this.handleFormUpdate} title="Submit" /> */}
-        </form>
-        {/* <table> */}
-        {/* <thead> */}
-        {/* <tr> */}
-        {/* <th>Created on</th> */}
-        {/* <th>By</th> */}
-        {/* <th>Title</th> */}
-        {/* <th>Update</th> */}
-        {/* <th>Delete</th> */}
-        {/* </tr> */}
-        {/* </thead> */}
-        {/* <tbody> */}
-        {/* {this.state.items.map((item) => ( */}
-        {/* <TableRow */}
-        {/* key={item._id} */}
-        {/* item={item} */}
-        {/* onDelete={this.handleDelete} */}
-        {/* onEdit={this.handleEdit} */}
-        {/* /> */}
-        {/* ))} */}
-        {/* </tbody> */}
-        {/* </table> */}
       </div>
     );
   }

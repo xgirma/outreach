@@ -239,7 +239,7 @@ class MediaForm extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes}>
+      <div className={classes.root}>
         <div>
           {this.state.error.name !== '' &&
             `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
