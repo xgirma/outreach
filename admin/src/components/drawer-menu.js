@@ -59,7 +59,7 @@ export const pageListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/blog">
+    <Link to="/media">
       <ListItem button>
         <ListItemIcon>
           <MusicVideo />

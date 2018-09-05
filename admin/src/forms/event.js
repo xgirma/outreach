@@ -4,10 +4,26 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-rte';
 import { withStyles } from '@material-ui/core/styles';
+import {
+  Typography,
+  AppBar,
+  Tabs,
+  Tab,
+  TextField,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+} from '@material-ui/core';
 import { toolbarConfig } from '../helper';
-import { Input, Button } from '../components';
 import withRoot from '../withRoot';
 import styles from '../styles';
+import TabContainer from '../components/tab-container';
 
 const blankItem = {
   am: {
@@ -36,24 +52,6 @@ const blankError = {
   name: '',
 };
 
-function TableRow({ item, onDelete, onEdit }) {
-  return (
-    <tr>
-      <td>{moment(item.date).format('L')}</td>
-      <td>{item.adminname}</td>
-      <td>{item.en.title}</td>
-      <td>{<Button action={() => onEdit(item)} title="Edit" />}</td>
-      <td>{<Button action={() => onDelete(item._id)} title="Delete" />}</td>
-    </tr>
-  );
-}
-
-TableRow.propTypes = {
-  item: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-};
-
 class EventForm extends Component {
   static displayName = 'event-form';
 
@@ -72,6 +70,7 @@ class EventForm extends Component {
     error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
+    value: 0,
   };
 
   async componentDidMount() {
@@ -104,6 +103,10 @@ class EventForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
   };
 
   onAmEditorChange = (amharic) => {
@@ -284,146 +287,292 @@ class EventForm extends Component {
 
   render() {
     const { classes } = this.props;
+    const { value } = this.state;
 
     return (
       <div className={classes.root}>
-        <div>
-          {this.state.error.name !== '' &&
-            `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-        </div>
-        <form onSubmit={this.handleSubmit}>
-          {/* amharic */}
-          <label>Amharic</label>
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.am.title}
-            placeholder="Enter your event title"
-            onChange={this.handleAmharicInput}
-          />
-          <label>Description</label>
-          <RichTextEditor
-            value={this.state.amharic}
-            onChange={this.onAmEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          {/* english */}
-          <Input
-            type="text"
-            title="Title"
-            name="title"
-            value={this.state.item.en.title}
-            placeholder="Enter your event title"
-            onChange={this.handleEnglishInput}
-          />
-          <label>Description</label>
-          <RichTextEditor
-            value={this.state.english}
-            onChange={this.onEnEditorChange}
-            toolbarConfig={toolbarConfig}
-          />
-          {/* address */}
-          <label>Address: </label>
-          <Input
-            type="text"
-            title="Street"
-            name="street"
-            value={this.state.item.address.street}
-            placeholder="Enter your event street"
-            onChange={this.handleAddressInput}
-          />
-          <Input
-            type="text"
-            title="City"
-            name="city"
-            value={this.state.item.address.city}
-            placeholder="Enter your event city"
-            onChange={this.handleAddressInput}
-          />
-          <Input
-            type="text"
-            title="State"
-            name="state"
-            value={this.state.item.address.state}
-            placeholder="Enter your event state"
-            onChange={this.handleAddressInput}
-          />
-          <Input
-            type="text"
-            title="Zip"
-            name="zip"
-            value={this.state.item.address.zip}
-            placeholder="Enter your event zip"
-            onChange={this.handleAddressInput}
-          />
-          <Input
-            type="text"
-            title="Country"
-            name="country"
-            value={this.state.item.address.country}
-            placeholder="Enter your event country"
-            onChange={this.handleAddressInput}
-          />
-          {/* phone, email, date range */}
-          <label>Phone, email</label>
-          <Input
-            type="text"
-            title="Phone"
-            name="phone"
-            value={this.state.item.phone}
-            placeholder="Enter your event phone"
-            onChange={this.handleItemInput}
-          />
-          <Input
-            type="text"
-            title="Email"
-            name="email"
-            value={this.state.item.email}
-            placeholder="Enter your event email"
-            onChange={this.handleItemInput}
-          />
-          <Input
-            type="text"
-            title="Start date"
-            name="dateStart"
-            value={this.state.item.dateStart}
-            placeholder="Enter your event start date"
-            onChange={this.handleItemInput}
-          />
-          <Input
-            type="text"
-            title="End date"
-            name="dateEnd"
-            value={this.state.item.dateEnd}
-            placeholder="Enter your event start date"
-            onChange={this.handleItemInput}
-          />
-          {/* clear, submit */}
-          <Button action={this.handleFormClear} title="Add New" />
-          <Button action={this.handleFormUpdate} title="Submit" />
-        </form>
-        <table>
-          <thead>
-            <tr>
-              <th>Created on</th>
-              <th>By</th>
-              <th>Title</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.items.map((item) => (
-              <TableRow
-                key={item._id}
-                item={item}
-                onDelete={this.handleDelete}
-                onEdit={this.handleEdit}
-              />
-            ))}
-          </tbody>
-        </table>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              Active
+            </Typography>
+            <Typography variant="headline" component="h2">
+              Event
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              Add new or update existing
+            </Typography>
+          </CardContent>
+
+          <CardContent>
+            <form onSubmit={this.handleSubmit}>
+              <AppBar position="static" color="default">
+                <Tabs value={value} onChange={this.handleChange}>
+                  <Tab label="Amharic" />
+                  <Tab label="English" />
+                </Tabs>
+              </AppBar>
+              {value === 0 && (
+                <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="title"
+                    value={this.state.item.am.title}
+                    placeholder="Enter your service title"
+                    onChange={this.handleAmharicInput}
+                    helperText="ለምሳሌ - የስብከት አገልግሎት ዲያቆን ዳኒየል"
+                  />
+                  <RichTextEditor
+                    value={this.state.amharic}
+                    onChange={this.onAmEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                </TabContainer>
+              )}
+              {value === 1 && (
+                <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="title"
+                    value={this.state.item.en.title}
+                    placeholder="Enter your service title"
+                    onChange={this.handleEnglishInput}
+                    helperText="e.g - Teaching by diakon daniel kibret"
+                  />
+                  <RichTextEditor
+                    value={this.state.english}
+                    onChange={this.onEnEditorChange}
+                    toolbarConfig={toolbarConfig}
+                  />
+                </TabContainer>
+              )}
+
+              <TabContainer>
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Street"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="street"
+                  value={this.state.item.address.street}
+                  placeholder="Enter your event street"
+                  onChange={this.handleAddressInput}
+                  helperText="e.g. 123 Main Street"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="City"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="city"
+                  value={this.state.item.address.city}
+                  placeholder="Enter your event city"
+                  onChange={this.handleAddressInput}
+                  helperText="e.g. Seattle"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="State"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="state"
+                  value={this.state.item.address.state}
+                  placeholder="Enter your event state"
+                  onChange={this.handleAddressInput}
+                  helperText="e.g. WA"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Zip"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="zip"
+                  value={this.state.item.address.zip}
+                  placeholder="Enter your event zip"
+                  onChange={this.handleAddressInput}
+                  helperText="e.g. 90102"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Country"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="country"
+                  value={this.state.item.address.country}
+                  placeholder="Enter your event country"
+                  onChange={this.handleAddressInput}
+                  helperText="e.g. United State"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Email"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="email"
+                  value={this.state.item.email}
+                  placeholder="Enter your event contact email"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. xyz@gmail.com"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Phone"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="phone"
+                  value={this.state.item.phone}
+                  placeholder="Enter your event contact phone"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. (425) 000-1234"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Start date"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="dateStart"
+                  value={this.state.item.dateStart}
+                  placeholder="Enter your event start date"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. 2019-09-04T04:44:34.340Z"
+                />
+
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="End date"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="dateEnd"
+                  value={this.state.item.dateEnd}
+                  placeholder="Enter your event end date"
+                  onChange={this.handleItemInput}
+                  helperText="e.g. 2019-10-04T04:44:34.340Z"
+                />
+              </TabContainer>
+
+              <CardActions>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormClear}
+                >
+                  Add New
+                </Button>
+
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormUpdate}
+                >
+                  Submit
+                </Button>
+              </CardActions>
+            </form>
+          </CardContent>
+
+          <CardContent>
+            <CardContent>
+              <Typography color="error">
+                {this.state.error.name !== '' &&
+                  `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              </Typography>
+            </CardContent>
+
+            <CardContent>
+              <Typography className={classes.title} color="textSecondary">
+                Database
+              </Typography>
+              <Typography variant="headline" component="h2">
+                Event
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                List of existing data
+              </Typography>
+
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>By</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell>Update</TableCell>
+                    <TableCell>Delete</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(item.date).format('L')}
+                      </TableCell>
+                      <TableCell>{item.adminname}</TableCell>
+                      <TableCell>
+                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={() => this.handleEdit(item)}
+                          >
+                            Edit
+                          </Button>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={() => this.handleDelete(item._id)}
+                          >
+                            Delete
+                          </Button>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </CardContent>
+        </Card>
       </div>
     );
   }
