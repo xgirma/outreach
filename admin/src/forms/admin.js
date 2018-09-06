@@ -156,14 +156,14 @@ class AdminForm extends Component {
                   autoComplete="current-password"
                   endAdornment={
                     <InputAdornment position="end">
-  <IconButton
+                      <IconButton
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
-</InputAdornment>
+                    </InputAdornment>
                   }
                 />
               </FormControl>
@@ -179,14 +179,14 @@ class AdminForm extends Component {
                   autoComplete="current-password"
                   endAdornment={
                     <InputAdornment position="end">
-  <IconButton
+                      <IconButton
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
-</InputAdornment>
+                    </InputAdornment>
                   }
                 />
               </FormControl>
@@ -202,14 +202,14 @@ class AdminForm extends Component {
                   autoComplete="current-password"
                   endAdornment={
                     <InputAdornment position="end">
-  <IconButton
+                      <IconButton
                         aria-label="Toggle password visibility"
                         onClick={this.handleClickShowPassword}
                         onMouseDown={this.handleMouseDownPassword}
                       >
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
-</InputAdornment>
+                    </InputAdornment>
                   }
                 />
               </FormControl>

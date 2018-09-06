@@ -5,14 +5,14 @@ import { getMedia, deleteMedia, updateMedia, addMedia } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-  {
-    getMedia,
-    deleteMedia,
-    updateMedia,
-    addMedia,
-  },
-  dispatch,
-);
+    {
+      getMedia,
+      deleteMedia,
+      updateMedia,
+      addMedia,
+    },
+    dispatch,
+  );
 
 export default connect(
   null,

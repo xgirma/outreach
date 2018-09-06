@@ -5,14 +5,14 @@ import { getEvent, deleteEvent, updateEvent, addEvent } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-  {
-    getEvent,
-    deleteEvent,
-    updateEvent,
-    addEvent,
-  },
-  dispatch,
-);
+    {
+      getEvent,
+      deleteEvent,
+      updateEvent,
+      addEvent,
+    },
+    dispatch,
+  );
 
 export default connect(
   null,

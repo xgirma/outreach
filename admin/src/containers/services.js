@@ -5,14 +5,14 @@ import { getServices, deleteServices, updateServices, addServices } from '../act
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-  {
-    getServices,
-    deleteServices,
-    updateServices,
-    addServices,
-  },
-  dispatch,
-);
+    {
+      getServices,
+      deleteServices,
+      updateServices,
+      addServices,
+    },
+    dispatch,
+  );
 
 export default connect(
   null,

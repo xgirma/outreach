@@ -5,12 +5,12 @@ import { changePassword, getAdmin } from '../actions';
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-  {
-    changePassword,
-    getAdmin,
-  },
-  dispatch,
-);
+    {
+      changePassword,
+      getAdmin,
+    },
+    dispatch,
+  );
 
 export default connect(
   null,
