@@ -98,7 +98,7 @@ class BlogForm extends Component {
 
   onAmEditorChange = (amharic) => {
     const description = amharic.toString('html');
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       amharic,
       item: {
@@ -113,7 +113,7 @@ class BlogForm extends Component {
 
   onEnEditorChange = (english) => {
     const description = english.toString('html');
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       english,
       item: {
@@ -128,7 +128,7 @@ class BlogForm extends Component {
 
   handleAmharicInput = (event) => {
     const { value, name } = event.target;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -139,7 +139,7 @@ class BlogForm extends Component {
 
   handleEnglishInput = (event) => {
     const { value, name } = event.target;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -150,7 +150,7 @@ class BlogForm extends Component {
 
   handleItemInput = (event) => {
     const { value, name } = event.target;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -399,8 +399,8 @@ class BlogForm extends Component {
 
           <CardContent>
             <Typography color="error">
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              {this.state.error.name !== ''
+                && `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
           </CardContent>
 
@@ -426,7 +426,7 @@ class BlogForm extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.items.map((item) => (
+                {this.state.items.map(item => (
                   <TableRow key={item._id}>
                     <TableCell component="th" scope="row">
                       {moment(item.date).format('L')}

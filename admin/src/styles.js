@@ -1,6 +1,6 @@
 const drawerWidth = 240;
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     paddingTop: theme.spacing.unit * 20,
     flexGrow: 1,

@@ -11,15 +11,14 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      signin,
-      signout,
-      alertClear,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    signin,
+    signout,
+    alertClear,
+  },
+  dispatch,
+);
 
 export default connect(
   mapStateToProps,

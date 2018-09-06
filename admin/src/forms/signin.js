@@ -44,12 +44,12 @@ class SigninForm extends Component {
     signout();
   }
 
-  handleChange = (prop) => (event) => {
+  handleChange = prop => (event) => {
     this.setState({ [prop]: event.target.value });
   };
 
   handleClickShowPassword = () => {
-    this.setState((state) => ({ showPassword: !state.showPassword }));
+    this.setState(state => ({ showPassword: !state.showPassword }));
   };
 
   handleMouseDownPassword = (event) => {
@@ -102,7 +102,7 @@ class SigninForm extends Component {
                   value={this.state.password}
                   onChange={this.handleChange('password')}
                   autoComplete="current-password"
-                  endAdornment={
+                  endAdornment={(
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="Toggle password visibility"
@@ -112,7 +112,7 @@ class SigninForm extends Component {
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-                  }
+)}
                 />
               </FormControl>
               <Button

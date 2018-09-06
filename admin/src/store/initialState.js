@@ -5,9 +5,9 @@ const username = item || 'guest';
 
 const initialState = isTokenAlive()
   ? {
-      authentication: { signedIn: true, username },
-      navigation: { path: '/' },
-    }
+    authentication: { signedIn: true, username },
+    navigation: { path: '/' },
+  }
   : { navigation: { path: '/' } };
 
 export default initialState;

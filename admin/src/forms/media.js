@@ -106,7 +106,7 @@ class MediaForm extends Component {
 
   onAmEditorChange = (amharic) => {
     const description = amharic.toString('html');
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       amharic,
       item: {
@@ -121,7 +121,7 @@ class MediaForm extends Component {
 
   onEnEditorChange = (english) => {
     const description = english.toString('html');
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       english,
       item: {
@@ -136,7 +136,7 @@ class MediaForm extends Component {
 
   handleItemInput = (event) => {
     const { value, name } = event.target;
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -391,7 +391,7 @@ class MediaForm extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.items.map((item) => (
+                {this.state.items.map(item => (
                   <TableRow key={item._id}>
                     <TableCell component="th" scope="row">
                       {moment(item.date).format('L')}

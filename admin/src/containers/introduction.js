@@ -8,16 +8,15 @@ import {
   addIntroduction,
 } from '../actions';
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      getIntroduction,
-      deleteIntroduction,
-      updateIntroduction,
-      addIntroduction,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = dispatch => bindActionCreators(
+  {
+    getIntroduction,
+    deleteIntroduction,
+    updateIntroduction,
+    addIntroduction,
+  },
+  dispatch,
+);
 
 export default connect(
   null,

@@ -5,12 +5,12 @@ import { navigateTo } from './navigation';
 
 const resource = 'signin';
 
-const signinRequest = (username) => ({
+const signinRequest = username => ({
   type: 'SIGNIN_REQUEST',
   username,
 });
 
-const signinSuccess = (username) => ({
+const signinSuccess = username => ({
   type: 'SIGNIN_SUCCESS',
   username,
 });
