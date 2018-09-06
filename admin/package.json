@@ -6,6 +6,7 @@
     "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^3.0.1",
     "classnames": "^2.2.6",
+    "eslint-plugin-prettier": "^2.6.2",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",

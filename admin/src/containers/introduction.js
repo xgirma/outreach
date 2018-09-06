@@ -10,14 +10,14 @@ import {
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
-    {
-      getIntroduction,
-      deleteIntroduction,
-      updateIntroduction,
-      addIntroduction,
-    },
-    dispatch,
-  );
+  {
+    getIntroduction,
+    deleteIntroduction,
+    updateIntroduction,
+    addIntroduction,
+  },
+  dispatch,
+);
 
 export default connect(
   null,
