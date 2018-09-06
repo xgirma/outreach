@@ -1,6 +1,4 @@
-import {
-  header, token, requester, poster, getId,
-} from '../helper';
+import { header, token, requester, poster, getId } from '../helper';
 
 const headers = { ...header, ...token };
 

@@ -1,9 +1,9 @@
-export const alertSuccess = message => ({
+export const alertSuccess = (message) => ({
   type: 'ALERT_SUCCESS',
   message,
 });
 
-export const alertError = message => ({
+export const alertError = (message) => ({
   type: 'ALERT_ERROR',
   message,
 });

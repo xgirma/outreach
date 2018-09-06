@@ -1,6 +1,4 @@
-import {
-  getService, deleteService, updateService, addService,
-} from '../services';
+import { getService, deleteService, updateService, addService } from '../services';
 
 const resource = 'blog';
 
@@ -51,7 +49,7 @@ export const getBlog = () => async (dispatch) => {
   return result;
 };
 
-export const deleteBlog = id => async (dispatch) => {
+export const deleteBlog = (id) => async (dispatch) => {
   const result = await deleteService(resource, id);
   const { status } = result;
 
@@ -66,7 +64,7 @@ export const deleteBlog = id => async (dispatch) => {
   return result;
 };
 
-export const updateBlog = body => async (dispatch) => {
+export const updateBlog = (body) => async (dispatch) => {
   const result = await updateService(resource, body);
   const { status } = result;
 
@@ -81,7 +79,7 @@ export const updateBlog = body => async (dispatch) => {
   return result;
 };
 
-export const addBlog = body => async (dispatch) => {
+export const addBlog = (body) => async (dispatch) => {
   const result = await addService(resource, body);
   const { status } = result;
 

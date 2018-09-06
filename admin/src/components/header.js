@@ -2,9 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import {
-  Drawer, Divider, List, IconButton, Typography, Toolbar, AppBar,
-} from '@material-ui/core';
+import { Drawer, Divider, List, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { pageListItems, adminListItems } from './drawer-menu';
@@ -31,7 +29,7 @@ class Header extends Component {
   };
   /* eslint-enable */
 
-  toggleDrawer = open => () => {
+  toggleDrawer = (open) => () => {
     this.setState({
       left: open,
     });

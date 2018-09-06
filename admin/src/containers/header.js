@@ -12,12 +12,13 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(
-  {
-    navigateTo,
-  },
-  dispatch,
-);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      navigateTo,
+    },
+    dispatch,
+  );
 
 export default connect(
   mapStateToProps,

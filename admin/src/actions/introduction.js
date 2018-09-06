@@ -1,6 +1,4 @@
-import {
-  getService, deleteService, updateService, addService,
-} from '../services';
+import { getService, deleteService, updateService, addService } from '../services';
 
 const resource = 'intro';
 
@@ -51,7 +49,7 @@ export const getIntroduction = () => async (dispatch) => {
   return result;
 };
 
-export const deleteIntroduction = id => async (dispatch) => {
+export const deleteIntroduction = (id) => async (dispatch) => {
   const result = await deleteService(resource, id);
   const { status } = result;
 
@@ -66,7 +64,7 @@ export const deleteIntroduction = id => async (dispatch) => {
   return result;
 };
 
-export const updateIntroduction = body => async (dispatch) => {
+export const updateIntroduction = (body) => async (dispatch) => {
   const result = await updateService(resource, body);
   const { status } = result;
 
@@ -81,7 +79,7 @@ export const updateIntroduction = body => async (dispatch) => {
   return result;
 };
 
-export const addIntroduction = body => async (dispatch) => {
+export const addIntroduction = (body) => async (dispatch) => {
   const result = await addService(resource, body);
   const { status } = result;
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const Input = ({
-  name, title, type, value, onChange, placeholder,
-}) => (
+export const Input = ({ name, title, type, value, onChange, placeholder }) => (
   <div className="form-group">
     <label htmlFor={name} className="form-label">
       {title}

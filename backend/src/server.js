@@ -1,5 +1,5 @@
 import express from 'express';
-import * as cors from 'cors';
+const cors = require('cors');
 import swaggerUi from 'swagger-ui-express';
 import { restRouter } from './api';
 import { NotFound } from './api/modules/error';

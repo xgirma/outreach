@@ -79,7 +79,7 @@ class AdminForm extends Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       password: {
         ...prevState.password,
@@ -89,7 +89,7 @@ class AdminForm extends Component {
   };
 
   handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
+    this.setState((state) => ({ showPassword: !state.showPassword }));
   };
 
   handleSubmit = (event) => {
@@ -103,22 +103,22 @@ class AdminForm extends Component {
     const result = await changePassword(password);
     const { status, data } = result;
 
-    const error = (status === 'error' || status === 'fail') ? data : blankError;
+    const error = status === 'error' || status === 'fail' ? data : blankError;
 
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       password: blankPassword,
       error,
     }));
 
     const currentPassword = document.getElementById('adornment-currentPassword');
-    (currentPassword != null) ? (currentPassword.value = '') : null;
+    currentPassword != null ? (currentPassword.value = '') : null;
 
     const newPassword = document.getElementById('adornment-newPassword');
-    (newPassword != null) ? (newPassword.value = '') : null;
+    newPassword != null ? (newPassword.value = '') : null;
 
     const newPasswordAgain = document.getElementById('adornment-newPasswordAgain');
-    (newPasswordAgain != null) ? (newPasswordAgain.value = '') : null;
+    newPasswordAgain != null ? (newPasswordAgain.value = '') : null;
   };
 
   handlePasswordReset = async (admin) => {};
@@ -154,7 +154,7 @@ class AdminForm extends Component {
                   value={this.state.password.currentPassword}
                   onChange={this.handleChange}
                   autoComplete="current-password"
-                  endAdornment={(
+                  endAdornment={
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="Toggle password visibility"
@@ -164,7 +164,7 @@ class AdminForm extends Component {
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-)}
+                  }
                 />
               </FormControl>
 
@@ -177,7 +177,7 @@ class AdminForm extends Component {
                   value={this.state.password.newPassword}
                   onChange={this.handleChange}
                   autoComplete="current-password"
-                  endAdornment={(
+                  endAdornment={
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="Toggle password visibility"
@@ -187,7 +187,7 @@ class AdminForm extends Component {
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-)}
+                  }
                 />
               </FormControl>
 
@@ -200,7 +200,7 @@ class AdminForm extends Component {
                   value={this.state.password.newPasswordAgain}
                   onChange={this.handleChange}
                   autoComplete="current-password"
-                  endAdornment={(
+                  endAdornment={
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="Toggle password visibility"
@@ -210,7 +210,7 @@ class AdminForm extends Component {
                         {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-)}
+                  }
                 />
               </FormControl>
 
@@ -224,13 +224,12 @@ class AdminForm extends Component {
                 </Button>
               </CardActions>
             </form>
-
           </CardContent>
 
           <CardContent>
             <Typography color="error">
-              {this.state.error.name !== ''
-              && `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              {this.state.error.name !== '' &&
+                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
           </CardContent>
 
@@ -256,21 +255,24 @@ class AdminForm extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.admins.map(admin => (
+                {this.state.admins.map((admin) => (
                   <TableRow key={admin._id}>
-                    <TableCell component="th" scope="row">{moment(admin.createdAt).format('L')}</TableCell>
+                    <TableCell component="th" scope="row">
+                      {moment(admin.createdAt).format('L')}
+                    </TableCell>
                     <TableCell>{admin.username}</TableCell>
                     <TableCell>{admin.role == 0 ? 'super-admin' : 'admin'}</TableCell>
                     <TableCell>
-                      { getRole() == 0 && admin.role != 0 && (
-                      <Button
-                        variant="contained"
-                        className={classes.button}
-                        onClick={() => this.handlePasswordReset(admin)}
-                      >
-                      Reset Password
-                      </Button>
-                      )}
+                      {getRole() == 0 &&
+                        admin.role != 0 && (
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            onClick={() => this.handlePasswordReset(admin)}
+                          >
+                            Reset Password
+                          </Button>
+                        )}
                     </TableCell>
                     <TableCell>
                       {

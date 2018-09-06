@@ -97,7 +97,7 @@ class IntroductionForm extends Component {
 
   onAmEditorChange = (amharic) => {
     const introduction = amharic.toString('html');
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       amharic,
       item: {
@@ -112,7 +112,7 @@ class IntroductionForm extends Component {
 
   onEnEditorChange = (english) => {
     const introduction = english.toString('html');
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       english,
       item: {
@@ -233,7 +233,7 @@ class IntroductionForm extends Component {
 
   handleAmharicInput = (event) => {
     const { value, name } = event.target;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -244,7 +244,7 @@ class IntroductionForm extends Component {
 
   handleEnglishInput = (event) => {
     const { value, name } = event.target;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       ...prevState,
       item: {
         ...prevState.item,
@@ -371,8 +371,8 @@ class IntroductionForm extends Component {
 
           <CardContent>
             <Typography color="error">
-              {this.state.error.name !== ''
-                && `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              {this.state.error.name !== '' &&
+                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
           </CardContent>
 
@@ -398,7 +398,7 @@ class IntroductionForm extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.items.map(item => (
+                {this.state.items.map((item) => (
                   <TableRow key={item._id}>
                     <TableCell component="th" scope="row">
                       {moment(item.date).format('L')}

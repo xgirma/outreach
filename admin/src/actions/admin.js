@@ -18,7 +18,7 @@ const getAdminFailure = () => ({
   type: 'GET_ADMIN_FAILURE',
 });
 
-export const changePassword = body => async (dispatch) => {
+export const changePassword = (body) => async (dispatch) => {
   const result = await updateService(resource, body);
   const { status } = result;
 
