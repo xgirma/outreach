@@ -2,6 +2,7 @@ const drawerWidth = 240;
 
 const styles = (theme) => ({
   root: {
+    margin: 20,
     paddingTop: theme.spacing.unit * 20,
     flexGrow: 1,
     zIndex: 1,
@@ -21,6 +22,7 @@ const styles = (theme) => ({
     ...theme.mixins.toolbar,
   },
   appBar: {
+    position: 'absolute',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,

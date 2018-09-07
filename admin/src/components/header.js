@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Drawer, Divider, List, IconButton, Typography, Toolbar, AppBar } from '@material-ui/core';
+import { Drawer, Divider, List, IconButton, Typography, Toolbar, AppBar, Paper } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { pageListItems, adminListItems } from './drawer-menu';
@@ -41,43 +41,41 @@ class Header extends Component {
 
     return (
       <Fragment>
-        {/* menu */}
-        <AppBar
-          position="absolute"
-          className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
-        >
-          <Toolbar disableGutters={!this.state.open}>
-            {signedIn && (
-              <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={this.toggleDrawer(true)}
-                className={classNames(classes.menuButton, this.state.open && classes.hide)}
-              >
-                <Menu />
-              </IconButton>
-            )}
-            <Typography variant="title" color="inherit" className={classes.flex}>
-              Content Admin
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        {/* body: drawer & body */}
         {signedIn && (
-          <Drawer open={this.state.left} onClose={this.toggleDrawer(false)}>
-            <div
-              tabIndex={0}
-              role="button"
-              onClick={this.toggleDrawer(false)}
-              onKeyDown={this.toggleDrawer(false)}
+          <div>
+            <AppBar
+              className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
             >
-              <Divider />
-              <Divider />
-              <List>{pageListItems}</List>
-              <Divider />
-              <List>{adminListItems}</List>
-            </div>
-          </Drawer>
+              <Toolbar disableGutters={!this.state.open}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.toggleDrawer(true)}
+                    className={classNames(classes.menuButton, this.state.open && classes.hide)}
+                  >
+                    <Menu />
+                  </IconButton>
+                <Typography variant="title" color="inherit" className={classes.flex}>
+                  Content Admin
+                </Typography>
+              </Toolbar>
+            </AppBar>
+            
+            <Drawer open={this.state.left} onClose={this.toggleDrawer(false)}>
+              <div
+                tabIndex={0}
+                role="button"
+                onClick={this.toggleDrawer(false)}
+                onKeyDown={this.toggleDrawer(false)}
+              >
+                <Divider />
+                <Divider />
+                <List>{pageListItems}</List>
+                <Divider />
+                <List>{adminListItems}</List>
+              </div>
+            </Drawer>
+          </div>
         )}
       </Fragment>
     );

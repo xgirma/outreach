@@ -79,7 +79,7 @@ class SigninForm extends Component {
             <Avatar className={classes.avatar}>
               <LockOutlined />
             </Avatar>
-            <Typography variant="headline">Sign in</Typography>
+            <Typography variant="headline">Sign In</Typography>
             <form className={classes.form}>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="adornment-username">Username</InputLabel>
@@ -123,7 +123,7 @@ class SigninForm extends Component {
                 className={classes.submit}
                 onClick={this.handleClick}
               >
-                Sign in
+                Sign In
               </Button>
               <Typography variant="caption" gutterBottom align="center">
                 {message && <div className={`alert ${type}`}>{message}</div>}
