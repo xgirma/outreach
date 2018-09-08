@@ -66,7 +66,7 @@ export const pageListItems = (
         <ListItemIcon>
           <MusicVideo />
         </ListItemIcon>
-        <ListItemText primary="Account" />
+        <ListItemText primary="Media" />
       </ListItem>
     </Link>
 
