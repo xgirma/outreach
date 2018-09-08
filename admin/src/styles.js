@@ -39,6 +39,13 @@ const styles = (theme) => ({
   card: {
     width: '100%',
   },
+  formControl: {
+    margin: 'normal',
+  },
+  paper: {
+    elevation: 0,
+    paddingBottom: theme.spacing.unit * 2,
+  },
 });
 
 export default styles;

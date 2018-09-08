@@ -484,7 +484,7 @@ class InformationForm extends Component {
               <Typography variant="headline" component="h2">
                 Information
               </Typography>
-              <Typography className={classes.pos} color="textSecondary">
+              <Typography paragraph>
                 Only the first record will be shown in the website. Other records can be added. To
                 edit exiting record click the Edit button.
               </Typography>
@@ -494,8 +494,8 @@ class InformationForm extends Component {
                     <TableCell>Created on</TableCell>
                     <TableCell>By</TableCell>
                     <TableCell>Name</TableCell>
-                    <TableCell> </TableCell>
-                    <TableCell> </TableCell>
+                    <TableCell />
+                    <TableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody>
