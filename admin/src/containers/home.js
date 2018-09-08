@@ -1,12 +1,24 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Home from '../components/home';
+import {navigateTo} from "../actions";
 
 function mapStateToProps(state) {
-  return { state };
+  const { signedIn, username } = state.authentication;
+  
+  return {
+    signedIn,
+    username,
+  };
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      navigateTo,
+    },
+    dispatch,
+  );
 
 export default connect(
   mapStateToProps,
