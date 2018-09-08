@@ -18,6 +18,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
+import { createValueFromString } from 'react-rte';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -106,6 +107,10 @@ class InformationForm extends Component {
         this.setState({
           items: newResult.data,
           error: blankError,
+          item: blankItem,
+          add: true,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
         });
       }
 

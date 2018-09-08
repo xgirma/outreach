@@ -15,7 +15,7 @@ import {
 import { Switch } from 'react-router-dom';
 import withRoot from '../withRoot';
 import styles from '../styles';
-import PrivateRoute from '../routes/private-route';
+import PrivateRoute from './private-route';
 import Media from '../containers/media';
 import Admin from '../containers/admin';
 import Information from '../containers/information';
@@ -23,6 +23,7 @@ import Introduction from '../containers/introduction';
 import Event from '../containers/event';
 import Blog from '../containers/blog';
 import Services from '../containers/services';
+import Landing from './landing';
 import { pageListItems, adminListItems } from './drawer-menu';
 
 class Home extends Component {
@@ -111,7 +112,7 @@ class Home extends Component {
             <PrivateRoute exact path="/media" component={Media} />
             <PrivateRoute exact path="/services" component={Services} />
             <PrivateRoute exact path="/admin" component={Admin} />
-            <PrivateRoute exact path="/" render={() => <h1>Not Found :(</h1>} />
+            <PrivateRoute exact path="/" component={Landing} />
           </Switch>
         </main>
       </div>
