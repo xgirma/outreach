@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
 import {
-  Info,
   Home,
   Event,
   Create,
@@ -10,20 +9,23 @@ import {
   AccountBox,
   ExitToApp,
   AssignmentInd,
+  Room,
 } from '@material-ui/icons';
+
+const textDecoration = { textDecoration: 'none' };
 
 export const pageListItems = (
   <div>
-    <Link to="/information">
+    <Link to="/information" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
-          <Info />
+          <Room />
         </ListItemIcon>
         <ListItemText primary="Information" />
       </ListItem>
     </Link>
 
-    <Link to="/introduction">
+    <Link to="/introduction" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <Home />
@@ -32,7 +34,7 @@ export const pageListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/services">
+    <Link to="/services" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <AssignmentInd />
@@ -41,7 +43,7 @@ export const pageListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/event">
+    <Link to="/event" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <Event />
@@ -50,7 +52,7 @@ export const pageListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/blog">
+    <Link to="/blog" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <Create />
@@ -59,20 +61,16 @@ export const pageListItems = (
       </ListItem>
     </Link>
 
-    <Link to="/media">
+    <Link to="/media" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <MusicVideo />
         </ListItemIcon>
-        <ListItemText primary="Media" />
+        <ListItemText primary="Account" />
       </ListItem>
     </Link>
-  </div>
-);
 
-export const adminListItems = (
-  <div>
-    <Link to="/admin">
+    <Link to="/admin" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <AccountBox />
@@ -80,8 +78,12 @@ export const adminListItems = (
         <ListItemText primary="Account" />
       </ListItem>
     </Link>
+  </div>
+);
 
-    <Link to="/signin">
+export const adminListItems = (
+  <div>
+    <Link to="/signin" style={textDecoration}>
       <ListItem button>
         <ListItemIcon>
           <ExitToApp />

@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import Home from '../components/home';
 
 function mapStateToProps(state) {
-  return { state };
+  const { username } = state.authentication;
+  return {
+    username,
+  };
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);

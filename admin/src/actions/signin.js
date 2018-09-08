@@ -30,7 +30,7 @@ export const signin = (username, password) => async (dispatch) => {
   if (status === 'success') {
     setUser(data, username);
     dispatch(signinSuccess(username));
-    dispatch(navigateTo('home'));
+    dispatch(navigateTo('information'));
     dispatch(alertClear());
   }
 
