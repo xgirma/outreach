@@ -5,7 +5,6 @@ import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
-  AppBar,
   Tabs,
   Tab,
   TextField,
@@ -260,22 +259,14 @@ class InformationForm extends Component {
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Active
-            </Typography>
             <Typography variant="headline" component="h2">
               Information
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              Add new or update existing
-            </Typography>
             <form onSubmit={this.handleSubmit}>
-              <AppBar position="static" color="default">
                 <Tabs value={value} onChange={this.handleChange}>
                   <Tab label="Amharic" />
                   <Tab label="English" />
                 </Tabs>
-              </AppBar>
               {value === 0 && (
                 <TabContainer>
                   <TextField
@@ -400,7 +391,6 @@ class InformationForm extends Component {
                 value={this.state.item.phone}
                 placeholder="Enter your church phone"
                 onChange={this.handleItemInput}
-                helperText="e.g. (425) 000-1234"
               />
 
               <TextField
@@ -414,7 +404,6 @@ class InformationForm extends Component {
                 value={this.state.item.email}
                 placeholder="Enter your church email"
                 onChange={this.handleItemInput}
-                helperText="e.g. xyz@gmail.com"
               />
 
               <TextField
@@ -428,7 +417,6 @@ class InformationForm extends Component {
                 value={this.state.item.address.street}
                 placeholder="Enter your church street"
                 onChange={this.handleAddressInput}
-                helperText="e.g. 123 Main Street"
               />
 
               <TextField
@@ -442,7 +430,6 @@ class InformationForm extends Component {
                 value={this.state.item.address.city}
                 placeholder="Enter your church city"
                 onChange={this.handleAddressInput}
-                helperText="e.g. Seattle"
               />
 
               <TextField
@@ -456,7 +443,6 @@ class InformationForm extends Component {
                 value={this.state.item.address.state}
                 placeholder="Enter your church state"
                 onChange={this.handleAddressInput}
-                helperText="e.g. WA"
               />
 
               <TextField
@@ -470,7 +456,6 @@ class InformationForm extends Component {
                 value={this.state.item.address.zip}
                 placeholder="Enter your church zip"
                 onChange={this.handleAddressInput}
-                helperText="e.g. 90102"
               />
 
               <TextField
@@ -484,7 +469,6 @@ class InformationForm extends Component {
                 value={this.state.item.address.country}
                 placeholder="Enter your church country"
                 onChange={this.handleAddressInput}
-                helperText="e.g. United State"
               />
             </form>
           </CardContent>
