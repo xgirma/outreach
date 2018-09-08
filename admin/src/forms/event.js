@@ -490,8 +490,8 @@ class EventForm extends Component {
                 Services
               </Typography>
               <Typography paragraph>
-                Enter event record. Only future events will be displayed. To edit exiting record
-                click the Edit button.
+                Enter event record. Only current and future events will be displayed. To edit
+                exiting record click the Edit button.
               </Typography>
 
               <Table className={classes.table}>
