@@ -150,6 +150,10 @@ class IntroductionForm extends Component {
         this.setState({
           items: newResult.data,
           error: blankError,
+          item: blankItem,
+          add: true,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
         });
       }
 

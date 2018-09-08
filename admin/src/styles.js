@@ -43,7 +43,6 @@ const styles = (theme) => ({
     margin: 'normal',
   },
   paper: {
-    elevation: 0,
     paddingBottom: theme.spacing.unit * 2,
   },
 });

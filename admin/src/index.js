@@ -5,7 +5,7 @@ import { BrowserRouter, Router, Switch, Route } from 'react-router-dom';
 import store from './store/index';
 import { History } from './helper';
 import SigninForm from './containers/signin';
-import PrivateRoute from './routes/private-route';
+import PrivateRoute from './components/private-route';
 import Home from './containers/home';
 
 ReactDOM.render(

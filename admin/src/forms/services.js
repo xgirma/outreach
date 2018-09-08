@@ -194,6 +194,7 @@ class ServicesForm extends Component {
         this.setState({
           items: newResult.data,
           error: blankError,
+          item: blankItem,
           add: true,
           amharic: createValueFromString('', 'html'),
           english: createValueFromString('', 'html'),
@@ -224,6 +225,10 @@ class ServicesForm extends Component {
         this.setState({
           items: newResult.data,
           error: blankError,
+          item: blankItem,
+          add: true,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
         });
       }
 
@@ -404,8 +409,8 @@ class ServicesForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>By</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell> </TableCell>
-                  <TableCell> </TableCell>
+                  <TableCell />
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
