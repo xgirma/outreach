@@ -1,52 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Hidden from '@material-ui/core/Hidden';
-import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
+import {
+  Divider,
+  Hidden,
+  IconButton,
+  Typography,
+  List,
+  Toolbar,
+  AppBar,
+  Drawer,
+} from '@material-ui/core';
 import { Switch } from 'react-router-dom';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import PrivateRoute from '../routes/private-route';
-
 import Media from '../containers/media';
 import Admin from '../containers/admin';
-import Information from "../containers/information";
-import Introduction from "../containers/introduction";
-import Event from "../containers/event";
-import Blog from "../containers/blog";
-import Services from "../containers/services";
+import Information from '../containers/information';
+import Introduction from '../containers/introduction';
+import Event from '../containers/event';
+import Blog from '../containers/blog';
+import Services from '../containers/services';
 import { pageListItems, adminListItems } from './drawer-menu';
 
 class Home extends Component {
   static displayName = 'home-component';
-  
+
   static propTypes = {
-    signedIn: PropTypes.bool,
     classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
   };
-  
-  static defaultProps = {
-    signedIn: false,
-  };
-  
+
   state = {
     mobileOpen: false,
   };
-  
+
   handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+    this.setState((state) => ({ mobileOpen: !state.mobileOpen }));
   };
-  
+
   render() {
-    const { classes, theme } = this.props;
-    
+    const { classes, theme, location } = this.props;
+    const { pathname } = location;
+    const at = pathname.substring(1);
+
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -56,7 +56,7 @@ class Home extends Component {
         <List>{adminListItems}</List>
       </div>
     );
-    
+
     return (
       <div className={classes.root}>
         <AppBar className={classes.appBar}>
@@ -70,7 +70,7 @@ class Home extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Outreach
+              Outreach: {at}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -83,7 +83,6 @@ class Home extends Component {
             classes={{
               paper: classes.drawerPaper,
             }}
-            onKeyDown={this.handleDrawerToggle}
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
@@ -94,7 +93,7 @@ class Home extends Component {
         <Hidden smDown implementation="css">
           <Drawer
             variant="permanent"
-            open
+            open={this.state.mobileOpen}
             classes={{
               paper: classes.drawerPaper,
             }}
@@ -103,6 +102,7 @@ class Home extends Component {
           </Drawer>
         </Hidden>
         <main className={classes.content}>
+          <div className={classes.toolbar} />
           <Switch>
             <PrivateRoute exact path="/information" component={Information} />
             <PrivateRoute exact path="/introduction" component={Introduction} />

@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -16,8 +15,9 @@ import {
   Card,
   CardActions,
   CardContent,
+  Button,
 } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Delete, Edit } from '@material-ui/icons';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -69,7 +69,7 @@ class InformationForm extends Component {
   state = {
     items: [],
     item: blankItem,
-    add: false,
+    add: true,
     error: blankError,
     value: 0,
   };
@@ -81,13 +81,8 @@ class InformationForm extends Component {
     if (status === 'success') {
       this.setState({
         items: data,
-        item: data.length > 0 ? data[0] : blankItem,
         error: blankError,
       });
-    }
-
-    if (this.state.items.length === 0) {
-      this.setState({ add: true });
     }
 
     if (status === 'fail' || status === 'error') {
@@ -107,19 +102,9 @@ class InformationForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getInformation();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
+      if (newResult.status === 'success') {
         this.setState({
           items: newResult.data,
-          item: newResult.data[0],
-          error: blankError,
-        });
-      }
-
-      if (newResult.status === 'success' && newResult.data.length === 0) {
-        this.setState({
-          items: newResult.data,
-          item: blankItem,
-          add: true,
           error: blankError,
         });
       }
@@ -149,11 +134,11 @@ class InformationForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getInformation();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
+      if (newResult.status === 'success') {
         this.setState({
           items: newResult.data,
-          item: newResult.data[0],
           error: blankError,
+          item: blankItem,
           add: true,
         });
       }
@@ -259,14 +244,11 @@ class InformationForm extends Component {
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography variant="headline" component="h2">
-              Information
-            </Typography>
             <form onSubmit={this.handleSubmit}>
-                <Tabs value={value} onChange={this.handleChange}>
-                  <Tab label="Amharic" />
-                  <Tab label="English" />
-                </Tabs>
+              <Tabs value={value} onChange={this.handleChange}>
+                <Tab label="Amharic" />
+                <Tab label="English" />
+              </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
@@ -278,7 +260,7 @@ class InformationForm extends Component {
                     margin="normal"
                     name="name"
                     value={this.state.item.am.name}
-                    placeholder="Enter your church name"
+                    placeholder="የቤተ ክርስቲያን ስም እዚህ ይፃፉ"
                     onChange={this.handleAmharicInput}
                     helperText="ለምሳሌ - የሲያትል ደብረ ሚካኤል የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን"
                   />
@@ -291,7 +273,7 @@ class InformationForm extends Component {
                     margin="normal"
                     name="denomination"
                     value={this.state.item.am.denomination}
-                    placeholder="Enter your church denomination name"
+                    placeholder="የቤተክርስቲያን ቤተ እምነትን እዚህ ይፃፉ"
                     onChange={this.handleAmharicInput}
                     helperText="ለምሳሌ - የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስትያን"
                   />
@@ -304,9 +286,9 @@ class InformationForm extends Component {
                     margin="normal"
                     name="verse"
                     value={this.state.item.am.bible.verse}
-                    placeholder="Enter your church verse"
+                    placeholder="ዋና የመጽሐፍ ቅዱስ ጥቅስ እዚህ ይፃፉ"
                     onChange={this.handleAmharicBibleInput}
-                    helperText="ለምሳሌ - ሁለት ወይም ሦስት በስሜ በሚሰበሰቡበት በዚያ በመካከላቸው እሆናለሁና"
+                    helperText="ለምሳሌ - ሁለት ወይም ሦስት በስሜ በሚሰበሰቡበት በዚያ በመካከላቸው እሆናለሁ"
                   />
                   <TextField
                     className={classes.formControl}
@@ -317,7 +299,7 @@ class InformationForm extends Component {
                     margin="normal"
                     name="from"
                     value={this.state.item.am.bible.from}
-                    placeholder="Enter your church verse from"
+                    placeholder="ምንጩን እዚህ ይፃፉ"
                     onChange={this.handleAmharicBibleInput}
                     helperText="ለምሳሌ - ማቴዎስ 18:20"
                   />
@@ -334,7 +316,7 @@ class InformationForm extends Component {
                     margin="normal"
                     name="name"
                     value={this.state.item.en.name}
-                    placeholder="Enter your church name"
+                    placeholder="Enter church name"
                     onChange={this.handleEnglishInput}
                     helperText="e.g. Seattle Debre Mihret St.Michael Ethiopian Orthodox Tewahedo Church"
                   />
@@ -380,170 +362,182 @@ class InformationForm extends Component {
                 </TabContainer>
               )}
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="Phone"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="phone"
-                value={this.state.item.phone}
-                placeholder="Enter your church phone"
-                onChange={this.handleItemInput}
-              />
+              <CardContent>
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Phone"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="phone"
+                  value={this.state.item.phone}
+                  placeholder="Enter phone"
+                  onChange={this.handleItemInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="Email"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="email"
-                value={this.state.item.email}
-                placeholder="Enter your church email"
-                onChange={this.handleItemInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Email"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="email"
+                  value={this.state.item.email}
+                  placeholder="Enter email"
+                  onChange={this.handleItemInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="Street"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="street"
-                value={this.state.item.address.street}
-                placeholder="Enter your church street"
-                onChange={this.handleAddressInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Street"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="street"
+                  value={this.state.item.address.street}
+                  placeholder="Enter street"
+                  onChange={this.handleAddressInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="City"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="city"
-                value={this.state.item.address.city}
-                placeholder="Enter your church city"
-                onChange={this.handleAddressInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="City"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="city"
+                  value={this.state.item.address.city}
+                  placeholder="Enter city"
+                  onChange={this.handleAddressInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="State"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="state"
-                value={this.state.item.address.state}
-                placeholder="Enter your church state"
-                onChange={this.handleAddressInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="State"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="state"
+                  value={this.state.item.address.state}
+                  placeholder="Enter state"
+                  onChange={this.handleAddressInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="Zip"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="zip"
-                value={this.state.item.address.zip}
-                placeholder="Enter your church zip"
-                onChange={this.handleAddressInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Zip"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="zip"
+                  value={this.state.item.address.zip}
+                  placeholder="Enter zip"
+                  onChange={this.handleAddressInput}
+                />
 
-              <TextField
-                className={classes.formControl}
-                id="full-width"
-                label="Country"
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                margin="normal"
-                name="country"
-                value={this.state.item.address.country}
-                placeholder="Enter your church country"
-                onChange={this.handleAddressInput}
-              />
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Country"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="country"
+                  value={this.state.item.address.country}
+                  placeholder="Enter country"
+                  onChange={this.handleAddressInput}
+                />
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleFormClear}
+                >
+                  Clear
+                </Button>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={this.handleFormUpdate}
+                >
+                  Submit
+                </Button>
+              </CardActions>
+              <CardContent>
+                <Typography color="error">
+                  {this.state.error.name !== '' &&
+                    `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+                </Typography>
+              </CardContent>
             </form>
-          </CardContent>
-          <CardActions>
-            <Button variant="contained" className={classes.button} onClick={this.handleFormClear}>
-              Add New
-            </Button>
 
-            <Button variant="contained" className={classes.button} onClick={this.handleFormUpdate}>
-              Submit
-            </Button>
-          </CardActions>
-          <CardContent>
-            <Typography color="error">
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-            </Typography>
-          </CardContent>
-
-          <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Database
-            </Typography>
-            <Typography variant="headline" component="h2">
-              Information
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              List of existing data
-            </Typography>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Created on</TableCell>
-                  <TableCell>By</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Edit</TableCell>
-                  <TableCell>Delete</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell component="th" scope="row">
-                      {moment(item.date).format('L')}
-                    </TableCell>
-                    <TableCell>{item.adminname}</TableCell>
-                    <TableCell>
-                      <div onClick={() => this.handleEdit(item)}>{item.am.name}</div>
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          onClick={() => this.handleEdit(item)}
-                        >
-                          Edit
-                        </Button>
-                      }
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          onClick={() => this.handleDelete(item._id)}
-                        >
-                          Delete
-                        </Button>
-                      }
-                    </TableCell>
+            <CardContent>
+              <Typography variant="headline" component="h2">
+                Information
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                Only the first record will be shown in the website. Other records can be added. To
+                edit exiting record click the Edit button.
+              </Typography>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>By</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell> </TableCell>
+                    <TableCell> </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(item.date).format('L')}
+                      </TableCell>
+                      <TableCell>{item.adminname}</TableCell>
+                      <TableCell>
+                        <div onClick={() => this.handleEdit(item)}>{item.am.name}</div>
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Edit"
+                            onClick={() => this.handleEdit(item)}
+                          >
+                            <Edit />
+                          </Button>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.button}
+                            aria-label="Delete"
+                            onClick={() => this.handleDelete(item._id)}
+                          >
+                            <Delete />
+                          </Button>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
           </CardContent>
         </Card>
       </div>

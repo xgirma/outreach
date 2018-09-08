@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment/moment';
@@ -39,7 +38,7 @@ const blankError = {
 };
 
 class AdminForm extends Component {
-  displayName = 'admin-form';
+  static displayName = 'admin-form';
 
   static propTypes = {
     changePassword: PropTypes.func.isRequired,
@@ -112,18 +111,24 @@ class AdminForm extends Component {
     }));
 
     const currentPassword = document.getElementById('adornment-currentPassword');
-    currentPassword != null ? (currentPassword.value = '') : null;
+    if (currentPassword != null) {
+      currentPassword.value = '';
+    }
 
     const newPassword = document.getElementById('adornment-newPassword');
-    newPassword != null ? (newPassword.value = '') : null;
+    if (newPassword != null) {
+      newPassword.value = '';
+    }
 
     const newPasswordAgain = document.getElementById('adornment-newPasswordAgain');
-    newPasswordAgain != null ? (newPasswordAgain.value = '') : null;
+    if (newPasswordAgain != null) {
+      newPasswordAgain.value = '';
+    }
   };
 
-  handlePasswordReset = async (admin) => {};
+  handlePasswordReset = async (admin) => {}; // TODO ...
 
-  handleDelete = async (admin) => {};
+  handleDelete = async (admin) => {}; // TODO ...
 
   render() {
     const { classes } = this.props;

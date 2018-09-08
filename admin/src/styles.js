@@ -33,6 +33,12 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  card: {
+    width: '100%',
+  },
 });
 
 export default styles;
