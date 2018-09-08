@@ -5,7 +5,7 @@ import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-r
 import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
-  AppBar,
+  Paper,
   Tabs,
   Tab,
   TextField,
@@ -19,6 +19,7 @@ import {
   CardContent,
   Button,
 } from '@material-ui/core';
+import { Delete, Edit } from '@material-ui/icons';
 import { toolbarConfig } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
@@ -58,7 +59,7 @@ class ServicesForm extends Component {
   state = {
     items: [],
     item: blankItem,
-    add: false,
+    add: true,
     error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
@@ -70,14 +71,8 @@ class ServicesForm extends Component {
     const result = await getServices();
     const { status, data } = result;
     if (status === 'success' && data.length > 0) {
-      const amharicHtml = data[0].am.description;
-      const englishHtml = data[0].en.description;
       this.setState({
         items: data,
-        item: data[0],
-        error: blankError,
-        amharic: createValueFromString(amharicHtml, 'html'),
-        english: createValueFromString(englishHtml, 'html'),
       });
     }
 
@@ -196,15 +191,12 @@ class ServicesForm extends Component {
     if (status === 'success') {
       const newResult = await getServices();
       if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.description;
-        const englishHtml = newResult.data[0].en.description;
         this.setState({
           items: newResult.data,
-          item: newResult.data[0],
           error: blankError,
-          add: false,
-          amharic: createValueFromString(amharicHtml, 'html'),
-          english: createValueFromString(englishHtml, 'html'),
+          add: true,
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
         });
       }
 
@@ -228,26 +220,10 @@ class ServicesForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getServices();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.description;
-        const englishHtml = newResult.data[0].en.description;
+      if (newResult.status === 'success') {
         this.setState({
           items: newResult.data,
-          item: newResult.data[0],
           error: blankError,
-          amharic: createValueFromString(amharicHtml, 'html'),
-          english: createValueFromString(englishHtml, 'html'),
-        });
-      }
-
-      if (newResult.status === 'success' && newResult.data.length === 0) {
-        this.setState({
-          items: newResult.data,
-          item: blankItem,
-          error: blankError,
-          add: true,
-          amharic: createValueFromString('', 'html'),
-          english: createValueFromString('', 'html'),
         });
       }
 
@@ -273,25 +249,11 @@ class ServicesForm extends Component {
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Active
-            </Typography>
-            <Typography variant="headline" component="h2">
-              Service
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              Add new or update existing
-            </Typography>
-          </CardContent>
-
-          <CardContent>
             <form onSubmit={this.handleSubmit}>
-              <AppBar position="static" color="default">
-                <Tabs value={value} onChange={this.handleChange}>
-                  <Tab label="Amharic" />
-                  <Tab label="English" />
-                </Tabs>
-              </AppBar>
+              <Tabs value={value} onChange={this.handleChange}>
+                <Tab label="Amharic" />
+                <Tab label="English" />
+              </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
@@ -303,15 +265,18 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="title"
                     value={this.state.item.am.title}
-                    placeholder="Enter your service title"
+                    placeholder="የአገልግሎት ስም ይፃፉ"
                     onChange={this.handleAmharicInput}
                     helperText="ለምሳሌ - የክርስትና አገልግሎት"
                   />
-                  <RichTextEditor
-                    value={this.state.amharic}
-                    onChange={this.onAmEditorChange}
-                    toolbarConfig={toolbarConfig}
-                  />
+                  <Paper className={classes.paper} elevation={0}>
+                    <Typography variant="caption">Service description</Typography>
+                    <RichTextEditor
+                      value={this.state.amharic}
+                      onChange={this.onAmEditorChange}
+                      toolbarConfig={toolbarConfig}
+                    />
+                  </Paper>
                   <TextField
                     className={classes.formControl}
                     id="full-width"
@@ -321,7 +286,7 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="contact"
                     value={this.state.item.am.contact}
-                    placeholder="Enter your service contact person name"
+                    placeholder="የአገልግሎቱ ተጠሪ ግለሰብ ስም ይፃፉ"
                     onChange={this.handleAmharicInput}
                     helperText="ለምሳሌ - ዲያቆን ዳኒየል"
                   />
@@ -338,15 +303,18 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="title"
                     value={this.state.item.en.title}
-                    placeholder="Enter your service title"
+                    placeholder="Enter service title"
                     onChange={this.handleEnglishInput}
                     helperText="e.g - Christening service"
                   />
-                  <RichTextEditor
-                    value={this.state.english}
-                    onChange={this.onEnEditorChange}
-                    toolbarConfig={toolbarConfig}
-                  />
+                  <Paper className={classes.paper} elevation={0}>
+                    <Typography variant="caption">Service description</Typography>
+                    <RichTextEditor
+                      value={this.state.english}
+                      onChange={this.onEnEditorChange}
+                      toolbarConfig={toolbarConfig}
+                    />
+                  </Paper>
                   <TextField
                     className={classes.formControl}
                     id="full-width"
@@ -356,7 +324,7 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="contact"
                     value={this.state.item.en.contact}
-                    placeholder="Enter your service contact name"
+                    placeholder="Enter service contact person name"
                     onChange={this.handleEnglishInput}
                     helperText="e.g. - Deacon Daniel"
                   />
@@ -373,7 +341,7 @@ class ServicesForm extends Component {
                   margin="normal"
                   name="phone"
                   value={this.state.item.phone}
-                  placeholder="Enter your service contact phone"
+                  placeholder="Enter service contact phone"
                   onChange={this.handleItemInput}
                   helperText="e.g. (425) 000-1234"
                 />
@@ -387,7 +355,7 @@ class ServicesForm extends Component {
                   margin="normal"
                   name="email"
                   value={this.state.item.email}
-                  placeholder="Enter your service contact email"
+                  placeholder="Enter service contact email"
                   onChange={this.handleItemInput}
                   helperText="e.g. xyz@gmail.com"
                 />
@@ -399,12 +367,13 @@ class ServicesForm extends Component {
                   className={classes.button}
                   onClick={this.handleFormClear}
                 >
-                  Add New
+                  Clear
                 </Button>
 
                 <Button
                   variant="contained"
                   className={classes.button}
+                  color="primary"
                   onClick={this.handleFormUpdate}
                 >
                   Submit
@@ -421,14 +390,12 @@ class ServicesForm extends Component {
           </CardContent>
 
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Database
-            </Typography>
             <Typography variant="headline" component="h2">
-              Service
+              Services
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              List of existing data
+            <Typography paragraph>
+              Enter one record per each service. All services will be displayed. To edit exiting
+              record click the Edit button.
             </Typography>
 
             <Table className={classes.table}>
@@ -437,8 +404,8 @@ class ServicesForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>By</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Update</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell> </TableCell>
+                  <TableCell> </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -456,9 +423,10 @@ class ServicesForm extends Component {
                         <Button
                           variant="contained"
                           className={classes.button}
+                          aria-label="Edit"
                           onClick={() => this.handleEdit(item)}
                         >
-                          Edit
+                          <Edit />
                         </Button>
                       }
                     </TableCell>
@@ -467,9 +435,11 @@ class ServicesForm extends Component {
                         <Button
                           variant="contained"
                           className={classes.button}
+                          aria-label="Delete"
+                          color="secondary"
                           onClick={() => this.handleDelete(item._id)}
                         >
-                          Delete
+                          <Delete />
                         </Button>
                       }
                     </TableCell>

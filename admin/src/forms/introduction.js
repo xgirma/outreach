@@ -131,6 +131,8 @@ class IntroductionForm extends Component {
     this.setState({
       item: blankItem,
       add: true,
+      amharic: createValueFromString('', 'html'),
+      english: createValueFromString('', 'html'),
     });
   };
 
@@ -238,8 +240,21 @@ class IntroductionForm extends Component {
               </Tabs>
               {value === 0 && (
                 <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    name="title"
+                    margin="normal"
+                    value={this.state.item.am.title}
+                    placeholder="የመግቢያ ርዕስዎን እዚህ ይፃፉ"
+                    onChange={this.handleAmharicInput}
+                    helperText="ለምሳሌ - ቤተ ክርስቲያናችን"
+                  />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Introduction content</Typography>
+                    <Typography variant="caption">Introduction</Typography>
                     <RichTextEditor
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
@@ -249,22 +264,11 @@ class IntroductionForm extends Component {
                   <TextField
                     className={classes.formControl}
                     id="full-width"
-                    label="Title"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    name="title"
-                    value={this.state.item.am.title}
-                    placeholder="የመግቢያ ርዕስዎን እዚህ ይፃፉ"
-                    onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - ቤተ ክርስቲያናችን"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    id="full-width"
                     label="Author"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
                     name="author"
+                    margin="normal"
                     value={this.state.item.am.author}
                     placeholder="የደራሲ ስም እዚህ ይፃፉ"
                     onChange={this.handleAmharicInput}
@@ -274,8 +278,21 @@ class IntroductionForm extends Component {
               )}
               {value === 1 && (
                 <TabContainer>
+                  <TextField
+                    className={classes.formControl}
+                    id="full-width"
+                    label="Title"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    name="title"
+                    margin="normal"
+                    value={this.state.item.en.title}
+                    placeholder="Enter introduction title"
+                    onChange={this.handleEnglishInput}
+                    helperText="e.g - About our church"
+                  />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Introduction content</Typography>
+                    <Typography variant="caption">Introduction</Typography>
                     <RichTextEditor
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
@@ -285,22 +302,11 @@ class IntroductionForm extends Component {
                   <TextField
                     className={classes.formControl}
                     id="full-width"
-                    label="Title"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    name="title"
-                    value={this.state.item.en.title}
-                    placeholder="Enter introduction title"
-                    onChange={this.handleEnglishInput}
-                    helperText="e.g - About our church"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    id="full-width"
                     label="Author"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
                     name="author"
+                    margin="normal"
                     value={this.state.item.en.author}
                     placeholder="Enter author name"
                     onChange={this.handleEnglishInput}
@@ -349,8 +355,8 @@ class IntroductionForm extends Component {
                     <TableCell>Created on</TableCell>
                     <TableCell>By</TableCell>
                     <TableCell>Title</TableCell>
-                    <TableCell> </TableCell>
-                    <TableCell> </TableCell>
+                    <TableCell />
+                    <TableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody>
