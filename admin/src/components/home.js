@@ -70,7 +70,7 @@ class Home extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Responsive drawer
+              Outreach
             </Typography>
           </Toolbar>
         </AppBar>
