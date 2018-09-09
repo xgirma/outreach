@@ -4,4 +4,4 @@ export * from './headers';
 export * from './requester';
 export * from './text-editor';
 
-export const BASE_URL = process.env.REACT_APP_BACKEND;
+export const dateFormat = 'YYYY-MM-DD h:mm A';

@@ -20,7 +20,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig } from '../helper';
+import { toolbarConfig, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -256,14 +256,14 @@ class ServicesForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="ser-01" />
+                <Tab label="English" id="ser-02" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="ser-03"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -280,11 +280,12 @@ class ServicesForm extends Component {
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="ser-04"
                     />
                   </Paper>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="ser-05"
                     label="Service contact"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -301,7 +302,7 @@ class ServicesForm extends Component {
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="ser-06"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -318,11 +319,12 @@ class ServicesForm extends Component {
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="ser-07"
                     />
                   </Paper>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="ser-08"
                     label="Service contact"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -339,7 +341,7 @@ class ServicesForm extends Component {
               <CardContent>
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="ser-09"
                   label="Phone"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -353,7 +355,7 @@ class ServicesForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="ser-10"
                   label="Email"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -371,6 +373,7 @@ class ServicesForm extends Component {
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="ser-11"
                 >
                   Clear
                 </Button>
@@ -380,78 +383,78 @@ class ServicesForm extends Component {
                   className={classes.button}
                   color="primary"
                   onClick={this.handleFormUpdate}
+                  id="ser-12"
                 >
                   Submit
                 </Button>
               </CardActions>
             </form>
-          </CardContent>
+            <CardContent>
+              <Typography color="error" id="ser-13">
+                {this.state.error.name !== '' &&
+                  `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              </Typography>
+            </CardContent>
 
-          <CardContent>
-            <Typography color="error">
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-            </Typography>
-          </CardContent>
+            <CardContent>
+              <Typography variant="headline" component="h2">
+                Services
+              </Typography>
+              <Typography paragraph>
+                Enter one record per each service. All services will be displayed. To edit exiting
+                record click the Edit button.
+              </Typography>
 
-          <CardContent>
-            <Typography variant="headline" component="h2">
-              Services
-            </Typography>
-            <Typography paragraph>
-              Enter one record per each service. All services will be displayed. To edit exiting
-              record click the Edit button.
-            </Typography>
-
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Created on</TableCell>
-                  <TableCell>By</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell />
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell component="th" scope="row">
-                      {moment(item.date).format('L')}
-                    </TableCell>
-                    <TableCell>{item.adminname}</TableCell>
-                    <TableCell>
-                      <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Edit"
-                          onClick={() => this.handleEdit(item)}
-                        >
-                          <Edit />
-                        </Button>
-                      }
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Delete"
-                          color="secondary"
-                          onClick={() => this.handleDelete(item._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      }
-                    </TableCell>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>By</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell />
+                    <TableCell />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(item.date).format(dateFormat)}
+                      </TableCell>
+                      <TableCell>{item.adminname}</TableCell>
+                      <TableCell>
+                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Edit"
+                            onClick={() => this.handleEdit(item)}
+                          >
+                            <Edit />
+                          </Button>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Delete"
+                            color="secondary"
+                            onClick={() => this.handleDelete(item._id)}
+                          >
+                            <Delete />
+                          </Button>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
           </CardContent>
         </Card>
       </div>

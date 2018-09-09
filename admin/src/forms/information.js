@@ -19,6 +19,7 @@ import {
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import { createValueFromString } from 'react-rte';
+import { dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -251,14 +252,14 @@ class InformationForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="inf-01" />
+                <Tab label="English" id="inf-02" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-03"
                     label="Name"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -271,7 +272,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-04"
                     label="Denomination"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -284,7 +285,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-05"
                     label="Bible verse"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -297,7 +298,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-06"
                     label="Source"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -314,7 +315,7 @@ class InformationForm extends Component {
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-07"
                     label="Name"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -327,7 +328,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-08"
                     label="Denomination"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -340,7 +341,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-09"
                     label="Bible verse"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -353,7 +354,7 @@ class InformationForm extends Component {
                   />
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="inf-10"
                     label="Source"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -370,7 +371,7 @@ class InformationForm extends Component {
               <CardContent>
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-11"
                   label="Phone"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -383,7 +384,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-12"
                   label="Email"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -396,7 +397,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-13"
                   label="Street"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -409,7 +410,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-14"
                   label="City"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -422,7 +423,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-15"
                   label="State"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -435,7 +436,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-16"
                   label="Zip"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -448,7 +449,7 @@ class InformationForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="inf-17"
                   label="Country"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -464,6 +465,7 @@ class InformationForm extends Component {
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="inf-18"
                 >
                   Clear
                 </Button>
@@ -473,12 +475,13 @@ class InformationForm extends Component {
                   color="primary"
                   className={classes.button}
                   onClick={this.handleFormUpdate}
+                  id="inf-18"
                 >
                   Submit
                 </Button>
               </CardActions>
               <CardContent>
-                <Typography color="error">
+                <Typography color="error" id="inf-19">
                   {this.state.error.name !== '' &&
                     `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
                 </Typography>
@@ -507,7 +510,7 @@ class InformationForm extends Component {
                   {this.state.items.map((item) => (
                     <TableRow key={item._id}>
                       <TableCell component="th" scope="row">
-                        {moment(item.date).format('L')}
+                        {moment(item.date).format(dateFormat)}
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>

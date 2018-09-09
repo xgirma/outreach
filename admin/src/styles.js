@@ -73,7 +73,7 @@ const styles = (theme) => ({
   },
   sbutton: {
     marginTop: theme.spacing.unit * 3,
-  }
+  },
 });
 
 export default styles;

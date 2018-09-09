@@ -20,7 +20,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig } from '../helper';
+import { toolbarConfig, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -239,14 +239,14 @@ class IntroductionForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="int-001" />
+                <Tab label="English" id="int-002" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="int-01"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -263,11 +263,12 @@ class IntroductionForm extends Component {
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="int-02"
                     />
                   </Paper>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="int-03"
                     label="Author"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -284,7 +285,7 @@ class IntroductionForm extends Component {
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="int-04"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -301,11 +302,12 @@ class IntroductionForm extends Component {
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="int-05"
                     />
                   </Paper>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="int-06"
                     label="Author"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -323,6 +325,7 @@ class IntroductionForm extends Component {
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="int-07"
                 >
                   Clear
                 </Button>
@@ -332,12 +335,13 @@ class IntroductionForm extends Component {
                   color="primary"
                   className={classes.button}
                   onClick={this.handleFormUpdate}
+                  id="int-08"
                 >
                   Submit
                 </Button>
               </CardActions>
               <CardContent>
-                <Typography color="error">
+                <Typography color="error" id="int-09">
                   {this.state.error.name !== '' &&
                     `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
                 </Typography>
@@ -367,7 +371,7 @@ class IntroductionForm extends Component {
                   {this.state.items.map((item) => (
                     <TableRow key={item._id}>
                       <TableCell component="th" scope="row">
-                        {moment(item.date).format('L')}
+                        {moment(item.date).format(dateFormat)}
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>

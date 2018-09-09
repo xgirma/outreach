@@ -19,9 +19,8 @@ import {
   InputAdornment,
   IconButton,
 } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
-import { VisibilityOff, Visibility } from '@material-ui/icons';
-import { getRole } from '../helper';
+import { VisibilityOff, Visibility, Delete } from '@material-ui/icons';
+import { getRole, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 
@@ -242,15 +241,15 @@ class AdminForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>Admin name</TableCell>
                   <TableCell>Role</TableCell>
-                  <TableCell>{' '}</TableCell>
-                  <TableCell>{' '}</TableCell>
+                  <TableCell />
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>
                 {this.state.admins.map((admin) => (
                   <TableRow key={admin._id}>
                     <TableCell component="th" scope="row">
-                      {moment(admin.createdAt).format('L')}
+                      {moment(admin.createdAt).format(dateFormat)}
                     </TableCell>
                     <TableCell>{admin.username}</TableCell>
                     <TableCell>{admin.role == 0 ? 'super-admin' : 'admin'}</TableCell>

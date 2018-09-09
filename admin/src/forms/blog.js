@@ -20,11 +20,15 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig } from '../helper';
+import { toolbarConfig, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const pubDate = moment()
+  .add(7, 'days')
+  .hours(9)
+  .format(dateFormat);
 const blankItem = {
   am: {
     title: '',
@@ -166,8 +170,12 @@ class BlogForm extends Component {
   handleEdit = (item) => {
     const amharicHtml = item.am.description;
     const englishHtml = item.en.description;
+    const formattedItem = {
+      ...item,
+      dateStart: moment(item.dateStart).format(dateFormat),
+    };
     this.setState({
-      item,
+      item: formattedItem,
       add: false,
       amharic: createValueFromString(amharicHtml, 'html'),
       english: createValueFromString(englishHtml, 'html'),
@@ -250,14 +258,14 @@ class BlogForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="blo-01" />
+                <Tab label="English" id="blo-02" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="blo-03"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -274,6 +282,7 @@ class BlogForm extends Component {
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="blo-04"
                     />
                   </Paper>
                 </TabContainer>
@@ -282,7 +291,7 @@ class BlogForm extends Component {
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="blo-05"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -297,6 +306,7 @@ class BlogForm extends Component {
                     value={this.state.english}
                     onChange={this.onEnEditorChange}
                     toolbarConfig={toolbarConfig}
+                    id="blo-06"
                   />
                 </TabContainer>
               )}
@@ -304,7 +314,7 @@ class BlogForm extends Component {
               <TabContainer>
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="blo-07"
                   label="Author"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -318,8 +328,8 @@ class BlogForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
-                  label="Publication date"
+                  id="blo-08"
+                  label="Publication date (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
@@ -327,12 +337,12 @@ class BlogForm extends Component {
                   value={this.state.item.dateStart}
                   placeholder="Enter your blog publication date, it can be future date"
                   onChange={this.handleItemInput}
-                  helperText="e.g. 2019-09-04T04:44:34.340Z"
+                  helperText={`e.g. ${pubDate}`}
                 />
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="blo-09"
                   label="Tags"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -350,6 +360,7 @@ class BlogForm extends Component {
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="blo-10"
                 >
                   Clear
                 </Button>
@@ -359,78 +370,79 @@ class BlogForm extends Component {
                   className={classes.button}
                   color="primary"
                   onClick={this.handleFormUpdate}
+                  id="blo-11"
                 >
                   Submit
                 </Button>
               </CardActions>
             </form>
-          </CardContent>
 
-          <CardContent>
-            <Typography color="error">
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-            </Typography>
-          </CardContent>
+            <CardContent>
+              <Typography color="error" id="blo-12">
+                {this.state.error.name !== '' &&
+                  `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              </Typography>
+            </CardContent>
 
-          <CardContent>
-            <Typography variant="headline" component="h2">
-              Blog
-            </Typography>
-            <Typography paragraph>
-              Enter blog articles. All blog posts will be visible. To edit exiting record click the
-              Edit button.
-            </Typography>
+            <CardContent>
+              <Typography variant="headline" component="h2">
+                Blog
+              </Typography>
+              <Typography paragraph>
+                Enter blog articles. All blog posts will be visible. To edit exiting record click
+                the Edit button.
+              </Typography>
 
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Created on</TableCell>
-                  <TableCell>By</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>{' '}</TableCell>
-                  <TableCell>{' '}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell component="th" scope="row">
-                      {moment(item.date).format('L')}
-                    </TableCell>
-                    <TableCell>{item.adminname}</TableCell>
-                    <TableCell>
-                      <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Edit"
-                          onClick={() => this.handleEdit(item)}
-                        >
-                          <Edit />
-                        </Button>
-                      }
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Delete"
-                          color="secondary"
-                          onClick={() => this.handleDelete(item._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      }
-                    </TableCell>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>By</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell />
+                    <TableCell />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(item.date).format(dateFormat)}
+                      </TableCell>
+                      <TableCell>{item.adminname}</TableCell>
+                      <TableCell>
+                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Edit"
+                            onClick={() => this.handleEdit(item)}
+                          >
+                            <Edit />
+                          </Button>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Delete"
+                            color="secondary"
+                            onClick={() => this.handleDelete(item._id)}
+                          >
+                            <Delete />
+                          </Button>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
           </CardContent>
         </Card>
       </div>

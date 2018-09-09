@@ -20,7 +20,7 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig } from '../helper';
+import { toolbarConfig, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
@@ -231,8 +231,8 @@ class MediaForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="med-01" />
+                <Tab label="English" id="med-02" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
@@ -242,6 +242,7 @@ class MediaForm extends Component {
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="med-03"
                     />
                   </Paper>
                 </TabContainer>
@@ -254,6 +255,7 @@ class MediaForm extends Component {
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="med-04"
                     />
                   </Paper>
                 </TabContainer>
@@ -262,7 +264,7 @@ class MediaForm extends Component {
               <TabContainer>
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="med-05"
                   label="Title"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -276,7 +278,7 @@ class MediaForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="med-06"
                   label="Media URL"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -287,10 +289,10 @@ class MediaForm extends Component {
                   onChange={this.handleItemInput}
                   helperText="e.g. https://www.youtube.com/watch?v=farii-8XWxE"
                 />
-                
+
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="med-07"
                   label="Media type"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -304,7 +306,7 @@ class MediaForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="med-08"
                   label="Tags"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -316,93 +318,95 @@ class MediaForm extends Component {
                   helperText="epiphany, ጥምቀት"
                 />
               </TabContainer>
-  
+
               <CardActions>
                 <Button
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="med-09"
                 >
                   Clear
                 </Button>
-    
+
                 <Button
                   variant="contained"
                   className={classes.button}
                   color="primary"
                   onClick={this.handleFormUpdate}
+                  id="med-10"
                 >
                   Submit
                 </Button>
               </CardActions>
             </form>
-          </CardContent>
-  
-          <CardContent>
-            <Typography color="error">
-              {this.state.error.name !== '' &&
-              `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-            </Typography>
-          </CardContent>
 
-          <CardContent>
-            <Typography variant="headline" component="h2">
-              Media
-            </Typography>
-            <Typography paragraph>
-              Enter media metadata. All records will be visible. To edit exiting record click the
-              Edit button.
-            </Typography>
+            <CardContent>
+              <Typography color="error" id="med-11">
+                {this.state.error.name !== '' &&
+                  `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+              </Typography>
+            </CardContent>
 
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Created on</TableCell>
-                  <TableCell>By</TableCell>
-                  <TableCell>Title</TableCell>
-                  <TableCell>{' '}</TableCell>
-                  <TableCell>{' '}</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.items.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableCell component="th" scope="row">
-                      {moment(item.date).format('L')}
-                    </TableCell>
-                    <TableCell>{item.adminname}</TableCell>
-                    <TableCell>
-                      <div onClick={() => this.handleEdit(item)}>{item.title}</div>
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Edit"
-                          onClick={() => this.handleEdit(item)}
-                        >
-                          <Edit />
-                        </Button>
-                      }
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Delete"
-                          color="secondary"
-                          onClick={() => this.handleDelete(item._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      }
-                    </TableCell>
+            <CardContent>
+              <Typography variant="headline" component="h2">
+                Media
+              </Typography>
+              <Typography paragraph>
+                Enter media metadata. All records will be visible. To edit exiting record click the
+                Edit button.
+              </Typography>
+
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>By</TableCell>
+                    <TableCell>Title</TableCell>
+                    <TableCell />
+                    <TableCell />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map((item) => (
+                    <TableRow key={item._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(item.date).format(dateFormat)}
+                      </TableCell>
+                      <TableCell>{item.adminname}</TableCell>
+                      <TableCell>
+                        <div onClick={() => this.handleEdit(item)}>{item.title}</div>
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Edit"
+                            onClick={() => this.handleEdit(item)}
+                          >
+                            <Edit />
+                          </Button>
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
+                          <Button
+                            variant="contained"
+                            className={classes.button}
+                            aria-label="Delete"
+                            color="secondary"
+                            onClick={() => this.handleDelete(item._id)}
+                          >
+                            <Delete />
+                          </Button>
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
           </CardContent>
         </Card>
       </div>

@@ -20,11 +20,19 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig } from '../helper';
+import { toolbarConfig, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const start = moment()
+  .add(7, 'days')
+  .hours(9)
+  .format(dateFormat);
+const end = moment()
+  .add(7, 'days')
+  .hours(11)
+  .format(dateFormat);
 const blankItem = {
   am: {
     title: '',
@@ -43,8 +51,8 @@ const blankItem = {
   },
   phone: '',
   email: '',
-  dateStart: '',
-  dateEnd: '',
+  dateStart: [],
+  dateEnd: [],
 };
 
 const blankError = {
@@ -77,7 +85,7 @@ class EventForm extends Component {
     const { getEvent } = this.props;
     const result = await getEvent();
     const { status, data } = result;
-    if (status === 'success' && data.length > 0) {
+    if (status === 'success') {
       this.setState({
         items: data,
       });
@@ -225,8 +233,14 @@ class EventForm extends Component {
   handleEdit = (item) => {
     const amharicHtml = item.am.description;
     const englishHtml = item.en.description;
+    const formattedItem = {
+      ...item,
+      dateStart: moment(item.dateStart).format(dateFormat),
+      dateEnd: moment(item.dateEnd).format(dateFormat),
+    };
+
     this.setState({
-      item,
+      item: formattedItem,
       add: false,
       amharic: createValueFromString(amharicHtml, 'html'),
       english: createValueFromString(englishHtml, 'html'),
@@ -274,14 +288,14 @@ class EventForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" />
-                <Tab label="English" />
+                <Tab label="Amharic" id="eve-01" />
+                <Tab label="English" id="eve-02" />
               </Tabs>
               {value === 0 && (
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="eve-03"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -298,6 +312,7 @@ class EventForm extends Component {
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="eve-04"
                     />
                   </Paper>
                 </TabContainer>
@@ -306,7 +321,7 @@ class EventForm extends Component {
                 <TabContainer>
                   <TextField
                     className={classes.formControl}
-                    id="full-width"
+                    id="eve-05"
                     label="Title"
                     InputLabelProps={{ shrink: true }}
                     fullWidth
@@ -323,6 +338,7 @@ class EventForm extends Component {
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
                       toolbarConfig={toolbarConfig}
+                      id="eve-06"
                     />
                   </Paper>
                 </TabContainer>
@@ -331,7 +347,7 @@ class EventForm extends Component {
               <TabContainer>
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-07"
                   label="Street"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -345,7 +361,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-08"
                   label="City"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -359,7 +375,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-09"
                   label="State"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -373,7 +389,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-10"
                   label="Zip"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -387,7 +403,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-11"
                   label="Country"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -401,7 +417,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-12"
                   label="Email"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -415,7 +431,7 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
+                  id="eve-13"
                   label="Phone"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
@@ -429,8 +445,8 @@ class EventForm extends Component {
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
-                  label="Start date"
+                  id="eve-14"
+                  label="Start date (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
@@ -438,13 +454,13 @@ class EventForm extends Component {
                   value={this.state.item.dateStart}
                   placeholder="Enter event start date"
                   onChange={this.handleItemInput}
-                  helperText="e.g. 2019-09-04T04:44:34.340Z"
+                  helperText={`e.g. ${start}`}
                 />
 
                 <TextField
                   className={classes.formControl}
-                  id="full-width"
-                  label="End date"
+                  id="eve-15"
+                  label="End date (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
@@ -452,7 +468,7 @@ class EventForm extends Component {
                   value={this.state.item.dateEnd}
                   placeholder="Enter event end date"
                   onChange={this.handleItemInput}
-                  helperText="e.g. 2019-10-04T04:44:34.340Z"
+                  helperText={`e.g. ${end}`}
                 />
               </TabContainer>
 
@@ -461,6 +477,7 @@ class EventForm extends Component {
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
+                  id="eve-16"
                 >
                   Clear
                 </Button>
@@ -470,6 +487,7 @@ class EventForm extends Component {
                   className={classes.button}
                   color="primary"
                   onClick={this.handleFormUpdate}
+                  id="eve-16"
                 >
                   Submit
                 </Button>
@@ -478,7 +496,7 @@ class EventForm extends Component {
           </CardContent>
 
           <CardContent>
-            <Typography color="error">
+            <Typography color="error" id="eve-17">
               {this.state.error.name !== '' &&
                 `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
@@ -508,7 +526,7 @@ class EventForm extends Component {
                   {this.state.items.map((item) => (
                     <TableRow key={item._id}>
                       <TableCell component="th" scope="row">
-                        {moment(item.date).format('L')}
+                        {moment(item.date).format(dateFormat)}
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
