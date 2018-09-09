@@ -74,7 +74,7 @@ class SigninForm extends Component {
     return (
       <div className={classes.root}>
         <main className={classes.layout}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.signin}>
             <Avatar className={classes.avatar}>
               <LockOutlined />
             </Avatar>
@@ -119,7 +119,7 @@ class SigninForm extends Component {
                 fullWidth
                 variant="raised"
                 color="primary"
-                className={classes.submit}
+                className={classes.sbutton}
                 onClick={this.handleClick}
               >
                 Sign In

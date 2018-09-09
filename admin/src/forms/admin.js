@@ -19,6 +19,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import { VisibilityOff, Visibility } from '@material-ui/icons';
 import { getRole } from '../helper';
 import withRoot from '../withRoot';
@@ -137,19 +138,10 @@ class AdminForm extends Component {
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Active
-            </Typography>
-            <Typography variant="headline" component="h2">
-              Change Password
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              Enter existing and new password
-            </Typography>
-          </CardContent>
-
-          <CardContent>
             <form onSubmit={this.handleSubmit}>
+              <Typography variant="title" component="h2">
+                Change Password
+              </Typography>
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Current password</InputLabel>
                 <Input
@@ -223,6 +215,7 @@ class AdminForm extends Component {
                 <Button
                   variant="contained"
                   className={classes.button}
+                  color="primary"
                   onClick={this.handlePasswordUpdate}
                 >
                   Submit
@@ -239,14 +232,8 @@ class AdminForm extends Component {
           </CardContent>
 
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Database
-            </Typography>
             <Typography variant="headline" component="h2">
-              Account management
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              List of existing admins
+              Manage Accounts
             </Typography>
 
             <Table className={classes.table}>
@@ -255,8 +242,8 @@ class AdminForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>Admin name</TableCell>
                   <TableCell>Role</TableCell>
-                  <TableCell>Update</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell>{' '}</TableCell>
+                  <TableCell>{' '}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -273,6 +260,7 @@ class AdminForm extends Component {
                           <Button
                             variant="contained"
                             className={classes.button}
+                            color="secondary"
                             onClick={() => this.handlePasswordReset(admin)}
                           >
                             Reset Password
@@ -284,9 +272,11 @@ class AdminForm extends Component {
                         <Button
                           variant="contained"
                           className={classes.button}
+                          aria-label="Delete"
+                          color="secondary"
                           onClick={() => this.handleDelete(admin._id)}
                         >
-                          Delete
+                          <Delete />
                         </Button>
                       }
                     </TableCell>
