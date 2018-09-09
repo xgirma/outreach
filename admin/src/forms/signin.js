@@ -119,7 +119,7 @@ class SigninForm extends Component {
                 fullWidth
                 variant="raised"
                 color="primary"
-                className={classes.submit}
+                className={classes.sbutton}
                 onClick={this.handleClick}
               >
                 Sign In
