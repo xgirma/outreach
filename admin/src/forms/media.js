@@ -337,6 +337,13 @@ class MediaForm extends Component {
               </CardActions>
             </form>
           </CardContent>
+  
+          <CardContent>
+            <Typography color="error">
+              {this.state.error.name !== '' &&
+              `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
+            </Typography>
+          </CardContent>
 
           <CardContent>
             <Typography variant="headline" component="h2">

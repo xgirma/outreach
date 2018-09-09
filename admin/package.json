@@ -20,8 +20,7 @@
     "recompose": "^0.27.1",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "url-parse": "^1.4.3"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start-admin": "react-scripts start",

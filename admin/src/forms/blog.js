@@ -388,8 +388,8 @@ class BlogForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>By</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Update</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell>{' '}</TableCell>
+                  <TableCell>{' '}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

@@ -74,7 +74,7 @@ class SigninForm extends Component {
     return (
       <div className={classes.root}>
         <main className={classes.layout}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.signin}>
             <Avatar className={classes.avatar}>
               <LockOutlined />
             </Avatar>
