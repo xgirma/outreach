@@ -5,7 +5,7 @@ import RichTextEditor, { createEmptyValue, createValueFromString } from 'react-r
 import { withStyles } from '@material-ui/core/styles';
 import {
   Typography,
-  AppBar,
+  Paper,
   Tabs,
   Tab,
   TextField,
@@ -18,11 +18,8 @@ import {
   CardActions,
   CardContent,
   Button,
-  FormControl,
-  MenuItem,
-  InputLabel,
-  Select,
 } from '@material-ui/core';
+import { Delete, Edit } from '@material-ui/icons';
 import { toolbarConfig } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
@@ -60,7 +57,7 @@ class MediaForm extends Component {
   state = {
     items: [],
     item: blankItem,
-    add: false,
+    add: true,
     error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
@@ -71,16 +68,9 @@ class MediaForm extends Component {
     const { getMedia } = this.props;
     const result = await getMedia();
     const { status, data } = result;
-    if (status === 'success' && data.length > 0) {
-      const amharicHtml = data[0].am.description;
-      const englishHtml = data[0].en.description;
+    if (status === 'success') {
       this.setState({
         items: data,
-        item: data[0],
-        error: blankError,
-        add: false,
-        amharic: createValueFromString(amharicHtml, 'html'),
-        english: createValueFromString(englishHtml, 'html'),
       });
     }
 
@@ -176,16 +166,14 @@ class MediaForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getMedia();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.description;
-        const englishHtml = newResult.data[0].en.description;
+      if (newResult.status === 'success') {
         this.setState({
           items: newResult.data,
-          item: newResult.data[0],
+          item: blankItem,
           error: blankError,
           add: false,
-          amharic: createValueFromString(amharicHtml, 'html'),
-          english: createValueFromString(englishHtml, 'html'),
+          amharic: createValueFromString('', 'html'),
+          english: createValueFromString('', 'html'),
         });
       }
 
@@ -209,24 +197,11 @@ class MediaForm extends Component {
     const { status, data } = result;
     if (status === 'success') {
       const newResult = await getMedia();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
-        const amharicHtml = newResult.data[0].am.description;
-        const englishHtml = newResult.data[0].en.description;
-        this.setState({
-          items: newResult.data,
-          item: newResult.data[0],
-          error: blankError,
-          amharic: createValueFromString(amharicHtml, 'html'),
-          english: createValueFromString(englishHtml, 'html'),
-        });
-      }
-
-      if (newResult.status === 'success' && newResult.data.length === 0) {
+      if (newResult.status === 'success') {
         this.setState({
           items: newResult.data,
           item: blankItem,
           error: blankError,
-          add: true,
           amharic: createValueFromString('', 'html'),
           english: createValueFromString('', 'html'),
         });
@@ -254,41 +229,33 @@ class MediaForm extends Component {
       <div className={classes.root}>
         <Card className={classes.card}>
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Active
-            </Typography>
-            <Typography variant="headline" component="h2">
-              Media
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              Add new or update existing
-            </Typography>
-          </CardContent>
-
-          <CardContent>
             <form onSubmit={this.handleSubmit}>
-              <AppBar position="static" color="default">
-                <Tabs value={value} onChange={this.handleChange}>
-                  <Tab label="Amharic" />
-                  <Tab label="English" />
-                </Tabs>
-              </AppBar>
+              <Tabs value={value} onChange={this.handleChange}>
+                <Tab label="Amharic" />
+                <Tab label="English" />
+              </Tabs>
               {value === 0 && (
                 <TabContainer>
-                  <RichTextEditor
-                    value={this.state.amharic}
-                    onChange={this.onAmEditorChange}
-                    toolbarConfig={toolbarConfig}
-                  />
+                  <Paper className={classes.paper} elevation={0}>
+                    <Typography variant="caption">Media description</Typography>
+                    <RichTextEditor
+                      value={this.state.amharic}
+                      onChange={this.onAmEditorChange}
+                      toolbarConfig={toolbarConfig}
+                    />
+                  </Paper>
                 </TabContainer>
               )}
               {value === 1 && (
                 <TabContainer>
-                  <RichTextEditor
-                    value={this.state.english}
-                    onChange={this.onEnEditorChange}
-                    toolbarConfig={toolbarConfig}
-                  />
+                  <Paper className={classes.paper} elevation={0}>
+                    <Typography variant="caption">Media description</Typography>
+                    <RichTextEditor
+                      value={this.state.english}
+                      onChange={this.onEnEditorChange}
+                      toolbarConfig={toolbarConfig}
+                    />
+                  </Paper>
                 </TabContainer>
               )}
 
@@ -302,7 +269,7 @@ class MediaForm extends Component {
                   margin="normal"
                   name="title"
                   value={this.state.item.title}
-                  placeholder="Enter media author"
+                  placeholder="Enter media title"
                   onChange={this.handleItemInput}
                   helperText="e.g. - ለመድሃኔአለም ምስጋና ይድረሰው Medhanialem Mezmur - Ethiopia Orthodox Tewahedo Mezmur"
                 />
@@ -320,18 +287,20 @@ class MediaForm extends Component {
                   onChange={this.handleItemInput}
                   helperText="e.g. https://www.youtube.com/watch?v=farii-8XWxE"
                 />
-
-                <FormControl className={classes.formControl}>
-                  <InputLabel htmlFor="media-simple">Type</InputLabel>
-                  <Select
-                    value={this.state.item.mediaType}
-                    onChange={this.handleMediaTypeChange}
-                    inputProps={{ name: 'mediaType' }}
-                  >
-                    <MenuItem value="video">video</MenuItem>
-                    <MenuItem value="audio">audio</MenuItem>
-                  </Select>
-                </FormControl>
+                
+                <TextField
+                  className={classes.formControl}
+                  id="full-width"
+                  label="Media type"
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                  margin="normal"
+                  name="mediaType"
+                  value={this.state.item.mediaType}
+                  placeholder="Enter media type (video or audio)"
+                  onChange={this.handleItemInput}
+                  helperText="video"
+                />
 
                 <TextField
                   className={classes.formControl}
@@ -344,22 +313,23 @@ class MediaForm extends Component {
                   value={this.state.item.tag.toString()}
                   placeholder="Enter your blog tags comma separated"
                   onChange={this.handleItemInput}
-                  helperText="epiphany,ጥምቀት,holy matrimony,ቅዱስ ጋብቻ"
+                  helperText="epiphany, ጥምቀት"
                 />
               </TabContainer>
-
+  
               <CardActions>
                 <Button
                   variant="contained"
                   className={classes.button}
                   onClick={this.handleFormClear}
                 >
-                  Add New
+                  Clear
                 </Button>
-
+    
                 <Button
                   variant="contained"
                   className={classes.button}
+                  color="primary"
                   onClick={this.handleFormUpdate}
                 >
                   Submit
@@ -369,14 +339,12 @@ class MediaForm extends Component {
           </CardContent>
 
           <CardContent>
-            <Typography className={classes.title} color="textSecondary">
-              Database
-            </Typography>
             <Typography variant="headline" component="h2">
               Media
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              List of existing data
+            <Typography paragraph>
+              Enter media metadata. All records will be visible. To edit exiting record click the
+              Edit button.
             </Typography>
 
             <Table className={classes.table}>
@@ -385,8 +353,8 @@ class MediaForm extends Component {
                   <TableCell>Created on</TableCell>
                   <TableCell>By</TableCell>
                   <TableCell>Title</TableCell>
-                  <TableCell>Update</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell>{' '}</TableCell>
+                  <TableCell>{' '}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -404,9 +372,10 @@ class MediaForm extends Component {
                         <Button
                           variant="contained"
                           className={classes.button}
+                          aria-label="Edit"
                           onClick={() => this.handleEdit(item)}
                         >
-                          Edit
+                          <Edit />
                         </Button>
                       }
                     </TableCell>
@@ -415,9 +384,11 @@ class MediaForm extends Component {
                         <Button
                           variant="contained"
                           className={classes.button}
+                          aria-label="Delete"
+                          color="secondary"
                           onClick={() => this.handleDelete(item._id)}
                         >
-                          Delete
+                          <Delete />
                         </Button>
                       }
                     </TableCell>

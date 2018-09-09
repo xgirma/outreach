@@ -344,7 +344,7 @@ class BlogForm extends Component {
                   helperText="history, ታሪክ"
                 />
               </TabContainer>
-  
+
               <CardActions>
                 <Button
                   variant="contained"
@@ -353,7 +353,7 @@ class BlogForm extends Component {
                 >
                   Clear
                 </Button>
-    
+
                 <Button
                   variant="contained"
                   className={classes.button}
@@ -378,8 +378,8 @@ class BlogForm extends Component {
               Blog
             </Typography>
             <Typography paragraph>
-              Enter blog articles. All blog posts will be visible. To edit
-              exiting record click the Edit button.
+              Enter blog articles. All blog posts will be visible. To edit exiting record click the
+              Edit button.
             </Typography>
 
             <Table className={classes.table}>
