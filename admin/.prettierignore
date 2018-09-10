@@ -2,3 +2,4 @@
 /public/**
 package.json
 package-lock.json
+/src/helper/locale/*.json

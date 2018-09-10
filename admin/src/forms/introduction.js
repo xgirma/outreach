@@ -20,11 +20,12 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig, dateFormat } from '../helper';
+import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const { translate } = new Translate();
 const blankItem = {
   am: {
     title: '',
@@ -253,9 +254,9 @@ class IntroductionForm extends Component {
                     name="title"
                     margin="normal"
                     value={this.state.item.am.title}
-                    placeholder="የመግቢያ ርዕስዎን እዚህ ይፃፉ"
+                    placeholder={translate('INTRO_TITLE_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - ቤተ ክርስቲያናችን"
+                    helperText={translate('INTRO_TITLE_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
                     <Typography variant="caption">Introduction</Typography>
@@ -275,9 +276,9 @@ class IntroductionForm extends Component {
                     name="author"
                     margin="normal"
                     value={this.state.item.am.author}
-                    placeholder="የደራሲ ስም እዚህ ይፃፉ"
+                    placeholder={translate('INTRO_AUTHOR_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - ዲያቆን ዳኒየል"
+                    helperText={translate('INTRO_AUTHOR_HT')}
                   />
                 </TabContainer>
               )}

@@ -61,7 +61,7 @@ class AdminForm extends Component {
     const { getAdmin } = this.props;
     const result = await getAdmin();
     const { status, data } = result;
-    if (status === 'success' && data.admins.length > 0) {
+    if (status === 'success') {
       const { admins } = data;
       this.setState({
         admins,

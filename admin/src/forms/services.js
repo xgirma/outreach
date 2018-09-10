@@ -20,11 +20,12 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig, dateFormat } from '../helper';
+import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const { translate } = new Translate();
 const blankItem = {
   am: {
     title: '',
@@ -270,9 +271,9 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="title"
                     value={this.state.item.am.title}
-                    placeholder="የአገልግሎት ስም ይፃፉ"
+                    placeholder={translate('SERVICES_TITLE_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - የክርስትና አገልግሎት"
+                    helperText={translate('SERVICES_TITLE_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
                     <Typography variant="caption">Service description</Typography>
@@ -292,9 +293,9 @@ class ServicesForm extends Component {
                     margin="normal"
                     name="contact"
                     value={this.state.item.am.contact}
-                    placeholder="የአገልግሎቱ ተጠሪ ግለሰብ ስም ይፃፉ"
+                    placeholder={translate('SERVICES_CONTACT_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - ዲያቆን ዳኒየል"
+                    helperText={translate('SERVICES_CONTACT_HT')}
                   />
                 </TabContainer>
               )}

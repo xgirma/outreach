@@ -20,11 +20,12 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig, dateFormat } from '../helper';
+import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const { translate } = new Translate();
 const pubDate = moment()
   .add(7, 'days')
   .hours(9)
@@ -272,9 +273,9 @@ class BlogForm extends Component {
                     margin="normal"
                     name="title"
                     value={this.state.item.am.title}
-                    placeholder="የጦማር ርዕስዎን እዚህ ይፃፉ"
+                    placeholder={translate('EVENT_BLOG_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - ክርስትና በኢትዮጵያ"
+                    helperText={translate('EVENT_BLOG_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
                     <Typography variant="caption">Blog content</Typography>
@@ -329,13 +330,13 @@ class BlogForm extends Component {
                 <TextField
                   className={classes.formControl}
                   id="blo-08"
-                  label="Publication date (yyyy-mm-dd h:mm am)"
+                  label="Publication date and time (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
                   name="dateStart"
                   value={this.state.item.dateStart}
-                  placeholder="Enter your blog publication date, it can be future date"
+                  placeholder="Enter your blog publication date and time, it can be future date"
                   onChange={this.handleItemInput}
                   helperText={`e.g. ${pubDate}`}
                 />

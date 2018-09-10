@@ -20,10 +20,12 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig, dateFormat } from '../helper';
+import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
+
+const { translate } = new Translate();
 
 const start = moment()
   .add(7, 'days')
@@ -302,9 +304,9 @@ class EventForm extends Component {
                     margin="normal"
                     name="title"
                     value={this.state.item.am.title}
-                    placeholder="የክስተት ርዕስ እዚህ ይፃፉ"
+                    placeholder={translate('EVENT_TITLE_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - የስብከት አገልግሎት ዲያቆን ዳኒየል"
+                    helperText={translate('EVENT_TITLE_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
                     <Typography variant="caption">Event description</Typography>
@@ -446,13 +448,13 @@ class EventForm extends Component {
                 <TextField
                   className={classes.formControl}
                   id="eve-14"
-                  label="Start date (yyyy-mm-dd h:mm am)"
+                  label="Start date and time (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
                   name="dateStart"
                   value={this.state.item.dateStart}
-                  placeholder="Enter event start date"
+                  placeholder="Enter event start date and time"
                   onChange={this.handleItemInput}
                   helperText={`e.g. ${start}`}
                 />
@@ -460,13 +462,13 @@ class EventForm extends Component {
                 <TextField
                   className={classes.formControl}
                   id="eve-15"
-                  label="End date (yyyy-mm-dd h:mm am)"
+                  label="End date and time (yyyy-mm-dd h:mm am)"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
                   margin="normal"
                   name="dateEnd"
                   value={this.state.item.dateEnd}
-                  placeholder="Enter event end date"
+                  placeholder="Enter event end date and time"
                   onChange={this.handleItemInput}
                   helperText={`e.g. ${end}`}
                 />

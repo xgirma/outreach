@@ -19,11 +19,12 @@ import {
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import { createValueFromString } from 'react-rte';
-import { dateFormat } from '../helper';
+import { dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const { translate } = new Translate();
 const blankItem = {
   am: {
     name: '',
@@ -266,9 +267,9 @@ class InformationForm extends Component {
                     margin="normal"
                     name="name"
                     value={this.state.item.am.name}
-                    placeholder="የቤተ ክርስቲያን ስም እዚህ ይፃፉ"
+                    placeholder={translate('INFO_NAME_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - የሲያትል ደብረ ሚካኤል የኢትዮጵያ ኦርቶዶክስ ተዋህዶ ቤተክርስቲያን"
+                    helperText={translate('INFO_NAME_HT')}
                   />
                   <TextField
                     className={classes.formControl}
@@ -279,9 +280,9 @@ class InformationForm extends Component {
                     margin="normal"
                     name="denomination"
                     value={this.state.item.am.denomination}
-                    placeholder="የቤተክርስቲያን ቤተ እምነትን እዚህ ይፃፉ"
+                    placeholder={translate('INFO_DENOMINATION_PH')}
                     onChange={this.handleAmharicInput}
-                    helperText="ለምሳሌ - የኢትዮጵያ ኦርቶዶክስ ተዋሕዶ ቤተክርስትያን"
+                    helperText={translate('INFO_DENOMINATION_HT')}
                   />
                   <TextField
                     className={classes.formControl}
@@ -292,9 +293,9 @@ class InformationForm extends Component {
                     margin="normal"
                     name="verse"
                     value={this.state.item.am.bible.verse}
-                    placeholder="ዋና የመጽሐፍ ቅዱስ ጥቅስ እዚህ ይፃፉ"
+                    placeholder={translate('INFO_VERSE_PH')}
                     onChange={this.handleAmharicBibleInput}
-                    helperText="ለምሳሌ - ሁለት ወይም ሦስት በስሜ በሚሰበሰቡበት በዚያ በመካከላቸው እሆናለሁ"
+                    helperText={translate('INFO_VERSE_HT')}
                   />
                   <TextField
                     className={classes.formControl}
@@ -305,9 +306,9 @@ class InformationForm extends Component {
                     margin="normal"
                     name="from"
                     value={this.state.item.am.bible.from}
-                    placeholder="ምንጩን እዚህ ይፃፉ"
+                    placeholder={translate('INFO_FROM_PH')}
                     onChange={this.handleAmharicBibleInput}
-                    helperText="ለምሳሌ - ማቴዎስ 18:20"
+                    helperText={translate('INFO_FROM_HT')}
                   />
                 </TabContainer>
               )}
