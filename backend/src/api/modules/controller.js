@@ -219,7 +219,7 @@ export const getAdmins = (model) => (req, res, next) => {
   decodeToken();
 
   const { user } = req;
-  console.log('user: ', user);
+
   if (user.role === 0) {
     controllers
       .getAll(model)
@@ -256,7 +256,7 @@ export const getAdmin = (model) => (req, res, next) => {
         if (!admin) throw err.NotFound();
         res.status(200).json({
           status: 'success',
-          data : { admins: admin },
+          data: { admins: admin },
         });
       })
       .catch((error) => {

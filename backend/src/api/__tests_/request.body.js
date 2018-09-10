@@ -94,3 +94,18 @@ export const media = Object.assign({
   mediaType: 'video',
   tag: faker.hacker.noun(),
 });
+
+export const intro = Object.assign({
+  sl: {
+    title: faker.lorem.words(),
+    author: faker.name.findName(),
+    intro: faker.lorem.words(),
+  },
+  en: {
+    title: faker.lorem.words(),
+    author: faker.name.findName(),
+    intro: faker.lorem.words(),
+  },
+  adminname: faker.name.findName(),
+  date: faker.date.future(2),
+});

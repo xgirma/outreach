@@ -1,5 +1,4 @@
 import express from 'express';
-const cors = require('cors');
 import swaggerUi from 'swagger-ui-express';
 import { restRouter } from './api';
 import { NotFound } from './api/modules/error';
@@ -7,6 +6,8 @@ import setGlobalMiddleware from './middleware';
 import swaggerDocument from './api/docs/swagger.json';
 import connect from './db';
 import apiErrorHandler from './api/modules/errorHandler';
+
+const cors = require('cors');
 
 const app = express();
 

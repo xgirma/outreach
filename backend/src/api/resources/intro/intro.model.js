@@ -1,12 +1,14 @@
 import mongoose from 'mongoose';
 
+const required = '~ is required';
+
 export const schema = {
-  am: {
+  sl: {
     title: { type: String, maxlength: 200 },
     author: { type: String, maxlength: 100 },
     intro: {
       type: String,
-      required: [true, 'introduction is missing'],
+      required: [true, required],
     },
   },
   en: {
@@ -14,12 +16,12 @@ export const schema = {
     author: { type: String, maxlength: 100 },
     intro: {
       type: String,
-      required: [true, 'introduction is missing'],
+      required: [true, required],
     },
   },
   adminname: {
     type: String,
-    required: [true, 'introduction must have a adminname'],
+    required: [true, required],
     maxlength: 20,
   },
   date: { type: Date, default: Date.now, index: true },

@@ -25,9 +25,9 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
-const { translate } = new Translate();
+const { translate, getLanguage } = new Translate();
 const blankItem = {
-  am: {
+  sl: {
     title: '',
     author: '',
     intro: '',
@@ -93,8 +93,8 @@ class IntroductionForm extends Component {
       amharic,
       item: {
         ...prevState.item,
-        am: {
-          ...prevState.item.am,
+        sl: {
+          ...prevState.item.sl,
           intro: introduction,
         },
       },
@@ -117,7 +117,7 @@ class IntroductionForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.intro;
+    const amharicHtml = item.sl.intro;
     const englishHtml = item.en.intro;
     this.setState({
       item,
@@ -214,7 +214,7 @@ class IntroductionForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
+        sl: { ...prevState.item.sl, [name]: value },
       },
     }));
   };
@@ -240,7 +240,7 @@ class IntroductionForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="int-001" />
+                <Tab label={getLanguage()} id="int-001" />
                 <Tab label="English" id="int-002" />
               </Tabs>
               {value === 0 && (
@@ -253,13 +253,13 @@ class IntroductionForm extends Component {
                     fullWidth
                     name="title"
                     margin="normal"
-                    value={this.state.item.am.title}
+                    value={this.state.item.sl.title}
                     placeholder={translate('INTRO_TITLE_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('INTRO_TITLE_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Introduction</Typography>
+                    <Typography variant="caption">Introduction*</Typography>
                     <RichTextEditor
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
@@ -275,7 +275,7 @@ class IntroductionForm extends Component {
                     fullWidth
                     name="author"
                     margin="normal"
-                    value={this.state.item.am.author}
+                    value={this.state.item.sl.author}
                     placeholder={translate('INTRO_AUTHOR_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('INTRO_AUTHOR_HT')}
@@ -298,7 +298,7 @@ class IntroductionForm extends Component {
                     helperText="e.g - About our church"
                   />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Introduction</Typography>
+                    <Typography variant="caption">Introduction*</Typography>
                     <RichTextEditor
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
@@ -376,7 +376,7 @@ class IntroductionForm extends Component {
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                        <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
                       </TableCell>
                       <TableCell>
                         {
