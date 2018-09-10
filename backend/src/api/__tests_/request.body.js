@@ -87,7 +87,7 @@ export const blog = {
 };
 
 export const media = Object.assign({
-  am: { body: faker.lorem.paragraphs() },
+  sl: { body: faker.lorem.paragraphs() },
   en: { body: faker.lorem.paragraphs() },
   title: faker.lorem.words(),
   url: faker.internet.url(),

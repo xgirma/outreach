@@ -20,13 +20,14 @@ import {
   Button,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
-import { toolbarConfig, dateFormat } from '../helper';
+import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
+const { translate, getLanguage } = new Translate();
 const blankItem = {
-  am: {
+  sl: {
     description: '',
   },
   en: {
@@ -100,8 +101,8 @@ class MediaForm extends Component {
       amharic,
       item: {
         ...prevState.item,
-        am: {
-          ...prevState.item.am,
+        sl: {
+          ...prevState.item.sl,
           description,
         },
       },
@@ -145,7 +146,7 @@ class MediaForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.description;
+    const amharicHtml = item.sl.description;
     const englishHtml = item.en.description;
     this.setState({
       item,
@@ -231,7 +232,7 @@ class MediaForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="med-01" />
+                <Tab label={getLanguage()} id="med-01" />
                 <Tab label="English" id="med-02" />
               </Tabs>
               {value === 0 && (
@@ -270,6 +271,7 @@ class MediaForm extends Component {
                   fullWidth
                   margin="normal"
                   name="title"
+                  required
                   value={this.state.item.title}
                   placeholder="Enter media title"
                   onChange={this.handleItemInput}
@@ -284,6 +286,7 @@ class MediaForm extends Component {
                   fullWidth
                   margin="normal"
                   name="url"
+                  required
                   value={this.state.item.url}
                   placeholder="Enter your media URL"
                   onChange={this.handleItemInput}
@@ -298,10 +301,11 @@ class MediaForm extends Component {
                   fullWidth
                   margin="normal"
                   name="mediaType"
+                  required
                   value={this.state.item.mediaType}
                   placeholder="Enter media type (video or audio)"
                   onChange={this.handleItemInput}
-                  helperText="video"
+                  helperText="e.g. video"
                 />
 
                 <TextField
@@ -315,7 +319,7 @@ class MediaForm extends Component {
                   value={this.state.item.tag.toString()}
                   placeholder="Enter your blog tags comma separated"
                   onChange={this.handleItemInput}
-                  helperText="epiphany, ጥምቀት"
+                  helperText={`history ${translate('TAG')}`}
                 />
               </TabContainer>
 

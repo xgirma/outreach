@@ -12,7 +12,7 @@ export const schema = {
   en: {
     title: { type: String, maxlength: 200, required: [true, required] },
     description: { type: String },
-    contact: { type: String },
+    contact: { type: String, default: '' },
   },
   phone: { type: String, required: [true, required] },
   email: {
@@ -23,7 +23,12 @@ export const schema = {
     validate: [isEmail, '~ invalid email, enter a valid email'],
   },
   adminname: { type: String, required: [true, required], maxlength: 20 },
-  date: { type: Date, default: Date.now, required: [true, required], index: true },
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, required],
+    index: true,
+  },
 };
 
 const serviceSchema = new mongoose.Schema(schema);

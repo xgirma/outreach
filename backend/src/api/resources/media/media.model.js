@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const required = '~ is required';
 
 export const schema = {
-  am: { description: { type: String } },
-  en: { description: { type: String } },
+  sl: { description: { type: String, default: '' } },
+  en: { description: { type: String, default: '' } },
   title: {
     type: String,
     maxlength: 200,
@@ -20,7 +20,12 @@ export const schema = {
   },
   tag: [String],
   adminname: { type: String, required: [true, required], maxlength: 20 },
-  date: { type: Date, default: Date.now, required: [true, required], index: true },
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, required],
+    index: true,
+  },
 };
 
 const mediaSchema = new mongoose.Schema(schema);

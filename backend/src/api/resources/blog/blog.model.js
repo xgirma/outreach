@@ -5,11 +5,11 @@ const required = '~ is required';
 export const schema = {
   sl: {
     title: { type: String, maxlength: 200, required: [true, required] },
-    description: { type: String, required: [true, required]  },
+    description: { type: String, required: [true, required] },
   },
   en: {
     title: { type: String, maxlength: 200, required: [true, required] },
-    description: { type: String, required: [true, required]  },
+    description: { type: String, required: [true, required] },
   },
   author: {
     type: String,
@@ -23,7 +23,7 @@ export const schema = {
     index: true,
     required: [true, required],
   },
-  tag: { type: String, maxlength: 100, index: true },
+  tag: [String],
   adminname: {
     type: String,
     required: [true, required],

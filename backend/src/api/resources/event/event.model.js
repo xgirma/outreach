@@ -18,8 +18,8 @@ export const schema = {
   address: {
     street: { type: String, required: [true, required], maxlength: 200 },
     city: { type: String, required: [true, required], maxlength: 50 },
-    state: { type: String, maxlength: 50 },
-    zip: { type: String, maxlength: 50 },
+    state: { type: String, maxlength: 50, default: '' },
+    zip: { type: String, maxlength: 50, default: '' },
     country: { type: String, required: [true, required], maxlength: 100 },
   },
   email: {
@@ -32,7 +32,12 @@ export const schema = {
   dateStart: { type: Date, required: [true, required], index: true },
   dateEnd: { type: Date, required: [true, required], index: true },
   adminname: { type: String, required: [true, required], maxlength: 20 },
-  date: { type: Date, default: Date.now, required: [true, required], index: true }, // document creation date
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, required],
+    index: true,
+  }, // document creation date
 };
 
 const eventSchema = new mongoose.Schema(schema);
