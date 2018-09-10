@@ -4,33 +4,34 @@ import moment from 'moment';
 import * as err from './../../modules/error';
 
 const now = moment().format('YYYY-MM-DD');
+const required = '~ is required';
 
 export const schema = {
-  am: {
-    title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
+  sl: {
+    title: { type: String, maxlength: 200, required: [true, required] },
     description: { type: String },
   },
   en: {
-    title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
+    title: { type: String, maxlength: 200, required: [true, required] },
     description: { type: String },
   },
   address: {
-    street: { type: String, required: [true, 'event must have a street'], maxlength: 200 },
-    city: { type: String, required: [true, 'event must have a city'], maxlength: 50 },
+    street: { type: String, required: [true, required], maxlength: 200 },
+    city: { type: String, required: [true, required], maxlength: 50 },
     state: { type: String, maxlength: 50 },
     zip: { type: String, maxlength: 50 },
-    country: { type: String, required: [true, 'event must have a country'], maxlength: 100 },
+    country: { type: String, required: [true, required], maxlength: 100 },
   },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    validate: [isEmail, 'invalid email'],
+    validate: [isEmail, 'invalid email, enter a valid email'],
   },
-  phone: { type: String, required: [true, 'event must have a phone'] },
-  dateStart: { type: Date, index: true },
-  dateEnd: { type: Date, index: true },
-  adminname: { type: String, required: [true, 'event must have a adminname'], maxlength: 20 },
+  phone: { type: String, required: [true, required] },
+  dateStart: { type: Date, required: [true, required], index: true },
+  dateEnd: { type: Date, required: [true, required], index: true },
+  adminname: { type: String, required: [true, required], maxlength: 20 },
   date: { type: Date, default: Date.now, index: true }, // document creation date
 };
 

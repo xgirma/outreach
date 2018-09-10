@@ -36,7 +36,7 @@ export const info = {
 };
 
 export const event = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
   },
