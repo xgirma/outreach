@@ -58,7 +58,7 @@ export const event = {
 };
 
 export const services = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
     contact: faker.name.findName(),
