@@ -1,27 +1,34 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 
+const required = '~ is required';
+
 export const schema = {
-  am: {
-    title: { type: String, maxlength: 200, required: [true, 'service must have a title'] },
+  sl: {
+    title: { type: String, maxlength: 200, required: [true, required] },
     description: { type: String },
     contact: { type: String },
   },
   en: {
-    title: { type: String, maxlength: 200, required: [true, 'service must have a title'] },
+    title: { type: String, maxlength: 200, required: [true, required] },
     description: { type: String },
-    contact: { type: String },
+    contact: { type: String, default: '' },
   },
-  phone: { type: String, required: [true, 'service must have a phone'] },
+  phone: { type: String, required: [true, required] },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    required: [true, 'service must have an email'],
-    validate: [isEmail, 'invalid email, enter valid email'],
+    required: [true, required],
+    validate: [isEmail, '~ invalid email, enter a valid email'],
   },
-  adminname: { type: String, required: [true, 'service must have a adminname'], maxlength: 20 },
-  date: { type: Date, default: Date.now, index: true },
+  adminname: { type: String, required: [true, required], maxlength: 20 },
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, required],
+    index: true,
+  },
 };
 
 const serviceSchema = new mongoose.Schema(schema);

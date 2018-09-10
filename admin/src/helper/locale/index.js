@@ -1,5 +1,5 @@
-const AM = require('./am.json');
+const amharic = require('./amharic.json');
 
 module.exports = {
-  AM,
+  amharic,
 };

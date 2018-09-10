@@ -1,28 +1,35 @@
 import mongoose from 'mongoose';
 
+const required = '~ is required';
+
 export const schema = {
-  am: {
-    title: { type: String, maxlength: 200 },
-    author: { type: String, maxlength: 100 },
+  sl: {
+    title: { type: String, maxlength: 200, default: '' },
+    author: { type: String, maxlength: 100, default: '' },
     intro: {
       type: String,
-      required: [true, 'introduction is missing'],
+      required: [true, required],
     },
   },
   en: {
-    title: { type: String, maxlength: 200 },
-    author: { type: String, maxlength: 100 },
+    title: { type: String, maxlength: 200, default: '' },
+    author: { type: String, maxlength: 100, default: '' },
     intro: {
       type: String,
-      required: [true, 'introduction is missing'],
+      required: [true, required],
     },
   },
   adminname: {
     type: String,
-    required: [true, 'introduction must have a adminname'],
+    required: [true, required],
     maxlength: 20,
   },
-  date: { type: Date, default: Date.now, index: true },
+  date: {
+    type: Date,
+    default: Date.now,
+    required: [true, required],
+    index: true,
+  },
 };
 
 const introSchema = new mongoose.Schema(schema);

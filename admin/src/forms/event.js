@@ -25,8 +25,7 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
-const { translate } = new Translate();
-
+const { translate, getLanguage } = new Translate();
 const start = moment()
   .add(7, 'days')
   .hours(9)
@@ -36,7 +35,7 @@ const end = moment()
   .hours(11)
   .format(dateFormat);
 const blankItem = {
-  am: {
+  sl: {
     title: '',
     description: '',
   },
@@ -119,8 +118,8 @@ class EventForm extends Component {
       amharic,
       item: {
         ...prevState.item,
-        am: {
-          ...prevState.item.am,
+        sl: {
+          ...prevState.item.sl,
           description,
         },
       },
@@ -148,7 +147,7 @@ class EventForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
+        sl: { ...prevState.item.sl, [name]: value },
       },
     }));
   };
@@ -233,7 +232,7 @@ class EventForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.description;
+    const amharicHtml = item.sl.description;
     const englishHtml = item.en.description;
     const formattedItem = {
       ...item,
@@ -290,7 +289,7 @@ class EventForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="eve-01" />
+                <Tab label={getLanguage()} id="eve-01" />
                 <Tab label="English" id="eve-02" />
               </Tabs>
               {value === 0 && (
@@ -303,7 +302,8 @@ class EventForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
-                    value={this.state.item.am.title}
+                    required
+                    value={this.state.item.sl.title}
                     placeholder={translate('EVENT_TITLE_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('EVENT_TITLE_HT')}
@@ -329,6 +329,7 @@ class EventForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
+                    required
                     value={this.state.item.en.title}
                     placeholder="Enter your event title"
                     onChange={this.handleEnglishInput}
@@ -355,6 +356,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="street"
+                  required
                   value={this.state.item.address.street}
                   placeholder="Enter event street"
                   onChange={this.handleAddressInput}
@@ -369,6 +371,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="city"
+                  required
                   value={this.state.item.address.city}
                   placeholder="Enter event city"
                   onChange={this.handleAddressInput}
@@ -411,6 +414,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="country"
+                  required
                   value={this.state.item.address.country}
                   placeholder="Enter event country"
                   onChange={this.handleAddressInput}
@@ -425,6 +429,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="email"
+                  required
                   value={this.state.item.email}
                   placeholder="Enter event contact email"
                   onChange={this.handleItemInput}
@@ -439,6 +444,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="phone"
+                  required
                   value={this.state.item.phone}
                   placeholder="Enter event contact phone"
                   onChange={this.handleItemInput}
@@ -453,6 +459,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="dateStart"
+                  required
                   value={this.state.item.dateStart}
                   placeholder="Enter event start date and time"
                   onChange={this.handleItemInput}
@@ -467,6 +474,7 @@ class EventForm extends Component {
                   fullWidth
                   margin="normal"
                   name="dateEnd"
+                  required
                   value={this.state.item.dateEnd}
                   placeholder="Enter event end date and time"
                   onChange={this.handleItemInput}
@@ -532,7 +540,7 @@ class EventForm extends Component {
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                        <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
                       </TableCell>
                       <TableCell>
                         {

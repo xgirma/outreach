@@ -24,9 +24,9 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
-const { translate } = new Translate();
+const { translate, getLanguage } = new Translate();
 const blankItem = {
-  am: {
+  sl: {
     name: '',
     denomination: '',
     bible: {
@@ -81,6 +81,7 @@ class InformationForm extends Component {
     const { getInformation } = this.props;
     const result = await getInformation();
     const { status, data } = result;
+
     if (status === 'success') {
       this.setState({
         items: data,
@@ -183,7 +184,7 @@ class InformationForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
+        sl: { ...prevState.item.sl, [name]: value },
       },
     }));
   };
@@ -194,7 +195,7 @@ class InformationForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, bible: { ...prevState.item.am.bible, [name]: value } },
+        sl: { ...prevState.item.sl, bible: { ...prevState.item.sl.bible, [name]: value } },
       },
     }));
   };
@@ -253,7 +254,7 @@ class InformationForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="inf-01" />
+                <Tab label={getLanguage()} id="inf-01" />
                 <Tab label="English" id="inf-02" />
               </Tabs>
               {value === 0 && (
@@ -266,7 +267,8 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="name"
-                    value={this.state.item.am.name}
+                    required
+                    value={this.state.item.sl.name}
                     placeholder={translate('INFO_NAME_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('INFO_NAME_HT')}
@@ -279,7 +281,8 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="denomination"
-                    value={this.state.item.am.denomination}
+                    required
+                    value={this.state.item.sl.denomination}
                     placeholder={translate('INFO_DENOMINATION_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('INFO_DENOMINATION_HT')}
@@ -292,7 +295,8 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="verse"
-                    value={this.state.item.am.bible.verse}
+                    required
+                    value={this.state.item.sl.bible.verse}
                     placeholder={translate('INFO_VERSE_PH')}
                     onChange={this.handleAmharicBibleInput}
                     helperText={translate('INFO_VERSE_HT')}
@@ -305,7 +309,8 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="from"
-                    value={this.state.item.am.bible.from}
+                    required
+                    value={this.state.item.sl.bible.from}
                     placeholder={translate('INFO_FROM_PH')}
                     onChange={this.handleAmharicBibleInput}
                     helperText={translate('INFO_FROM_HT')}
@@ -322,6 +327,7 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="name"
+                    required
                     value={this.state.item.en.name}
                     placeholder="Enter church name"
                     onChange={this.handleEnglishInput}
@@ -335,6 +341,7 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="denomination"
+                    required
                     value={this.state.item.en.denomination}
                     placeholder="Enter your church denomination name"
                     onChange={this.handleEnglishInput}
@@ -348,6 +355,7 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="verse"
+                    required
                     value={this.state.item.en.bible.verse}
                     placeholder="Enter your church verse"
                     onChange={this.handleEnglishBibleInput}
@@ -361,6 +369,7 @@ class InformationForm extends Component {
                     fullWidth
                     margin="normal"
                     name="from"
+                    required
                     value={this.state.item.en.bible.from}
                     placeholder="Enter your church verse from"
                     onChange={this.handleEnglishBibleInput}
@@ -378,6 +387,7 @@ class InformationForm extends Component {
                   fullWidth
                   margin="normal"
                   name="phone"
+                  required
                   value={this.state.item.phone}
                   placeholder="Enter phone"
                   onChange={this.handleItemInput}
@@ -391,6 +401,7 @@ class InformationForm extends Component {
                   fullWidth
                   margin="normal"
                   name="email"
+                  required
                   value={this.state.item.email}
                   placeholder="Enter email"
                   onChange={this.handleItemInput}
@@ -404,6 +415,7 @@ class InformationForm extends Component {
                   fullWidth
                   margin="normal"
                   name="street"
+                  required
                   value={this.state.item.address.street}
                   placeholder="Enter street"
                   onChange={this.handleAddressInput}
@@ -417,6 +429,7 @@ class InformationForm extends Component {
                   fullWidth
                   margin="normal"
                   name="city"
+                  required
                   value={this.state.item.address.city}
                   placeholder="Enter city"
                   onChange={this.handleAddressInput}
@@ -456,6 +469,7 @@ class InformationForm extends Component {
                   fullWidth
                   margin="normal"
                   name="country"
+                  required
                   value={this.state.item.address.country}
                   placeholder="Enter country"
                   onChange={this.handleAddressInput}
@@ -515,7 +529,7 @@ class InformationForm extends Component {
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.am.name}</div>
+                        <div onClick={() => this.handleEdit(item)}>{item.sl.name}</div>
                       </TableCell>
                       <TableCell>
                         {

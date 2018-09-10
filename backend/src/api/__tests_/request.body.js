@@ -8,7 +8,7 @@ export const admin = Object.assign({
 });
 
 export const info = {
-  am: {
+  sl: {
     name: faker.lorem.words(),
     denomination: faker.lorem.words(),
     bible: {
@@ -36,7 +36,7 @@ export const info = {
 };
 
 export const event = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
   },
@@ -58,7 +58,7 @@ export const event = {
 };
 
 export const services = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
     contact: faker.name.findName(),
@@ -73,7 +73,7 @@ export const services = {
 };
 
 export const blog = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
   },
@@ -87,10 +87,25 @@ export const blog = {
 };
 
 export const media = Object.assign({
-  am: { body: faker.lorem.paragraphs() },
+  sl: { body: faker.lorem.paragraphs() },
   en: { body: faker.lorem.paragraphs() },
   title: faker.lorem.words(),
   url: faker.internet.url(),
   mediaType: 'video',
   tag: faker.hacker.noun(),
+});
+
+export const intro = Object.assign({
+  sl: {
+    title: faker.lorem.words(),
+    author: faker.name.findName(),
+    intro: faker.lorem.words(),
+  },
+  en: {
+    title: faker.lorem.words(),
+    author: faker.name.findName(),
+    intro: faker.lorem.words(),
+  },
+  adminname: faker.name.findName(),
+  date: faker.date.future(2),
 });

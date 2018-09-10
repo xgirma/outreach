@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
+const required = '~ is required';
+
 export const schema = {
-  am: {
-    title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
-    description: { type: String },
+  sl: {
+    title: { type: String, maxlength: 200, required: [true, required] },
+    description: { type: String, required: [true, required] },
   },
   en: {
-    title: { type: String, maxlength: 200, required: [true, 'event must have a title'] },
-    description: { type: String },
+    title: { type: String, maxlength: 200, required: [true, required] },
+    description: { type: String, required: [true, required] },
   },
   author: {
     type: String,
@@ -19,19 +21,19 @@ export const schema = {
     type: Date,
     default: Date.now,
     index: true,
-    required: [true, 'first publish date'],
+    required: [true, required],
   },
-  tag: { type: String, maxlength: 100, index: true },
+  tag: [String],
   adminname: {
     type: String,
-    required: [true, 'info must have a adminname who publish the post'],
+    required: [true, required],
     maxlength: 20,
   },
   date: {
     type: Date,
     default: Date.now,
     index: true,
-    required: [true, 'last updated date'],
+    required: [true, required],
   },
 };
 

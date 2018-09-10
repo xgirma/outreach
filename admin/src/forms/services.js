@@ -25,9 +25,9 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
-const { translate } = new Translate();
+const { translate, getLanguage } = new Translate();
 const blankItem = {
-  am: {
+  sl: {
     title: '',
     description: '',
     contact: '',
@@ -103,8 +103,8 @@ class ServicesForm extends Component {
       amharic,
       item: {
         ...prevState.item,
-        am: {
-          ...prevState.item.am,
+        sl: {
+          ...prevState.item.sl,
           description,
         },
       },
@@ -132,7 +132,7 @@ class ServicesForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
+        sl: { ...prevState.item.sl, [name]: value },
       },
     }));
   };
@@ -170,7 +170,7 @@ class ServicesForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.description;
+    const amharicHtml = item.sl.description;
     const englishHtml = item.en.description;
     this.setState({
       item,
@@ -257,7 +257,7 @@ class ServicesForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="ser-01" />
+                <Tab label={getLanguage()} id="ser-01" />
                 <Tab label="English" id="ser-02" />
               </Tabs>
               {value === 0 && (
@@ -270,13 +270,14 @@ class ServicesForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
-                    value={this.state.item.am.title}
+                    required
+                    value={this.state.item.sl.title}
                     placeholder={translate('SERVICES_TITLE_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('SERVICES_TITLE_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Service description</Typography>
+                    <Typography variant="caption">Description</Typography>
                     <RichTextEditor
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
@@ -292,7 +293,7 @@ class ServicesForm extends Component {
                     fullWidth
                     margin="normal"
                     name="contact"
-                    value={this.state.item.am.contact}
+                    value={this.state.item.sl.contact}
                     placeholder={translate('SERVICES_CONTACT_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('SERVICES_CONTACT_HT')}
@@ -309,13 +310,14 @@ class ServicesForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
+                    required
                     value={this.state.item.en.title}
                     placeholder="Enter service title"
                     onChange={this.handleEnglishInput}
                     helperText="e.g - Christening service"
                   />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Service description</Typography>
+                    <Typography variant="caption">Description</Typography>
                     <RichTextEditor
                       value={this.state.english}
                       onChange={this.onEnEditorChange}
@@ -348,6 +350,7 @@ class ServicesForm extends Component {
                   fullWidth
                   margin="normal"
                   name="phone"
+                  required
                   value={this.state.item.phone}
                   placeholder="Enter service contact phone"
                   onChange={this.handleItemInput}
@@ -362,6 +365,7 @@ class ServicesForm extends Component {
                   fullWidth
                   margin="normal"
                   name="email"
+                  required
                   value={this.state.item.email}
                   placeholder="Enter service contact email"
                   onChange={this.handleItemInput}
@@ -424,7 +428,7 @@ class ServicesForm extends Component {
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                        <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
                       </TableCell>
                       <TableCell>
                         {
