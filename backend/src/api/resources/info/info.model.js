@@ -1,47 +1,49 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 
+const required = '~ is required';
+
 export const schema = {
-  am: {
-    name: { type: String, required: [true, 'info must have a church name'], maxlength: 200 },
+  sl: {
+    name: { type: String, required: [true, required], maxlength: 200 },
     denomination: {
       type: String,
-      required: [true, 'info must have a denomination'],
+      required: [true, required],
       maxlength: 100,
     },
     bible: {
-      verse: { type: String, required: [true, 'info must have a bible verse'], maxlength: 1000 },
-      from: { type: String, required: [true, 'info must have a bible verse from'], maxlength: 100 },
+      verse: { type: String, required: [true, required], maxlength: 1000 },
+      from: { type: String, required: [true, required], maxlength: 100 },
     },
   },
   en: {
-    name: { type: String, required: [true, 'info must have a church name'], maxlength: 200 },
+    name: { type: String, required: [true, required], maxlength: 200 },
     denomination: {
       type: String,
-      required: [true, 'info must have a denomination'],
+      required: [true, required],
       maxlength: 100,
     },
     bible: {
-      verse: { type: String, required: [true, 'info must have a bible verse'], maxlength: 1000 },
-      from: { type: String, required: [true, 'info must have a bible verse from'], maxlength: 100 },
+      verse: { type: String, required: [true, required], maxlength: 1000 },
+      from: { type: String, required: [true, required], maxlength: 100 },
     },
   },
-  phone: { type: String, required: [true, 'info must have a phone'] },
+  phone: { type: String, required: [true, required] },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    required: [true, 'info must have an email'],
+    required: [true, required],
     validate: [isEmail, 'Invalid email'],
   },
   address: {
-    street: { type: String, required: [true, 'info must have a street'], maxlength: 200 },
-    city: { type: String, required: [true, 'info must have a city'], maxlength: 50 },
+    street: { type: String, required: [true, required], maxlength: 200 },
+    city: { type: String, required: [true, required], maxlength: 50 },
     state: { type: String, maxlength: 50 },
     zip: { type: String, maxlength: 50 },
-    country: { type: String, required: [true, 'info must have a country'], maxlength: 100 },
+    country: { type: String, required: [true, required], maxlength: 100 },
   },
-  adminname: { type: String, required: [true, 'info must have a adminname'], maxlength: 20 },
+  adminname: { type: String, required: [true, required], maxlength: 20 },
   date: { type: Date, default: Date.now, index: true },
 };
 

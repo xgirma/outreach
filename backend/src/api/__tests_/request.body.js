@@ -8,7 +8,7 @@ export const admin = Object.assign({
 });
 
 export const info = {
-  am: {
+  sl: {
     name: faker.lorem.words(),
     denomination: faker.lorem.words(),
     bible: {
