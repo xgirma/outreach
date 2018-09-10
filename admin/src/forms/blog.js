@@ -25,13 +25,13 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
 
-const { translate } = new Translate();
+const { translate, getLanguage } = new Translate();
 const pubDate = moment()
   .add(7, 'days')
   .hours(9)
   .format(dateFormat);
 const blankItem = {
-  am: {
+  sl: {
     title: '',
     description: '',
   },
@@ -102,8 +102,8 @@ class BlogForm extends Component {
       amharic,
       item: {
         ...prevState.item,
-        am: {
-          ...prevState.item.am,
+        sl: {
+          ...prevState.item.sl,
           description,
         },
       },
@@ -131,7 +131,7 @@ class BlogForm extends Component {
       ...prevState,
       item: {
         ...prevState.item,
-        am: { ...prevState.item.am, [name]: value },
+        sl: { ...prevState.item.sl, [name]: value },
       },
     }));
   };
@@ -169,7 +169,7 @@ class BlogForm extends Component {
   };
 
   handleEdit = (item) => {
-    const amharicHtml = item.am.description;
+    const amharicHtml = item.sl.description;
     const englishHtml = item.en.description;
     const formattedItem = {
       ...item,
@@ -259,7 +259,7 @@ class BlogForm extends Component {
           <CardContent>
             <form onSubmit={this.handleSubmit}>
               <Tabs value={value} onChange={this.handleChange}>
-                <Tab label="Amharic" id="blo-01" />
+                <Tab label={getLanguage()} id="blo-01" />
                 <Tab label="English" id="blo-02" />
               </Tabs>
               {value === 0 && (
@@ -272,13 +272,14 @@ class BlogForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
-                    value={this.state.item.am.title}
+                    required
+                    value={this.state.item.sl.title}
                     placeholder={translate('EVENT_BLOG_PH')}
                     onChange={this.handleAmharicInput}
                     helperText={translate('EVENT_BLOG_HT')}
                   />
                   <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Blog content</Typography>
+                    <Typography variant="caption">Description*</Typography>
                     <RichTextEditor
                       value={this.state.amharic}
                       onChange={this.onAmEditorChange}
@@ -298,17 +299,21 @@ class BlogForm extends Component {
                     fullWidth
                     margin="normal"
                     name="title"
+                    required
                     value={this.state.item.en.title}
                     placeholder="Enter your blog title"
                     onChange={this.handleEnglishInput}
                     helperText="e.g - Christianity in Ethiopia"
                   />
-                  <RichTextEditor
-                    value={this.state.english}
-                    onChange={this.onEnEditorChange}
-                    toolbarConfig={toolbarConfig}
-                    id="blo-06"
-                  />
+                  <Paper className={classes.paper} elevation={0}>
+                    <Typography variant="caption">Description*</Typography>
+                    <RichTextEditor
+                      value={this.state.english}
+                      onChange={this.onEnEditorChange}
+                      toolbarConfig={toolbarConfig}
+                      id="blo-06"
+                    />
+                  </Paper>
                 </TabContainer>
               )}
 
@@ -321,6 +326,7 @@ class BlogForm extends Component {
                   fullWidth
                   margin="normal"
                   name="author"
+                  required
                   value={this.state.item.author}
                   placeholder="Enter blog author"
                   onChange={this.handleItemInput}
@@ -335,6 +341,7 @@ class BlogForm extends Component {
                   fullWidth
                   margin="normal"
                   name="dateStart"
+                  required
                   value={this.state.item.dateStart}
                   placeholder="Enter your blog publication date and time, it can be future date"
                   onChange={this.handleItemInput}
@@ -352,7 +359,7 @@ class BlogForm extends Component {
                   value={this.state.item.tag.toString()}
                   placeholder="Enter your blog tags comma separated"
                   onChange={this.handleItemInput}
-                  helperText="history, ታሪክ"
+                  helperText={`history, ${translate('TAG')}`}
                 />
               </TabContainer>
 
@@ -412,7 +419,7 @@ class BlogForm extends Component {
                       </TableCell>
                       <TableCell>{item.adminname}</TableCell>
                       <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.am.title}</div>
+                        <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
                       </TableCell>
                       <TableCell>
                         {

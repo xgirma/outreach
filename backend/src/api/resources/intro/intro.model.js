@@ -24,7 +24,7 @@ export const schema = {
     required: [true, required],
     maxlength: 20,
   },
-  date: { type: Date, default: Date.now, index: true },
+  date: { type: Date, default: Date.now, required: [true, required], index: true },
 };
 
 const introSchema = new mongoose.Schema(schema);

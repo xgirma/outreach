@@ -1,24 +1,26 @@
 import mongoose from 'mongoose';
 
+const required = '~ is required';
+
 export const schema = {
   am: { description: { type: String } },
   en: { description: { type: String } },
   title: {
     type: String,
     maxlength: 200,
-    required: [true, 'media must have a title'],
+    required: [true, required],
     index: true,
   },
-  url: { type: String, maxlength: 300, required: [true, 'media must have url'] },
+  url: { type: String, maxlength: 300, required: [true, required] },
   mediaType: {
     type: String,
     enum: ['video', 'audio'],
-    required: [true, 'media type must be selected'],
+    required: [true, required],
     index: true,
   },
   tag: [String],
-  adminname: { type: String, required: [true, 'media must have a adminname'], maxlength: 20 },
-  date: { type: Date, default: Date.now, index: true },
+  adminname: { type: String, required: [true, required], maxlength: 20 },
+  date: { type: Date, default: Date.now, required: [true, required], index: true },
 };
 
 const mediaSchema = new mongoose.Schema(schema);

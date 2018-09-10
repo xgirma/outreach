@@ -44,7 +44,7 @@ export const schema = {
     country: { type: String, required: [true, required], maxlength: 100 },
   },
   adminname: { type: String, required: [true, required], maxlength: 20 },
-  date: { type: Date, default: Date.now, index: true },
+  date: { type: Date, default: Date.now, required: [true, required], index: true },
 };
 
 const infoSchema = new mongoose.Schema(schema);

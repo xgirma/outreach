@@ -32,7 +32,7 @@ export const schema = {
   dateStart: { type: Date, required: [true, required], index: true },
   dateEnd: { type: Date, required: [true, required], index: true },
   adminname: { type: String, required: [true, required], maxlength: 20 },
-  date: { type: Date, default: Date.now, index: true }, // document creation date
+  date: { type: Date, default: Date.now, required: [true, required], index: true }, // document creation date
 };
 
 const eventSchema = new mongoose.Schema(schema);

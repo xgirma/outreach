@@ -73,7 +73,7 @@ export const services = {
 };
 
 export const blog = {
-  am: {
+  sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
   },
