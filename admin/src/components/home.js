@@ -24,7 +24,7 @@ import Event from '../containers/event';
 import Blog from '../containers/blog';
 import Services from '../containers/services';
 import Landing from './landing';
-import { pageListItems, adminListItems } from './drawer-menu';
+import { DrawerMenuItems, adminListItems } from './drawer-menu';
 
 class Home extends Component {
   static displayName = 'home-component';
@@ -52,7 +52,9 @@ class Home extends Component {
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <List>{pageListItems}</List>
+        <List>
+          <DrawerMenuItems {...this.props} />
+        </List>
         <Divider />
         <List>{adminListItems}</List>
       </div>

@@ -318,7 +318,7 @@
                       "items": {
                         "properties": {
                           "type": "object",
-                          "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                          "sl": { "$ref": "#/components/schemas/ChurchInfo" },
                           "en": { "$ref": "#/components/schemas/ChurchInfo" },
                           "phone": { "$ref": "#/components/parameters/phone" },
                           "email": { "$ref": "#/components/parameters/email" },
@@ -348,7 +348,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "sl": { "$ref": "#/components/schemas/ChurchInfo" },
                   "en": { "$ref": "#/components/schemas/ChurchInfo" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "email": { "$ref": "#/components/parameters/email" },
@@ -397,7 +397,7 @@
                     "status": { "$ref": "#/components/parameters/success" },
                     "data": {
                       "properties": {
-                        "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                        "sl": { "$ref": "#/components/schemas/ChurchInfo" },
                         "en": { "$ref": "#/components/schemas/ChurchInfo" },
                         "phone": { "$ref": "#/components/parameters/phone" },
                         "email": { "$ref": "#/components/parameters/email" },
@@ -435,7 +435,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/ChurchInfo" },
+                  "sl": { "$ref": "#/components/schemas/ChurchInfo" },
                   "en": { "$ref": "#/components/schemas/ChurchInfo" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "email": { "$ref": "#/components/parameters/email" },
@@ -498,7 +498,7 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": { "$ref": "#/components/schemas/Introduction" },
+                      "sl": { "$ref": "#/components/schemas/Introduction" },
                       "en": { "$ref": "#/components/schemas/Introduction" },
                       "date": { "$ref": "#/components/parameters/date" },
                       "adminname": { "$ref": "#/components/parameters/username" }
@@ -522,7 +522,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Introduction" },
+                  "sl": { "$ref": "#/components/schemas/Introduction" },
                   "en": { "$ref": "#/components/schemas/Introduction" }
                 }
               }
@@ -565,7 +565,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Introduction" },
+                    "sl": { "$ref": "#/components/schemas/Introduction" },
                     "en": { "$ref": "#/components/schemas/Introduction" },
                     "date": { "$ref": "#/components/parameters/date" },
                     "adminname": { "$ref": "#/components/parameters/username" }
@@ -600,7 +600,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Introduction" },
+                  "sl": { "$ref": "#/components/schemas/Introduction" },
                   "en": { "$ref": "#/components/schemas/Introduction" }
                 }
               }
@@ -660,7 +660,7 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": { "$ref": "#/components/schemas/Event" },
+                      "sl": { "$ref": "#/components/schemas/Event" },
                       "en": { "$ref": "#/components/schemas/Event" },
                       "address": { "$ref": "#/components/schemas/Address" },
                       "email": { "$ref": "#/components/parameters/email" },
@@ -688,7 +688,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Event" },
+                  "sl": { "$ref": "#/components/schemas/Event" },
                   "en": { "$ref": "#/components/schemas/Event" },
                   "address": { "$ref": "#/components/schemas/Address" },
                   "email": { "$ref": "#/components/parameters/email" },
@@ -725,7 +725,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Event" },
+                    "sl": { "$ref": "#/components/schemas/Event" },
                     "en": { "$ref": "#/components/schemas/Event" },
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
@@ -755,7 +755,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Event" },
+                    "sl": { "$ref": "#/components/schemas/Event" },
                     "en": { "$ref": "#/components/schemas/Event" },
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
@@ -795,7 +795,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Event" },
+                    "sl": { "$ref": "#/components/schemas/Event" },
                     "en": { "$ref": "#/components/schemas/Event" },
                     "address": { "$ref": "#/components/schemas/Address" },
                     "email": { "$ref": "#/components/parameters/email" },
@@ -833,7 +833,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Event" },
+                  "sl": { "$ref": "#/components/schemas/Event" },
                   "en": { "$ref": "#/components/schemas/Event" },
                   "address": { "$ref": "#/components/schemas/Address" },
                   "email": { "$ref": "#/components/parameters/email" },
@@ -898,7 +898,7 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": { "$ref": "#/components/schemas/Service" },
+                      "sl": { "$ref": "#/components/schemas/Service" },
                       "en": { "$ref": "#/components/schemas/Service" },
                       "phone": { "$ref": "#/components/parameters/phone" },
                       "email": { "$ref": "#/components/parameters/email" },
@@ -924,7 +924,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Service" },
+                  "sl": { "$ref": "#/components/schemas/Service" },
                   "en": { "$ref": "#/components/schemas/Service" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "email": { "$ref": "#/components/parameters/email" }
@@ -968,7 +968,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Service" },
+                    "sl": { "$ref": "#/components/schemas/Service" },
                     "en": { "$ref": "#/components/schemas/Service" },
                     "phone": { "$ref": "#/components/parameters/phone" },
                     "email": { "$ref": "#/components/parameters/email" },
@@ -1005,7 +1005,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Service" },
+                  "sl": { "$ref": "#/components/schemas/Service" },
                   "en": { "$ref": "#/components/schemas/Service" },
                   "phone": { "$ref": "#/components/parameters/phone" },
                   "email": { "$ref": "#/components/parameters/email" }
@@ -1067,7 +1067,7 @@
                     "type": "object",
                     "properties": {
                       "type": "object",
-                      "am": { "$ref": "#/components/schemas/Blog" },
+                      "sl": { "$ref": "#/components/schemas/Blog" },
                       "en": { "$ref": "#/components/schemas/Blog" },
                       "author": { "$ref": "#/components/parameters/name" },
                       "dateStart": { "$ref": "#/components/parameters/date" },
@@ -1094,7 +1094,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Blog" },
+                  "sl": { "$ref": "#/components/schemas/Blog" },
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
                   "dateStart": { "$ref": "#/components/parameters/date" },
@@ -1139,7 +1139,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Blog" },
+                    "sl": { "$ref": "#/components/schemas/Blog" },
                     "en": { "$ref": "#/components/schemas/Blog" },
                     "author": { "$ref": "#/components/parameters/name" },
                     "dateStart": { "$ref": "#/components/parameters/date" },
@@ -1175,7 +1175,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Blog" },
+                  "sl": { "$ref": "#/components/schemas/Blog" },
                   "en": { "$ref": "#/components/schemas/Blog" },
                   "author": { "$ref": "#/components/parameters/name" },
                   "dateStart": { "$ref": "#/components/parameters/date" },
@@ -1237,7 +1237,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "am": { "$ref": "#/components/schemas/Media" },
+                      "sl": { "$ref": "#/components/schemas/Media" },
                       "en": { "$ref": "#/components/schemas/Media" },
                       "title": {
                         "type": "string",
@@ -1269,7 +1269,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Media" },
+                  "sl": { "$ref": "#/components/schemas/Media" },
                   "en": { "$ref": "#/components/schemas/Media" },
                   "title": {
                     "type": "string",
@@ -1318,7 +1318,7 @@
                 "schema": {
                   "properties": {
                     "type": "object",
-                    "am": { "$ref": "#/components/schemas/Media" },
+                    "sl": { "$ref": "#/components/schemas/Media" },
                     "en": { "$ref": "#/components/schemas/Media" },
                     "title": {
                       "type": "string",
@@ -1359,7 +1359,7 @@
               "schema": {
                 "properties": {
                   "type": "object",
-                  "am": { "$ref": "#/components/schemas/Media" },
+                  "sl": { "$ref": "#/components/schemas/Media" },
                   "en": { "$ref": "#/components/schemas/Media" },
                   "title": {
                     "type": "string",
