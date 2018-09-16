@@ -1,94 +1,128 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { BLOG } from '../helper';
 
 const resource = 'blog';
 
-const getBlogSuccess = () => ({
-  type: 'GET_BLOG_SUCCESS',
+const blogIsLoading = (loading) => ({
+  type: BLOG.LOADING,
+  isLoading: loading,
 });
 
-const getBlogFailure = () => ({
-  type: 'GET_BLOG_FAILURE',
+const getBlogSuccess = (items, error) => ({
+  type: BLOG.GET_SUCCESS,
+  items,
+  error,
 });
 
-const deleteBlogSuccess = () => ({
-  type: 'DELETE_BLOG_SUCCESS',
+const getBlogFailure = (failed) => ({
+  type: BLOG.GET_FAILURE,
+  getFailed: failed,
 });
 
-const deleteBlogFailure = () => ({
-  type: 'DELETE_BLOG_FAILURE',
+const deleteBlogSuccess = (error) => ({
+  type: BLOG.DELETE_SUCCESS,
+  error,
 });
 
-const updateBlogSuccess = () => ({
-  type: 'UPDATE_BLOG_SUCCESS',
+const deleteBlogFailure = (failed) => ({
+  type: BLOG.DELETE_FAILURE,
+  deleteFailed: failed,
 });
 
-const updateBlogFailure = () => ({
-  type: 'UPDATE_BLOG_FAILURE',
+const updateBlogSuccess = (error) => ({
+  type: BLOG.UPDATE_SUCCESS,
+  error,
 });
 
-const addBlogSuccess = () => ({
-  type: 'ADD_BLOG_SUCCESS',
+const updateBlogFailure = (failed) => ({
+  type: BLOG.UPDATE_FAILURE,
+  updateFailed: failed,
 });
 
-const addBlogFailure = () => ({
-  type: 'ADD_BLOG_FAILURE',
+const addBlogSuccess = (error) => ({
+  type: BLOG.ADD_SUCCESS,
+  error,
+});
+
+const addBlogFailure = (failed) => ({
+  type: BLOG.ADD_FAILURE,
+  addFailed: failed,
+});
+
+export const clearBlogForm = () => ({
+  type: BLOG.CLEAR,
+  error: {},
 });
 
 export const getBlog = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(getBlogSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(getBlogFailure());
+  try {
+    result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+      dispatch(getBlogSuccess(items, error));
+      dispatch(blogIsLoading(false));
+    }
+  } catch (error) {
+    dispatch(getBlogFailure(true));
+    dispatch(blogIsLoading(false));
   }
 
   return result;
 };
 
 export const deleteBlog = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(deleteBlogSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(deleteBlogFailure());
+  try {
+    result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteBlogSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteBlogFailure(true));
   }
 
   return result;
 };
 
 export const updateBlog = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(updateBlogSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(updateBlogFailure());
+  try {
+    result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateBlogSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateBlogFailure(true));
   }
 
   return result;
 };
 
 export const addBlog = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(addBlogSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(addBlogFailure());
+  try {
+    result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addBlogSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addBlogFailure(true));
   }
 
   return result;
