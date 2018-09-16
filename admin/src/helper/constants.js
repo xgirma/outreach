@@ -14,3 +14,4 @@ const generateCommonActions = (NAME) => ({
 export const INTRODUCTION = generateCommonActions('INTRODUCTION');
 export const SERVICES = generateCommonActions('SERVICES');
 export const EVENT = generateCommonActions('EVENT');
+export const BLOG = generateCommonActions('BLOG');

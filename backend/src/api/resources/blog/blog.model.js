@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import * as err from "../../modules/error";
 
 const required = '~ is required';
 
@@ -38,5 +39,17 @@ export const schema = {
 };
 
 const blogSchema = new mongoose.Schema(schema);
+
+blogSchema.pre('validate', function introValidate(next) {
+  if (this.sl.description === '<p><br></p>') {
+    next(err.BadRequest('sl.description ~ is required'));
+  }
+  
+  if (this.en.description === '<p><br></p>') {
+    next(err.BadRequest('en.description ~ is required'));
+  }
+  
+  next();
+});
 
 export const Blog = mongoose.model('blog', blogSchema);
