@@ -1,7 +1,20 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ServicesForm } from '../forms';
-import { getServices, deleteServices, updateServices, addServices } from '../actions';
+import {
+  getServices,
+  deleteServices,
+  updateServices,
+  addServices,
+  clearServiceForm,
+} from '../actions';
+
+const mapStateToProps = (state) => {
+  const { services } = state;
+  return {
+    services,
+  };
+};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -10,11 +23,12 @@ const mapDispatchToProps = (dispatch) =>
       deleteServices,
       updateServices,
       addServices,
+      clearServiceForm,
     },
     dispatch,
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ServicesForm);

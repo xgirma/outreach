@@ -18,12 +18,14 @@ import {
   CardActions,
   CardContent,
   Button,
+  LinearProgress,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import { toolbarConfig, dateFormat, Translate } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
 import TabContainer from '../components/tab-container';
+import Failed from '../components/failed';
 
 const { translate, getLanguage } = new Translate();
 const blankItem = {
@@ -41,51 +43,47 @@ const blankItem = {
   email: '',
 };
 
-const blankError = {
-  message: '',
-  name: '',
+const defaultState = {
+  item: blankItem,
+  add: true,
+  amharic: createValueFromString('', 'html'),
+  english: createValueFromString('', 'html'),
 };
 
 class ServicesForm extends Component {
   displayName = 'services-form';
+
+  static defaultProps = {
+    getFailed: false,
+    deleteFailed: false,
+    updateFailed: false,
+    addFailed: false,
+  };
 
   static propTypes = {
     getServices: PropTypes.func.isRequired,
     deleteServices: PropTypes.func.isRequired,
     updateServices: PropTypes.func.isRequired,
     addServices: PropTypes.func.isRequired,
+    clearServiceForm: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
+    services: PropTypes.object.isRequired,
+    getFailed: PropTypes.bool,
+    deleteFailed: PropTypes.bool,
+    updateFailed: PropTypes.bool,
+    addFailed: PropTypes.bool,
   };
 
   state = {
-    items: [],
     item: blankItem,
     add: true,
-    error: blankError,
     amharic: createEmptyValue(),
     english: createEmptyValue(),
     value: 0,
   };
 
   async componentDidMount() {
-    const { getServices } = this.props;
-    const result = await getServices();
-    const { status, data } = result;
-    if (status === 'success' && data.length > 0) {
-      this.setState({
-        items: data,
-      });
-    }
-
-    if (this.state.items.length === 0) {
-      this.setState({ add: true });
-    }
-
-    if (status === 'fail' || status === 'error') {
-      this.setState({
-        error: { ...data },
-      });
-    }
+    await this.props.getServices();
   }
 
   handleSubmit = (event) => {
@@ -161,15 +159,12 @@ class ServicesForm extends Component {
 
   handleFormClear = (event) => {
     event.preventDefault();
-    this.setState({
-      item: blankItem,
-      add: true,
-      amharic: createValueFromString('', 'html'),
-      english: createValueFromString('', 'html'),
-    });
+    this.props.clearServiceForm();
+    this.setState({ ...defaultState });
   };
 
   handleEdit = (item) => {
+    this.props.clearServiceForm();
     const amharicHtml = item.sl.description;
     const englishHtml = item.en.description;
     this.setState({
@@ -182,288 +177,271 @@ class ServicesForm extends Component {
 
   handleFormUpdate = async (event) => {
     event.preventDefault();
-    const { updateServices, getServices, addServices } = this.props;
 
     const result = this.state.add
-      ? await addServices(this.state.item)
-      : await updateServices(this.state.item);
+      ? await this.props.addServices(this.state.item)
+      : await this.props.updateServices(this.state.item);
 
-    const { status, data } = result;
-    if (status === 'success') {
-      const newResult = await getServices();
-      if (newResult.status === 'success' && newResult.data.length > 0) {
-        this.setState({
-          items: newResult.data,
-          error: blankError,
-          item: blankItem,
-          add: true,
-          amharic: createValueFromString('', 'html'),
-          english: createValueFromString('', 'html'),
-        });
-      }
-
-      if (newResult.status === 'fail' || status === 'error') {
-        this.setState({
-          error: { ...data },
-        });
-      }
-    }
-
-    if (status === 'fail' || status === 'error') {
-      this.setState({
-        error: { ...data },
-      });
+    if (
+      result &&
+      typeof result !== 'undefined' &&
+      Object.keys(result).length !== 0 &&
+      result.status === 'success'
+    ) {
+      this.setState({ ...defaultState });
+      await this.props.getServices();
     }
   };
 
   handleDelete = async (id) => {
-    const { deleteServices, getServices } = this.props;
-    const result = await deleteServices(id);
-    const { status, data } = result;
-    if (status === 'success') {
-      const newResult = await getServices();
-      if (newResult.status === 'success') {
-        this.setState({
-          items: newResult.data,
-          error: blankError,
-          item: blankItem,
-          add: true,
-          amharic: createValueFromString('', 'html'),
-          english: createValueFromString('', 'html'),
-        });
-      }
-
-      if (newResult.status === 'fail' || status === 'error') {
-        this.setState({
-          error: { ...data },
-        });
-      }
-    }
-
-    if (status === 'fail' || status === 'error') {
-      this.setState({
-        error: { ...data },
-      });
-    }
+    await this.props.deleteServices(id);
+    this.setState({ ...defaultState });
+    await this.props.getServices();
   };
 
   render() {
     const { classes } = this.props;
     const { value } = this.state;
 
-    return (
-      <div className={classes.root}>
-        <Card className={classes.card}>
-          <CardContent>
-            <form onSubmit={this.handleSubmit}>
-              <Tabs value={value} onChange={this.handleChange}>
-                <Tab label={getLanguage()} id="ser-01" />
-                <Tab label="English" id="ser-02" />
-              </Tabs>
-              {value === 0 && (
-                <TabContainer>
-                  <TextField
-                    className={classes.formControl}
-                    id="ser-03"
-                    label="Title"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    margin="normal"
-                    name="title"
-                    required
-                    value={this.state.item.sl.title}
-                    placeholder={translate('SERVICES_TITLE_PH')}
-                    onChange={this.handleAmharicInput}
-                    helperText={translate('SERVICES_TITLE_HT')}
-                  />
-                  <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Description</Typography>
-                    <RichTextEditor
-                      value={this.state.amharic}
-                      onChange={this.onAmEditorChange}
-                      toolbarConfig={toolbarConfig}
-                      id="ser-04"
-                    />
-                  </Paper>
-                  <TextField
-                    className={classes.formControl}
-                    id="ser-05"
-                    label="Service contact"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    margin="normal"
-                    name="contact"
-                    value={this.state.item.sl.contact}
-                    placeholder={translate('SERVICES_CONTACT_PH')}
-                    onChange={this.handleAmharicInput}
-                    helperText={translate('SERVICES_CONTACT_HT')}
-                  />
-                </TabContainer>
-              )}
-              {value === 1 && (
-                <TabContainer>
-                  <TextField
-                    className={classes.formControl}
-                    id="ser-06"
-                    label="Title"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    margin="normal"
-                    name="title"
-                    required
-                    value={this.state.item.en.title}
-                    placeholder="Enter service title"
-                    onChange={this.handleEnglishInput}
-                    helperText="e.g - Christening service"
-                  />
-                  <Paper className={classes.paper} elevation={0}>
-                    <Typography variant="caption">Description</Typography>
-                    <RichTextEditor
-                      value={this.state.english}
-                      onChange={this.onEnEditorChange}
-                      toolbarConfig={toolbarConfig}
-                      id="ser-07"
-                    />
-                  </Paper>
-                  <TextField
-                    className={classes.formControl}
-                    id="ser-08"
-                    label="Service contact"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    margin="normal"
-                    name="contact"
-                    value={this.state.item.en.contact}
-                    placeholder="Enter service contact person name"
-                    onChange={this.handleEnglishInput}
-                    helperText="e.g. - Deacon Daniel"
-                  />
-                </TabContainer>
-              )}
+    if (this.props.services.getFailed) {
+      return <Failed name="introduction" />;
+    }
 
+    if (this.props.services.isLoading) {
+      return <LinearProgress />;
+    }
+
+    if (this.props.services.items) {
+      return (
+        <div className={classes.root}>
+          <Card className={classes.card}>
+            <CardContent>
+              <form onSubmit={this.handleSubmit}>
+                <Tabs value={value} onChange={this.handleChange}>
+                  <Tab label={getLanguage()} id="ser-01" />
+                  <Tab label="English" id="ser-02" />
+                </Tabs>
+                {value === 0 && (
+                  <TabContainer>
+                    <TextField
+                      className={classes.formControl}
+                      id="ser-03"
+                      label="Title"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      margin="normal"
+                      name="title"
+                      required
+                      value={this.state.item.sl.title}
+                      placeholder={translate('SERVICES_TITLE_PH')}
+                      onChange={this.handleAmharicInput}
+                      helperText={translate('SERVICES_TITLE_HT')}
+                    />
+                    <Paper className={classes.paper} elevation={0}>
+                      <Typography variant="caption">Description</Typography>
+                      <RichTextEditor
+                        value={this.state.amharic}
+                        onChange={this.onAmEditorChange}
+                        toolbarConfig={toolbarConfig}
+                        id="ser-04"
+                      />
+                    </Paper>
+                    <TextField
+                      className={classes.formControl}
+                      id="ser-05"
+                      label="Service contact"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      margin="normal"
+                      name="contact"
+                      value={this.state.item.sl.contact}
+                      placeholder={translate('SERVICES_CONTACT_PH')}
+                      onChange={this.handleAmharicInput}
+                      helperText={translate('SERVICES_CONTACT_HT')}
+                    />
+                  </TabContainer>
+                )}
+                {value === 1 && (
+                  <TabContainer>
+                    <TextField
+                      className={classes.formControl}
+                      id="ser-06"
+                      label="Title"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      margin="normal"
+                      name="title"
+                      required
+                      value={this.state.item.en.title}
+                      placeholder="Enter service title"
+                      onChange={this.handleEnglishInput}
+                      helperText="e.g - Christening service"
+                    />
+                    <Paper className={classes.paper} elevation={0}>
+                      <Typography variant="caption">Description</Typography>
+                      <RichTextEditor
+                        value={this.state.english}
+                        onChange={this.onEnEditorChange}
+                        toolbarConfig={toolbarConfig}
+                        id="ser-07"
+                      />
+                    </Paper>
+                    <TextField
+                      className={classes.formControl}
+                      id="ser-08"
+                      label="Service contact"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      margin="normal"
+                      name="contact"
+                      value={this.state.item.en.contact}
+                      placeholder="Enter service contact person name"
+                      onChange={this.handleEnglishInput}
+                      helperText="e.g. - Deacon Daniel"
+                    />
+                  </TabContainer>
+                )}
+
+                <CardContent>
+                  <TextField
+                    className={classes.formControl}
+                    id="ser-09"
+                    label="Phone"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="phone"
+                    required
+                    value={this.state.item.phone}
+                    placeholder="Enter service contact phone"
+                    onChange={this.handleItemInput}
+                    helperText="e.g. (425) 000-1234"
+                  />
+
+                  <TextField
+                    className={classes.formControl}
+                    id="ser-10"
+                    label="Email"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    margin="normal"
+                    name="email"
+                    required
+                    value={this.state.item.email}
+                    placeholder="Enter service contact email"
+                    onChange={this.handleItemInput}
+                    helperText="e.g. xyz@gmail.com"
+                  />
+                </CardContent>
+
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    onClick={this.handleFormClear}
+                    id="ser-11"
+                  >
+                    Clear
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    color={this.state.add ? 'primary' : 'secondary'}
+                    onClick={this.handleFormUpdate}
+                    id="ser-12"
+                  >
+                    {this.state.add ? 'Submit New' : 'Submit Update'}
+                  </Button>
+                </CardActions>
+              </form>
               <CardContent>
-                <TextField
-                  className={classes.formControl}
-                  id="ser-09"
-                  label="Phone"
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
-                  margin="normal"
-                  name="phone"
-                  required
-                  value={this.state.item.phone}
-                  placeholder="Enter service contact phone"
-                  onChange={this.handleItemInput}
-                  helperText="e.g. (425) 000-1234"
-                />
-
-                <TextField
-                  className={classes.formControl}
-                  id="ser-10"
-                  label="Email"
-                  InputLabelProps={{ shrink: true }}
-                  fullWidth
-                  margin="normal"
-                  name="email"
-                  required
-                  value={this.state.item.email}
-                  placeholder="Enter service contact email"
-                  onChange={this.handleItemInput}
-                  helperText="e.g. xyz@gmail.com"
-                />
+                <Typography color="error" id="ser-13">
+                  {Object.keys(this.props.services.error).length !== 0 &&
+                    `Name: ${this.props.services.error.name} Message: ${
+                      this.props.services.error.message
+                    }`}
+                </Typography>
+                <Typography color="error" id="ser-14">
+                  {this.props.getFailed === true && 'Error: failed to fetch data'}
+                </Typography>
+                <Typography color="error" id="ser-15">
+                  {this.props.deleteFailed === true && 'Error: failed to submit delete'}
+                </Typography>
+                <Typography color="error" id="ser-16">
+                  {this.props.updateFailed === true && 'Error: failed to submit update'}
+                </Typography>
+                <Typography color="error" id="ser-17">
+                  {this.props.addFailed === true && 'Error: failed to submit new entry'}
+                </Typography>
               </CardContent>
 
-              <CardActions>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={this.handleFormClear}
-                  id="ser-11"
-                >
-                  Clear
-                </Button>
+              <CardContent>
+                <Typography variant="headline" component="h2">
+                  Services
+                </Typography>
+                <Typography paragraph>
+                  Enter one record per each service. All services will be displayed. To edit exiting
+                  record click the Edit button.
+                </Typography>
 
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  color="primary"
-                  onClick={this.handleFormUpdate}
-                  id="ser-12"
-                >
-                  Submit
-                </Button>
-              </CardActions>
-            </form>
-            <CardContent>
-              <Typography color="error" id="ser-13">
-                {this.state.error.name !== '' &&
-                  `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-              </Typography>
-            </CardContent>
-
-            <CardContent>
-              <Typography variant="headline" component="h2">
-                Services
-              </Typography>
-              <Typography paragraph>
-                Enter one record per each service. All services will be displayed. To edit exiting
-                record click the Edit button.
-              </Typography>
-
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Created on</TableCell>
-                    <TableCell>By</TableCell>
-                    <TableCell>Title</TableCell>
-                    <TableCell />
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.items.map((item) => (
-                    <TableRow key={item._id}>
-                      <TableCell component="th" scope="row">
-                        {moment(item.date).format(dateFormat)}
-                      </TableCell>
-                      <TableCell>{item.adminname}</TableCell>
-                      <TableCell>
-                        <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
-                      </TableCell>
-                      <TableCell>
-                        {
-                          <Button
-                            variant="contained"
-                            className={classes.button}
-                            aria-label="Edit"
-                            onClick={() => this.handleEdit(item)}
-                          >
-                            <Edit />
-                          </Button>
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          <Button
-                            variant="contained"
-                            className={classes.button}
-                            aria-label="Delete"
-                            color="secondary"
-                            onClick={() => this.handleDelete(item._id)}
-                          >
-                            <Delete />
-                          </Button>
-                        }
-                      </TableCell>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Created on</TableCell>
+                      <TableCell>By</TableCell>
+                      <TableCell>Title</TableCell>
+                      <TableCell />
+                      <TableCell />
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHead>
+                  <TableBody>
+                    {this.props.services.items.map((item) => (
+                      <TableRow key={item._id}>
+                        <TableCell component="th" scope="row">
+                          {moment(item.date).format(dateFormat)}
+                        </TableCell>
+                        <TableCell>{item.adminname}</TableCell>
+                        <TableCell>
+                          <div onClick={() => this.handleEdit(item)}>{item.sl.title}</div>
+                        </TableCell>
+                        <TableCell>
+                          {
+                            <Button
+                              variant="contained"
+                              className={classes.button}
+                              aria-label="Edit"
+                              onClick={() => this.handleEdit(item)}
+                            >
+                              <Edit />
+                            </Button>
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {
+                            <Button
+                              variant="contained"
+                              className={classes.button}
+                              aria-label="Delete"
+                              color="secondary"
+                              onClick={() => this.handleDelete(item._id)}
+                            >
+                              <Delete />
+                            </Button>
+                          }
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
             </CardContent>
-          </CardContent>
-        </Card>
-      </div>
-    );
+          </Card>
+        </div>
+      );
+    }
+
+    return null;
   }
 }
 

@@ -39,8 +39,7 @@ class SigninForm extends Component {
   };
 
   componentDidMount() {
-    const { signout } = this.props;
-    signout();
+    this.props.signout();
   }
 
   handleChange = (prop) => (event) => {
