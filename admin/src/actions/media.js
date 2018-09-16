@@ -1,94 +1,128 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { MEDIA } from '../helper';
 
 const resource = 'media';
 
-const getMediaSuccess = () => ({
-  type: 'GET_MEDIA_SUCCESS',
+const mediaIsLoading = (loading) => ({
+  type: MEDIA.LOADING,
+  isLoading: loading,
 });
 
-const getMediaFailure = () => ({
-  type: 'GET_MEDIA_FAILURE',
+const getMediaSuccess = (items, error) => ({
+  type: MEDIA.GET_SUCCESS,
+  items,
+  error,
 });
 
-const deleteMediaSuccess = () => ({
-  type: 'DELETE_MEDIA_SUCCESS',
+const getMediaFailure = (failed) => ({
+  type: MEDIA.GET_FAILURE,
+  getFailed: failed,
 });
 
-const deleteMediaFailure = () => ({
-  type: 'DELETE_MEDIA_FAILURE',
+const deleteMediaSuccess = (error) => ({
+  type: MEDIA.DELETE_SUCCESS,
+  error,
 });
 
-const updateMediaSuccess = () => ({
-  type: 'UPDATE_MEDIA_SUCCESS',
+const deleteMediaFailure = (failed) => ({
+  type: MEDIA.DELETE_FAILURE,
+  deleteFailed: failed,
 });
 
-const updateMediaFailure = () => ({
-  type: 'UPDATE_MEDIA_FAILURE',
+const updateMediaSuccess = (error) => ({
+  type: MEDIA.UPDATE_SUCCESS,
+  error,
 });
 
-const addMediaSuccess = () => ({
-  type: 'ADD_MEDIA_SUCCESS',
+const updateMediaFailure = (failed) => ({
+  type: MEDIA.UPDATE_FAILURE,
+  updateFailed: failed,
 });
 
-const addMediaFailure = () => ({
-  type: 'ADD_MEDIA_FAILURE',
+const addMediaSuccess = (error) => ({
+  type: MEDIA.ADD_SUCCESS,
+  error,
+});
+
+const addMediaFailure = (failed) => ({
+  type: MEDIA.ADD_FAILURE,
+  addFailed: failed,
+});
+
+export const clearMediaForm = () => ({
+  type: MEDIA.CLEAR,
+  error: {},
 });
 
 export const getMedia = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(getMediaSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(getMediaFailure());
+  try {
+    result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+      dispatch(getMediaSuccess(items, error));
+      dispatch(mediaIsLoading(false));
+    }
+  } catch (error) {
+    dispatch(getMediaFailure(true));
+    dispatch(mediaIsLoading(false));
   }
 
   return result;
 };
 
 export const deleteMedia = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(deleteMediaSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(deleteMediaFailure());
+  try {
+    result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteMediaSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteMediaFailure(true));
   }
 
   return result;
 };
 
 export const updateMedia = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(updateMediaSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(updateMediaFailure());
+  try {
+    result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateMediaSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateMediaFailure(true));
   }
 
   return result;
 };
 
 export const addMedia = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(addMediaSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(addMediaFailure());
+  try {
+    result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addMediaSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addMediaFailure(true));
   }
 
   return result;
