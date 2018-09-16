@@ -74,6 +74,16 @@ const styles = (theme) => ({
   sbutton: {
     marginTop: theme.spacing.unit * 3,
   },
+  menuItem: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& $primary, & $icon': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+  primary: {},
+  icon: {},
 });
 
 export default styles;

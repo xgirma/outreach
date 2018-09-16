@@ -6,7 +6,15 @@ import {
   deleteIntroduction,
   updateIntroduction,
   addIntroduction,
+  clearIntroForm,
 } from '../actions';
+
+const mapStateToProps = (state) => {
+  const { introduction } = state;
+  return {
+    introduction,
+  };
+};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -15,11 +23,12 @@ const mapDispatchToProps = (dispatch) =>
       deleteIntroduction,
       updateIntroduction,
       addIntroduction,
+      clearIntroForm,
     },
     dispatch,
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(IntroductionForm);

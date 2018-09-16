@@ -1,95 +1,93 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { INTRODUCTION } from '../helper';
 
 const resource = 'intro';
 
-const getIntroSuccess = () => ({
-  type: 'GET_INTRODUCTION_SUCCESS',
-});
+const introductionIsLoading = (bool) => ({ type: INTRODUCTION.LOADING, isLoading: bool });
 
-const getIntroFailure = () => ({
-  type: 'GET_INTRODUCTION_FAILURE',
-});
+const getIntroSuccess = (items, error) => ({ type: INTRODUCTION.GET_SUCCESS, items, error });
 
-const deleteIntroSuccess = () => ({
-  type: 'DELETE_INTRODUCTION_SUCCESS',
-});
+const getIntroFailure = (bool) => ({ type: INTRODUCTION.GET_FAILURE, getFailed: bool });
 
-const deleteIntroFailure = () => ({
-  type: 'DELETE_INTRODUCTION_FAILURE',
-});
+const deleteIntroSuccess = (error) => ({ type: INTRODUCTION.DELETE_SUCCESS, error });
 
-const updateIntroSuccess = () => ({
-  type: 'UPDATE_INTRODUCTION_SUCCESS',
-});
+const deleteIntroFailure = (bool) => ({ type: INTRODUCTION.DELETE_FAILURE, deleteFailed: bool });
 
-const updateIntroFailure = () => ({
-  type: 'UPDATE_INTRODUCTION_FAILURE',
-});
+const updateIntroSuccess = (error) => ({ type: INTRODUCTION.UPDATE_SUCCESS, error });
 
-const addIntroSuccess = () => ({
-  type: 'ADD_INTRODUCTION_SUCCESS',
-});
+const updateIntroFailure = (bool) => ({ type: INTRODUCTION.UPDATE_FAILURE, updateFailed: bool });
 
-const addIntroFailure = () => ({
-  type: 'ADD_INTRODUCTION_FAILURE',
-});
+const addIntroSuccess = (error) => ({ type: INTRODUCTION.ADD_SUCCESS, error });
+
+const addIntroFailure = (bool) => ({ type: INTRODUCTION.ADD_FAILURE, addFailed: bool });
+
+export const clearIntroForm = () => ({ type: INTRODUCTION.CLEAR, error: {} });
 
 export const getIntroduction = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  dispatch(introductionIsLoading(true));
 
-  if (status === 'success') {
-    dispatch(getIntroSuccess());
+  try {
+    const result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+
+      dispatch(getIntroSuccess(items, error));
+      dispatch(introductionIsLoading(false));
+      return result;
+    }
+  } catch (error) {
+    dispatch(getIntroFailure(true));
+    dispatch(introductionIsLoading(false));
   }
-
-  if (status === 'fail') {
-    dispatch(getIntroFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const deleteIntroduction = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(deleteIntroSuccess());
+  try {
+    const result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteIntroSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteIntroFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(deleteIntroFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const updateIntroduction = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(updateIntroSuccess());
+  try {
+    const result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateIntroSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateIntroFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(updateIntroFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const addIntroduction = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(addIntroSuccess());
+  try {
+    const result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addIntroSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addIntroFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(addIntroFailure());
-  }
-
-  return result;
+  return {};
 };

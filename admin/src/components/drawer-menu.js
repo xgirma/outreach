@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core/';
+import { ListItem, ListItemIcon, ListItemText, MenuItem } from '@material-ui/core/';
 import {
   Home,
   Event,
@@ -14,72 +15,76 @@ import {
 
 const textDecoration = { textDecoration: 'none' };
 
-export const pageListItems = (
+export const DrawerMenuItems = ({ classes }) => (
   <div>
     <Link to="/information" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <Room />
         </ListItemIcon>
-        <ListItemText primary="Information" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Information" />
+      </MenuItem>
     </Link>
 
     <Link to="/introduction" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <Home />
         </ListItemIcon>
-        <ListItemText primary="Introduction" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Introduction" />
+      </MenuItem>
     </Link>
 
     <Link to="/services" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <AssignmentInd />
         </ListItemIcon>
-        <ListItemText primary="Services" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Services" />
+      </MenuItem>
     </Link>
 
     <Link to="/event" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <Event />
         </ListItemIcon>
-        <ListItemText primary="Event" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Event" />
+      </MenuItem>
     </Link>
 
     <Link to="/blog" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <Create />
         </ListItemIcon>
-        <ListItemText primary="Blog" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Blog" />
+      </MenuItem>
     </Link>
 
     <Link to="/media" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <MusicVideo />
         </ListItemIcon>
-        <ListItemText primary="Media" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Media" />
+      </MenuItem>
     </Link>
 
     <Link to="/admin" style={textDecoration}>
-      <ListItem button>
-        <ListItemIcon>
+      <MenuItem className={classes.menuItem}>
+        <ListItemIcon className={classes.icon}>
           <AccountBox />
         </ListItemIcon>
-        <ListItemText primary="Account" />
-      </ListItem>
+        <ListItemText classes={{ primary: classes.primary }} inset primary="Account" />
+      </MenuItem>
     </Link>
   </div>
 );
+
+DrawerMenuItems.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export const adminListItems = (
   <div>
