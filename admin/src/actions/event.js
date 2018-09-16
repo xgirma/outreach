@@ -1,94 +1,128 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { EVENT } from '../helper';
 
 const resource = 'event';
 
-const getEventSuccess = () => ({
-  type: 'GET_EVENT_SUCCESS',
+const eventIsLoading = (loading) => ({
+  type: EVENT.LOADING,
+  isLoading: loading,
 });
 
-const getEventFailure = () => ({
-  type: 'GET_EVENT_FAILURE',
+const getEventSuccess = (items, error) => ({
+  type: EVENT.GET_SUCCESS,
+  items,
+  error,
 });
 
-const deleteEventSuccess = () => ({
-  type: 'DELETE_EVENT_SUCCESS',
+const getEventFailure = (failed) => ({
+  type: EVENT.GET_FAILURE,
+  getFailed: failed,
 });
 
-const deleteEventFailure = () => ({
-  type: 'DELETE_EVENT_FAILURE',
+const deleteEventSuccess = (error) => ({
+  type: EVENT.DELETE_SUCCESS,
+  error,
 });
 
-const updateEventSuccess = () => ({
-  type: 'UPDATE_EVENT_SUCCESS',
+const deleteEventFailure = (failed) => ({
+  type: EVENT.DELETE_FAILURE,
+  deleteFailed: failed,
 });
 
-const updateEventFailure = () => ({
-  type: 'UPDATE_EVENT_FAILURE',
+const updateEventSuccess = (error) => ({
+  type: EVENT.UPDATE_SUCCESS,
+  error,
 });
 
-const addEventSuccess = () => ({
-  type: 'ADD_EVENT_SUCCESS',
+const updateEventFailure = (failed) => ({
+  type: EVENT.UPDATE_FAILURE,
+  updateFailed: failed,
 });
 
-const addEventFailure = () => ({
-  type: 'ADD_EVENT_FAILURE',
+const addEventSuccess = (error) => ({
+  type: EVENT.ADD_SUCCESS,
+  error,
+});
+
+const addEventFailure = (failed) => ({
+  type: EVENT.ADD_FAILURE,
+  addFailed: failed,
+});
+
+export const clearEventForm = () => ({
+  type: EVENT.CLEAR,
+  error: {},
 });
 
 export const getEvent = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(getEventSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(getEventFailure());
+  try {
+    result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+      dispatch(getEventSuccess(items, error));
+      dispatch(eventIsLoading(false));
+    }
+  } catch (error) {
+    dispatch(getEventFailure(true));
+    dispatch(eventIsLoading(false));
   }
 
   return result;
 };
 
 export const deleteEvent = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(deleteEventSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(deleteEventFailure());
+  try {
+    result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteEventSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteEventFailure(true));
   }
 
   return result;
 };
 
 export const updateEvent = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(updateEventSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(updateEventFailure());
+  try {
+    result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateEventSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateEventFailure(true));
   }
 
   return result;
 };
 
 export const addEvent = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(addEventSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(addEventFailure());
+  try {
+    result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addEventSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addEventFailure(true));
   }
 
   return result;

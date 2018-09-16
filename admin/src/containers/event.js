@@ -1,7 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { EventForm } from '../forms';
-import { getEvent, deleteEvent, updateEvent, addEvent } from '../actions';
+import { getEvent, deleteEvent, updateEvent, addEvent, clearEventForm } from '../actions';
+
+const mapStateToProps = (state) => {
+  const { event } = state;
+  return {
+    event,
+  };
+};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -10,11 +17,12 @@ const mapDispatchToProps = (dispatch) =>
       deleteEvent,
       updateEvent,
       addEvent,
+      clearEventForm,
     },
     dispatch,
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(EventForm);
