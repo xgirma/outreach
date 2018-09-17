@@ -236,7 +236,7 @@ class EventForm extends Component {
     const { value } = this.state;
 
     if (this.props.event.getFailed) {
-      return <Failed name="introduction" />;
+      return <Failed name="event" />;
     }
 
     if (this.props.event.isLoading) {

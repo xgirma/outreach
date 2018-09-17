@@ -3,25 +3,56 @@ import { INTRODUCTION } from '../helper';
 
 const resource = 'intro';
 
-const introductionIsLoading = (bool) => ({ type: INTRODUCTION.LOADING, isLoading: bool });
+const introductionIsLoading = (bool) => ({
+  type: INTRODUCTION.LOADING,
+  isLoading: bool,
+});
 
-const getIntroSuccess = (items, error) => ({ type: INTRODUCTION.GET_SUCCESS, items, error });
+const getIntroSuccess = (items, error) => ({
+  type: INTRODUCTION.GET_SUCCESS,
+  items,
+  error,
+});
 
-const getIntroFailure = (bool) => ({ type: INTRODUCTION.GET_FAILURE, getFailed: bool });
+const getIntroFailure = (bool) => ({
+  type: INTRODUCTION.GET_FAILURE,
+  getFailed: bool,
+});
 
-const deleteIntroSuccess = (error) => ({ type: INTRODUCTION.DELETE_SUCCESS, error });
+const deleteIntroSuccess = (error) => ({
+  type: INTRODUCTION.DELETE_SUCCESS,
+  error,
+});
 
-const deleteIntroFailure = (bool) => ({ type: INTRODUCTION.DELETE_FAILURE, deleteFailed: bool });
+const deleteIntroFailure = (bool) => ({
+  type: INTRODUCTION.DELETE_FAILURE,
+  deleteFailed: bool,
+});
 
-const updateIntroSuccess = (error) => ({ type: INTRODUCTION.UPDATE_SUCCESS, error });
+const updateIntroSuccess = (error) => ({
+  type: INTRODUCTION.UPDATE_SUCCESS,
+  error,
+});
 
-const updateIntroFailure = (bool) => ({ type: INTRODUCTION.UPDATE_FAILURE, updateFailed: bool });
+const updateIntroFailure = (bool) => ({
+  type: INTRODUCTION.UPDATE_FAILURE,
+  updateFailed: bool,
+});
 
-const addIntroSuccess = (error) => ({ type: INTRODUCTION.ADD_SUCCESS, error });
+const addIntroSuccess = (error) => ({
+  type: INTRODUCTION.ADD_SUCCESS,
+  error,
+});
 
-const addIntroFailure = (bool) => ({ type: INTRODUCTION.ADD_FAILURE, addFailed: bool });
+const addIntroFailure = (bool) => ({
+  type: INTRODUCTION.ADD_FAILURE,
+  addFailed: bool,
+});
 
-export const clearIntroForm = () => ({ type: INTRODUCTION.CLEAR, error: {} });
+export const clearIntroForm = () => ({
+  type: INTRODUCTION.CLEAR,
+  error: {},
+});
 
 export const getIntroduction = () => async (dispatch) => {
   dispatch(introductionIsLoading(true));

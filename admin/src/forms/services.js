@@ -204,7 +204,7 @@ class ServicesForm extends Component {
     const { value } = this.state;
 
     if (this.props.services.getFailed) {
-      return <Failed name="introduction" />;
+      return <Failed name="service" />;
     }
 
     if (this.props.services.isLoading) {

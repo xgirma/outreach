@@ -180,7 +180,7 @@ class MediaForm extends Component {
     const { value } = this.state;
 
     if (this.props.media.getFailed) {
-      return <Failed name="introduction" />;
+      return <Failed name="media" />;
     }
 
     if (this.props.media.isLoading) {

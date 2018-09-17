@@ -1,95 +1,124 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { INFORMATION } from '../helper';
 
 const resource = 'info';
 
-const getInfoSuccess = () => ({
-  type: 'GET_INFORMATION_SUCCESS',
+const infoIsLoading = (loading) => ({
+  type: INFORMATION.LOADING,
+  isLoading: loading,
 });
 
-const getInfoFailure = () => ({
-  type: 'GET_INFORMATION_FAILURE',
+const getInfoSuccess = (items, error) => ({
+  type: INFORMATION.GET_SUCCESS,
+  items,
+  error,
 });
 
-const deleteInfoSuccess = () => ({
-  type: 'DELETE_INFORMATION_SUCCESS',
+const getInfoFailure = (failed) => ({
+  type: INFORMATION.GET_FAILURE,
+  getFailed: failed,
 });
 
-const deleteInfoFailure = () => ({
-  type: 'DELETE_INFORMATION_FAILURE',
+const deleteInfoSuccess = (error) => ({
+  type: INFORMATION.DELETE_SUCCESS,
+  error,
 });
 
-const updateInfoSuccess = () => ({
-  type: 'UPDATE_INFORMATION_SUCCESS',
+const deleteInfoFailure = (failed) => ({
+  type: INFORMATION.DELETE_FAILURE,
+  deleteFailed: failed,
 });
 
-const updateInfoFailure = () => ({
-  type: 'UPDATE_INFORMATION_FAILURE',
+const updateInfoSuccess = (error) => ({
+  type: INFORMATION.UPDATE_SUCCESS,
+  error,
 });
 
-const addInfoSuccess = () => ({
-  type: 'ADD_INFORMATION_SUCCESS',
+const updateInfoFailure = (failed) => ({
+  type: INFORMATION.UPDATE_FAILURE,
+  updateFailed: failed,
 });
 
-const addInfoFailure = () => ({
-  type: 'ADD_INFORMATION_FAILURE',
+const addInfoSuccess = (error) => ({
+  type: INFORMATION.ADD_SUCCESS,
+  error,
+});
+
+const addInfoFailure = (failed) => ({
+  type: INFORMATION.ADD_FAILURE,
+  addFailed: failed,
+});
+
+export const clearInfoForm = () => ({
+  type: INFORMATION.CLEAR,
+  error: {},
 });
 
 export const getInformation = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  dispatch(infoIsLoading(true));
 
-  if (status === 'success') {
-    dispatch(getInfoSuccess());
+  try {
+    const result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+
+      dispatch(getInfoSuccess(items, error));
+      dispatch(infoIsLoading(false));
+      return result;
+    }
+  } catch (error) {
+    dispatch(getInfoFailure(true));
+    dispatch(infoIsLoading(false));
   }
-
-  if (status === 'fail') {
-    dispatch(getInfoFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const deleteInformation = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(deleteInfoSuccess());
+  try {
+    const result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteInfoSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteInfoFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(deleteInfoFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const updateInformation = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(updateInfoSuccess());
+  try {
+    const result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateInfoSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateInfoFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(updateInfoFailure());
-  }
-
-  return result;
+  return {};
 };
 
 export const addInformation = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
-
-  if (status === 'success') {
-    dispatch(addInfoSuccess());
+  try {
+    const result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addInfoSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addInfoFailure(true));
   }
 
-  if (status === 'fail') {
-    dispatch(addInfoFailure());
-  }
-
-  return result;
+  return {};
 };
