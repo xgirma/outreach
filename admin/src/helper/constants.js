@@ -16,3 +16,4 @@ export const SERVICES = generateCommonActions('SERVICES');
 export const EVENT = generateCommonActions('EVENT');
 export const BLOG = generateCommonActions('BLOG');
 export const MEDIA = generateCommonActions('MEDIA');
+export const INFORMATION = generateCommonActions('INFORMATION');

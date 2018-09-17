@@ -5,6 +5,7 @@ import alert from './alert';
 import blog from './blog';
 import event from './event';
 import authentication from './signin';
+import information from './information';
 import introduction from './introduction';
 import media from './media';
 import navigation from './navigation';
@@ -16,6 +17,7 @@ export default combineReducers({
   alert,
   blog,
   event,
+  information,
   introduction,
   media,
   navigation,

@@ -207,7 +207,7 @@ class BlogForm extends Component {
     const { value } = this.state;
 
     if (this.props.blog.getFailed) {
-      return <Failed name="introduction" />;
+      return <Failed name="blog" />;
     }
 
     if (this.props.blog.isLoading) {
