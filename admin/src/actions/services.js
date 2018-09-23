@@ -1,94 +1,128 @@
 import { getService, deleteService, updateService, addService } from '../services';
+import { SERVICES } from '../helper';
 
 const resource = 'services';
 
-const getServiceSuccess = () => ({
-  type: 'GET_SERVICES_SUCCESS',
+const servicesIsLoading = (loading) => ({
+  type: SERVICES.LOADING,
+  isLoading: loading,
 });
 
-const getServiceFailure = () => ({
-  type: 'GET_SERVICES_FAILURE',
+const getServiceSuccess = (items, error) => ({
+  type: SERVICES.GET_SUCCESS,
+  items,
+  error,
 });
 
-const deleteServiceSuccess = () => ({
-  type: 'DELETE_SERVICES_SUCCESS',
+const getServiceFailure = (failed) => ({
+  type: SERVICES.GET_FAILURE,
+  getFailed: failed,
 });
 
-const deleteServiceFailure = () => ({
-  type: 'DELETE_SERVICES_FAILURE',
+const deleteServiceSuccess = (error) => ({
+  type: SERVICES.DELETE_SUCCESS,
+  error,
 });
 
-const updateServiceSuccess = () => ({
-  type: 'UPDATE_SERVICES_SUCCESS',
+const deleteServiceFailure = (failed) => ({
+  type: SERVICES.DELETE_FAILURE,
+  deleteFailed: failed,
 });
 
-const updateServiceFailure = () => ({
-  type: 'UPDATE_SERVICES_FAILURE',
+const updateServiceSuccess = (error) => ({
+  type: SERVICES.UPDATE_SUCCESS,
+  error,
 });
 
-const addServiceSuccess = () => ({
-  type: 'ADD_SERVICES_SUCCESS',
+const updateServiceFailure = (failed) => ({
+  type: SERVICES.UPDATE_FAILURE,
+  updateFailed: failed,
 });
 
-const addServiceFailure = () => ({
-  type: 'ADD_SERVICES_FAILURE',
+const addServiceSuccess = (error) => ({
+  type: SERVICES.ADD_SUCCESS,
+  error,
+});
+
+const addServiceFailure = (failed) => ({
+  type: SERVICES.ADD_FAILURE,
+  addFailed: failed,
+});
+
+export const clearServiceForm = () => ({
+  type: SERVICES.CLEAR,
+  error: {},
 });
 
 export const getServices = () => async (dispatch) => {
-  const result = await getService(resource);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(getServiceSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(getServiceFailure());
+  try {
+    result = await getService(resource);
+    if (result) {
+      const { data, status } = result;
+      const items = status === 'success' ? data : [];
+      const error = status !== 'success' ? data : {};
+      dispatch(getServiceSuccess(items, error));
+      dispatch(servicesIsLoading(false));
+    }
+  } catch (error) {
+    dispatch(getServiceFailure(true));
+    dispatch(servicesIsLoading(false));
   }
 
   return result;
 };
 
 export const deleteServices = (id) => async (dispatch) => {
-  const result = await deleteService(resource, id);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(deleteServiceSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(deleteServiceFailure());
+  try {
+    result = await deleteService(resource, id);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(deleteServiceSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(deleteServiceFailure(true));
   }
 
   return result;
 };
 
 export const updateServices = (body) => async (dispatch) => {
-  const result = await updateService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(updateServiceSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(updateServiceFailure());
+  try {
+    result = await updateService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(updateServiceSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(updateServiceFailure(true));
   }
 
   return result;
 };
 
 export const addServices = (body) => async (dispatch) => {
-  const result = await addService(resource, body);
-  const { status } = result;
+  let result;
 
-  if (status === 'success') {
-    dispatch(addServiceSuccess());
-  }
-
-  if (status === 'fail') {
-    dispatch(addServiceFailure());
+  try {
+    result = await addService(resource, body);
+    if (result) {
+      const { status, data } = result;
+      const error = status !== 'success' ? data : {};
+      dispatch(addServiceSuccess(error));
+      return result;
+    }
+  } catch (error) {
+    dispatch(addServiceFailure(true));
   }
 
   return result;

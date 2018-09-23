@@ -35,15 +35,15 @@ export const schema = {
 
 const introSchema = new mongoose.Schema(schema);
 
-introSchema.pre('validate', function (next) {
-  if(this.sl.intro === "<p><br></p>") {
-    next(err.BadRequest('sl.introduction ~ is required'))
+introSchema.pre('validate', function introValidate(next) {
+  if (this.sl.intro === '<p><br></p>') {
+    next(err.BadRequest('sl.introduction ~ is required'));
   }
 
-  if(this.en.intro === "<p><br></p>") {
-    next(err.BadRequest('en.introduction ~ is required'))
+  if (this.en.intro === '<p><br></p>') {
+    next(err.BadRequest('en.introduction ~ is required'));
   }
-  
+
   next();
 });
 

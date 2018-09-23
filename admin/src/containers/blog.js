@@ -1,7 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BlogForm } from '../forms';
-import { getBlog, deleteBlog, updateBlog, addBlog } from '../actions';
+import { getBlog, deleteBlog, updateBlog, addBlog, clearBlogForm } from '../actions';
+
+const mapStateToProps = (state) => {
+  const { blog } = state;
+  return {
+    blog,
+  };
+};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -10,11 +17,12 @@ const mapDispatchToProps = (dispatch) =>
       deleteBlog,
       updateBlog,
       addBlog,
+      clearBlogForm,
     },
     dispatch,
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(BlogForm);

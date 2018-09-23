@@ -1,7 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MediaForm } from '../forms';
-import { getMedia, deleteMedia, updateMedia, addMedia } from '../actions';
+import { getMedia, deleteMedia, updateMedia, addMedia, clearMediaForm } from '../actions';
+
+const mapStateToProps = (state) => {
+  const { media } = state;
+  return {
+    media,
+  };
+};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -10,11 +17,12 @@ const mapDispatchToProps = (dispatch) =>
       deleteMedia,
       updateMedia,
       addMedia,
+      clearMediaForm,
     },
     dispatch,
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(MediaForm);

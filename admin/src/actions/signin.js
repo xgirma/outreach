@@ -24,24 +24,24 @@ const logout = () => ({ type: 'SIGNOUT' });
 export const signin = (username, password) => async (dispatch) => {
   dispatch(signinRequest(username));
   const body = { username, password };
-  const result = await addService(resource, body);
-  const { status, data } = result;
-
-  if (status === 'success') {
-    setUser(data, username);
-    dispatch(signinSuccess(username));
-    dispatch(navigateTo('information'));
-    dispatch(alertClear());
-  }
-
-  if (status === 'fail') {
+  try {
+    const result = await addService(resource, body);
+    if (result && result.status === 'success') {
+      await setUser(result.data, username);
+      dispatch(signinSuccess(username));
+      dispatch(navigateTo('information'));
+      dispatch(alertClear());
+    } else {
+      dispatch(signinFailure());
+      dispatch(alertError('Incorrect username or password'));
+    }
+  } catch (error) {
     dispatch(signinFailure());
-    dispatch(alertError('Incorrect username or password'));
   }
 };
 
-export const signout = () => (dispatch) => {
-  removeUser();
+export const signout = () => async (dispatch) => {
+  await removeUser();
   dispatch(navigateTo('signin'));
   dispatch(logout());
 };
