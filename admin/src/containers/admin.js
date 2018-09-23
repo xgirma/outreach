@@ -3,6 +3,13 @@ import { connect } from 'react-redux';
 import { AdminForm } from '../forms';
 import { changePassword, getAdmin, addNewAdmin, deleteAdmin } from '../actions';
 
+const mapStateToProps = (state) => {
+  const { admin } = state;
+  return {
+    admin,
+  };
+};
+
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
@@ -15,6 +22,6 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AdminForm);

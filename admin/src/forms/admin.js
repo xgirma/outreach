@@ -1,4 +1,3 @@
-/* eslint-disable eqeqeq */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment/moment';
@@ -20,11 +19,13 @@ import {
   Input,
   InputAdornment,
   IconButton,
+  LinearProgress,
 } from '@material-ui/core';
 import { VisibilityOff, Visibility, Delete } from '@material-ui/icons';
 import { getRole, dateFormat } from '../helper';
 import withRoot from '../withRoot';
 import styles from '../styles';
+import Failed from '../components/failed';
 
 const blankPassword = {
   currentPassword: '',
@@ -43,7 +44,9 @@ class AdminForm extends Component {
   static propTypes = {
     changePassword: PropTypes.func.isRequired,
     getAdmin: PropTypes.func.isRequired,
+    admin: PropTypes.object.isRequired,
     deleteAdmin: PropTypes.func.isRequired,
+    addNewAdmin: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
   };
 
@@ -54,29 +57,12 @@ class AdminForm extends Component {
       newPasswordAgain: '',
     },
     error: blankError,
-    admins: [],
     showPassword: false,
     username: '',
-    tempPassword: '',
   };
 
   async componentDidMount() {
-    const { getAdmin } = this.props;
-    const result = await getAdmin();
-    const { status, data } = result;
-    if (status === 'success') {
-      const { admins } = data;
-      this.setState({
-        admins,
-        error: blankError,
-      });
-    }
-
-    if (status === 'fail' || status === 'error') {
-      this.setState({
-        error: { ...data },
-      });
-    }
+    await this.props.getAdmin();
   }
 
   handleChange = (event) => {
@@ -106,17 +92,11 @@ class AdminForm extends Component {
 
   handlePasswordUpdate = async (event) => {
     event.preventDefault();
-    const { changePassword } = this.props;
     const { password } = this.state;
-    const result = await changePassword(password);
-    const { status, data } = result;
-
-    const error = status === 'error' || status === 'fail' ? data : blankError;
-
+    await this.props.changePassword(password);
     this.setState((prevState) => ({
       ...prevState,
       password: blankPassword,
-      error,
     }));
 
     const currentPassword = document.getElementById('adornment-currentPassword');
@@ -137,235 +117,261 @@ class AdminForm extends Component {
 
   handleCreateNewAdmin = async (event) => {
     event.preventDefault();
-    this.setState((prevState) => ({
-      ...prevState,
-      tempPassword: '',
-    }));
-
-    const { addNewAdmin } = this.props;
     const { username } = this.state;
-    const result = await addNewAdmin({ username });
-    const { status, data } = result;
-    const error = status === 'error' || status === 'fail' ? data : blankError;
-
+    await this.props.addNewAdmin({ username });
     this.setState((prevState) => ({
       ...prevState,
-      tempPassword: data.temporaryPassword,
       username: '',
-      error,
     }));
-    // TODO fetch date at this point. instead of refreshing
+    await this.props.getAdmin();
   };
 
   handlePasswordReset = async (_id) => {
-    const result = await this.props.changePassword({ _id });
-    const { status, data } = result;
-    const error = status === 'error' || status === 'fail' ? data : blankError;
-
-    this.setState((prevState) => ({
-      ...prevState,
-      tempPassword: data.temporaryPassword,
-      username: '',
-      error,
-    }));
+    await this.props.changePassword({ _id });
   };
 
   handleDelete = async (id) => {
     await this.props.deleteAdmin(id);
-    // TODO get admins
+    await this.props.getAdmin();
   };
 
   render() {
     const { classes } = this.props;
 
-    return (
-      <div className={classes.root}>
-        <Card className={classes.card}>
-          <CardContent>
-            <form onSubmit={this.handleSubmit}>
-              <Typography variant="title" component="h2">
-                Change Password
+    if (this.props.admin.getFailed) {
+      return <Failed name="event" />;
+    }
+
+    if (this.props.admin.isLoading) {
+      return <LinearProgress />;
+    }
+
+    if (this.props.admin.admins) {
+      return (
+        <div className={classes.root}>
+          <Card className={classes.card}>
+            <CardContent>
+              <form onSubmit={this.handleSubmit}>
+                <Typography variant="title" component="h2">
+                  Change Password
+                </Typography>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Current password</InputLabel>
+                  <Input
+                    id="adornment-currentPassword"
+                    name="currentPassword"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password.currentPassword}
+                    onChange={this.handleChange}
+                    autoComplete="current-password"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <Input
+                    id="adornment-newPassword"
+                    name="newPassword"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password.newPassword}
+                    onChange={this.handleChange}
+                    autoComplete="current-password"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Confirm password</InputLabel>
+                  <Input
+                    id="adornment-newPasswordAgain"
+                    name="newPasswordAgain"
+                    type={this.state.showPassword ? 'text' : 'password'}
+                    value={this.state.password.newPasswordAgain}
+                    onChange={this.handleChange}
+                    autoComplete="current-password"
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={this.handleClickShowPassword}
+                          onMouseDown={this.handleMouseDownPassword}
+                        >
+                          {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    color="primary"
+                    onClick={this.handlePasswordUpdate}
+                  >
+                    Change
+                  </Button>
+                </CardActions>
+              </form>
+            </CardContent>
+
+            <CardContent>
+              <Typography color="error" id="ser-17">
+                {Object.keys(this.props.admin.error).length !== 0 &&
+                  `Name: ${this.props.admin.error.name} Message: ${this.props.admin.error.message}`}
               </Typography>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Current password</InputLabel>
-                <Input
-                  id="adornment-currentPassword"
-                  name="currentPassword"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  value={this.state.password.currentPassword}
-                  onChange={this.handleChange}
-                  autoComplete="current-password"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
+            </CardContent>
+
+            <CardContent>
+              <Typography variant="title" component="h2">
+                Add New Admin
+              </Typography>
+              <form onSubmit={this.handleSubmit}>
+                <TextField
+                  required
+                  fullWidth
+                  name="username"
+                  value={this.state.username}
+                  onChange={this.handleUsernameChange}
+                  label="Username"
+                  id="margin-none"
+                  className={classes.textField}
+                  helperText="e.g. Jane.Joe"
                 />
-              </FormControl>
 
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input
-                  id="adornment-newPassword"
-                  name="newPassword"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  value={this.state.password.newPassword}
-                  onChange={this.handleChange}
-                  autoComplete="current-password"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                    color="primary"
+                    onClick={this.handleCreateNewAdmin}
+                  >
+                    Add Admin
+                  </Button>
+                </CardActions>
+              </form>
+            </CardContent>
 
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Confirm password</InputLabel>
-                <Input
-                  id="adornment-newPasswordAgain"
-                  name="newPasswordAgain"
-                  type={this.state.showPassword ? 'text' : 'password'}
-                  value={this.state.password.newPasswordAgain}
-                  onChange={this.handleChange}
-                  autoComplete="current-password"
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Toggle password visibility"
-                        onClick={this.handleClickShowPassword}
-                        onMouseDown={this.handleMouseDownPassword}
-                      >
-                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
+            <CardContent>
+              <Typography variant="headline" component="h2">
+                Manage Accounts
+              </Typography>
 
-              <CardActions>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  color="primary"
-                  onClick={this.handlePasswordUpdate}
-                >
-                  Submit
-                </Button>
-              </CardActions>
-            </form>
-          </CardContent>
-
-          <CardContent>
-            <Typography variant="title" component="h2">
-              Add New Admin
-            </Typography>
-            <Typography color="error">
-              {this.state.error.name !== '' &&
-                `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
-            </Typography>
-            <Typography color="primary">
-              {this.state.tempPassword !== '' &&
-                this.state.tempPassword !== undefined &&
-                `Temporary password: ${this.state.tempPassword}`}
-            </Typography>
-          </CardContent>
-
-          <CardContent>
-            <form onSubmit={this.handleSubmit}>
-              <TextField
-                required
-                name="username"
-                value={this.state.username}
-                onChange={this.handleUsernameChange}
-                label="Username"
-                id="margin-none"
-                className={classes.textField}
-                helperText="e.g. Jane.Joe"
-              />
-
-              <CardActions>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  color="primary"
-                  onClick={this.handleCreateNewAdmin}
-                >
-                  Create New Admin
-                </Button>
-              </CardActions>
-            </form>
-          </CardContent>
-
-          <CardContent>
-            <Typography variant="headline" component="h2">
-              Manage Accounts
-            </Typography>
-
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Created on</TableCell>
-                  <TableCell>Admin name</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell />
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.admins.map((admin) => (
-                  <TableRow key={admin._id}>
-                    <TableCell component="th" scope="row">
-                      {moment(admin.createdAt).format(dateFormat)}
-                    </TableCell>
-                    <TableCell>{admin.username}</TableCell>
-                    <TableCell>{admin.role == 0 ? 'super-admin' : 'admin'}</TableCell>
-                    <TableCell>
-                      {getRole() == 0 &&
-                        admin.role != 0 && (
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Created on</TableCell>
+                    <TableCell>Admin name</TableCell>
+                    <TableCell>Temporary password</TableCell>
+                    <TableCell>Role</TableCell>
+                    <TableCell />
+                    <TableCell />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.props.admin.admins.map((admin) => (
+                    <TableRow key={admin._id}>
+                      <TableCell component="th" scope="row">
+                        {moment(admin.createdAt).format(dateFormat)}
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          color={
+                            admin.username === this.props.admin.newUsername ||
+                            admin._id === this.props.admin.id
+                              ? 'primary'
+                              : 'inherit'
+                          }
+                        >
+                          {admin.username}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          color={
+                            admin.username === this.props.admin.newUsername ||
+                            admin._id === this.props.admin.id
+                              ? 'primary'
+                              : 'inherit'
+                          }
+                        >
+                          {admin.username === this.props.admin.newUsername ||
+                          admin._id === this.props.admin.id
+                            ? this.props.admin.temporaryPassword
+                            : ''}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          color={
+                            admin.username === this.props.admin.newUsername ||
+                            admin._id === this.props.admin.id
+                              ? 'primary'
+                              : 'inherit'
+                          }
+                        >
+                          {admin.role == 0 ? 'super-admin' : 'admin'}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        {getRole() == 0 &&
+                          admin.role != 0 && (
+                            <Button
+                              variant="contained"
+                              className={classes.button}
+                              color="secondary"
+                              onClick={() => this.handlePasswordReset(admin._id)}
+                            >
+                              Reset Password
+                            </Button>
+                          )}
+                      </TableCell>
+                      <TableCell>
+                        {
                           <Button
                             variant="contained"
                             className={classes.button}
+                            aria-label="Delete"
                             color="secondary"
-                            onClick={() => this.handlePasswordReset(admin._id)}
+                            onClick={() => this.handleDelete(admin._id)}
                           >
-                            Reset Password
+                            <Delete />
                           </Button>
-                        )}
-                    </TableCell>
-                    <TableCell>
-                      {
-                        <Button
-                          variant="contained"
-                          className={classes.button}
-                          aria-label="Delete"
-                          color="secondary"
-                          onClick={() => this.handleDelete(admin._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      }
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      </div>
-    );
+                        }
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+      );
+    }
+
+    return null;
   }
 }
 

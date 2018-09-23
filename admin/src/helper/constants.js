@@ -17,3 +17,12 @@ export const EVENT = generateCommonActions('EVENT');
 export const BLOG = generateCommonActions('BLOG');
 export const MEDIA = generateCommonActions('MEDIA');
 export const INFORMATION = generateCommonActions('INFORMATION');
+const { CLEAR, ...adminCommon } = generateCommonActions('ADMIN');
+
+export const ADMIN = {
+  ...adminCommon,
+  CHANGE_PASSWORD_SUCCESS: `CHANGE_PASSWORD_SUCCESS`,
+  CHANGE_PASSWORD_FAILURE: `CHANGE_PASSWORD_FAILURE`,
+  RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
+  RESET_PASSWORD_FAILURE: 'RESET_PASSWORD_FAILURE',
+};

@@ -83,7 +83,6 @@ export const deleteEvent = (id) => async (dispatch) => {
       const { status, data } = result;
       const error = status !== 'success' ? data : {};
       dispatch(deleteEventSuccess(error));
-      return result;
     }
   } catch (error) {
     dispatch(deleteEventFailure(true));
@@ -101,7 +100,6 @@ export const updateEvent = (body) => async (dispatch) => {
       const { status, data } = result;
       const error = status !== 'success' ? data : {};
       dispatch(updateEventSuccess(error));
-      return result;
     }
   } catch (error) {
     dispatch(updateEventFailure(true));
