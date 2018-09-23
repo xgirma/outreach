@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
   TableHead,
+  TextField,
   Card,
   CardActions,
   CardContent,
@@ -25,11 +26,9 @@ import withRoot from '../withRoot';
 import styles from '../styles';
 
 const blankPassword = {
-  password: {
-    currentPassword: '',
-    newPassword: '',
-    newPasswordAgain: '',
-  },
+  currentPassword: '',
+  newPassword: '',
+  newPasswordAgain: '',
 };
 
 const blankError = {
@@ -43,6 +42,7 @@ class AdminForm extends Component {
   static propTypes = {
     changePassword: PropTypes.func.isRequired,
     getAdmin: PropTypes.func.isRequired,
+    deleteAdmin: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
   };
 
@@ -55,6 +55,8 @@ class AdminForm extends Component {
     error: blankError,
     admins: [],
     showPassword: false,
+    username: '',
+    tempPassword: '',
   };
 
   async componentDidMount() {
@@ -85,6 +87,12 @@ class AdminForm extends Component {
         [name]: value,
       },
     }));
+  };
+
+  handleUsernameChange = async (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    this.setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   handleClickShowPassword = () => {
@@ -126,9 +134,45 @@ class AdminForm extends Component {
     }
   };
 
-  handlePasswordReset = async (admin) => {}; // TODO ...
+  handleCreateNewAdmin = async (event) => {
+    event.preventDefault();
+    this.setState((prevState) => ({
+      ...prevState,
+      tempPassword: '',
+    }));
 
-  handleDelete = async (admin) => {}; // TODO ...
+    const { addNewAdmin } = this.props;
+    const { username } = this.state;
+    const result = await addNewAdmin({ username });
+    const { status, data } = result;
+    const error = status === 'error' || status === 'fail' ? data : blankError;
+
+    this.setState((prevState) => ({
+      ...prevState,
+      tempPassword: data.temporaryPassword,
+      username: '',
+      error,
+    }));
+    // TODO fetch date at this point. instead of refreshing
+  };
+
+  handlePasswordReset = async (_id) => {
+    const result = await this.props.changePassword({ _id });
+    const { status, data } = result;
+    const error = status === 'error' || status === 'fail' ? data : blankError;
+
+    this.setState((prevState) => ({
+      ...prevState,
+      tempPassword: data.temporaryPassword,
+      username: '',
+      error,
+    }));
+  };
+
+  handleDelete = async (id) => {
+    await this.props.deleteAdmin(id);
+    // TODO get admins
+  };
 
   render() {
     const { classes } = this.props;
@@ -224,10 +268,44 @@ class AdminForm extends Component {
           </CardContent>
 
           <CardContent>
+            <Typography variant="title" component="h2">
+              Add New Admin
+            </Typography>
             <Typography color="error">
               {this.state.error.name !== '' &&
                 `Name: ${this.state.error.name} Message: ${this.state.error.message}`}
             </Typography>
+            <Typography color="primary">
+              {this.state.tempPassword !== '' &&
+                this.state.tempPassword !== undefined &&
+                `Temporary password: ${this.state.tempPassword}`}
+            </Typography>
+          </CardContent>
+
+          <CardContent>
+            <form onSubmit={this.handleSubmit}>
+              <TextField
+                required
+                name="username"
+                value={this.state.username}
+                onChange={this.handleUsernameChange}
+                label="Username"
+                id="margin-none"
+                className={classes.textField}
+                helperText="e.g. Jane.Joe"
+              />
+
+              <CardActions>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  color="primary"
+                  onClick={this.handleCreateNewAdmin}
+                >
+                  Create New Admin
+                </Button>
+              </CardActions>
+            </form>
           </CardContent>
 
           <CardContent>
@@ -260,7 +338,7 @@ class AdminForm extends Component {
                             variant="contained"
                             className={classes.button}
                             color="secondary"
-                            onClick={() => this.handlePasswordReset(admin)}
+                            onClick={() => this.handlePasswordReset(admin._id)}
                           >
                             Reset Password
                           </Button>

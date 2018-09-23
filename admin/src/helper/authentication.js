@@ -5,18 +5,18 @@ const USERNAME = 'orusername';
 const ID = 'orid';
 const ROLE = 'orrole';
 
-export const setUser = ({ id, role, token }, username) => {
-  localStorage.setItem(TOKEN, token);
-  localStorage.setItem(USERNAME, username);
-  localStorage.setItem(ID, id);
-  localStorage.setItem(ROLE, role);
+export const setUser = async ({ id, role, token }, username) => {
+  await localStorage.setItem(TOKEN, token);
+  await localStorage.setItem(USERNAME, username);
+  await localStorage.setItem(ID, id);
+  await localStorage.setItem(ROLE, role);
 };
 
-export const removeUser = () => {
-  localStorage.removeItem(TOKEN);
-  localStorage.removeItem(USERNAME);
-  localStorage.removeItem(ID);
-  localStorage.removeItem(ROLE);
+export const removeUser = async () => {
+  await localStorage.removeItem(TOKEN);
+  await localStorage.removeItem(USERNAME);
+  await localStorage.removeItem(ID);
+  await localStorage.removeItem(ROLE);
 };
 
 export const isTokenAlive = () => {
