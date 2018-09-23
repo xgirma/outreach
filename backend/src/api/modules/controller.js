@@ -113,7 +113,7 @@ export const controllers = {
   },
 
   deleteOne(docToDelete) {
-    return docToDelete.remove();
+    return docToDelete.deleteOne();
   },
 
   getOne(docToGet) {

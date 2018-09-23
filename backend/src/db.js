@@ -9,6 +9,10 @@ if (process.env.NODE_ENV !== 'production') {
   mongoose.set('debug', true);
 }
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
 const connect = () => mongoose.connect(process.env.MONGODB_URL);
 
 mongoose.connection.on('connected', () => {

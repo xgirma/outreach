@@ -6,7 +6,7 @@ module.exports = {
   coverageDirectory: './coverage',
   transform: { '^.+\\.jsx?$': 'babel-jest' },
   collectCoverageFrom: [
-    '**/*.{js,jsx}',
+    '**/*.{js}',
     '!**/node_modules/**',
     '!**/coverage/**',
     '!**/dist/**',

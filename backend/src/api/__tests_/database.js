@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 
 mongoose.Promise = global.Promise;
 dotenv.config();
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
 
 export const removeModel = (modelName) => {
   const model = mongoose.model(modelName);
@@ -11,7 +14,7 @@ export const removeModel = (modelName) => {
     if (!model) {
       return resolve();
     }
-    model.remove((err) => {
+    model.deleteOne((err) => {
       if (err) {
         reject(err);
       } else {

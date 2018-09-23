@@ -1,22 +1,17 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "outreach backend API",
+  "description": "Backend API",
   "main": "dist",
   "scripts": {
-    "test:admin": "jest --verbose --bail --coverage --runInBand",
-    "test:watch:admin": "jest --watch --verbose",
-    "lint:admin": "eslint src --fix",
-    "pretty:admin": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
-    "precommit:admin": "lint-staged husky --dev",
-    "start:dev": "./node_modules/.bin/webpack --colors --progress"
+    "backend:test": "jest --verbose --bail --coverage --runInBand",
+    "backend:test:watch": "jest --watch --verbose",
+    "backend:lint": "eslint src --fix",
+    "backend:pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
+    "backend:precommit": "lint-staged husky --dev",
+    "backend:start": "./node_modules/.bin/webpack --colors --progress"
   },
-  "keywords": [
-    "church",
-    "Ethiopian",
-    "orthodox",
-    "Christian"
-  ],
+  "keywords": ["christian", "church", "Ethiopian", "orthodox", "community", "outreach"],
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -36,8 +31,9 @@
     "lodash.merge": "^4.6.1",
     "method-override": "^2.3.10",
     "moment": "^2.22.1",
-    "mongoose": "^5.1.2",
-    "mongoose-unique-validator": "^2.0.1",
+    "mongoose": "^5.2.17",
+    "morgan": "^1.9.1",
+    "mongoose-unique-validator": "^2.0.2",
     "owasp-password-strength-test": "^1.3.0",
     "swagger-ui-express": "^3.0.9",
     "validator": "^10.2.0",
@@ -45,10 +41,7 @@
     "winston-mongodb": "^3.0.2"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -68,6 +61,7 @@
     "dotenv-webpack": "^1.5.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-markdown": "^1.0.0-beta.6",
@@ -75,10 +69,9 @@
     "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
     "install": "^0.11.0",
-    "jest-cli": "^23.0.0",
-    "lint-staged": "^7.1.2",
+    "jest-cli": "^23.6.0",
+    "lint-staged": "^7.3.0",
     "mocha": "^5.2.0",
-    "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
     "prettier": "1.12.1",
     "source-map-support": "^0.5.6",

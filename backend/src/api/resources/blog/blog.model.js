@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import * as err from "../../modules/error";
+import * as err from '../../modules/error';
 
 const required = '~ is required';
 
@@ -44,11 +44,11 @@ blogSchema.pre('validate', function introValidate(next) {
   if (this.sl.description === '<p><br></p>') {
     next(err.BadRequest('sl.description ~ is required'));
   }
-  
+
   if (this.en.description === '<p><br></p>') {
     next(err.BadRequest('en.description ~ is required'));
   }
-  
+
   next();
 });
 
