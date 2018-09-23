@@ -9,8 +9,13 @@ const secret = process.env.JWT_SECRET;
 const checkToken = expressJwt({ secret });
 
 export const verifyUser = (req, res, next) => {
-  test.usernamePasswordObject(req.body);
-  const { username, password } = req.body;
+  test.usernamePasswordObject(req.body)
+  
+  
+  
+  
+  
+  const { username, password } = req.body
 
   return Admins.findOne({ username })
     .then((user) => {

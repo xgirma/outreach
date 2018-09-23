@@ -8,10 +8,17 @@
     "backend:test:watch": "jest --watch --verbose",
     "backend:lint": "eslint src --fix",
     "backend:pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
-    "backend:precommit": "lint-staged husky --dev",
+    "backend:pre:commit": "lint-staged husky --dev",
     "backend:start": "./node_modules/.bin/webpack --colors --progress"
   },
-  "keywords": ["christian", "church", "Ethiopian", "orthodox", "community", "outreach"],
+  "keywords": [
+    "christian",
+    "church",
+    "Ethiopian",
+    "orthodox",
+    "community",
+    "outreach"
+  ],
   "author": "Girma Nigusse <xgirma@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -40,8 +47,17 @@
     "winston": "^2.4.2",
     "winston-mongodb": "^3.0.2"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js}": [
+      "eslint src --fix",
+      "./node_modules/.bin/prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -73,6 +89,7 @@
     "lint-staged": "^7.3.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
+    "pre-commit": "^1.2.2",
     "prettier": "1.12.1",
     "source-map-support": "^0.5.6",
     "start-server-webpack-plugin": "^2.2.5",
