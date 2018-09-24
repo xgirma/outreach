@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import chai from 'chai';
 import app from '../../server';
 import * as assert from './crud.validator';

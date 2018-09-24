@@ -13,7 +13,7 @@ const ids = [];
 const { STRONG, NEW } = constants.password;
 const { SUPER_ADMIN, ADMIN } = constants.username;
 
-describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
+describe.skip(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
     await dropDatabase();
   });

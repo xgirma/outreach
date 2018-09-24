@@ -17,7 +17,7 @@ const badUpdateRequest = (result) =>
 const { SHORT, WEAK, LONG, STRONG, NEW, WEAK_PASS_PHRASE } = constants.password;
 const { SUPER_ADMIN, ADMIN, ADMIN_ASSISTANT } = constants.username;
 
-describe(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
+describe.skip(`Route: ${resourceName.join(', ').toUpperCase()}`, () => {
   beforeAll(async () => {
     await dropDatabase();
   });
