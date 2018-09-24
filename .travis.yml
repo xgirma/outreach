@@ -1,11 +1,11 @@
 language: node_js
 node_js:
   - "node"
+env:
+  - BACKEND_DIR=backend
 install:
-  - npm install -g eslint
-  - npm install -g prettier
   - npm install --path admin
   - npm install --path backend
   - npm install --path frontend
 script:
-  - cd backend && npm run backend:eslint && npm run backend:prettier
+  - cd $BACKEND_DIR && npm install && npm run backend:eslint
