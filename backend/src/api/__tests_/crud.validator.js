@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import isEmpty from 'lodash.isempty';
 import * as err from '../modules/error';

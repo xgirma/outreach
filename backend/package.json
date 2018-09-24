@@ -6,10 +6,10 @@
   "scripts": {
     "backend:test": "jest --verbose --bail --coverage --runInBand",
     "backend:test:watch": "jest --watch --verbose",
-    "backend:lint": "eslint src --fix",
+    "backend:eslint": "eslint src --fix",
     "backend:pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
-    "backend:pre:commit": "lint-staged husky --dev",
-    "backend:start": "./node_modules/.bin/webpack --colors --progress"
+    "backend:start": "./node_modules/.bin/webpack --colors --progress",
+    "precommit": "lint-staged husky --dev && npm run backend:test"
   },
   "keywords": ["christian", "church", "Ethiopian", "orthodox", "community", "outreach"],
   "author": "Girma Nigusse <xgirma@gmail.com>",
@@ -46,7 +46,7 @@
     }
   },
   "lint-staged": {
-    "*.{js}": ["eslint src --fix", "./node_modules/.bin/prettier --write", "git add"]
+    "*.{js,json}": ["npm run backend:eslint", "npm run backend:pretty", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -78,7 +78,6 @@
     "lint-staged": "^7.3.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
-    "pre-commit": "^1.2.2",
     "prettier": "1.12.1",
     "source-map-support": "^0.5.6",
     "start-server-webpack-plugin": "^2.2.5",

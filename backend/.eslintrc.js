@@ -10,6 +10,8 @@ module.exports = {
     jest: true,
     es6: true,
   },
-  rules: {},
+  rules: {
+    'no-underscore-dangle': 0,
+  },
   plugins: ['json', 'prettier', 'markdown', 'import'],
 };
