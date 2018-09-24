@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "node"
 install:
+  - npm install -g eslint
+  - npm install -g prettier
   - npm install --path admin
   - npm install --path backend
   - npm install --path frontend
