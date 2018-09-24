@@ -3,9 +3,5 @@ node_js:
   - "node"
 env:
   - BACKEND_DIR=backend
-install:
-  - npm install --path admin
-  - npm install --path backend
-  - npm install --path frontend
 script:
-  - cd $BACKEND_DIR && npm install && npm run backend:eslint
+  - cd $BACKEND_DIR && npm install && npm run backend:eslint && npm run backend:prettier
