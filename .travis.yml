@@ -6,5 +6,4 @@ install:
   - npm install --path backend
   - npm install --path frontend
 script:
-  - ./configure && make
-  - npm run backend:eslint --path backend
+  - cd backend && npm run backend:eslint
