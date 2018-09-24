@@ -6,8 +6,8 @@
   "scripts": {
     "backend:test": "jest --verbose --bail --coverage --runInBand",
     "backend:test:watch": "jest --watch --verbose",
-    "backend:eslint": "eslint src --fix",
-    "backend:pretty": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
+    "backend:eslint": "./node_modules/.bin/eslint src --fix",
+    "backend:prettier": "./node_modules/.bin/prettier --write \"./**/*.{js,json}\"",
     "backend:start": "./node_modules/.bin/webpack --colors --progress",
     "precommit": "lint-staged husky --dev"
   },
@@ -46,7 +46,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json}": ["npm run backend:eslint", "npm run backend:pretty", "git add"]
+    "*.{js,json}": ["npm run backend:eslint", "npm run backend:prettier", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
