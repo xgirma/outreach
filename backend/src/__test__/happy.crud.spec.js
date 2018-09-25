@@ -1,41 +1,56 @@
+/* eslint-disable array-callback-return, consistent-return */
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import faker from 'faker';
-import app from '../../server';
-import { dropDatabase } from './database';
-import * as assert from './crud.validator';
-import { admin, info, event, services, blog, media } from './request.body';
+import '../api/resources/admins/admins.model';
+import '../api/resources/blog/blog.model';
+import '../api/resources/event/event.model';
+import '../api/resources/info/info.model';
+import '../api/resources/intro/intro.model';
+import '../api/resources/media/media.model';
+import '../api/resources/service/service.model';
+import { admin, info, intro, event, services, blog, media } from './faker.request.body';
+import { dropDatabase } from './helper';
+import * as assert from './response.validation';
 
 chai.use(chaiHttp);
+dotenv.config();
 
-const resources = ['info', 'event', 'services', 'blog', 'media']; // TODO add test for 'intro'
+const resources = ['info', 'intro', 'event', 'services', 'blog', 'media'];
 let jwt;
 const ids = {};
+const baseUrl = process.env.BACKEND_URL;
 
-describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
+describe('HAPPY PATH', () => {
   beforeAll(async () => {
     await dropDatabase();
+    mongoose.connection.close(() => {});
   });
 
   afterAll(async () => {
     await dropDatabase();
+    mongoose.connection.close(() => {});
   });
 
   /*
-   * Test setup
-   * create super-admin and save jwt token
-   * Super-admin user will be used for all resource tests.
+   * Register:
+   * Create super-admin and save jwt token
+   * This super-admin user will be used for all following CRUD tests.
    */
-  describe('POST /register', () => {
-    test('should register super-admin', async () => {
+  describe(`POST: ${baseUrl}/api/v1/register { username: ${admin.username}, password: ${
+    admin.password
+  } }`, () => {
+    test('201 - Created', async () => {
       const result = await chai
-        .request(app)
+        .request(baseUrl)
         .post('/api/v1/register')
         .send(admin);
 
       const { status, data } = result.body;
       const { token } = data;
-      jwt = token; // super-admin token saved
+      jwt = token;
 
       expect(result).to.have.status(201);
       expect(status).to.equal('success');
@@ -44,29 +59,32 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
   });
 
   /*
-   * Test
-   * Common GET, POST, GET, GET by ID, PUT by ID, DELETE by ID
+   * CRUD
+   * GET {}, POST, GET all, GET by ID, PUT by ID, DELETE by ID
    * for all resources, except /admin
    */
-  describe('resources happy path', () =>
+  describe('CRUD', () =>
     /* eslint-disable-next-line */
     resources.map((resourceName) => {
-      describe(`GET /${resourceName}`, () => {
-        test(`should GET /${resourceName} []`, async () => {
+      describe(`GET ${baseUrl}/api/v1/${resourceName}`, () => {
+        test('200 - OK - no data', async () => {
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .get(`/api/v1/${resourceName}`)
             .set('Authorization', `Bearer ${jwt}`);
 
-          assert.getSuccessNoData(result);
+          assert.getSuccessWithNoData(result);
         });
       });
 
-      describe(`POST /${resourceName}`, () => {
+      describe(`POST ${baseUrl}/api/v1/${resourceName}`, () => {
         let requestBody;
         switch (resourceName) {
           case 'info':
             requestBody = info;
+            break;
+          case 'intro':
+            requestBody = intro;
             break;
           case 'event':
             requestBody = event;
@@ -84,9 +102,9 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
             requestBody = {};
         }
 
-        test(`should POST /${resourceName}`, async () => {
+        test('201 - Created', async () => {
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .post(`/api/v1/${resourceName}`)
             .set('Authorization', `Bearer ${jwt}`)
             .send(requestBody);
@@ -95,10 +113,10 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
         });
       });
 
-      describe(`GET /${resourceName}`, () => {
-        test(`should GET /${resourceName}`, async () => {
+      describe(`GET ${baseUrl}/api/v1/${resourceName}`, () => {
+        test('200 - OK - data', async () => {
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .get(`/api/v1/${resourceName}`)
             .set('Authorization', `Bearer ${jwt}`);
 
@@ -108,10 +126,10 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
         });
       });
 
-      describe(`GET /${resourceName}/{id}`, () => {
-        test(`should GET /${resourceName}/{id}}`, async () => {
+      describe(`GET ${baseUrl}/api/v1/${resourceName}/id`, () => {
+        test('200 - OK - by id', async () => {
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .get(`/api/v1/${resourceName}/${ids[resourceName]}`)
             .set('Authorization', `Bearer ${jwt}`);
 
@@ -119,9 +137,8 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
         });
       });
 
-      describe(`PUT /${resourceName}/{id}`, () => {
-        /* eslint-disable-next-line */
-        test(`should update PUT /${resourceName}`, async () => {
+      describe(`PUT ${baseUrl}/api/v1/${resourceName}/id`, () => {
+        test('202 - Accepted', async () => {
           let update = {};
           const phone = faker.phone.phoneNumber();
           const dateStart = faker.date.future(2);
@@ -132,6 +149,9 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
           switch (resourceName) {
             case 'info':
               update = { ...info, phone };
+              break;
+            case 'intro':
+              update = { ...intro, en: { ...intro.en, author } };
               break;
             case 'event':
               update = { ...event, dateStart };
@@ -150,7 +170,7 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
           }
 
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .put(`/api/v1/${resourceName}/${ids[resourceName]}`)
             .set('Authorization', `Bearer ${jwt}`)
             .send(update);
@@ -162,6 +182,10 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
             case 'info':
               return () => {
                 Object.keys(data).map((d) => expect(d.phone).to.equal(phone));
+              };
+            case 'intro':
+              return () => {
+                Object.keys(data).map((d) => expect(d.en.author).to.equal(author));
               };
             case 'event':
               return () => {
@@ -185,10 +209,10 @@ describe.skip(`Route: ${resources.join(', ').toUpperCase()}`, () => {
         });
       });
 
-      describe(`DELETE /${resourceName}/{id}`, () => {
-        test(`should DELETE /${resourceName}/{id}}`, async () => {
+      describe(`DELETE ${baseUrl}/api/v1/${resourceName}/id`, () => {
+        test('202 - Accepted', async () => {
           const result = await chai
-            .request(app)
+            .request(baseUrl)
             .delete(`/api/v1/${resourceName}/${ids[resourceName]}`)
             .set('Authorization', `Bearer ${jwt}`);
 

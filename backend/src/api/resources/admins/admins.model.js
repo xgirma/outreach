@@ -33,7 +33,7 @@ adminsSchema.methods = {
       throw new Error('could not save admin user');
     }
 
-    const salt = bcrypt.genSaltSync(10);
+    const salt = bcrypt.genSaltSync(12);
     return bcrypt.hashSync(plainTextPassword, salt);
   },
 };

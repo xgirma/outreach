@@ -1,70 +1,66 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import chai from 'chai';
-import app from '../../server';
-import * as assert from './crud.validator';
-import {
-  EXPIRED_TOKEN,
-  INVALID_SIGNATURE_TOKEN,
-  MALFORMED_TOKEN,
-  BAD_FORMAT_TOKEN,
-} from './constants';
+import dotenv from 'dotenv';
+import * as assert from './response.validation';
+import { expiredToken, invalidSignatureToken, malformedToken, badFormatToken } from './helper';
+
+dotenv.config();
+const baseUrl = process.env.BACKEND_URL;
 
 export const getWithoutToken = (resource) => {
-  test(`should not GET: /${resource} without-token`, async () => {
-    const result = await chai.request(app).get(`/api/v1/${resource}`);
-
+  test('401 - UnauthorizedError - No authorization token was found', async () => {
+    const result = await chai.request(baseUrl).get(`/api/v1/${resource}`);
     assert.unauthorizedError(result);
   });
 };
 
 export const getWithExpiredToken = (resource) => {
-  test(`should not GET: /${resource} with expired token`, async () => {
+  test('401 - UnauthorizedError - jwt expired', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .get(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${EXPIRED_TOKEN}`);
+      .set('Authorization', `Bearer ${expiredToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const getUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not GET: /${resource} using token with invalid signature`, async () => {
+  test('401 - UnauthorizedError - invalid signature', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .get(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${INVALID_SIGNATURE_TOKEN}`);
+      .set('Authorization', `Bearer ${invalidSignatureToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const getMalformedToken = (resource) => {
-  test(`should not GET: /${resource} with malformed token`, async () => {
+  test('401 - UnauthorizedError - jwt malformed', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .get(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${MALFORMED_TOKEN}`);
+      .set('Authorization', `Bearer ${malformedToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const getWithBadFormattedToken = (resources) => {
-  test(`should not GET: /${resources} with bad-formatted token`, async () => {
+  test('401 - UnauthorizedError - Format is Authorization: Bearer [token]', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .get(`/api/v1/${resources}`)
-      .set('Authorization', `Bearer ${BAD_FORMAT_TOKEN}`);
+      .set('Authorization', `Bearer ${badFormatToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const postWithoutToken = (resource) => {
-  test(`should not POST: /${resource} without-token`, async () => {
+  test('401 - UnauthorizedError - No authorization token was found', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resource}`)
       .send({});
 
@@ -73,11 +69,11 @@ export const postWithoutToken = (resource) => {
 };
 
 export const postWithExpiredToken = (resource) => {
-  test(`should not POST: /${resource} with expired token`, async () => {
+  test('401 - UnauthorizedError - jwt expired', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${EXPIRED_TOKEN}`)
+      .set('Authorization', `Bearer ${expiredToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -85,11 +81,11 @@ export const postWithExpiredToken = (resource) => {
 };
 
 export const postUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not POST: /${resource} using token with invalid signature`, async () => {
+  test('401 - UnauthorizedError - invalid signature', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${INVALID_SIGNATURE_TOKEN}`)
+      .set('Authorization', `Bearer ${invalidSignatureToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -97,11 +93,11 @@ export const postUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const postMalformedToken = (resource) => {
-  test(`should not POST: /${resource} with malformed token`, async () => {
+  test('401 - UnauthorizedError - jwt malformed', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${MALFORMED_TOKEN}`)
+      .set('Authorization', `Bearer ${malformedToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -109,11 +105,11 @@ export const postMalformedToken = (resource) => {
 };
 
 export const postWithBadFormattedToken = (resources) => {
-  test(`should not POST: /${resources} with bad-formatted token`, async () => {
+  test('401 - UnauthorizedError - Format is Authorization: Bearer [token]', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resources}`)
-      .set('Authorization', `Bearer ${BAD_FORMAT_TOKEN}`)
+      .set('Authorization', `Bearer ${badFormatToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -121,9 +117,9 @@ export const postWithBadFormattedToken = (resources) => {
 };
 
 export const putWithoutToken = (resource) => {
-  test(`should not PUT: /${resource} without-token`, async () => {
+  test('401 - UnauthorizedError - No authorization token was found', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .get(`/api/v1/${resource}`)
       .send({});
 
@@ -132,11 +128,11 @@ export const putWithoutToken = (resource) => {
 };
 
 export const putWithExpiredToken = (resource) => {
-  test(`should not PUT: /${resource} with expired token`, async () => {
+  test('401 - UnauthorizedError - jwt expired', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .post(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${EXPIRED_TOKEN}`)
+      .set('Authorization', `Bearer ${expiredToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -144,11 +140,11 @@ export const putWithExpiredToken = (resource) => {
 };
 
 export const putUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not PUT: /${resource} using token with invalid signature`, async () => {
+  test('401 - UnauthorizedError - invalid signature', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .put(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${INVALID_SIGNATURE_TOKEN}`)
+      .set('Authorization', `Bearer ${invalidSignatureToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -156,11 +152,11 @@ export const putUsingTokenWithInvalidSignature = (resource) => {
 };
 
 export const putMalformedToken = (resource) => {
-  test(`should not PUT: /${resource} with malformed token`, async () => {
+  test('401 - UnauthorizedError - jwt malformed', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .put(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${MALFORMED_TOKEN}`)
+      .set('Authorization', `Bearer ${malformedToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -168,11 +164,11 @@ export const putMalformedToken = (resource) => {
 };
 
 export const putWithBadFormattedToken = (resources) => {
-  test(`should not PUT: /${resources} with bad-formatted token`, async () => {
+  test('401 - UnauthorizedError - Format is Authorization: Bearer [token]', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .put(`/api/v1/${resources}`)
-      .set('Authorization', `Bearer ${BAD_FORMAT_TOKEN}`)
+      .set('Authorization', `Bearer ${badFormatToken}`)
       .send({});
 
     assert.unauthorizedError(result);
@@ -180,52 +176,52 @@ export const putWithBadFormattedToken = (resources) => {
 };
 
 export const deleteWithoutToken = (resource) => {
-  test(`should not DELETE: /${resource} without-token`, async () => {
-    const result = await chai.request(app).delete(`/api/v1/${resource}`);
+  test('401 - UnauthorizedError - No authorization token was found', async () => {
+    const result = await chai.request(baseUrl).delete(`/api/v1/${resource}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const deleteWithExpiredToken = (resource) => {
-  test(`should not DELETE: /${resource} with expired token`, async () => {
+  test('401 - UnauthorizedError - jwt expired', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .delete(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${EXPIRED_TOKEN}`);
+      .set('Authorization', `Bearer ${expiredToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const deleteUsingTokenWithInvalidSignature = (resource) => {
-  test(`should not DELETE: /${resource} using token with invalid signature`, async () => {
+  test('401 - UnauthorizedError - invalid signature', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .delete(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${INVALID_SIGNATURE_TOKEN}`);
+      .set('Authorization', `Bearer ${invalidSignatureToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const deleteMalformedToken = (resource) => {
-  test(`should not DELETE: /${resource} with malformed token`, async () => {
+  test('401 - UnauthorizedError - jwt malformed', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .delete(`/api/v1/${resource}`)
-      .set('Authorization', `Bearer ${MALFORMED_TOKEN}`);
+      .set('Authorization', `Bearer ${malformedToken}`);
 
     assert.unauthorizedError(result);
   });
 };
 
 export const deleteWithBadFormattedToken = (resources) => {
-  test(`should not DELETE: /${resources} with bad-formatted token`, async () => {
+  test('401 - UnauthorizedError - Format is Authorization: Bearer [token]', async () => {
     const result = await chai
-      .request(app)
+      .request(baseUrl)
       .delete(`/api/v1/${resources}`)
-      .set('Authorization', `Bearer ${BAD_FORMAT_TOKEN}`);
+      .set('Authorization', `Bearer ${badFormatToken}`);
 
     assert.unauthorizedError(result);
   });

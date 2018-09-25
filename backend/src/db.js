@@ -20,16 +20,16 @@ mongoose.connection.on('connected', () => {
 });
 
 mongoose.connection.on('error', (err) => {
-  logger.error('Mongoose connection error', { err });
+  logger.info('Mongoose connection error', { err });
 });
 
 mongoose.connection.on('disconnected', () => {
-  logger.debug('Mongoose default connection is disconnected');
+  logger.info('Mongoose default connection is disconnected');
 });
 
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
-    logger.debug('Mongoose default connection is disconnected due to application termination');
+    logger.info('Mongoose default connection is disconnected due to application termination');
     process.exit(0);
   });
 });

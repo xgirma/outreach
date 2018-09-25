@@ -1,6 +1,6 @@
 import faker from 'faker';
 import { generate } from 'generate-password';
-import { passwordConfig } from '../modules/password';
+import { passwordConfig } from '../api/modules/password';
 
 export const admin = Object.assign({
   username: faker.internet.userName(),

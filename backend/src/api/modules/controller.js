@@ -284,7 +284,7 @@ export const deleteAdmin = (model) => (req, res, next) => {
   const { user } = req;
   if (user.role === 0) {
     controllers
-      .remove(req.docFromId)
+      .deleteOne(req.docFromId)
       .then((admin) => {
         logger.info('admin deleted', { name: admin.username });
         res.status(202).json({

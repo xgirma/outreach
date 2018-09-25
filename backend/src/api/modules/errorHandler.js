@@ -1,10 +1,10 @@
-/* eslint-disable no-unused-vars, object-curly-newline */
+/* eslint-disable no-unused-vars, object-curly-newline, no-nested-ternary */
 import logger from './logger';
 
 const apiErrorHandler = (err, req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
   const { stack, message, name } = err;
-  const errorCode = err.status || err.name === 'ValidationError' ? 400 : 500;
+  const errorCode = err.status ? err.status : err.name === 'ValidationError' ? 400 : 500;
   const statusMessage = errorCode !== 500 ? 'error' : 'fail';
 
   logger.error('Error Handler', {
