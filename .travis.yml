@@ -6,7 +6,10 @@ env:
   - BACKEND_DIR=backend
 services: mongodb
 script:
-  - cd $BACKEND_DIR && npm install && npm run backend:eslint && npm run backend:prettier
-  && npm run backend:start &
+  - cd $BACKEND_DIR
+  - npm install
+  - npm run backend:eslint
+  - npm run backend:prettier
+  - npm run backend:start &
 after_script:
   - npm run backend:test
