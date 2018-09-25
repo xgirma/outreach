@@ -57,7 +57,7 @@ export const event = {
   dateEnd: '2028-12-22T05:19:15.932Z',
 };
 
-export const services = {
+export const service = {
   sl: {
     title: faker.lorem.words(),
     description: faker.lorem.paragraphs(),
@@ -106,6 +106,5 @@ export const intro = Object.assign({
     author: faker.name.findName(),
     intro: faker.lorem.words(),
   },
-  adminname: faker.name.findName(),
   date: faker.date.future(2),
 });

@@ -28,7 +28,7 @@ export const schema = {
   adminname: {
     type: String,
     required: [true, required],
-    maxlength: 20,
+    maxlength: 50,
   },
   date: {
     type: Date,

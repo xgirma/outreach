@@ -31,7 +31,7 @@ export const schema = {
   phone: { type: String, required: [true, required] },
   dateStart: { type: Date, required: [true, required], index: true },
   dateEnd: { type: Date, required: [true, required], index: true },
-  adminname: { type: String, required: [true, required], maxlength: 20 },
+  adminname: { type: String, required: [true, required], maxlength: 50 },
   date: {
     type: Date,
     default: Date.now,

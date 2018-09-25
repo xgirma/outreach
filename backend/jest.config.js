@@ -16,6 +16,7 @@ module.exports = {
     '!jest.config.js',
     '!**/resources/**/index.js',
     '!**/src/config/**',
+    '!**/src/__test__/**',
   ],
   coverageThreshold: {
     global: {

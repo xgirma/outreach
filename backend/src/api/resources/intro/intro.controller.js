@@ -1,4 +1,4 @@
 import { generateControllers } from '../../modules/controller';
-import { Intro } from './intro.model';
+import Intro from './intro.model';
 
 export default generateControllers(Intro);

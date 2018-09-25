@@ -11,7 +11,7 @@ import '../api/resources/info/info.model';
 import '../api/resources/intro/intro.model';
 import '../api/resources/media/media.model';
 import '../api/resources/service/service.model';
-import { admin, info, intro, event, services, blog, media } from './faker.request.body';
+import { admin, info, intro, event, service, blog, media } from './faker.request.body';
 import { dropDatabase } from './helper';
 import * as assert from './response.validation';
 
@@ -90,7 +90,7 @@ describe('HAPPY PATH', () => {
             requestBody = event;
             break;
           case 'service':
-            requestBody = services;
+            requestBody = service;
             break;
           case 'blog':
             requestBody = blog;
@@ -157,7 +157,7 @@ describe('HAPPY PATH', () => {
               update = { ...event, dateStart };
               break;
             case 'service':
-              update = { ...services, email };
+              update = { ...service, email };
               break;
             case 'blog':
               update = { ...blog, author };
