@@ -1,10 +1,11 @@
 language: node_js
 node_js:
-- node
+  - node
 env:
   matrix:
   - BACKEND_DIR=backend
 services: mongodb
 script:
-- cd $BACKEND_DIR && npm install && npm run backend:eslint && npm run backend:prettier
-  && npm run backend:start & && npm run backend:test
+  - cd $BACKEND_DIR && npm install && npm run backend:eslint && npm run backend:prettier
+  && npm run backend:start &
+  - npm run backend:test
