@@ -5,8 +5,10 @@ import logger from './logger';
 import * as err from './error';
 import * as test from './schema';
 
+console.log('env ....', process.env);
+
 const secret = process.env.JWT_SECRET;
-const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
+const checkToken = expressJwt({ secret });
 
 export const verifyUser = (req, res, next) => {
   test.usernamePasswordObject(req.body);

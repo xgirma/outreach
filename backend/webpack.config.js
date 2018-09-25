@@ -39,7 +39,12 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env': { BUILD_TARGET: JSON.stringify('server') },
+      'process.env': {
+        BUILD_TARGET: JSON.stringify('server'),
+        MONGODB_URL: JSON.stringify('mongodb://localhost:27017/outreach'),
+        BACKEND_URL: JSON.stringify('http://localhost:3005'),
+        EXPIRATION_TIME: JSON.stringify('5h'),
+      },
     }),
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
