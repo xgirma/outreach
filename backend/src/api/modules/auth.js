@@ -6,7 +6,7 @@ import * as err from './error';
 import * as test from './schema';
 
 const secret = process.env.JWT_SECRET;
-const checkToken = expressJwt({ secret });
+const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
 
 export const verifyUser = (req, res, next) => {
   test.usernamePasswordObject(req.body);
