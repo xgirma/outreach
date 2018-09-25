@@ -45,6 +45,7 @@ module.exports = {
         BACKEND_URL: JSON.stringify('http://localhost:3005'),
         EXPIRATION_TIME: JSON.stringify('5h'),
         JWT_SECRET: JSON.stringify('gumball'),
+        API_PORT: JSON.stringify('3005'),
       },
     }),
     new webpack.BannerPlugin({

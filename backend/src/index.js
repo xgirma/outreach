@@ -8,8 +8,8 @@ let currentApp = app;
 
 dotenv.config();
 
-server.listen(process.env.PORT, () => {
-  logger.info(`Server listening on port ${process.env.PORT}`);
+server.listen(process.env.API_PORT, () => {
+  logger.info(`Server listening on port ${process.env.API_PORT}`);
 });
 
 if (module.hot) {
