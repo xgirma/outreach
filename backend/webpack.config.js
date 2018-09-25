@@ -44,6 +44,7 @@ module.exports = {
         MONGODB_URL: JSON.stringify('mongodb://localhost:27017/outreach'),
         BACKEND_URL: JSON.stringify('http://localhost:3005'),
         EXPIRATION_TIME: JSON.stringify('5h'),
+        JWT_SECRET: JSON.stringify('gumball'),
       },
     }),
     new webpack.BannerPlugin({
