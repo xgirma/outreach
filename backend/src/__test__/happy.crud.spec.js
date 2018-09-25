@@ -18,7 +18,7 @@ import * as assert from './response.validation';
 chai.use(chaiHttp);
 dotenv.config();
 
-const resources = ['info', 'intro', 'event', 'services', 'blog', 'media'];
+const resources = ['info', 'intro', 'event', 'service', 'blog', 'media'];
 let jwt;
 const ids = {};
 const baseUrl = process.env.BACKEND_URL;
@@ -65,21 +65,21 @@ describe('HAPPY PATH', () => {
    */
   describe('CRUD', () =>
     /* eslint-disable-next-line */
-    resources.map((resourceName) => {
-      describe(`GET ${baseUrl}/api/v1/${resourceName}`, () => {
+    resources.map((resource) => {
+      describe(`GET ${baseUrl}/api/v1/${resource}`, () => {
         test('200 - OK - no data', async () => {
           const result = await chai
             .request(baseUrl)
-            .get(`/api/v1/${resourceName}`)
+            .get(`/api/v1/${resource}`)
             .set('Authorization', `Bearer ${jwt}`);
 
           assert.getSuccessWithNoData(result);
         });
       });
 
-      describe(`POST ${baseUrl}/api/v1/${resourceName}`, () => {
+      describe(`POST ${baseUrl}/api/v1/${resource}`, () => {
         let requestBody;
-        switch (resourceName) {
+        switch (resource) {
           case 'info':
             requestBody = info;
             break;
@@ -89,7 +89,7 @@ describe('HAPPY PATH', () => {
           case 'event':
             requestBody = event;
             break;
-          case 'services':
+          case 'service':
             requestBody = services;
             break;
           case 'blog':
@@ -105,7 +105,7 @@ describe('HAPPY PATH', () => {
         test('201 - Created', async () => {
           const result = await chai
             .request(baseUrl)
-            .post(`/api/v1/${resourceName}`)
+            .post(`/api/v1/${resource}`)
             .set('Authorization', `Bearer ${jwt}`)
             .send(requestBody);
 
@@ -113,31 +113,31 @@ describe('HAPPY PATH', () => {
         });
       });
 
-      describe(`GET ${baseUrl}/api/v1/${resourceName}`, () => {
+      describe(`GET ${baseUrl}/api/v1/${resource}`, () => {
         test('200 - OK - data', async () => {
           const result = await chai
             .request(baseUrl)
-            .get(`/api/v1/${resourceName}`)
+            .get(`/api/v1/${resource}`)
             .set('Authorization', `Bearer ${jwt}`);
 
           const { data } = result.body;
-          ids[resourceName] = data[0]._id;
+          ids[resource] = data[0]._id;
           assert.getSuccess(result);
         });
       });
 
-      describe(`GET ${baseUrl}/api/v1/${resourceName}/id`, () => {
+      describe(`GET ${baseUrl}/api/v1/${resource}/id`, () => {
         test('200 - OK - by id', async () => {
           const result = await chai
             .request(baseUrl)
-            .get(`/api/v1/${resourceName}/${ids[resourceName]}`)
+            .get(`/api/v1/${resource}/${ids[resource]}`)
             .set('Authorization', `Bearer ${jwt}`);
 
           assert.getSuccess(result);
         });
       });
 
-      describe(`PUT ${baseUrl}/api/v1/${resourceName}/id`, () => {
+      describe(`PUT ${baseUrl}/api/v1/${resource}/id`, () => {
         test('202 - Accepted', async () => {
           let update = {};
           const phone = faker.phone.phoneNumber();
@@ -146,7 +146,7 @@ describe('HAPPY PATH', () => {
           const author = faker.name.findName();
           const url = faker.internet.url();
 
-          switch (resourceName) {
+          switch (resource) {
             case 'info':
               update = { ...info, phone };
               break;
@@ -156,7 +156,7 @@ describe('HAPPY PATH', () => {
             case 'event':
               update = { ...event, dateStart };
               break;
-            case 'services':
+            case 'service':
               update = { ...services, email };
               break;
             case 'blog':
@@ -171,14 +171,14 @@ describe('HAPPY PATH', () => {
 
           const result = await chai
             .request(baseUrl)
-            .put(`/api/v1/${resourceName}/${ids[resourceName]}`)
+            .put(`/api/v1/${resource}/${ids[resource]}`)
             .set('Authorization', `Bearer ${jwt}`)
             .send(update);
 
           assert.putSuccess(result);
 
           const { data } = result.body;
-          switch (resourceName) {
+          switch (resource) {
             case 'info':
               return () => {
                 Object.keys(data).map((d) => expect(d.phone).to.equal(phone));
@@ -191,7 +191,7 @@ describe('HAPPY PATH', () => {
               return () => {
                 Object.keys(data).map((d) => expect(d.date_start).to.equal(dateStart));
               };
-            case 'services':
+            case 'service':
               return () => {
                 Object.keys(data).map((d) => expect(d.email).to.equal(email));
               };
@@ -209,11 +209,11 @@ describe('HAPPY PATH', () => {
         });
       });
 
-      describe(`DELETE ${baseUrl}/api/v1/${resourceName}/id`, () => {
+      describe(`DELETE ${baseUrl}/api/v1/${resource}/id`, () => {
         test('202 - Accepted', async () => {
           const result = await chai
             .request(baseUrl)
-            .delete(`/api/v1/${resourceName}/${ids[resourceName]}`)
+            .delete(`/api/v1/${resource}/${ids[resource]}`)
             .set('Authorization', `Bearer ${jwt}`);
 
           assert.deleteSuccess(result);

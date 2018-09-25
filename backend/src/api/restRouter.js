@@ -19,6 +19,6 @@ restRouter.use('/event', protect, eventRouter);
 restRouter.use('/info', protect, infoRouter);
 restRouter.use('/intro', protect, introRouter);
 restRouter.use('/media', protect, mediaRouter);
-restRouter.use('/services', protect, serviceRouter);
+restRouter.use('/service', protect, serviceRouter);
 
 export default restRouter;

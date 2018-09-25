@@ -4,6 +4,13 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { dropDatabase, username, password, badMongoId, mongoId } from './helper';
 import * as assert from './response.validation';
+import '../api/resources/admins/admins.model';
+import '../api/resources/blog/blog.model';
+import '../api/resources/event/event.model';
+import '../api/resources/info/info.model';
+import '../api/resources/intro/intro.model';
+import '../api/resources/media/media.model';
+import '../api/resources/service/service.model';
 
 chai.use(chaiHttp);
 dotenv.config();
@@ -432,7 +439,7 @@ describe(`${resources.join(', ').toUpperCase()}`, () => {
      * - bad username and/or password
      */
     describe('SIGNIN', () => {
-      describe(`POST ${baseUrl}/api/v1//${resources[2]}`, () => {
+      describe(`POST ${baseUrl}/api/v1/${resources[2]}`, () => {
         test('400 - Error: BadRequest - {}', async () => {
           const result = await chai
             .request(baseUrl)

@@ -5,10 +5,17 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import * as assert from './bad.authorization.validation';
 import { dropDatabase, mongoId } from './helper';
+import '../api/resources/admins/admins.model';
+import '../api/resources/blog/blog.model';
+import '../api/resources/event/event.model';
+import '../api/resources/info/info.model';
+import '../api/resources/intro/intro.model';
+import '../api/resources/media/media.model';
+import '../api/resources/service/service.model';
 
 chai.use(chaiHttp);
 dotenv.config();
-const resources = ['admins', 'info', 'intro', 'event', 'services', 'blog', 'media'];
+const resources = ['admins', 'info', 'intro', 'event', 'service', 'blog', 'media'];
 const baseUrl = process.env.BACKEND_URL;
 
 /*

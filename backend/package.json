@@ -17,7 +17,6 @@
   "dependencies": {
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
-    "co": "^4.6.0",
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
@@ -64,6 +63,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "clean-webpack-plugin": "^0.1.19",
+    "co": "^4.6.0",
     "dotenv-webpack": "^1.5.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",

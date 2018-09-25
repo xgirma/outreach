@@ -1,7 +1,7 @@
 import { getService, deleteService, updateService, addService } from '../services';
 import { SERVICES } from '../helper';
 
-const resource = 'services';
+const resource = 'service';
 
 const servicesIsLoading = (loading) => ({
   type: SERVICES.LOADING,

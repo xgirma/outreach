@@ -882,7 +882,7 @@
         }
       }
     },
-    "/services": {
+    "/service": {
       "get": {
         "tags": ["service"],
         "description": "church service",
@@ -945,7 +945,7 @@
         }
       }
     },
-    "/services/{id}": {
+    "/service/{id}": {
       "get": {
         "tags": ["service"],
         "description": "return service by ID",
