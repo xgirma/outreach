@@ -9,5 +9,4 @@ script:
   - cd $BACKEND_DIR && npm install && npm run backend:eslint && npm run backend:prettier
   && npm run backend:start &
 after_script:
-  - pwd
   - npm run backend:test
