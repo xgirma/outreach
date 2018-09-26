@@ -4,40 +4,39 @@ import moment from 'moment';
 import * as err from './../../modules/error';
 
 const now = moment().format('YYYY-MM-DD');
-const required = '~ is required';
 
-export const schema = {
+const schema = {
   sl: {
-    title: { type: String, maxlength: 200, required: [true, required] },
+    title: { type: String, maxlength: 200, required: true },
     description: { type: String },
   },
   en: {
-    title: { type: String, maxlength: 200, required: [true, required] },
+    title: { type: String, maxlength: 200, required: true },
     description: { type: String },
   },
   address: {
-    street: { type: String, required: [true, required], maxlength: 200 },
-    city: { type: String, required: [true, required], maxlength: 50 },
+    street: { type: String, required: true, maxlength: 200 },
+    city: { type: String, required: true, maxlength: 50 },
     state: { type: String, maxlength: 50, default: '' },
     zip: { type: String, maxlength: 50, default: '' },
-    country: { type: String, required: [true, required], maxlength: 100 },
+    country: { type: String, required: true, maxlength: 100 },
   },
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    validate: [isEmail, 'invalid email, enter a valid email'],
+    validate: [isEmail, 'invalid email'],
   },
-  phone: { type: String, required: [true, required] },
-  dateStart: { type: Date, required: [true, required], index: true },
-  dateEnd: { type: Date, required: [true, required], index: true },
-  adminname: { type: String, required: [true, required], maxlength: 50 },
+  phone: { type: String, required: true },
+  dateStart: { type: Date, required: true, index: true },
+  dateEnd: { type: Date, required: true, index: true },
+  adminname: { type: String, required: true, maxlength: 50 },
   date: {
     type: Date,
     default: Date.now,
-    required: [true, required],
+    required: true,
     index: true,
-  }, // document creation date
+  },
 };
 
 const eventSchema = new mongoose.Schema(schema);
@@ -58,4 +57,6 @@ eventSchema.pre('validate', function validateEventDate(next) {
   next();
 });
 
-export const Event = mongoose.model('event', eventSchema);
+const Event = mongoose.model('event', eventSchema);
+
+export default Event;

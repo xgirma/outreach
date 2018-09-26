@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
 import * as err from '../../modules/error';
 
-const required = '~ is required';
-
-export const schema = {
+const schema = {
   sl: {
-    title: { type: String, maxlength: 200, required: [true, required] },
-    description: { type: String, required: [true, required] },
+    title: { type: String, maxlength: 200, required: true },
+    description: { type: String, required: true },
   },
   en: {
-    title: { type: String, maxlength: 200, required: [true, required] },
-    description: { type: String, required: [true, required] },
+    title: { type: String, maxlength: 200, required: true },
+    description: { type: String, required: true },
   },
   author: {
     type: String,
@@ -22,19 +20,19 @@ export const schema = {
     type: Date,
     default: Date.now,
     index: true,
-    required: [true, required],
+    required: true,
   },
   tag: [String],
   adminname: {
     type: String,
-    required: [true, required],
+    required: true,
     maxlength: 50,
   },
   date: {
     type: Date,
     default: Date.now,
     index: true,
-    required: [true, required],
+    required: true,
   },
 };
 
@@ -52,4 +50,6 @@ blogSchema.pre('validate', function introValidate(next) {
   next();
 });
 
-export const Blog = mongoose.model('blog', blogSchema);
+const Blog = mongoose.model('blog', blogSchema);
+
+export default Blog; // TODO prevent past dateStart

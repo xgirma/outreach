@@ -3,7 +3,7 @@ import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 import logger from '../../modules/logger';
 
-export const schema = {
+const schema = {
   username: {
     type: String,
     unique: true,
@@ -38,4 +38,6 @@ adminsSchema.methods = {
   },
 };
 
-export const Admins = mongoose.model('admins', adminsSchema);
+const Admins = mongoose.model('admins', adminsSchema);
+
+export default Admins;
