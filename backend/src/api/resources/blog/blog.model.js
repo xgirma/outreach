@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import * as err from '../../modules/error';
 
-const schema = {
+export const schema = {
   sl: {
     title: { type: String, maxlength: 200, required: true },
     description: { type: String, required: true },
@@ -50,6 +50,4 @@ blogSchema.pre('validate', function introValidate(next) {
   next();
 });
 
-const Blog = mongoose.model('blog', blogSchema);
-
-export default Blog; // TODO prevent past dateStart
+export const Blog = mongoose.model('blog', blogSchema); // TODO prevent past dateStart

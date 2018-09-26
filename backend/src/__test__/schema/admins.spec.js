@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Admins from '../../api/resources/admins/admins.model';
+import { Admins } from '../../api/resources/admins/admins.model';
 import { admin as fakerAdmins } from '../faker.request.body';
 
 const adminUser = { passwordHash: fakerAdmins.password, username: fakerAdmins.username, role: '0' };

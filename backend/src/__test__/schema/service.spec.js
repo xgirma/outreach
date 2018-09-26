@@ -1,7 +1,7 @@
 import faker from 'faker';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Service from '../../api/resources/service/service.model';
+import { Service } from '../../api/resources/service/service.model';
 import { service as fakerService } from '../faker.request.body';
 
 dotenv.config();

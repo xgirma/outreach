@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const schema = {
+export const schema = {
   sl: { description: { type: String, default: '' } },
   en: { description: { type: String, default: '' } },
   title: {
@@ -27,6 +27,4 @@ const schema = {
 };
 
 const mediaSchema = new mongoose.Schema(schema);
-const Media = mongoose.model('media', mediaSchema);
-
-export default Media;
+export const Media = mongoose.model('media', mediaSchema);

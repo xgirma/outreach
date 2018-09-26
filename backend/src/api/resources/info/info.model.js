@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 
-const schema = {
+export const schema = {
   sl: {
     name: { type: String, required: true, maxlength: 200 },
     denomination: {
@@ -51,6 +51,4 @@ const schema = {
 };
 
 const infoSchema = new mongoose.Schema(schema);
-const Info = mongoose.model('info', infoSchema);
-
-export default Info;
+export const Info = mongoose.model('info', infoSchema);

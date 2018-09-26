@@ -1,7 +1,7 @@
 import faker from 'faker';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Media from '../../api/resources/media/media.model';
+import { Media } from '../../api/resources/media/media.model';
 import { media as fakerMedia } from '../faker.request.body';
 
 dotenv.config();

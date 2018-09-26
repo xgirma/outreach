@@ -5,7 +5,7 @@ import * as err from './../../modules/error';
 
 const now = moment().format('YYYY-MM-DD');
 
-const schema = {
+export const schema = {
   sl: {
     title: { type: String, maxlength: 200, required: true },
     description: { type: String },
@@ -57,6 +57,4 @@ eventSchema.pre('validate', function validateEventDate(next) {
   next();
 });
 
-const Event = mongoose.model('event', eventSchema);
-
-export default Event;
+export const Event = mongoose.model('event', eventSchema);

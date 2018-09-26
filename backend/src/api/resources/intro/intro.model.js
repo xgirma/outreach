@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import * as err from './../../modules/error';
 
-const schema = {
+export const schema = {
   sl: {
     title: { type: String, maxlength: 200, default: '' },
     author: { type: String, maxlength: 100, default: '' },
@@ -45,6 +45,4 @@ introSchema.pre('validate', function introValidate(next) {
   next();
 });
 
-const Intro = mongoose.model('intro', introSchema);
-
-export default Intro;
+export const Intro = mongoose.model('intro', introSchema);

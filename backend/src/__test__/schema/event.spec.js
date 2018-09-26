@@ -2,7 +2,7 @@ import faker from 'faker';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import moment from 'moment/moment';
-import Event from '../../api/resources/event/event.model';
+import { Event } from '../../api/resources/event/event.model';
 import { event as fakerEvent } from '../faker.request.body';
 
 dotenv.config();

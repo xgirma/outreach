@@ -1,7 +1,7 @@
 import faker from 'faker';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Info from '../../api/resources/info/info.model';
+import { Info } from '../../api/resources/info/info.model';
 import { info as fakerInfo } from '../faker.request.body';
 
 dotenv.config();
