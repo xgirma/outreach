@@ -1,6 +1,5 @@
 export * from './authentication';
 export * from './constants';
-export * from './headers';
 export * from './history';
 export * from './requester';
 export * from './text-editor';
