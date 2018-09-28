@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 dotenv.config();
 
 if (process.env.NODE_ENV !== 'production') {
-  mongoose.set('debug', true);
+  // mongoose.set('debug', true); enable when needed
 }
 
 mongoose.set('useFindAndModify', false);
@@ -20,7 +20,7 @@ mongoose.connection.on('connected', () => {
 });
 
 mongoose.connection.on('error', (err) => {
-  logger.info('Mongoose connection error', { err });
+  logger.error('Mongoose connection error', { err });
 });
 
 mongoose.connection.on('disconnected', () => {

@@ -11,17 +11,13 @@ import { signToken, decodeToken } from './auth';
 import logger from './logger';
 
 export const controllers = {
-  /*
-   * Writes a supper admin to database if it dose not exist
+  /**
+   * Writes a supper admin if it dose not exist
    *
    * @param model: admin user model
    * @param body: object containing username and password
-   *    {
-   *      username: "John.Doe",
-   *      password: "p-U:QaA/3G"
-   *    }
    *
-   * @return: a new admin (role = 0) or error
+   * @return: a new super admin or error
    *
    * This function may fail for several reasons
    * - invalid request body
@@ -45,27 +41,14 @@ export const controllers = {
       });
   },
 
-  /*
+  /**
    * Super-admin writes an admin to database
    *
    * @param model: admin user model
    * @param body - object containing username and password
-   *    {
-   *      username: "John.Doe",
-   *      password: "p-U:QaA/3G"
-   *    }
    * @param user - super-admin user object
-   *    {
-   *      _id: "5b306f3331c68b024299ee26",
-   *      username: "John.Doe",
-   *      passwordHash: "$2b$10$5pbNcCAsqoR247LPcFnhB.tv8uD66ZJTmdYoOW4WbZaJ3PhZlgM/m",
-   *      role: 0,
-   *      createdAt: 2018-06-25T04:19:45.080Z,
-   *      updatedAt: 2018-06-25T04:19:45.080Z,
-   *      __v: 0
-   *    },
    *
-   *  @return: new admin (role = 1) / error
+   *  @return: new admin (role = 1) or error
    *
    *  This function may fail for several reasons
    *  - invalid request body
@@ -77,7 +60,7 @@ export const controllers = {
       .exec()
       .then((doc) => {
         if (isEmpty(doc)) {
-          logger.warning('super-admin user is not found in database');
+          logger.warning('Super-admin user is not found in database');
           return null;
         }
 
@@ -90,12 +73,12 @@ export const controllers = {
           return model.create(newAdmin);
         }
 
-        logger.warning('a non super-admin user attempted to create admin');
+        logger.warning('An admin user attempted to create admin');
         return null;
       })
       .catch((error) => {
         if (error.name === 'ValidationError') {
-          logger.warn('duplicate user', { error });
+          logger.debug('Duplicate user', { error });
           throw err.Forbidden('user already exists');
         }
         throw error;
@@ -137,12 +120,11 @@ export const controllers = {
   },
 };
 
-/*
- * Creates supper admin if it dose not exist and sign a token
+/**
+ * Creates supper admin if it dose not exist and return a token
  *
  * @param model: admin user model
- *
- * @return: a token / error
+ * @return: a super admin token or error
  *
  * This function may fail for several reasons
  * - if super admin already exist
@@ -158,14 +140,14 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
       if (superAdmin) {
         const { id, username } = superAdmin;
         const token = signToken(id);
-        logger.info('supper-admin is registered', { username });
+        logger.debug('Supper-admin is registered by', username);
         res.status(201).json({
           status: 'success',
           data: { token },
         });
       } else {
         const { username } = body;
-        logger.warn('failed supper-admin registration', { username });
+        logger.warn('Failed supper-admin registration by ', username);
         throw err.Forbidden('user already exists');
       }
     })
@@ -174,12 +156,11 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
     });
 };
 
-/*
+/**
  * Creates admin
  *
  * @param model: admin user model
- *
- * @return: success with no data / error
+ * @return: success with no data or error
  *
  * This function may fail for several reasons
  * - if admin with the same name already exists
@@ -195,11 +176,11 @@ export const registerAdmin = (model) => (req, res, next) => {
     .addAdmin(model, body, user)
     .then((newAdmin) => {
       if (newAdmin) {
-        logger.info('admin is registered', { name: newAdmin.username });
+        logger.debug('Admin is registered by ', newAdmin.username);
         res.status(201).json({ status: 'success', data: { temporaryPassword } });
       } else {
         const { username } = body;
-        logger.warn('failed admin registration', { username });
+        logger.warn('Failed admin registration by ', username);
         throw err.Forbidden();
       }
     })
@@ -208,7 +189,7 @@ export const registerAdmin = (model) => (req, res, next) => {
     });
 };
 
-/*
+/**
  * Requesting user super-admin :-> gets all admin user data
  * Requesting user admin :-> gets its own user data only
  *
@@ -240,7 +221,7 @@ export const getAdmins = (model) => (req, res, next) => {
   }
 };
 
-/*
+/**
  * Requesting user super-admin :-> gets any admin user data by id, including self
  * Requesting user admin :-> gets its own user data only
  *
@@ -270,7 +251,7 @@ export const getAdmin = (model) => (req, res, next) => {
   }
 };
 
-/*
+/**
  * Requesting user super-admin :-> delete any admin user by id
  * Requesting user admin :-> delete itself only
  *
@@ -286,7 +267,7 @@ export const deleteAdmin = (model) => (req, res, next) => {
     controllers
       .deleteOne(req.docFromId)
       .then((admin) => {
-        logger.info('admin deleted', { name: admin.username });
+        logger.debug('Admin deleted by ', admin.username);
         res.status(202).json({
           status: 'success',
           data: {},
@@ -295,19 +276,19 @@ export const deleteAdmin = (model) => (req, res, next) => {
       .catch((error) => setImmediate(() => next(error))); //
   } else if (user._id.equals(req.docFromId.id)) {
     controllers.deleteOne(user).then((self) => {
-      logger.info('admin deleted', { name: self.username });
+      logger.debug('Admin deleted ', self.username);
       res.status(202).json({
         status: 'success',
         data: {},
       });
     });
   } else {
-    logger.warn('unauthorized attempted to delete admin', { data: req.docFromId.username });
+    logger.warn('Unauthorized attempted to delete admin ', req.docFromId.username);
     setImmediate(() => next(err.Unauthorized()));
   }
 };
 
-/*
+/**
  * By super-admin
  * 1.1. update super-admin (self) password: {newPassword, newPasswordAgain, currentPassword }
  * 1.2. update other admin password { id, return temporary password }
@@ -337,7 +318,7 @@ export const updateAdmin = (model) => (req, res, next) => {
     passwordStrengthTest(newPassword);
 
     if (newPassword !== newPasswordAgain) {
-      logger.info('new passwords do not match');
+      logger.debug('New passwords do not match');
       throw err.BadRequest('new passwords do not match');
     }
 
@@ -346,7 +327,7 @@ export const updateAdmin = (model) => (req, res, next) => {
     }
 
     if (!docFromId.authenticate(currentPassword)) {
-      logger.info('provided current password is wrong');
+      logger.debug('Provided current password is wrong');
       throw err.Forbidden('wrong current password');
     }
   };
@@ -363,7 +344,7 @@ export const updateAdmin = (model) => (req, res, next) => {
         .updateOne(docFromId, update)
         .then((admin) => {
           const { username } = admin;
-          logger.info('super-admin password updated by ', { username });
+          logger.info('Super-admin password updated by ', username);
           res.status(202).json({
             status: 'success',
             data: {},
@@ -379,7 +360,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       .updateOne(docFromId, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('temporary admin password created by', { username });
+        logger.info('Temporary admin password created by', username);
         res.status(201).json({
           status: 'success',
           data: { temporaryPassword },
@@ -397,7 +378,7 @@ export const updateAdmin = (model) => (req, res, next) => {
       .updateOne(docFromId, update)
       .then((admin) => {
         const { username } = admin;
-        logger.info('admin password updated by ', { username });
+        logger.info('Admin password updated by ', username);
         res.status(202).json({
           status: 'success',
           data: {},
@@ -407,7 +388,7 @@ export const updateAdmin = (model) => (req, res, next) => {
   }
   // 2.2.
   const { username } = user;
-  logger.warn('admin attempted to update other (super-)admin', { username });
+  logger.warn(username, 'Admin attempted to update other (super-)admin');
   return setImmediate(() => next(err.Unauthorized()));
 };
 
@@ -417,7 +398,7 @@ export const createOne = (model) => (req, res, next) => {
   return controllers
     .createOne(model, body, username)
     .then((doc) => {
-      logger.info('resource created', { doc, username });
+      logger.debug('Resource created by ', username);
       res.status(201).json({
         status: 'success',
         data: {},
@@ -425,7 +406,7 @@ export const createOne = (model) => (req, res, next) => {
     })
     .catch((error) => {
       if (error.code === 11000) {
-        logger.warn('attempted to duplicate document', { error });
+        logger.debug('Duplicate document insertion', { error });
         setImmediate(() => next(err.BadRequest('mongodb duplicate key error')));
       } else {
         setImmediate(() => next(error));
@@ -439,7 +420,7 @@ export const updateOne = () => (req, res, next) => {
   return controllers
     .updateOne(docFromId, body, username)
     .then((doc) => {
-      logger.info('successful update', { doc, username });
+      logger.debug('Successful update by ', username);
       res.status(202).json({
         status: 'success',
         data: {},
@@ -454,7 +435,7 @@ export const deleteOne = () => (req, res, next) => {
   return controllers
     .deleteOne(docFromId)
     .then((doc) => {
-      logger.info('successful delete', { doc, username });
+      logger.debug('Successful delete by ', username);
       res.status(202).json({
         status: 'success',
         data: {},
@@ -504,7 +485,7 @@ export const findByIdParam = (model) => (req, res, next, id) => {
     controllers
       .findByParam(model, id)
       .then((doc) => {
-        if (!doc) throw err.NotFound('no resource found with this Id');
+        if (!doc) throw err.NotFound('no resource found with this ID');
         req.docFromId = doc;
         next();
       })

@@ -10,6 +10,10 @@ const dbUrl = process.env.MONGODB_URL;
 const adminname = faker.name.findName();
 const blankHtml = '<p><br></p>';
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
 describe('SCHEMA: BLOG', () => {
   it('should have english language blog', () => {
     const { en, ...part } = fakerBlog;

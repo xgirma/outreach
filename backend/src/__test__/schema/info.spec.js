@@ -9,6 +9,10 @@ dotenv.config();
 const dbUrl = process.env.MONGODB_URL;
 const adminname = faker.name.findName();
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
 describe('SCHEMA: INFO', () => {
   it('should have english language bible { verse, from }, denomination, and name', () => {
     const { en, ...part } = fakerInfo;

@@ -267,7 +267,7 @@ describe(`${resources.join(', ').toUpperCase()}`, () => {
             .get(`/api/v1/${resources[1]}/${mongoId}`)
             .set('Authorization', `Bearer ${jwt}`);
 
-          assert.notFound(result, 'no resource found with this Id');
+          assert.notFound(result, 'no resource found with this ID');
         });
       });
     });
@@ -528,7 +528,7 @@ describe(`${resources.join(', ').toUpperCase()}`, () => {
             .delete(`/api/v1/${resources[1]}/${ids[2]}`)
             .set('Authorization', `Bearer ${jwt}`);
 
-          assert.notFound(result, 'no resource found with this Id');
+          assert.notFound(result, 'no resource found with this ID');
         });
 
         test('202 - Accepted - delete self (super-admin)', async () => {
