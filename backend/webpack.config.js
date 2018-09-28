@@ -44,7 +44,7 @@ module.exports = {
         MONGODB_URL: JSON.stringify('mongodb://localhost:27017/outreach'),
         BACKEND_URL: JSON.stringify('http://localhost:3005'),
         JWT_EXPIRATION_TIME: JSON.stringify('1h'),
-        JWT_SECRET: JSON.stringify('gumball'),
+        JWT_SECRET: JSON.stringify('thereisnosecretunderthesun'),
         BACKEND_PORT: JSON.stringify('3005'),
         LOG_LEVEL: JSON.stringify('silly'),
         BODY_LIMIT: JSON.stringify('100kb'),

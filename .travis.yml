@@ -10,7 +10,7 @@ env:
   - MONGODB_URL=mongodb://localhost:27017/outreach
   - BACKEND_URL=http://localhost:3005
   - JWT_EXPIRATION_TIME=1h
-  - JWT_SECRET=gumball
+  - JWT_SECRET=thereisnosecretunderthesun
   matrix:
   - BACKEND_DIR=backend
 services: mongodb
