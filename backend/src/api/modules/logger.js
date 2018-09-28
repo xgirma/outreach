@@ -1,51 +1,28 @@
 import winston from 'winston';
-import moment from 'moment';
 import dotenv from 'dotenv';
 
-// eslint-disable-next-line
-const { MongoDB } = require('winston-mongodb');
 dotenv.config();
 
 const winstonOptions = {
   console: {
-    level: process.env.CONSOLE_LOG_LEVEL,
+    level: process.env.LOG_LEVEL,
     colorize: true,
-    timestamp: () => {
-      const today = moment();
-      return today.format('MM-DD-YYYY HH:mm:ssa');
-    },
     prettyPrint: true,
     handleExceptions: true,
     humanReadableUnhandledException: true,
+    json: false,
   },
-  // mongodb: {
-  //   name: 'all',
-  //   level: process.env.MONGODB_LOG_LEVEL,
-  //   db: process.env.MONGODB_URL,
-  //   collection: process.env.MONGODB_COLLECTION_INFO,
-  //   storeHost: true,
-  //   tryReconnect: true,
-  //   decolorize: true,
-  // },
-  // errordb: {
-  //   name: 'error-only',
-  //   level: 'error',
-  //   db: process.env.MONGODB_URL,
-  //   collection: process.env.MONGODB_COLLECTION_ERROR,
-  //   storeHost: true,
-  //   tryReconnect: true,
-  //   decolorize: true,
-  // },
 };
 
 const logger = new winston.Logger({
-  transports: [
-    new winston.transports.Console(winstonOptions.console),
-    // TODO resolve the conflict with Jest and put-back
-    // new winston.transports.MongoDB(winstonOptions.mongodb),
-    // new winston.transports.MongoDB(winstonOptions.errordb),
-  ],
+  transports: [new winston.transports.Console(winstonOptions.console)],
   exitOnError: false,
 });
+
+logger.stream = {
+  write(message) {
+    logger.silly(message);
+  },
+};
 
 export default logger;

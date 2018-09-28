@@ -2,6 +2,15 @@ language: node_js
 node_js:
   - node
 env:
+  global:
+  - NODE_ENV=test
+  - LOG_LEVEL=silly
+  - BODY_LIMIT=100kb
+  - BACKEND_PORT=3005
+  - MONGODB_URL=mongodb://localhost:27017/outreach
+  - BACKEND_URL=http://localhost:3005
+  - JWT_EXPIRATION_TIME=1h
+  - JWT_SECRET=gumball
   matrix:
   - BACKEND_DIR=backend
 services: mongodb

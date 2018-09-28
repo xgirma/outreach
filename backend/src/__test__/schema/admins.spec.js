@@ -8,6 +8,9 @@ const adminUser = { passwordHash: fakerAdmins.password, username: fakerAdmins.us
 dotenv.config();
 
 const dbUrl = process.env.MONGODB_URL;
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
 
 describe('SCHEMA: ADMINS', () => {
   it('should have username', () => {

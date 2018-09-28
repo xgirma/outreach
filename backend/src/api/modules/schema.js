@@ -20,7 +20,7 @@ const createAdmin = {
   maxProperties: 2,
 };
 
-/*
+/**
  * Test if req.body have proper schema
  *
  * This function may fail for several reasons
@@ -31,7 +31,7 @@ export const usernamePasswordObject = (body) => {
 
   if (testBody.errors.length > 0) {
     const { errors } = testBody;
-    logger.warn('request body validation error', { errors });
+    logger.debug('Request body validation error', { errors });
     throw err.BadRequest('proper username and password is required');
   }
 };
@@ -46,7 +46,7 @@ const username = {
   maxProperties: 1,
 };
 
-/*
+/**
  * Test if POST /admins req.body have proper schema
  *
  * May fail for several reasons
@@ -57,7 +57,7 @@ export const usernameObject = (body) => {
 
   if (testBody.errors.length > 0) {
     const { errors } = testBody;
-    logger.warn('request body validation error', { errors });
+    logger.debug('request body validation error', { errors });
     throw err.BadRequest('proper username and password is required');
   }
 };
@@ -89,7 +89,7 @@ const updateAdmin = {
   maxProperties: 3,
 };
 
-/*
+/**
  * Test if req.body have proper schema
  *
  * This function may fail for several reasons
@@ -100,7 +100,7 @@ export const updatePasswordObject = (body) => {
 
   if (testBody.errors.length > 0) {
     const { errors } = testBody;
-    logger.warn('request body validation error', { errors });
+    logger.debug('request body validation error', { errors });
     throw err.BadRequest('proper current and new password is required');
   }
 };

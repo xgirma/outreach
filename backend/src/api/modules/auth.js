@@ -15,14 +15,14 @@ export const verifyUser = (req, res, next) => {
   return Admins.findOne({ username })
     .then((user) => {
       if (!user) {
-        logger.warn('signin: username not found', { username });
+        logger.warn('Invalid signing attempt from ', req.ip);
         return setImmediate(() => next(err.Forbidden()));
       } else if (!user.authenticate(password)) {
-        logger.warn('signin: wrong password', { username });
+        logger.warn('Invalid signing attempt from ', req.ip);
         return setImmediate(() => next(err.Forbidden()));
       }
       req.user = user;
-      logger.info('signin: success', { username });
+      logger.debug('Good signin ', username);
       return next();
     })
     .catch((error) => {
@@ -31,7 +31,7 @@ export const verifyUser = (req, res, next) => {
 };
 
 export const signToken = (id, role) =>
-  jwt.sign({ id, role }, secret, { expiresIn: process.env.EXPIRATION_TIME });
+  jwt.sign({ id, role }, secret, { expiresIn: process.env.JWT_EXPIRATION_TIME });
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
@@ -52,7 +52,7 @@ export const getFreshUser = () => (req, res, next) =>
   Admins.findById(req.user.id)
     .then((user) => {
       if (!user) {
-        logger.info('unauthorized login attempt: ', { user });
+        logger.warn('Bad username ', req.ip);
         return setImmediate(() => next(err.Unauthorized()));
       }
       req.user = user;

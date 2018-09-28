@@ -32,8 +32,12 @@ export const badFormatToken =
 
 export const mongoId = '5b1de7ac698c71055ef657f3';
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
 export const dropDatabase = () =>
-  mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true }).then(() =>
+  mongoose.connect(process.env.MONGODB_URL).then(() =>
     Promise.all(
       mongoose.modelNames().map((modelName) => {
         const Model = mongoose.model(modelName);

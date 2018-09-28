@@ -21,6 +21,10 @@ const dateInPast = moment()
   .format();
 const today = moment().format();
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useNewUrlParser', true);
+
 describe('SCHEMA: EVENT', () => {
   it('should have english language title', () => {
     const { en, ...part } = fakerEvent;
