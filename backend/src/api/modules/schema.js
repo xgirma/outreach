@@ -1,6 +1,9 @@
 import { Validator } from 'jsonschema';
+import { isMongoId } from 'validator';
 import * as err from './error';
 import logger from './logger';
+
+// TODO rename to validator
 
 const validator = new Validator();
 
@@ -102,5 +105,30 @@ export const updatePasswordObject = (body) => {
     const { errors } = testBody;
     logger.debug('request body validation error', { errors });
     throw err.BadRequest('proper current and new password is required');
+  }
+};
+
+/**
+ * Throws BadRequest if id is not mongoID
+ * @param id = mongoID
+ * @throws 400
+ */
+export const isValidMongoID = (id = '') => {
+  if (!isMongoId(id)) {
+    logger.error('Non mongoID is provided. Use proper mongoID');
+    throw err.BadRequest('proper mongoID required');
+  }
+};
+
+/**
+ * Throws BadRequest is role is not 0 or 1
+ * @param role
+ * @throws 400
+ */
+export const isValidRole = (role = '-1') => {
+  const set = [1, 0, '1', '0'];
+  if (!set.includes(role)) {
+    logger.error('Invalid role provided. Role must be either 0 or 1');
+    throw err.BadRequest('role must be either 0 or 1');
   }
 };

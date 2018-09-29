@@ -2,24 +2,23 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
-import * as err from './error';
-import * as test from './schema';
+import { Forbidden, Unauthorized } from './error';
+import { usernamePasswordObject, isValidMongoID, isValidRole } from './schema';
 
-const secret = process.env.JWT_SECRET;
-const checkToken = expressJwt({ secret });
+const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
 
 export const verifyUser = (req, res, next) => {
-  test.usernamePasswordObject(req.body);
+  usernamePasswordObject(req.body);
   const { username, password } = req.body;
 
   return Admins.findOne({ username })
     .then((user) => {
       if (!user) {
         logger.warn('Invalid signing attempt from ', req.ip);
-        return setImmediate(() => next(err.Forbidden()));
+        return setImmediate(() => next(Forbidden()));
       } else if (!user.authenticate(password)) {
         logger.warn('Invalid signing attempt from ', req.ip);
-        return setImmediate(() => next(err.Forbidden()));
+        return setImmediate(() => next(Forbidden()));
       }
       req.user = user;
       logger.debug('Good signin ', username);
@@ -30,14 +29,37 @@ export const verifyUser = (req, res, next) => {
     });
 };
 
-export const signToken = (id, role) =>
-  jwt.sign({ id, role }, secret, { expiresIn: process.env.JWT_EXPIRATION_TIME });
+/**
+ * Given mongoID and role returns JWT token
+ * @param id: mongodb ID
+ * @param role: 0 or 1, 0 for supper-admin, 1 for admin
+ * @returns {string}
+ * This function may fail for several reasons
+ *  - no or bad mongoID
+ *  - role other than 1 or 0
+ *  - no secret
+ */
+export const signToken = (id, role) => {
+  try {
+    isValidMongoID(id);
+    isValidRole(role);
+    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRATION_TIME,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
 /* eslint-disable-next-line */
 export const signin = (req, res, next) => {
   const { id, role } = req.user;
-  const token = signToken(id, role);
-  res.status(200).json({ status: 'success', data: { id, role, token } });
+  try {
+    const token = signToken(id, role);
+    res.status(200).json({ status: 'success', data: { id, role, token } });
+  } catch (error) {
+    setImmediate(() => next(error));
+  }
 };
 
 export const decodeToken = () => (req, res, next) => {
@@ -53,7 +75,7 @@ export const getFreshUser = () => (req, res, next) =>
     .then((user) => {
       if (!user) {
         logger.warn('Bad username ', req.ip);
-        return setImmediate(() => next(err.Unauthorized()));
+        return setImmediate(() => next(Unauthorized()));
       }
       req.user = user;
       return setImmediate(() => next());

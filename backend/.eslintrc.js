@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     'no-underscore-dangle': 0,
     'import/no-extraneous-dependencies': 0,
+    'import/prefer-default-export': 0,
   },
   plugins: ['json', 'prettier', 'markdown', 'import'],
 };

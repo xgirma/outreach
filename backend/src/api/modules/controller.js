@@ -139,7 +139,7 @@ export const registerSuperAdmin = (model) => (req, res, next) => {
     .then((superAdmin) => {
       if (superAdmin) {
         const { id, username } = superAdmin;
-        const token = signToken(id);
+        const token = signToken(id, '0');
         logger.debug('Supper-admin is registered by', username);
         res.status(201).json({
           status: 'success',

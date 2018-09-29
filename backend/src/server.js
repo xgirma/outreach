@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import { restRouter } from './api';
 import { NotFound } from './api/modules/error';
 import setGlobalMiddleware from './middleware';
-import swaggerDocument from './api/docs/swagger.json';
+import swaggerDocument from './api/swagger/swagger.json';
 import connect from './db';
 import apiErrorHandler from './api/modules/errorHandler';
 
