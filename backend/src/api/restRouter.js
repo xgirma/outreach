@@ -10,8 +10,8 @@ import { verifyUser, signin, protect } from './modules/auth';
 
 const restRouter = express.Router();
 
-restRouter.post('/register', superAdminsRouter);
-restRouter.post('/signin', verifyUser, signin);
+restRouter.use('/register', superAdminsRouter);
+restRouter.use('/signin', verifyUser, signin);
 
 restRouter.use('/admins', protect, adminsRouter);
 restRouter.use('/blog', protect, blogRouter);

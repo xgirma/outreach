@@ -19,7 +19,6 @@
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
-    "csurf": "^1.9.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
@@ -48,12 +47,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json}": [
-      "npm run backend:eslint",
-      "npm run backend:prettier",
-      "npm run backend:test",
-      "git add"
-    ]
+    "*.{js,json}": ["npm run backend:eslint", "npm run backend:prettier", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

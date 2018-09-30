@@ -2,11 +2,9 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import csurf from 'csurf';
 import logger from './api/modules/logger';
 
 const setGlobalMiddleware = (app) => {
-  app.use(csurf());
   app.use(helmet());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json({ limit: process.env.BODY_LIMIT }));
