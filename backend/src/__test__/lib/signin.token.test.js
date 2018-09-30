@@ -1,68 +1,64 @@
 import proxyquire from 'proxyquire';
 import jwt from 'jsonwebtoken';
-import { expect } from 'chai';
+import { ok, deepStrictEqual } from 'assert';
 import sinon from 'sinon';
 import * as id from '../../validators/mongo.id';
 import * as role from '../../validators/role';
 
-let auth;
+let lib;
 
-describe('signToken', () => {
+describe('SIGNIN TOKEN', () => {
   let isValidMongoIDStub;
   let isValidRoleStub;
   const mongoID = '5b1de7ac698c71055ef657f3';
   const roleType = '0';
-  const fakeErrorName = 'fake error name';
 
   beforeEach(() => {
     isValidRoleStub = sinon.stub(role, 'isValidRole');
     isValidMongoIDStub = sinon.stub(id, 'isValidMongoID');
-    auth = proxyquire('../../lib/sign.token.js', {
+    lib = proxyquire('../../lib/sign.token.js', {
       id: { isValidRole: isValidRoleStub },
       role: { isValidMongoID: isValidMongoIDStub },
     });
   });
 
   afterEach(() => {
-    role.isValidRole.restore();
-    id.isValidMongoID.restore();
+    sinon.restore();
   });
 
   it('should return token', () => {
     isValidMongoIDStub.withArgs(mongoID).returns(undefined);
     isValidRoleStub.withArgs(roleType).returns(undefined);
 
-    expect(auth.signToken(mongoID, roleType)).to.be.an('string');
-    jwt.verify(auth.signToken(mongoID, roleType), process.env.JWT_SECRET, (error, decoded) => {
-      expect(error).to.equal(null);
-      expect(decoded).to.have.property('id');
-      expect(decoded).to.have.property('role');
-      expect(decoded.id).to.equal(mongoID);
-      expect(decoded.role).to.equal(roleType);
+    const result = lib.signToken(mongoID, roleType);
+    deepStrictEqual(typeof result, 'string');
+
+    jwt.verify(lib.signToken(mongoID, roleType), process.env.JWT_SECRET, (error, decoded) => {
+      ok(!error);
+      deepStrictEqual(decoded.id, mongoID);
+      deepStrictEqual(decoded.role, roleType);
     });
   });
 
   it('bad mongoID should throw error', async () => {
-    isValidMongoIDStub.throws(fakeErrorName);
+    isValidMongoIDStub.throws(new Error('fake error'));
     isValidRoleStub.withArgs(roleType).returns(undefined);
 
     try {
-      auth.signToken(mongoID, roleType);
+      lib.signToken(mongoID, roleType);
     } catch (error) {
-      expect(error).not.to.equal(null);
-      expect(error.name).to.equal(fakeErrorName);
+      ok(error);
     }
   });
 
   it('bad role should throw error', async () => {
     isValidMongoIDStub.withArgs(mongoID).returns(undefined);
-    isValidRoleStub.throws(fakeErrorName);
+    isValidRoleStub.throws('fake error');
 
     try {
-      auth.signToken(mongoID, roleType);
+      lib.signToken(mongoID, roleType);
     } catch (error) {
-      expect(error).not.to.equal(null);
-      expect(error.name).to.equal(fakeErrorName);
+      ok(error);
     }
   });
 });

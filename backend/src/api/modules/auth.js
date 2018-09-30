@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import { Forbidden, Unauthorized } from './error';
-import { usernamePasswordObject, isValidMongoID, isValidRole } from './schema';
+import { usernamePasswordObject } from './schema';
+import { signToken } from '../../lib/sign.token';
 
 const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
 
@@ -21,34 +21,12 @@ export const verifyUser = (req, res, next) => {
         return setImmediate(() => next(Forbidden()));
       }
       req.user = user;
-      logger.debug('Good signin ', username);
+      logger.debug(`${username} is a registered user`);
       return next();
     })
     .catch((error) => {
       setImmediate(() => next(error));
     });
-};
-
-/**
- * Given mongoID and role returns JWT token
- * @param id: mongodb ID
- * @param role: 0 or 1, 0 for supper-admin, 1 for admin
- * @returns {string}
- * This function may fail for several reasons
- *  - no or bad mongoID
- *  - role other than 1 or 0
- *  - no secret
- */
-export const signToken = (id, role) => {
-  try {
-    isValidMongoID(id);
-    isValidRole(role);
-    return jwt.sign({ id, role }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRATION_TIME,
-    });
-  } catch (error) {
-    throw error;
-  }
 };
 
 /* eslint-disable-next-line */

@@ -5,7 +5,8 @@ import { isValidRole } from '../validators/role';
 /**
  * Given mongoID and role returns JWT token
  * @param id: mongodb ID
- * @param role: 0 or 1, 0 for supper-admin, 1 for admin
+ * @param role: [0, 1]
+ * @throws 400
  * @returns {string}
  * This function may fail for several reasons
  *  - no or bad mongoID

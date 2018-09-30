@@ -32,6 +32,8 @@ export const badFormatToken =
 
 export const mongoId = '5b1de7ac698c71055ef657f3';
 
+export const badMongoId = '5b1de7ac698c71055ef657f33333';
+
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
@@ -78,5 +80,3 @@ export const weakPasswordErrors = [
   'The password must contain at least one number.',
   'The password must contain at least one special character.',
 ];
-
-export const badMongoId = '5b1de7ac698c71055ef657f33333';
