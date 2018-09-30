@@ -7,7 +7,8 @@ import { passwordStrengthTest, passwordConfig } from './password';
 import * as test from './schema';
 import * as err from './error';
 import { Admins } from '../resources/admins/admins.model';
-import { signToken, decodeToken } from './auth';
+import { decodeToken } from './auth';
+import { signToken } from '../../lib/sign.token';
 import logger from './logger';
 
 export const controllers = {

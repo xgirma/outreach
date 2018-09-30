@@ -5,6 +5,7 @@
   "main": "dist",
   "scripts": {
     "backend:start": "./node_modules/.bin/webpack --colors --progress",
+    "backend:debug": "DEBUG=express:* ./node_modules/.bin/webpack --colors --progress",
     "backend:test": "jest --verbose --bail --coverage --runInBand --detectOpenHandles",
     "backend:test:watch": "jest --watch --verbose",
     "backend:eslint": "./node_modules/.bin/eslint src --fix",
