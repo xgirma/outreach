@@ -3,7 +3,6 @@ import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import { Forbidden, Unauthorized } from './error';
 import { usernamePasswordObject } from './schema';
-import { signToken } from '../../lib/sign.token';
 
 const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
 
@@ -27,17 +26,6 @@ export const verifyUser = (req, res, next) => {
     .catch((error) => {
       setImmediate(() => next(error));
     });
-};
-
-/* eslint-disable-next-line */
-export const signin = (req, res, next) => {
-  const { id, role } = req.user;
-  try {
-    const token = signToken(id, role);
-    res.status(200).json({ status: 'success', data: { id, role, token } });
-  } catch (error) {
-    setImmediate(() => next(error));
-  }
 };
 
 export const decodeToken = () => (req, res, next) => {
