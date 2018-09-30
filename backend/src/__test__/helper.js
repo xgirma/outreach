@@ -73,6 +73,7 @@ export const password = {
   LONG: `${part}${part}${part}${part}6Zu4G2TP6b9wEbEGD`,
   STRONG: 'o-Y:SaM/4W',
   NEW: 'q-W:QzA$3Ss',
+  NUMERIC: '123456789',
 };
 
 export const weakPasswordErrors = [

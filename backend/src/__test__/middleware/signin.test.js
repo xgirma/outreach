@@ -2,7 +2,6 @@ import proxyquire from 'proxyquire';
 import { ok, deepStrictEqual } from 'assert';
 import sinon from 'sinon';
 import * as sign from '../../lib/sign.token';
-import { expiredToken as token, mongoId as id } from '../helper';
 
 let middleware;
 const role = 0;
@@ -15,6 +14,8 @@ describe('SIGNIN MIDDLEWARE', () => {
   res.status = () => {};
   let next;
   let fakeJson = {};
+  const token = 'fake_token';
+  const id = '123';
 
   beforeEach(() => {
     signTokenStub = sinon.stub(sign, 'signToken');

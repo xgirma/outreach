@@ -1,17 +1,15 @@
-/* eslint-disable array-callback-return */
 import proxyquire from 'proxyquire';
-import { expect } from 'chai';
+import { ok, deepStrictEqual } from 'assert';
 import sinon from 'sinon';
 import * as bad from '../../api/modules/error';
 
-let roleValidator;
+let validator;
 const noop = () => {};
 const valid = [1, 0, '1', '0'];
 const invalid = [10, noop, '10', 'o', null, undefined, '', false, {}, [], NaN, -1, [0]];
-const fakeErrorName = 'fake error name';
 
 const testValid = async (roles) =>
-  roles.map((role) => {
+  roles.map((role) =>
     describe('valid role types', () => {
       let badRequestStub;
 
@@ -19,22 +17,22 @@ const testValid = async (roles) =>
         badRequestStub = sinon.stub(bad, 'BadRequest');
       });
 
-      roleValidator = proxyquire('../../validators/role.js', {
+      validator = proxyquire('../../validators/role.js', {
         bad: { BadRequest: badRequestStub },
       });
 
       afterEach(() => {
-        bad.BadRequest.restore();
+        sinon.restore();
       });
 
       it(`${role} type ${typeof role} is valid role type`, () => {
-        expect(roleValidator.isValidRole(role)).to.equal(undefined);
+        deepStrictEqual(validator.isValidRole(role), undefined);
       });
-    });
-  });
+    }),
+  );
 
 const testInvalid = async (roles) =>
-  roles.map((role) => {
+  roles.map((role) =>
     describe('invalid role types', () => {
       let badRequestStub;
 
@@ -42,25 +40,24 @@ const testInvalid = async (roles) =>
         badRequestStub = sinon.stub(bad, 'BadRequest');
       });
 
-      roleValidator = proxyquire('../../validators/role.js', {
+      validator = proxyquire('../../validators/role.js', {
         bad: { BadRequest: badRequestStub },
       });
 
       afterEach(() => {
-        bad.BadRequest.restore();
+        sinon.restore();
       });
 
       it(`${role} type ${typeof role} is invalid role type`, () => {
-        badRequestStub.throws(fakeErrorName);
+        badRequestStub.throws(new Error('fake error'));
         try {
-          roleValidator.isValidRole(role);
+          validator.isValidRole(role);
         } catch (error) {
-          expect(error).not.to.equal(null);
-          expect(error.name).to.equal(fakeErrorName);
+          ok(error);
         }
       });
-    });
-  });
+    }),
+  );
 
 describe('ROLE VALIDATION', () => {
   testValid(valid);

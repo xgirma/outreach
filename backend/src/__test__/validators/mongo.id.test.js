@@ -1,13 +1,11 @@
 import proxyquire from 'proxyquire';
-import { expect } from 'chai';
+import { ok } from 'assert';
 import * as validator from 'validator';
 import sinon from 'sinon';
 import * as bad from '../../api/modules/error';
+import { mongoId, badMongoId } from '../helper';
 
-let mongoIdValidtor;
-const goodMongoID = '5b1de7ac698c71055ef657f3';
-const badMongoID = ['5b1de7ac698c71', ''];
-const fakeErrorName = 'fake error name';
+let validate;
 
 describe('MONGOID VALIDATION', () => {
   let badRequestStub;
@@ -18,42 +16,39 @@ describe('MONGOID VALIDATION', () => {
     isMongoIdStub = sinon.stub(validator, 'isMongoId');
   });
 
-  mongoIdValidtor = proxyquire('../../validators/mongo.id.js', {
+  validate = proxyquire('../../validators/mongo.id.js', {
     bad: { BadRequest: badRequestStub },
     validator: { isMongoId: isMongoIdStub },
   });
 
   afterEach(() => {
-    bad.BadRequest.restore();
-    validator.isMongoId.restore();
+    sinon.restore();
   });
 
   it('should return undefined with valid mongoID', () => {
-    isMongoIdStub.withArgs(goodMongoID).returns(true);
-    expect(mongoIdValidtor.isValidMongoID(goodMongoID)).to.equal(undefined);
+    isMongoIdStub.withArgs(mongoId).returns(true);
+    ok(!validate.isValidMongoID(mongoId));
   });
 
   it('should throw error with invalid mongoID', () => {
-    isMongoIdStub.withArgs(badMongoID[0]).returns(false);
-    badRequestStub.throws(fakeErrorName);
+    isMongoIdStub.withArgs(badMongoId).returns(false);
+    badRequestStub.throws(new Error('fake error'));
 
     try {
-      mongoIdValidtor.isValidMongoID(goodMongoID[0]);
+      validate.isValidMongoID(badMongoId);
     } catch (error) {
-      expect(error).not.to.equal(null);
-      expect(error.name).to.equal(fakeErrorName);
+      ok(error);
     }
   });
 
   it('should throw if no mongoID provided', () => {
-    isMongoIdStub.withArgs(badMongoID[1]).returns(false);
-    badRequestStub.throws(fakeErrorName);
+    isMongoIdStub.withArgs('').returns(false);
+    badRequestStub.throws(new Error('fake error'));
 
     try {
-      mongoIdValidtor.isValidMongoID(badMongoID[1]);
+      validate.isValidMongoID();
     } catch (error) {
-      expect(error).not.to.equal(null);
-      expect(error.name).to.equal(fakeErrorName);
+      ok(error);
     }
   });
 });
