@@ -6,8 +6,9 @@ import introRouter from './resources/intro/intro.restRouter';
 import mediaRouter from './resources/media/media.restRouter';
 import serviceRouter from './resources/service/service.restRouter';
 import { adminsRouter, superAdminsRouter } from './resources/admins/admins.restRouter';
-import { verifyUser, protect } from './modules/auth';
+import { protect } from './modules/auth';
 import { signinToken } from '../middleware/signin.token';
+import { verifyUser } from '../middleware/verify.user';
 
 const restRouter = express.Router();
 

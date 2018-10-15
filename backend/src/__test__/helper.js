@@ -81,3 +81,5 @@ export const weakPasswordErrors = [
   'The password must contain at least one number.',
   'The password must contain at least one special character.',
 ];
+
+export const falsy = [false, null, undefined, 0, NaN, '', ''];
