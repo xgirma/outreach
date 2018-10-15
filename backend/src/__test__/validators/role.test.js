@@ -8,7 +8,7 @@ const noop = () => {};
 const valid = [1, 0, '1', '0'];
 const invalid = [10, noop, '10', 'o', null, undefined, '', false, {}, [], NaN, -1, [0]];
 
-const testValid = async (roles) =>
+const testValid = (roles) =>
   roles.map((role) =>
     describe('valid role types', () => {
       let badRequestStub;
@@ -31,7 +31,7 @@ const testValid = async (roles) =>
     }),
   );
 
-const testInvalid = async (roles) =>
+const testInvalid = (roles) =>
   roles.map((role) =>
     describe('invalid role types', () => {
       let badRequestStub;

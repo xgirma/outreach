@@ -2,12 +2,12 @@ import expressJwt from 'express-jwt';
 import { Admins } from '../resources/admins/admins.model';
 import logger from './logger';
 import { Forbidden, Unauthorized } from './error';
-import { usernamePasswordObject } from './schema';
+import { isValidUsernamePassword } from '../../validators/un.pw';
 
 const checkToken = expressJwt({ secret: process.env.JWT_SECRET });
 
 export const verifyUser = (req, res, next) => {
-  usernamePasswordObject(req.body);
+  isValidUsernamePassword(req.body);
   const { username, password } = req.body;
 
   return Admins.findOne({ username })

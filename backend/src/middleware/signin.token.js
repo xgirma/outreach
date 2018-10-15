@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { signToken } from '../lib/sign.token';
 import { BadRequest } from '../api/modules/error';
 
@@ -16,13 +17,12 @@ import { BadRequest } from '../api/modules/error';
 export const signinToken = (req, res, next) => {
   try {
     if (!req.user) {
-      next(BadRequest('request with no user data'));
-    } else {
-      const { id, role } = req.user;
-      const token = signToken(id, role);
-      res.status(200).json({ status: 'success', data: { id, role, token } });
+      return next(BadRequest('request with no user data'));
     }
+    const { id, role } = req.user;
+    const token = signToken(id, role);
+    res.status(200).json({ status: 'success', data: { id, role, token } });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
