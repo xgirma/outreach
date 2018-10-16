@@ -82,4 +82,5 @@ export const weakPasswordErrors = [
   'The password must contain at least one special character.',
 ];
 
-export const falsy = [false, null, undefined, 0, NaN, '', ''];
+// prettier-ignore
+export const falsy = [false, null, undefined, 0, NaN, '', ""];

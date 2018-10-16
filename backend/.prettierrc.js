@@ -6,4 +6,10 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'all',
   arrowParens: 'always',
+  overrides: [
+    {
+      files: ['package.json', 'src/api/swagger/swagger.json'],
+      options: { parser: 'json' },
+    },
+  ],
 };

@@ -31,8 +31,7 @@
     "/register": {
       "post": {
         "tags": ["admins"],
-        "description":
-          "registers super-admin. use strong password. the password must be at least 8 characters long, must contain at least one uppercase letter, must contain at least one number and must contain at least one special character. password also can just be a 'pass-phrase' as explained here https://xkcd.com/936/. example pass-phrase: 'correct horse battery staple'",
+        "description": "registers super-admin. use strong password. the password must be at least 8 characters long, must contain at least one uppercase letter, must contain at least one number and must contain at least one special character. password also can just be a 'pass-phrase' as explained here https://xkcd.com/936/. example pass-phrase: 'correct horse battery staple'",
         "requestBody": {
           "description": "username and password",
           "required": true,
@@ -213,8 +212,7 @@
       },
       "put": {
         "tags": ["admins"],
-        "description":
-          "update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. a request body is not required in this case. an admin is only allowed to update its own password.",
+        "description": "update password by ID. If the requesting user (super)-admin change its own password response will return success. When a super-admin updates a password of other admins a temporary password will be returned. a request body is not required in this case. an admin is only allowed to update its own password.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -337,8 +335,7 @@
       },
       "post": {
         "tags": ["info"],
-        "description":
-          "add info. only one info should be needed, but more than one can be created to facilitate editing. for example, create a new one edit it and delete the old record.",
+        "description": "add info. only one info should be needed, but more than one can be created to facilitate editing. for example, create a new one edit it and delete the old record.",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "description": "info to add",
@@ -544,8 +541,7 @@
     "/intro/{id}": {
       "get": {
         "tags": ["intro"],
-        "description":
-          "Return intro by ID. Multiple introductions could be stored. and could be reused for yearly events.",
+        "description": "Return intro by ID. Multiple introductions could be stored. and could be reused for yearly events.",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
@@ -1241,8 +1237,7 @@
                       "en": { "$ref": "#/components/schemas/Media" },
                       "title": {
                         "type": "string",
-                        "example":
-                          "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
+                        "example": "ኪዳነምህረት እናቴ KidaneMihret Enatie- Best Ethiopian Orthodox Mezmurs"
                       },
                       "url": { "type": "string", "example": "https://youtu.be/BlnyzdJGqM8" },
                       "mediaType": { "type": "string", "example": "video" },
@@ -1479,8 +1474,7 @@
           "verse": {
             "type": "string",
             "description": "Bible verses or quotes",
-            "example":
-              "And I tell you that you are Peter,and on this rock I will build my church, ..."
+            "example": "And I tell you that you are Peter,and on this rock I will build my church, ..."
           },
           "from": {
             "type": "string",
@@ -1519,8 +1513,7 @@
     "parameters": {
       "longText": {
         "type": "string",
-        "example":
-          "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው።"
+        "example": "የትንሣኤያችን በኩር የሆነው ጌታ በመቃብሩ ቦታ ሥርዓትን እያስተማረ አልፎ አልፎም በግልጥ እየታየ ፍርሐታቸውን እያስወገደ አይሑድ እንደሚሉት ሥጋውንም ደቀመዛሙርቱ እንዳልሰረቁት ይልቁንም በሞት ላይ ሥልጣንኑን አሳይቶ መቃብሩን ባዶ አድርጐ በትንሣኤው አለት ላይ ያቆመን፣ ሞት በእርሱ እንደተሸነፈ የማይታየው እየታየ፣ ዘመን የማይቆጠርለት፣ ዘላለማዊ ጌታ የማይዳሰሰው እየተዳሰሰ ለ40 ቀናት ያኽል ቆይቶ ተከታዮቹን ሐዋርያትን ወደ ቢታንያ አወጣቸው።"
       },
       "passwordHash": {
         "type": "string",
@@ -1528,8 +1521,7 @@
       },
       "token": {
         "type": "string",
-        "example":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMWRlN2FjNjk4YzcxMDU1ZWY2NTdmMyIsImlhdCI6MTUyODY4NjUwOCwiZXhwIjoxNTMxMjc4NTA4fQ.-WKSkdvahV3aESbp1jR3yZ0iXisiJfPwuvV3jUHpMOo"
       },
       "phone": { "type": "string", "example": "(425) 329 - 9092" },
       "name": { "type": "string", "example": "Melkamu Abate" },

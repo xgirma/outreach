@@ -15,7 +15,8 @@ export const verifyUser = (req, res, next) => {
       if (!user) {
         logger.warn('Invalid signing attempt from ', req.ip);
         return setImmediate(() => next(Forbidden()));
-      } else if (!user.authenticate(password)) {
+      }
+      if (!user.authenticate(password)) {
         logger.warn('Invalid signing attempt from ', req.ip);
         return setImmediate(() => next(Forbidden()));
       }

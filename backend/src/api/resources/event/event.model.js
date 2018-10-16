@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { isEmail } from 'validator';
 import moment from 'moment';
-import * as err from './../../modules/error';
+import * as err from '../../modules/error';
 
 const now = moment().format('YYYY-MM-DD');
 
