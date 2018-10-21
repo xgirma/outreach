@@ -368,7 +368,8 @@ export const updateAdmin = (model) => (req, res, next) => {
         });
       })
       .catch((error) => setImmediate(() => next(error)));
-  } else if (user._id.equals(docFromId._id)) {
+  }
+  if (user._id.equals(docFromId._id)) {
     // 2.1.
     validatePassword();
     const { newPassword } = body;

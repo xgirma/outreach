@@ -13,7 +13,8 @@ export const verifyUser = async (req, res, next) => {
     if (!user) {
       logger.warn('Failed user verification: ', req.ip);
       return next(Forbidden());
-    } else if (!user.authenticate(password)) {
+    }
+    if (!user.authenticate(password)) {
       logger.warn('Failed user verification: ', req.ip);
       return next(Forbidden());
     }

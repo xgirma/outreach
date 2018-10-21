@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import * as err from './../../modules/error';
+import * as err from '../../modules/error';
 
 export const schema = {
   sl: {
